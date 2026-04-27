@@ -481,6 +481,31 @@ const ArchiLogo = ({ className = "", light = false }: { className?: string; ligh
     </motion.div>
 );
 
+const ArchiMobileSocials = () => (
+    <div className="fixed bottom-6 right-6 z-[250] flex flex-col gap-4 xl:hidden pointer-events-auto mix-blend-difference">
+        <motion.a
+            href="#"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 1, duration: 0.8 }}
+            className="w-12 h-12 rounded-full border border-white/20 bg-white/5 backdrop-blur-md flex items-center justify-center group hover:border-white transition-all duration-500 overflow-hidden relative"
+        >
+            <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"></div>
+            <Facebook className="w-5 h-5 text-white group-hover:text-black transition-colors duration-500 relative z-10" />
+        </motion.a>
+        <motion.a
+            href="#"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 1.1, duration: 0.8 }}
+            className="w-12 h-12 rounded-full border border-white/20 bg-white/5 backdrop-blur-md flex items-center justify-center group hover:border-white transition-all duration-500 overflow-hidden relative"
+        >
+            <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"></div>
+            <Instagram className="w-5 h-5 text-white group-hover:text-black transition-colors duration-500 relative z-10" />
+        </motion.a>
+    </div>
+);
+
 // --- NAVIGATION (DESKTOP) ---
 function ArchiNav() {
     const menuItems = [
@@ -511,22 +536,28 @@ function ArchiNav() {
             </ul>
 
             {/* SNS LINKS */}
-            <ul className="flex flex-col items-start gap-1">
-                <motion.li
+            <div className="flex flex-row items-center gap-4 mt-8">
+                <motion.a
+                    href="#"
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.8, duration: 0.8 }}
+                    className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center group hover:border-white transition-all duration-500 overflow-hidden relative"
                 >
-                    <a href="#" className="sns-link text-xs font-bold tracking-widest text-white/40 hover:text-white transition-colors uppercase">Facebook</a>
-                </motion.li>
-                <motion.li
+                    <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"></div>
+                    <Facebook className="w-5 h-5 text-white/60 group-hover:text-black transition-colors duration-500 relative z-10" />
+                </motion.a>
+                <motion.a
+                    href="#"
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.9, duration: 0.8 }}
+                    className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center group hover:border-white transition-all duration-500 overflow-hidden relative"
                 >
-                    <a href="#" className="sns-link text-xs font-bold tracking-widest text-white/40 hover:text-white transition-colors uppercase">Instagram</a>
-                </motion.li>
-            </ul>
+                    <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"></div>
+                    <Instagram className="w-5 h-5 text-white/60 group-hover:text-black transition-colors duration-500 relative z-10" />
+                </motion.a>
+            </div>
         </nav>
     );
 }
@@ -585,9 +616,15 @@ function ArchiMenuOverlay({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
             <div className="mt-auto flex flex-col md:flex-row gap-10 md:gap-20">
                 <div className="space-y-2">
                     <p className="text-[10px] uppercase tracking-widest text-white/30 font-bold">Socials</p>
-                    <div className="flex gap-8">
-                        <a href="#" className="text-xl font-bold tracking-tight hover:opacity-50 transition-opacity">Instagram</a>
-                        <a href="#" className="text-xl font-bold tracking-tight hover:opacity-50 transition-opacity">Facebook</a>
+                    <div className="flex flex-col gap-4">
+                        <a href="#" className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center group hover:border-white transition-all duration-500 overflow-hidden relative">
+                            <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"></div>
+                            <Instagram className="w-5 h-5 text-white/60 group-hover:text-black transition-colors duration-500 relative z-10" />
+                        </a>
+                        <a href="#" className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center group hover:border-white transition-all duration-500 overflow-hidden relative">
+                            <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"></div>
+                            <Facebook className="w-5 h-5 text-white/60 group-hover:text-black transition-colors duration-500 relative z-10" />
+                        </a>
                     </div>
                 </div>
                 <div className="space-y-2">
@@ -2074,32 +2111,32 @@ function TechnicalShowcase() {
                 tl.to(mask, {
                     scaleY: 0,
                     transformOrigin: "top",
-                    duration: 1.2,
+                    duration: 0.6,
                     ease: "power4.inOut"
                 })
                     .fromTo(img,
-                        { scale: 1.2, filter: "blur(10px)" },
-                        { scale: 1, filter: "blur(0px)", duration: 0.5, ease: "power3.out" },
-                        "-=0.8"
+                        { scale: 1.1, filter: "blur(5px)" },
+                        { scale: 1, filter: "blur(0px)", duration: 0.4, ease: "power3.out" },
+                        "<0.2"
                     )
                     .from(title, {
-                        y: 60,
+                        y: 30,
                         opacity: 0,
-                        duration: 1.2,
+                        duration: 0.6,
                         ease: "power3.out"
-                    }, "-=1.8")
+                    }, "<0.1")
                     .from(meta, {
                         opacity: 0,
-                        x: i % 2 === 0 ? -20 : 20,
-                        duration: 1,
+                        x: i % 2 === 0 ? -10 : 10,
+                        duration: 0.5,
                         ease: "power2.out"
-                    }, "-=1.5")
+                    }, "<")
                     .from(line, {
                         scaleX: 0,
                         transformOrigin: i % 2 === 0 ? "left" : "right",
-                        duration: 1.2,
+                        duration: 0.6,
                         ease: "power3.out"
-                    }, "-=1.5");
+                    }, "<");
 
                 // Vertical parallax for the image
                 gsap.to(img, {
@@ -2405,6 +2442,17 @@ function ArchiContact() {
                                 <p className="text-lg md:text-2xl font-bold tracking-tighter">+33 1 23 45 67 89</p>
                             </div>
                         </div>
+
+                        <div className="contact-info flex items-center gap-6 md:gap-8 group cursor-pointer">
+                            <div className="w-14 h-14 md:w-16 md:h-16 rounded-full border border-black/10 flex items-center justify-center group-hover:bg-[#0a0a0a] group-hover:border-[#0a0a0a] transition-all duration-500 overflow-hidden relative">
+                                <div className="absolute inset-0 bg-[#0a0a0a] translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"></div>
+                                <Instagram className="w-5 h-5 md:w-6 md:h-6 text-[#0a0a0a] group-hover:text-white transition-colors duration-500 relative z-10" />
+                            </div>
+                            <div>
+                                <p className="text-[9px] md:text-[10px] uppercase tracking-[0.3em] text-black/40 mb-1 md:mb-2 font-bold">Instagram</p>
+                                <p className="text-lg md:text-2xl font-bold tracking-tighter">@archimade.studio</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -2549,6 +2597,7 @@ export default function ArchiMadeLanding() {
 
                     {/* Global Background UI */}
                     <ArchiBackground />
+                    <ArchiMobileSocials />
 
                     {/* Desktop Left Fixed Frame Column */}
                     <div className="archi-sidebar fixed top-0 left-0 bottom-0 w-[25vw] z-[100] hidden xl:flex flex-col justify-between pt-16 pb-12 px-12 lg:px-16 pointer-events-none mix-blend-difference text-white">
