@@ -2240,10 +2240,10 @@ function TechnicalShowcase() {
             <div className="max-w-7xl mx-auto px-6 md:px-20 relative z-10">
 
                 {/* Massive Title Section */}
-                <div className="mb-20 md:mb-40 title-reveal-container">
-                    <div className="flex items-center gap-4 mb-6 md:mb-8 overflow-hidden">
-                        <div className="w-8 md:w-12 h-[1px] bg-black/40 title-line"></div>
+                <div className="mb-20 md:mb-40 title-reveal-container flex flex-col items-end text-right">
+                    <div className="flex items-center justify-end gap-4 mb-6 md:mb-8 overflow-hidden">
                         <span className="text-[9px] md:text-xs font-mono uppercase tracking-[0.5em] text-black/60 title-line block">Studio Vault 3D</span>
+                        <div className="w-8 md:w-12 h-[1px] bg-black/40 title-line"></div>
                     </div>
                     <h2 className="text-[9vw] md:text-[7vw] font-black uppercase tracking-tighter leading-[0.85]">
                         <span className="block overflow-hidden"><span className="block title-line">Photoréalisme</span></span>
@@ -2479,7 +2479,7 @@ function ArchiContact() {
     }, []);
 
     return (
-        <section ref={sectionRef} id="contact" className="py-22 md:py-20 bg-[#f5f5f5] text-[#0a0a0a] font-display relative overflow-hidden z-40">
+        <section ref={sectionRef} id="contact" className="py-22 md:py-20 bg-[#f5f5f5] text-[#0a0a0a] font-display relative overflow-hidden z-40 md:pl-0 lg:pl-50">
             {/* Very subtle background texture/grid */}
             <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#000 1px, transparent 1px)', backgroundSize: '40px 40px' }}></div>
 
