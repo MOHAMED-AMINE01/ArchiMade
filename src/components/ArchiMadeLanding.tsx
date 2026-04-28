@@ -17,7 +17,9 @@ import {
     Mail,
     Instagram,
     Facebook,
-    ChevronDown
+    ChevronDown,
+    ChevronLeft,
+    ChevronRight
 } from "lucide-react";
 import { cn } from "../lib/utils";
 
@@ -327,25 +329,37 @@ function ArchiPreloader({ onComplete }: { onComplete: () => void }) {
         const tl = gsap.timeline({
             onComplete: () => {
                 gsap.to(containerRef.current, {
-                    yPercent: -100,
+                    scale: 1.1,
+                    opacity: 0,
+                    filter: "blur(40px)",
                     duration: 1.5,
-                    ease: "expo.inOut",
+                    ease: "power4.inOut",
                     onComplete: onComplete
                 });
             }
         });
 
         // Initial setup
-        gsap.set(".char-wrap", { opacity: 0, rotateY: 90, scale: 0.8 });
+        gsap.set(".char-wrap", { opacity: 0, rotateY: 90, scale: 0.5, y: 20 });
         gsap.set(".border-line-h", { scaleX: 0 });
         gsap.set(".border-line-v", { scaleY: 0 });
-        gsap.set(".char-inner", { opacity: 0, y: 10 });
+        gsap.set(".char-inner", { opacity: 0, y: 30 });
+        gsap.set(".preloader-logo", { opacity: 0, scale: 0.8, filter: "blur(20px)" });
+
+        // Entrance for Logo
+        tl.to(".preloader-logo", {
+            opacity: 1,
+            scale: 1.7,
+            filter: "blur(0px)",
+            duration: 1.5,
+            ease: "expo.out"
+        });
 
         // Simulating progress
         gsap.to({ val: 0 }, {
             val: 100,
-            duration: 3,
-            ease: "power1.inOut",
+            duration: 3.5,
+            ease: "power2.inOut",
             onUpdate: function () { setProgress(Math.floor(this.targets()[0].val)); }
         });
 
@@ -354,27 +368,28 @@ function ArchiPreloader({ onComplete }: { onComplete: () => void }) {
         chars.forEach((char, i) => {
             const charTl = gsap.timeline();
 
-            tl.add(charTl, i * 0.08); // Slight overlap
+            tl.add(charTl, 0.8 + i * 0.06); // Start after logo
 
             charTl
                 .to(char, {
                     opacity: 1,
                     rotateY: 0,
                     scale: 1,
-                    duration: 0.6,
-                    ease: "back.out(1.7)"
+                    y: 0,
+                    duration: 0.8,
+                    ease: "expo.out"
                 })
                 // The "Circulating Lines" effect
-                .to(char.querySelector(".line-top"), { scaleX: 1, duration: 0.2, ease: "none" }, "-=0.3")
-                .to(char.querySelector(".line-right"), { scaleY: 1, duration: 0.2, ease: "none" })
-                .to(char.querySelector(".line-bottom"), { scaleX: 1, duration: 0.2, ease: "none" })
-                .to(char.querySelector(".line-left"), { scaleY: 1, duration: 0.2, ease: "none" })
+                .to(char.querySelector(".line-top"), { scaleX: 1, duration: 0.3, ease: "none" }, "-=0.5")
+                .to(char.querySelector(".line-right"), { scaleY: 1, duration: 0.3, ease: "none" })
+                .to(char.querySelector(".line-bottom"), { scaleX: 1, duration: 0.3, ease: "none" })
+                .to(char.querySelector(".line-left"), { scaleY: 1, duration: 0.3, ease: "none" })
                 // Reveal the letter itself
                 .to(char.querySelector(".char-inner"), {
                     opacity: 1,
                     y: 0,
-                    duration: 0.4,
-                    ease: "expo.out"
+                    duration: 0.6,
+                    ease: "back.out(2)"
                 }, "-=0.4");
         });
 
@@ -406,6 +421,14 @@ function ArchiPreloader({ onComplete }: { onComplete: () => void }) {
 
             <div className="preloader-content relative z-10 w-full flex flex-col items-center">
 
+                {/* Logo in Preloader */}
+                <div className="preloader-logo mb-12">
+                    <img
+                        src="/Logo ArchiMade.png"
+                        alt="Logo"
+                        className="h-20 md:h-32 w-auto object-contain opacity-80"
+                    />
+                </div>
                 {/* Horizontal Sequence of Letters */}
                 <div className="flex flex-wrap justify-center gap-x-2 md:gap-x-4 gap-y-4 px-10">
                     {words.map((word, wIdx) => (
@@ -812,17 +835,21 @@ function ArchiHero() {
                 const isEven = i % 2 === 0;
                 gsap.fromTo(line,
                     {
-                        xPercent: isEven ? -110 : 110,
-                        skewX: isEven ? 15 : -15,
+                        y: 150,
+                        rotateX: -60,
+                        scale: 0.8,
+                        filter: "blur(30px)",
                         opacity: 0
                     },
                     {
-                        xPercent: 0,
-                        skewX: 0,
+                        y: 0,
+                        rotateX: 0,
+                        scale: 1,
+                        filter: "blur(0px)",
                         opacity: 1,
-                        duration: 1.8,
+                        duration: 2.2,
                         ease: "expo.out",
-                        delay: 0.5 + (i * 0.12)
+                        delay: 0.8 + (i * 0.1)
                     }
                 );
             });
@@ -1546,7 +1573,7 @@ function ArchiProcess() {
     );
 
     return (
-        <section id="méthodes" className="relative py-24 md:py-48 bg-[#0a0a0a] overflow-hidden font-display">
+        <section id="méthodes" className="relative py-24 md:py-48 bg-[#0a0a0a] overflow-visible font-display">
             {/* Header / Intro */}
             <div className="relative z-10 xl:pl-[25vw] px-10 mb-20">
                 <ArchiReveal type="fade">
@@ -1590,6 +1617,21 @@ function ArchiProcess() {
                 <div className="flex flex-col items-center justify-center h-full text-[30vw] font-black text-white leading-none">
                     <span>ARCHI</span>
                     <span>MADE</span>
+                </div>
+            </div>
+            {/* Giant Overlapping Title — Perfectly Centered on Border */}
+            <div className="absolute bottom-0 right-10 md:right-24 pointer-events-none z-[60] translate-y-1/2">
+                <div className="relative">
+                    {/* Top half: White (on Black background) */}
+                    <h2 className="text-[10vw] font-black text-white uppercase tracking-tighter leading-none whitespace-nowrap"
+                        style={{ clipPath: 'inset(0 0 50% 0)' }}>
+                        PROJETS
+                    </h2>
+                    {/* Bottom half: Black (on Light background) */}
+                    <h2 className="absolute top-0 left-0 text-[10vw] font-black text-black uppercase tracking-tighter leading-none whitespace-nowrap"
+                        style={{ clipPath: 'inset(50% 0 0 0)' }}>
+                        PROJETS
+                    </h2>
                 </div>
             </div>
         </section>
@@ -1862,6 +1904,7 @@ function InteractiveBeforeAfter({ beforeImg, afterImg }: { beforeImg: string, af
     const containerRef = useRef<HTMLDivElement>(null);
     const [sliderPos, setSliderPos] = useState(50);
     const [isHovered, setIsHovered] = useState(false);
+    const [hasInteracted, setHasInteracted] = useState(false);
 
     const handleMove = (clientX: number) => {
         if (!containerRef.current) return;
@@ -1869,6 +1912,7 @@ function InteractiveBeforeAfter({ beforeImg, afterImg }: { beforeImg: string, af
         const x = Math.max(0, Math.min(clientX - rect.left, rect.width));
         const percent = (x / rect.width) * 100;
         setSliderPos(percent);
+        if (!hasInteracted) setHasInteracted(true);
     };
 
     const handleMouseMove = (e: React.MouseEvent) => handleMove(e.clientX);
@@ -1879,39 +1923,69 @@ function InteractiveBeforeAfter({ beforeImg, afterImg }: { beforeImg: string, af
     return (
         <div
             ref={containerRef}
-            className="absolute inset-0 w-full h-full overflow-hidden touch-pan-y"
+            className="absolute inset-0 w-full h-full overflow-hidden touch-none group/ba"
             onMouseMove={handleMouseMove}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => {
                 setIsHovered(false);
-                setSliderPos(50);
             }}
-            onTouchStart={() => setIsHovered(true)}
+            onTouchStart={(e) => {
+                setIsHovered(true);
+                if (!hasInteracted) setHasInteracted(true);
+                if (e.touches.length > 0) handleMove(e.touches[0].clientX);
+            }}
             onTouchMove={handleTouchMove}
             onTouchEnd={() => {
                 setIsHovered(false);
-                setSliderPos(50);
             }}
         >
+            {/* MOBILE ONLY: Simple Side-by-Side or Toggle hint */}
+            <div className="md:hidden absolute top-4 left-1/2 -translate-x-1/2 z-30 bg-black/60 backdrop-blur-md px-4 py-2 rounded-full border border-white/20 whitespace-nowrap">
+                <p className="text-[8px] font-bold text-white uppercase tracking-widest">Glissez pour comparer</p>
+            </div>
+
+            {/* Hint Overlay (Desktop) */}
+            <AnimatePresence>
+                {!hasInteracted && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="absolute inset-0 z-30 flex items-center justify-center bg-black/20 backdrop-blur-[2px] pointer-events-none"
+                    >
+                        <div className="flex flex-col items-center gap-4">
+                            <motion.div
+                                animate={{ x: [-20, 20, -20] }}
+                                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                                className="w-12 h-12 rounded-full border-2 border-white flex items-center justify-center"
+                            >
+                                <div className="w-1 h-1 bg-white rounded-full"></div>
+                            </motion.div>
+                            <span className="text-[10px] font-black text-white uppercase tracking-[0.3em] bg-black/40 px-4 py-2 rounded-sm">Glissez pour comparer</span>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
             {/* Before Image (Background) */}
             <img
                 src={encodeURI(beforeImg)}
                 className="absolute inset-0 w-full h-full object-cover transition-all duration-500"
-                style={{ opacity: isHovered ? 0.8 : 0.6 }}
+                style={{ opacity: 1 }}
                 alt="Avant"
             />
 
             {/* After Image (Clipped) */}
             <div
-                className="absolute inset-0 w-full h-full transition-all duration-75 ease-out will-change-transform"
+                className="absolute inset-0 w-full h-full will-change-transform"
                 style={{ clipPath: `inset(0% ${100 - sliderPos}% 0% 0%)` }}
             >
                 <img
                     src={encodeURI(afterImg)}
-                    className="absolute inset-0 w-full h-full object-cover transition-all duration-500 will-change-transform"
+                    className="absolute inset-0 w-full h-full object-cover will-change-transform"
                     style={{
-                        opacity: isHovered ? 1 : 0.6,
-                        transform: isHovered ? 'scale(1.05)' : 'scale(1)'
+                        opacity: 1,
+                        transform: isHovered ? "scale(1.02)" : "scale(1)"
                     }}
                     alt="Après"
                 />
@@ -1919,7 +1993,10 @@ function InteractiveBeforeAfter({ beforeImg, afterImg }: { beforeImg: string, af
 
             {/* Slider Line & Handle */}
             <div
-                className={`absolute top-0 bottom-0 w-[2px] bg-white shadow-[0_0_20px_rgba(255,255,255,0.9)] z-20 transition-all duration-75 ease-out pointer-events-none ${isHovered ? 'opacity-100' : 'opacity-0'}`}
+                className={cn(
+                    "absolute top-0 bottom-0 w-[1.5px] bg-white/80 shadow-[0_0_15px_rgba(255,255,255,0.5)] z-20 pointer-events-none",
+                    isHovered || !hasInteracted ? "opacity-100" : "opacity-0"
+                )}
                 style={{ left: `${sliderPos}%` }}
             >
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center px-4 py-2 rounded-full backdrop-blur-md bg-black/50 border border-white/20 text-white text-[9px] font-bold tracking-[0.2em] uppercase whitespace-nowrap shadow-2xl">
@@ -1936,62 +2013,53 @@ function ArchiGallery() {
     const sectionRef = useRef<HTMLElement>(null);
     const [selectedProject, setSelectedProject] = useState<any>(null);
 
+    const scrollToNext = () => {
+        if ((window as any).lenis) {
+            (window as any).lenis.scrollTo("#expertise-3d", { duration: 2 });
+        } else {
+            document.getElementById("expertise-3d")?.scrollIntoView({ behavior: "smooth" });
+        }
+    };
+
     useLayoutEffect(() => {
         const ctx = gsap.context(() => {
-            const cards = gsap.utils.toArray('.stack-card') as HTMLElement[];
-            if (cards.length === 0) return;
-
-            // Initial setup with random directions
-            const directions = [
-                { x: 0, y: "120vh" },   // Bottom
-                { x: "-120vw", y: 0 },  // Left
-                { x: "120vw", y: 0 },   // Right
-                { x: 0, y: "-120vh" },  // Top
-            ];
-
-            cards.forEach((card, index) => {
-                if (index !== 0) {
-                    const dir = directions[index % directions.length];
-                    gsap.set(card, { x: dir.x, y: dir.y });
-                }
-            });
-
-            const tl = gsap.timeline({
-                scrollTrigger: {
-                    trigger: sectionRef.current,
-                    start: "top top",
-                    end: `+=${cards.length * 100}%`,
-                    pin: true,
-                    scrub: 1,
-                    anticipatePin: 1
-                }
-            });
-
-            cards.forEach((card, index) => {
-                if (index < cards.length - 1) {
-                    tl.to(card, {
-                        scale: 0.92,
-                        opacity: 0.3,
-                        transformOrigin: "center center",
-                        ease: "power2.inOut",
-                        duration: 1
-                    }, index);
-
-                    const nextCard = cards[index + 1];
-                    tl.to(nextCard, {
+            const projects = gsap.utils.toArray('.project-block');
+            projects.forEach((project: any, i: number) => {
+                const isEven = i % 2 === 0;
+                gsap.fromTo(project,
+                    {
+                        x: isEven ? -100 : 100,
+                        opacity: 0,
+                        scale: 0.95
+                    },
+                    {
                         x: 0,
-                        y: 0,
-                        ease: "power2.out",
-                        duration: 1
-                    }, index);
-                }
+                        opacity: 1,
+                        scale: 1,
+                        duration: 1.5,
+                        ease: "expo.out",
+                        scrollTrigger: {
+                            trigger: project,
+                            start: "top 85%",
+                            toggleActions: "play none none none"
+                        }
+                    }
+                );
             });
         }, sectionRef);
         return () => ctx.revert();
     }, []);
 
     return (
-        <section id="réalisations" ref={sectionRef} className="relative w-full h-screen bg-transparent overflow-hidden font-display z-50">
+        <section id="réalisations" ref={sectionRef} className="relative w-full bg-transparent font-display z-50 flex flex-col items-center pt-30 md:pt-48 pb-25 px-4 md:px-20 overflow-hidden">
+            {/* Background Decorative Curves */}
+            <div className="absolute inset-0 pointer-events-none opacity-[0.05] overflow-hidden">
+                <svg className="w-full h-full" viewBox="0 0 1000 1000" preserveAspectRatio="none">
+                    <path d="M0,1000 C300,800 700,800 1000,1000" fill="none" stroke="black" strokeWidth="0.5" />
+                    <path d="M0,0 C300,200 700,200 1000,0" fill="none" stroke="black" strokeWidth="0.5" />
+                </svg>
+            </div>
+
             <AnimatePresence mode="wait">
                 {selectedProject && (
                     <ArchiProjectDetail
@@ -2003,59 +2071,70 @@ function ArchiGallery() {
                 )}
             </AnimatePresence>
 
-            {/* Overarching Title - MOVED TO BOTTOM RIGHT */}
-            <div className="absolute bottom-10 right-10 md:bottom-20 md:right-20 z-[60] text-right mix-blend-difference text-white pointer-events-none">
-                <div className="flex flex-col items-end gap-2">
-                    <div className="flex items-center gap-4">
-                        <span className="text-[10px] md:text-xs font-mono uppercase tracking-[0.5em] text-white/60">Portfolio</span>
-                        <div className="w-12 h-[1px] bg-white/40"></div>
-                    </div>
-                    <h2 className="text-4xl md:text-6xl lg:text-7xl font-black uppercase tracking-tighter leading-[0.85] mt-2">
-                        Studio<br /><span className="text-white/30 italic font-medium">Vault.</span>
-                    </h2>
-                </div>
-            </div>
+            {/* VERTICAL PROJECT LIST */}
+            <div className="w-full max-w-7xl flex flex-col gap-10 md:gap-20">
+                {PROJECTS.map((project, i) => (
+                    <div
+                        key={i}
+                        className="project-block relative w-full flex flex-col cursor-pointer group"
+                        onClick={() => setSelectedProject(project)}
+                    >
+                        {/* Project Title (Large, Overlapping Top-Right) */}
+                        <div className="absolute -top-[1.5em] right-0 md:right-0 z-30 pointer-events-none transition-transform duration-700 group-hover:-translate-y-2 text-right">
+                            <h3 className="text-5xl md:text-8xl lg:text-[5vw] font-medium tracking-tighter text-black leading-none lowercase">
+                                {project.title.replace(/\s/g, '-')}
+                            </h3>
+                        </div>
 
-            <div className="relative w-full h-full flex items-center justify-center pt-32 px-4 md:px-20 pb-10">
-                <div className="relative w-full max-w-6xl h-full mx-auto" style={{ perspective: "2000px" }}>
-                    {PROJECTS.map((project, i) => (
-                        <div
-                            key={i}
-                            className="stack-card absolute inset-0 w-full h-full md:h-[80vh] bg-black rounded-[2rem] md:rounded-[3rem] overflow-hidden cursor-pointer group shadow-2xl"
-                            style={{ zIndex: i + 10 }}
-                            onClick={() => setSelectedProject(project)}
-                        >
+                        {/* Main Visual Block */}
+                        <div className="relative w-full aspect-[16/10] md:aspect-[21/9] overflow-hidden rounded-sm shadow-2xl border border-black/5 bg-neutral-100">
                             {(project as any).beforePath ? (
                                 <InteractiveBeforeAfter beforeImg={(project as any).beforePath} afterImg={project.path} />
                             ) : (
                                 <img
                                     src={encodeURI(project.path)}
                                     alt={project.title}
-                                    className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-90 group-hover:scale-105 transition-all duration-1000"
+                                    className="absolute inset-0 w-full h-full object-cover transition-all duration-1000 grayscale-[0.2] group-hover:grayscale-0 group-hover:scale-[1.02]"
                                 />
                             )}
-                            <div className="absolute inset-0 pointer-events-none z-10"></div>
+                        </div>
 
-                            <div className="absolute inset-0 p-8 md:p-16 flex flex-col justify-end pointer-events-none">
-                                <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 w-full pointer-events-auto">
-                                    <div className="text-white">
-                                        <div className="flex items-center gap-4 mb-4">
-                                            <span className="text-xl md:text-3xl font-mono text-white/30 italic font-bold">{(i + 1).toString().padStart(2, '0')}</span>
-                                            <div className="w-8 md:w-16 h-[1px] bg-white/30"></div>
-                                            <span className="text-[10px] md:text-xs uppercase tracking-[0.3em] text-white/50 font-bold">{project.city}</span>
-                                        </div>
-                                        <h3 className="text-4xl md:text-6xl lg:text-[5vw] font-black uppercase tracking-tighter leading-[0.8] group-hover:italic transition-all duration-500 text-white drop-shadow-2xl">
-                                            {project.title}
-                                        </h3>
-                                    </div>
-                                    <div className="w-12 h-12 md:w-20 md:h-20 rounded-full border border-white/20 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all duration-500 backdrop-blur-md shrink-0">
-                                        <ArrowUpRight className="w-5 h-5 md:w-8 md:h-8" />
-                                    </div>
+                        {/* Metadata Box (Right-Aligned Bottom Overlay) */}
+                        <div className="absolute bottom-0 right-0 md:right-10 lg:right-24 translate-y-[-120%] md:translate-y-[0%] z-40 bg-[#1a1a1a] text-white p-2 md:p-6 lg:p-10 w-auto min-w-[200px] md:min-w-[400px] lg:min-w-[500px] shadow-[0_30px_60px_rgba(0,0,0,0.6)]">
+                            <div className="grid grid-cols-3 gap-2 md:gap-6 lg:gap-10 text-center">
+                                <div className="flex flex-col gap-0.5 md:gap-2 lg:gap-3">
+                                    <span className="text-[6px] md:text-[8px] lg:text-[9px] font-bold uppercase tracking-[0.1em] text-white/40">Catégorie</span>
+                                    <span className="text-[8px] md:text-sm lg:text-base font-medium uppercase tracking-tight text-white">{project.type}</span>
+                                </div>
+                                <div className="flex flex-col gap-0.5 md:gap-2 lg:gap-3">
+                                    <span className="text-[6px] md:text-[8px] lg:text-[9px] font-bold uppercase tracking-[0.1em] text-white/40">Localisation</span>
+                                    <span className="text-[8px] md:text-sm lg:text-base font-medium uppercase tracking-tight text-white">france</span>
+                                </div>
+                                <div className="flex flex-col gap-0.5 md:gap-2 lg:gap-3">
+                                    <span className="text-[6px] md:text-[8px] lg:text-[9px] font-bold uppercase tracking-[0.1em] text-white/40">Surface</span>
+                                    <span className="text-[8px] md:text-sm lg:text-base font-medium uppercase tracking-tight text-white">{(120 + i * 45)}m²</span>
                                 </div>
                             </div>
                         </div>
-                    ))}
-                </div>
+
+                        {/* Hover Indicator */}
+                        <div className="mt-12 flex justify-between items-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 md:px-12">
+                            <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-black/60">Découvrir le projet</span>
+                            <div className="w-24 h-[1px] bg-black/20"></div>
+                        </div>
+                    </div>
+                ))}
+            </div>
+
+            {/* NEXT SECTION BUTTON */}
+            <div className="mt-10 md:mt-24">
+                <button
+                    onClick={scrollToNext}
+                    className="group flex flex-col items-center gap-4 text-black/40 hover:text-black transition-colors duration-300"
+                >
+                    <span className="text-[10px] text-black font-bold uppercase tracking-[0.5em]">Continuer l'exploration</span>
+                    <div className="w-[1px] h-12 bg-black/20 group-hover:h-20 transition-all duration-700"></div>
+                </button>
             </div>
         </section>
     );
@@ -2157,7 +2236,7 @@ function TechnicalShowcase() {
     }, []);
 
     return (
-        <section ref={sectionRef} id="expertise" className="relative py-30 md:py-30 bg-transparent text-[#0a0a0a] overflow-hidden font-display z-40">
+        <section ref={sectionRef} id="expertise-3d" className="relative py-0 md:py-0 bg-transparent text-[#0a0a0a] overflow-hidden font-display z-40">
             <div className="max-w-7xl mx-auto px-6 md:px-20 relative z-10">
 
                 {/* Massive Title Section */}
