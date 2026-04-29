@@ -503,7 +503,7 @@ const ArchiMobileSocials = () => (
 // --- NAVIGATION (DESKTOP) ---
 function ArchiNav() {
     const menuItems = [
-        { name: "À Propos", slug: "propos" },
+        { name: "À propos", slug: "propos" },
         { name: "Méthode", slug: "methodes" },
         { name: "Réalisations", slug: "realisations" },
         { name: "Expertise", slug: "expertise" },
@@ -560,7 +560,7 @@ function ArchiNav() {
 // --- NAVIGATION OVERLAY (MOBILE) ---
 function ArchiMenuOverlay({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
     const menuItems = [
-        { name: "À Propos", slug: "propos" },
+        { name: "À propos", slug: "propos" },
         { name: "Services", slug: "expertise" },
         { name: "Méthode", slug: "methodes" },
         { name: "Réalisations", slug: "realisations" },
@@ -644,64 +644,6 @@ function ArchiHeader({ onMenuClick }: { onMenuClick: () => void }) {
     );
 }
 
-// --- CUSTOM CURSOR ---
-function ArchiCursor() {
-    const cursorRef = useRef(null);
-    const [isHovering, setIsHovering] = useState(false);
-
-    useEffect(() => {
-        const moveCursor = (e: MouseEvent) => {
-            gsap.to(cursorRef.current, {
-                x: e.clientX,
-                y: e.clientY,
-                duration: 0.6,
-                ease: "power3.out"
-            });
-        };
-
-        const handleMouseEnter = () => setIsHovering(true);
-        const handleMouseLeave = () => setIsHovering(false);
-
-        window.addEventListener("mousemove", moveCursor);
-
-        const interactables = document.querySelectorAll("a, button, .group");
-        interactables.forEach(el => {
-            el.addEventListener("mouseenter", handleMouseEnter);
-            el.addEventListener("mouseleave", handleMouseLeave);
-        });
-
-        return () => {
-            window.removeEventListener("mousemove", moveCursor);
-            interactables.forEach(el => {
-                el.removeEventListener("mouseenter", handleMouseEnter);
-                el.removeEventListener("mouseleave", handleMouseLeave);
-            });
-        };
-    }, []);
-
-    return (
-        <div
-            ref={cursorRef}
-            className="fixed top-0 left-0 z-[9999] pointer-events-none -translate-x-1/2 -translate-y-1/2 mix-blend-difference"
-        >
-            <motion.div
-                animate={{
-                    scale: isHovering ? 1.2 : 1,
-                    opacity: isHovering ? 0.8 : 0.4,
-                }}
-                className="relative w-16 h-16 flex items-center justify-center"
-            >
-                {/* Architectural Circle & Crosshair Cursor */}
-                <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" className="opacity-80">
-                    <circle cx="30" cy="30" r="12" stroke="white" strokeWidth="0.5" />
-                    <circle cx="30" cy="30" r="25" stroke="white" strokeWidth="0.2" strokeDasharray="2 2" />
-                    <line x1="30" y1="15" x2="30" y2="45" stroke="white" strokeWidth="0.5" />
-                    <line x1="15" y1="30" x2="45" y2="30" stroke="white" strokeWidth="0.5" />
-                </svg>
-            </motion.div>
-        </div>
-    );
-}
 
 // --- ARCHITECTURAL BACKGROUND ---
 function ArchiBackground() {
@@ -864,22 +806,13 @@ function ArchiHero() {
                     </h1>
 
                     <div className="space-y-6 flex flex-col items-start">
-                        {/* Subtitle (Line 4) */}
-                        <div className="sentence overflow-hidden">
-                            <div className="outer relative">
-                                <span className="inner block overflow-hidden">
-                                    <p className="text block archi-title-reveal text-xl md:text-2xl font-bold text-[#0a0a0a] tracking-tighter leading-none opacity-80 uppercase">
-                                        SOLUTIONS TECHNIQUES — EST. {currentYear}
-                                    </p>
-                                </span>
-                            </div>
-                        </div>
+
 
                         {/* Description (Line 5) */}
-                        <div className="sentence overflow-hidden max-w-md">
+                        <div className="sentence overflow-hidden max-w-xxl">
                             <div className="outer relative">
                                 <span className="inner block overflow-hidden">
-                                    <p className="text block archi-title-reveal text-[10px] md:text-xs text-[#0a0a0a] font-medium leading-tight opacity-70">
+                                    <p className="text block archi-title-reveal text-[12px] md:text-lg text-[#0a0a0a] font-medium leading-tight opacity-70">
                                         Permis de construire, dossiers administratifs et conceptions techniques.<br />
                                         Expertise 3D photoréaliste incluse pour chaque projet.
                                     </p>
@@ -1188,7 +1121,7 @@ function ArchiAbout() {
                     </div>
 
                     <div className="xl:w-1/3 flex flex-col justify-end mt-12 xl:mt-0 w-full">
-                        <div className="grid grid-cols-2 gap-8 md:gap-12 pt-8 md:pt-12 border-t border-black/10">
+                        <div className="grid grid-cols-2 gap-8 md:gap-12 pt-8 md:pt-12 ">
                             <div className="space-y-2 md:space-y-6">
                                 <div className="flex items-baseline">
                                     <span className="stat-number text-4xl sm:text-5xl md:text-7xl font-black block text-[#0a0a0a] tracking-tighter" data-target="100">0</span>
@@ -2633,7 +2566,7 @@ export default function ArchiMadeLanding() {
                     ref={mainRef}
                     className="min-h-screen text-[#0a0a0a] selection:bg-[#0a0a0a] selection:text-white font-sans antialiased overflow-x-hidden block"
                 >
-                    <ArchiCursor />
+
                     <ArchiHeader onMenuClick={() => setIsMenuOpen(true)} />
                     <ArchiMenuOverlay isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
 
