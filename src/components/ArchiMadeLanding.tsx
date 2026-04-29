@@ -2229,13 +2229,6 @@ function TechnicalShowcase() {
                 <div className="space-y-25 md:space-y-40">
                     {RENDER_IMAGES.map((item, i) => (
                         <div key={i} className={`render-block relative flex flex-col ${i % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} items-center gap-8 md:gap-20 pt-12 md:pt-20`}>
-                            {/* Project Title on Border - Left on Mobile, Right on Desktop */}
-                            <div className="absolute top-0 left-0 md:left-auto md:right-0 z-30 pointer-events-none translate-y-[-50%] bg-[#e5e5e5] pr-6 md:pr-0 md:pl-6 text-left md:text-right">
-                                <h3 className="text-2xl md:text-4xl lg:text-5xl font-black tracking-tighter leading-none text-[#0a0a0a] first-letter:uppercase">
-                                    {item.title}
-                                </h3>
-                            </div>
-
                             {/* Image Container with Reveal Mask */}
                             <div className="w-full md:w-[60%] relative group overflow-hidden rounded-sm md:rounded-md">
                                 <div className="aspect-[4/5] md:aspect-[16/10] relative">
@@ -2251,7 +2244,10 @@ function TechnicalShowcase() {
 
                             {/* Typography Content */}
                             <div className={`w-full md:w-[40%] flex flex-col ${i % 2 === 0 ? 'items-start text-left' : 'items-end text-right'}`}>
-                                <p className="mt-2 text-black/60 font-light text-xs md:text-sm max-w-sm title-reveal leading-relaxed">
+                                <h3 className="text-2xl md:text-4xl lg:text-5xl font-black tracking-tighter leading-none text-[#0a0a0a] first-letter:uppercase mb-6">
+                                    {item.title}
+                                </h3>
+                                <p className="text-black/60 font-light text-xs md:text-sm max-w-sm title-reveal leading-relaxed">
                                     Des rendus haute définition conçus pour sublimer l'architecture. La lumière, les matériaux et l'atmosphère sont étudiés avec une précision chirurgicale.
                                 </p>
                             </div>
