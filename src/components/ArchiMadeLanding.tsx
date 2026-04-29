@@ -25,167 +25,155 @@ import { cn } from "../lib/utils";
 
 // --- CONFIG ---
 const IMAGES = {
-    vision: "/IMAGES/3D/Construction d_une maison individuelle Montlouis sur Loire 37270.png",
-    about: "/IMAGES/3D/Construction d_une maison individuelle joue les tours 37300.png",
-    renders: [
-        "/IMAGES/3D/Construction d_une maison individuelle 37250 Veigné.png",
-        "/IMAGES/3D/Création d_une extension 13170 Les pennes Mirabeau.png",
-        "/IMAGES/3D/Modifications de façades d_un entrepôt 17100 saintes.png"
-    ]
+    logos: {
+        v1: "/Logo ArchiMade.png"
+    },
+    renders: {
+        veigne: "/IMAGES/3D/Construction d_une maison individuelle 37250 Veigné.png",
+        joue: "/IMAGES/3D/Construction d_une maison individuelle joue les tours 37300.png",
+        montlouis: "/IMAGES/3D/Construction d_une maison individuelle Montlouis sur Loire 37270.png",
+        mirabeau: "/IMAGES/3D/Création d_une extension 13170 Les pennes Mirabeau.png",
+        saintes: "/IMAGES/3D/Modifications de façades d_un entrepôt 17100 saintes.png"
+    },
+    projects: {
+        activites: {
+            main: "/IMAGES/Projets finis/Bâtiment d_activités/4 cellules d_activités rue Jacqueline Auriol la ville aux dames 37700.png",
+            before: "/IMAGES/Projets finis/Bâtiment d_activités/Capture d_écran 2026-04-11 093951.png"
+        },
+        esvres: {
+            main: "/IMAGES/Projets finis/Construction d_une extension sur maison existant 37320 Esvres/Insertion 2.png",
+            before: "/IMAGES/Projets finis/Construction d_une extension sur maison existant 37320 Esvres/WhatsApp Image 2022-10-05 at 09.00.22 (1).jpeg"
+        },
+        fondettes: {
+            main: "/IMAGES/Projets finis/Construction d_une maison individuelle neuve 37230 fondettes/Capture d_écran 2026-04-11 101030.png"
+        },
+        branchs: {
+            main: "/IMAGES/Projets finis/Construction d_une maison individuelle neuve 37320 saint branchs/Capture d_écran 2026-04-11 102547.png"
+        },
+        cyr_villa: {
+            main: "/IMAGES/Projets finis/Construction d_une maison individuelle neuve 37540 saint cyr sur loire/Capture d_écran 2026-04-11 102226.png"
+        },
+        suze: {
+            main: "/IMAGES/Projets finis/Construction d_une maison individuelle neuve 72210 la suze sur sarthe/Capture d_écran 2026-04-11 101430.png"
+        },
+        ligueil: {
+            main: "/IMAGES/Projets finis/construction d_une maison indivuelle neuve 37240 ligueil/Capture d_écran 2026-04-11 102902.png"
+        },
+        chambray: {
+            main: "/IMAGES/Projets finis/creation d_une surelevation au dessus d_un garage 37170 chambray les tours/46f52069-d1b9-41b3-b202-29c8108447e7.jpg",
+            before: "/IMAGES/Projets finis/creation d_une surelevation au dessus d_un garage 37170 chambray les tours/1abff9e6-a427-41ba-84e4-6202cf7be7ee.jpg"
+        },
+        cyr_extension: {
+            main: "/IMAGES/Projets finis/Extension sur maison existante 37540/Creation d_une extenstion 37540 saint cyr sur loire - 01.jpeg",
+            alt: "/IMAGES/Projets finis/Extension sur maison existante 37540/Creation d_une extenstion 37540 saint cyr sur loire - 02.jpeg",
+            before: "/IMAGES/Projets finis/Extension sur maison existante 37540/avant projet.jpeg"
+        },
+        chanceaux: {
+            main: "/IMAGES/Projets finis/Loc office rehabiliation d_une zone de stockage en bureau 37390 chanceaux sur choisille/Capture d_écran 2026-04-10 174146.png",
+            gallery: [
+                "/IMAGES/Projets finis/Loc office rehabiliation d_une zone de stockage en bureau 37390 chanceaux sur choisille/Capture d_écran 2026-04-10 174722.png",
+                "/IMAGES/Projets finis/Loc office rehabiliation d_une zone de stockage en bureau 37390 chanceaux sur choisille/Capture d_écran 2026-04-10 174735.png",
+                "/IMAGES/Projets finis/Loc office rehabiliation d_une zone de stockage en bureau 37390 chanceaux sur choisille/Capture d_écran 2026-04-10 174750.png"
+            ]
+        }
+    }
 };
 
 const PROJECTS = [
     {
-        "title": "Bâtiment d_activités",
-        "city": "Inconnu",
-        "year": "2024",
-        "type": "Projet",
-        "path": "/IMAGES/Projets finis/Bâtiment d_activités/4 cellules d_activités rue Jacqueline Auriol la ville aux dames 37700.png",
-        "beforePath": "/IMAGES/Projets finis/Bâtiment d_activités/Capture d_écran 2026-04-11 093951.png",
-        "gallery": [
-            "/IMAGES/Projets finis/Bâtiment d_activités/4 cellules d_activités rue Jacqueline Auriol la ville aux dames 37700.png",
-            "/IMAGES/Projets finis/Bâtiment d_activités/Capture d_écran 2026-04-11 093951.png"
-        ],
-        "specs": [
-            "Architecture"
-        ]
+        title: "Bâtiment d'activités",
+        city: "Inconnu",
+        year: "2024",
+        type: "Projet",
+        path: IMAGES.projects.activites.main,
+        beforePath: IMAGES.projects.activites.before,
+        gallery: [IMAGES.projects.activites.main, IMAGES.projects.activites.before],
+        specs: ["Architecture"]
     },
     {
-        "title": "Extension Contemporaine",
-        "city": "Esvres",
-        "year": "2022",
-        "type": "Extension",
-        "path": "/IMAGES/Projets finis/Construction d_une extension sur maison existant 37320 Esvres/Insertion 2.png",
-        "beforePath": "/IMAGES/Projets finis/Construction d_une extension sur maison existant 37320 Esvres/WhatsApp Image 2022-10-05 at 09.00.22 (1).jpeg",
-        "gallery": [
-            "/IMAGES/Projets finis/Construction d_une extension sur maison existant 37320 Esvres/Insertion 2.png",
-            "/IMAGES/Projets finis/Construction d_une extension sur maison existant 37320 Esvres/WhatsApp Image 2022-10-05 at 09.00.22 (1).jpeg"
-        ],
-        "specs": [
-            "Ossature Bois",
-            "Légèreté"
-        ]
+        title: "Extension Contemporaine",
+        city: "Esvres",
+        year: "2022",
+        type: "Extension",
+        path: IMAGES.projects.esvres.main,
+        beforePath: IMAGES.projects.esvres.before,
+        gallery: [IMAGES.projects.esvres.main, IMAGES.projects.esvres.before],
+        specs: ["Ossature Bois", "Légèreté"]
     },
     {
-        "title": "Maison Fondettes",
-        "city": "Fondettes",
-        "year": "2023",
-        "type": "Neuf",
-        "path": "/IMAGES/Projets finis/Construction d_une maison individuelle neuve 37230 fondettes/Capture d_écran 2026-04-11 101030.png",
-        "beforePath": "/IMAGES/3D/Construction d_une maison individuelle Montlouis sur Loire 37270.png",
-        "gallery": [
-            "/IMAGES/Projets finis/Construction d_une maison individuelle neuve 37230 fondettes/Capture d_écran 2026-04-11 101030.png"
-        ],
-        "specs": [
-            "Contemporain",
-            "Grande Baies"
-        ]
+        title: "Maison Fondettes",
+        city: "Fondettes",
+        year: "2023",
+        type: "Neuf",
+        path: IMAGES.projects.fondettes.main,
+        beforePath: IMAGES.renders.montlouis, // On garde celui-ci si on n'a pas de vrai 'avant', ou on l'enlève
+        gallery: [IMAGES.projects.fondettes.main],
+        specs: ["Contemporain", "Grande Baies"]
     },
     {
-        "title": "Maison Saint-Branchs",
-        "city": "Saint-Branchs",
-        "year": "2023",
-        "type": "Neuf",
-        "path": "/IMAGES/Projets finis/Construction d_une maison individuelle neuve 37320 saint branchs/Capture d_écran 2026-04-11 102547.png",
-        "gallery": [
-            "/IMAGES/Projets finis/Construction d_une maison individuelle neuve 37320 saint branchs/Capture d_écran 2026-04-11 102547.png"
-        ],
-        "specs": [
-            "Modernité",
-            "Toiture Tuiles"
-        ]
+        title: "Maison Saint-Branchs",
+        city: "Saint-Branchs",
+        year: "2023",
+        type: "Neuf",
+        path: IMAGES.projects.branchs.main,
+        gallery: [IMAGES.projects.branchs.main],
+        specs: ["Modernité", "Toiture Tuiles"]
     },
     {
-        "title": "Villa Saint-Cyr",
-        "city": "Saint-Cyr-sur-Loire",
-        "year": "2023",
-        "type": "Neuf",
-        "path": "/IMAGES/Projets finis/Construction d_une maison individuelle neuve 37540 saint cyr sur loire/Capture d_écran 2026-04-11 102226.png",
-        "gallery": [
-            "/IMAGES/Projets finis/Construction d_une maison individuelle neuve 37540 saint cyr sur loire/Capture d_écran 2026-04-11 102226.png"
-        ],
-        "specs": [
-            "Haut de gamme",
-            "Design épuré"
-        ]
+        title: "Villa Saint-Cyr",
+        city: "Saint-Cyr-sur-Loire",
+        year: "2023",
+        type: "Neuf",
+        path: IMAGES.projects.cyr_villa.main,
+        gallery: [IMAGES.projects.cyr_villa.main],
+        specs: ["Haut de gamme", "Design épuré"]
     },
     {
-        "title": "Projet La Suze",
-        "city": "La Suze-sur-Sarthe",
-        "year": "2023",
-        "type": "Neuf",
-        "path": "/IMAGES/Projets finis/Construction d_une maison individuelle neuve 72210 la suze sur sarthe/Capture d_écran 2026-04-11 101430.png",
-        "gallery": [
-            "/IMAGES/Projets finis/Construction d_une maison individuelle neuve 72210 la suze sur sarthe/Capture d_écran 2026-04-11 101430.png"
-        ],
-        "specs": [
-            "Volume",
-            "Clarté"
-        ]
+        title: "Projet La Suze",
+        city: "La Suze-sur-Sarthe",
+        year: "2023",
+        type: "Neuf",
+        path: IMAGES.projects.suze.main,
+        gallery: [IMAGES.projects.suze.main],
+        specs: ["Volume", "Clarté"]
     },
     {
-        "title": "Villa Ligne",
-        "city": "Ligueil",
-        "year": "2023",
-        "type": "Minimalisme",
-        "path": "/IMAGES/Projets finis/construction d_une maison indivuelle neuve 37240 ligueil/Capture d_écran 2026-04-11 102902.png",
-        "gallery": [
-            "/IMAGES/Projets finis/construction d_une maison indivuelle neuve 37240 ligueil/Capture d_écran 2026-04-11 102902.png"
-        ],
-        "specs": [
-            "Toit Mono-pente",
-            "Finition Enduit"
-        ]
+        title: "Villa Ligne",
+        city: "Ligueil",
+        year: "2023",
+        type: "Minimalisme",
+        path: IMAGES.projects.ligueil.main,
+        gallery: [IMAGES.projects.ligueil.main],
+        specs: ["Toit Mono-pente", "Finition Enduit"]
     },
     {
-        "title": "Surélévation Garage",
-        "city": "Chambray-lès-Tours",
-        "year": "2022",
-        "type": "Surélévation",
-        "path": "/IMAGES/Projets finis/creation d_une surelevation au dessus d_un garage 37170 chambray les tours/46f52069-d1b9-41b3-b202-29c8108447e7.jpg",
-        "beforePath": "/IMAGES/Projets finis/creation d_une surelevation au dessus d_un garage 37170 chambray les tours/1abff9e6-a427-41ba-84e4-6202cf7be7ee.jpg",
-        "gallery": [
-            "/IMAGES/Projets finis/creation d_une surelevation au dessus d_un garage 37170 chambray les tours/1abff9e6-a427-41ba-84e4-6202cf7be7ee.jpg",
-            "/IMAGES/Projets finis/creation d_une surelevation au dessus d_un garage 37170 chambray les tours/46f52069-d1b9-41b3-b202-29c8108447e7.jpg"
-        ],
-        "specs": [
-            "Gain d'espace",
-            "Optimisation"
-        ]
+        title: "Surélévation Garage",
+        city: "Chambray-lès-Tours",
+        year: "2022",
+        type: "Surélévation",
+        path: IMAGES.projects.chambray.main,
+        beforePath: IMAGES.projects.chambray.before,
+        gallery: [IMAGES.projects.chambray.before, IMAGES.projects.chambray.main],
+        specs: ["Gain d'espace", "Optimisation"]
     },
     {
-        "title": "Extension Saint-Cyr",
-        "city": "Saint-Cyr-sur-Loire",
-        "year": "2022",
-        "type": "Extension",
-        "path": "/IMAGES/Projets finis/Extension sur maison existante 37540/Creation d_une extenstion 37540 saint cyr sur loire - 01.jpeg",
-        "beforePath": "/IMAGES/Projets finis/Extension sur maison existante 37540/avant projet.jpeg",
-        "gallery": [
-            "/IMAGES/Projets finis/Extension sur maison existante 37540/avant projet.jpeg",
-            "/IMAGES/Projets finis/Extension sur maison existante 37540/Creation d_une extenstion 37540 saint cyr sur loire - 01.jpeg",
-            "/IMAGES/Projets finis/Extension sur maison existante 37540/Creation d_une extenstion 37540 saint cyr sur loire - 02.jpeg"
-        ],
-        "specs": [
-            "Harmonie",
-            "Transition"
-        ]
+        title: "Extension Saint-Cyr",
+        city: "Saint-Cyr-sur-Loire",
+        year: "2022",
+        type: "Extension",
+        path: IMAGES.projects.cyr_extension.main,
+        beforePath: IMAGES.projects.cyr_extension.before,
+        gallery: [IMAGES.projects.cyr_extension.before, IMAGES.projects.cyr_extension.main, IMAGES.projects.cyr_extension.alt],
+        specs: ["Harmonie", "Transition"]
     },
     {
-        "title": "Réhabilitation Bureaux",
-        "city": "Chanceaux-sur-Choisille",
-        "year": "2023",
-        "type": "Tertiaire",
-        "path": "/IMAGES/Projets finis/Loc office rehabiliation d_une zone de stockage en bureau 37390 chanceaux sur choisille/Capture d_écran 2026-04-10 174146.png",
-        "gallery": [
-            "/IMAGES/Projets finis/Loc office rehabiliation d_une zone de stockage en bureau 37390 chanceaux sur choisille/Capture d_écran 2026-04-10 174146.png",
-            "/IMAGES/Projets finis/Loc office rehabiliation d_une zone de stockage en bureau 37390 chanceaux sur choisille/Capture d_écran 2026-04-10 174722.png",
-            "/IMAGES/Projets finis/Loc office rehabiliation d_une zone de stockage en bureau 37390 chanceaux sur choisille/Capture d_écran 2026-04-10 174735.png",
-            "/IMAGES/Projets finis/Loc office rehabiliation d_une zone de stockage en bureau 37390 chanceaux sur choisille/Capture d_écran 2026-04-10 174750.png"
-        ],
-        "specs": [
-            "Reconversion",
-            "Open-space"
-        ]
+        title: "Réhabilitation Bureaux",
+        city: "Chanceaux-sur-Choisille",
+        year: "2023",
+        type: "Tertiaire",
+        path: IMAGES.projects.chanceaux.main,
+        gallery: [IMAGES.projects.chanceaux.main, ...IMAGES.projects.chanceaux.gallery],
+        specs: ["Reconversion", "Open-space"]
     }
 ];
 
@@ -408,7 +396,7 @@ function ArchiPreloader({ onComplete }: { onComplete: () => void }) {
     const words = "ARCHI MADE STUDIO".split(" ");
 
     return (
-        <div ref={containerRef} className="fixed inset-0 z-[1000] bg-[#e5e5e5] flex items-center justify-center overflow-hidden font-display perspective-[1000px]">
+        <div ref={containerRef} translate="no" className="notranslate fixed inset-0 z-[1000] bg-[#e5e5e5] flex items-center justify-center overflow-hidden font-display perspective-[1000px]">
             {/* Drafting Paper Background */}
             <div className="absolute inset-0 opacity-[0.1] pointer-events-none"
                 style={{
@@ -426,7 +414,7 @@ function ArchiPreloader({ onComplete }: { onComplete: () => void }) {
                     <img
                         src="/Logo ArchiMade.png"
                         alt="Logo"
-                        className="h-20 md:h-32 w-auto object-contain opacity-80"
+                        className="h-42 md:h-62 w-auto object-contain opacity-80"
                     />
                 </div>
                 {/* Horizontal Sequence of Letters */}
@@ -447,10 +435,7 @@ function ArchiPreloader({ onComplete }: { onComplete: () => void }) {
                                         {char}
                                     </span>
 
-                                    {/* Micro Coordinates (Style refinement) */}
-                                    <div className="absolute -bottom-4 left-0 text-[5px] font-mono opacity-20 uppercase pointer-events-none">
-                                        {`P_${wIdx}${cIdx}`}
-                                    </div>
+
                                 </div>
                             ))}
                             {/* Spacer for mobile wrap */}
@@ -459,16 +444,7 @@ function ArchiPreloader({ onComplete }: { onComplete: () => void }) {
                     ))}
                 </div>
 
-                {/* Refined Progress Info */}
-                <div className="mt-24 w-full max-w-sm flex flex-col items-center px-10">
-                    <div className="w-full flex justify-between items-end mb-2">
-                        <span className="text-[8px] font-bold tracking-[0.6em] text-black/30 uppercase">Drafting Assembly</span>
-                        <span className="text-[10px] font-mono text-black/60">{progress}%</span>
-                    </div>
-                    <div className="w-full h-[1px] bg-black/10 relative">
-                        <div className="absolute inset-y-0 left-0 bg-black transition-all duration-300" style={{ width: `${progress}%` }}></div>
-                    </div>
-                </div>
+
 
             </div>
 
@@ -487,21 +463,16 @@ function ArchiPreloader({ onComplete }: { onComplete: () => void }) {
 // --- COMPONENTS ---
 
 const ArchiLogo = ({ className = "", light = false }: { className?: string; light?: boolean }) => (
-    <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.2 }}
-        className={cn("pointer-events-auto", className)}
-    >
+    <div className={cn("pointer-events-auto", className)}>
         <img
             src="/Logo ArchiMade.png"
             alt="ArchiMade Logo"
             className={cn(
-                "logo-img h-16 md:h-20 scale-250 ml-10 w-auto object-contain transition-all duration-500 brightness-0 invert",
+                "logo-img h-16 md:h-28 scale-280 md:scale-200 xl:scale-200 ml-10 w-auto object-contain transition-all duration-500 brightness-0 invert",
                 light && "brightness-0 invert"
             )}
         />
-    </motion.div>
+    </div>
 );
 
 const ArchiMobileSocials = () => (
@@ -533,9 +504,10 @@ const ArchiMobileSocials = () => (
 function ArchiNav() {
     const menuItems = [
         { name: "À Propos", slug: "propos" },
-        { name: "Méthode", slug: "méthodes" },
-        { name: "Réalisations", slug: "réalisations" },
+        { name: "Méthode", slug: "methodes" },
+        { name: "Réalisations", slug: "realisations" },
         { name: "Expertise", slug: "expertise" },
+        { name: "FAQ", slug: "faq" },
         { name: "Contact", slug: "contact" }
     ];
 
@@ -590,8 +562,9 @@ function ArchiMenuOverlay({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
     const menuItems = [
         { name: "À Propos", slug: "propos" },
         { name: "Services", slug: "expertise" },
-        { name: "Méthode", slug: "méthodes" },
-        { name: "Réalisations", slug: "réalisations" },
+        { name: "Méthode", slug: "methodes" },
+        { name: "Réalisations", slug: "realisations" },
+        { name: "FAQ", slug: "faq" },
         { name: "Contact", slug: "contact" }
     ];
 
@@ -637,19 +610,6 @@ function ArchiMenuOverlay({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
             </div>
 
             <div className="mt-auto flex flex-col md:flex-row gap-10 md:gap-20">
-                <div className="space-y-2">
-                    <p className="text-[10px] uppercase tracking-widest text-white/30 font-bold">Socials</p>
-                    <div className="flex flex-col gap-4">
-                        <a href="#" className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center group hover:border-white transition-all duration-500 overflow-hidden relative">
-                            <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"></div>
-                            <Instagram className="w-5 h-5 text-white/60 group-hover:text-black transition-colors duration-500 relative z-10" />
-                        </a>
-                        <a href="#" className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center group hover:border-white transition-all duration-500 overflow-hidden relative">
-                            <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"></div>
-                            <Facebook className="w-5 h-5 text-white/60 group-hover:text-black transition-colors duration-500 relative z-10" />
-                        </a>
-                    </div>
-                </div>
                 <div className="space-y-2">
                     <p className="text-[10px] uppercase tracking-widest text-white/30 font-bold">Inquiries</p>
                     <p className="text-xl font-bold tracking-tight hover:opacity-50 transition-opacity">contact@archimade.studio</p>
@@ -726,19 +686,17 @@ function ArchiCursor() {
         >
             <motion.div
                 animate={{
-                    scale: isHovering ? 1.5 : 1,
-                    rotate: isHovering ? 45 : 0
+                    scale: isHovering ? 1.2 : 1,
+                    opacity: isHovering ? 0.8 : 0.4,
                 }}
-                className="relative w-12 h-12 flex items-center justify-center"
+                className="relative w-16 h-16 flex items-center justify-center"
             >
-                {/* Custom Double-Line Arrow from Image */}
-                <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    {/* Vertical lines */}
-                    <line x1="18" y1="5" x2="18" y2="28" stroke="white" strokeWidth="1" />
-                    <line x1="22" y1="5" x2="22" y2="28" stroke="white" strokeWidth="1" />
-                    {/* Arrow head - double lines */}
-                    <path d="M10 20L20 30L30 20" stroke="white" strokeWidth="1.5" />
-                    <path d="M7 17L20 30L33 17" stroke="white" strokeWidth="1" opacity="0.5" />
+                {/* Architectural Circle & Crosshair Cursor */}
+                <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" className="opacity-80">
+                    <circle cx="30" cy="30" r="12" stroke="white" strokeWidth="0.5" />
+                    <circle cx="30" cy="30" r="25" stroke="white" strokeWidth="0.2" strokeDasharray="2 2" />
+                    <line x1="30" y1="15" x2="30" y2="45" stroke="white" strokeWidth="0.5" />
+                    <line x1="15" y1="30" x2="45" y2="30" stroke="white" strokeWidth="0.5" />
                 </svg>
             </motion.div>
         </div>
@@ -835,21 +793,23 @@ function ArchiHero() {
                 const isEven = i % 2 === 0;
                 gsap.fromTo(line,
                     {
-                        y: 150,
-                        rotateX: -60,
-                        scale: 0.8,
-                        filter: "blur(30px)",
+                        x: isEven ? -120 : 120,
+                        y: 0,
+                        rotateY: isEven ? 25 : -25,
+                        scale: 0.95,
+                        filter: "blur(10px)",
                         opacity: 0
                     },
                     {
+                        x: 0,
                         y: 0,
-                        rotateX: 0,
+                        rotateY: 0,
                         scale: 1,
                         filter: "blur(0px)",
                         opacity: 1,
-                        duration: 2.2,
-                        ease: "expo.out",
-                        delay: 0.8 + (i * 0.1)
+                        duration: 3,
+                        ease: "power4.out",
+                        delay: 0.5 + (i * 0.12)
                     }
                 );
             });
@@ -857,7 +817,6 @@ function ArchiHero() {
         return () => ctx.revert();
     }, []);
 
-    const currentDate = new Date().toISOString().split('T')[0].replace(/-/g, '.');
     const currentYear = new Date().getFullYear();
 
     const handleHeroClick = (e: React.MouseEvent) => {
@@ -868,12 +827,12 @@ function ArchiHero() {
 
         // Using Lenis for a custom slow and smooth scroll
         if ((window as any).lenis) {
-            (window as any).lenis.scrollTo('#archi-vision', {
+            (window as any).lenis.scrollTo('#propos', {
                 duration: 3,
                 easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
             });
         } else {
-            const visionSection = document.getElementById('archi-vision');
+            const visionSection = document.getElementById('propos');
             if (visionSection) {
                 visionSection.scrollIntoView({ behavior: 'smooth' });
             }
@@ -887,14 +846,14 @@ function ArchiHero() {
             className="relative h-screen w-full overflow-hidden flex flex-col font-sans bg-transparent cursor-pointer group/hero"
         >
             {/* Largo-Style Container */}
-            <div className="relative z-10 w-full h-full flex flex-col justify-center md:justify-start md:pt-[15vh] px-10 md:px-20 md:pl-[35vw] items-start text-left">
+            <div className="relative z-10 w-full h-full flex flex-col justify-center md:justify-start md:pt-[20vh] px-10 md:px-20 md:pl-[24vw] items-start text-left">
                 <div className="max-w-6xl relative z-20 flex flex-col items-start px-2">
-                    <h1 className="archi-title text-[12vw] md:text-[9.5vw] font-bold tracking-tighter leading-[0.8] text-[#0a0a0a] flex flex-col items-start relative translate-z-0 mb-12">
+                    <h1 translate="no" className="notranslate archi-title text-[12vw] md:text-[9.5vw] font-bold tracking-tighter leading-[1.1] md:leading-[0.8] text-[#0a0a0a] flex flex-col items-start relative translate-z-0 mb-12">
                         {/* Title Lines (1, 2, 3) */}
-                        {["Concevoir", "votre futur", "bâtiment."].map((text, idx) => (
-                            <div key={idx} className="sentence overflow-hidden">
-                                <div className="outer relative">
-                                    <span className="inner block overflow-hidden">
+                        {["Concevoir votre", "futur projet"].map((text, idx) => (
+                            <div key={idx} className="sentence">
+                                <div className="outer relative perspective-[2000px]">
+                                    <span className="inner block overflow-hidden md:pb-[0.18em]">
                                         <span className="text block archi-title-reveal">
                                             {text}
                                         </span>
@@ -929,18 +888,17 @@ function ArchiHero() {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div >
 
             {/* Bottom Right Metadata - Largo Style (Fixed to screen edges) */}
-            <div className="absolute bottom-10 right-8 md:bottom-12 md:right-12 z-50 pointer-events-none flex flex-col items-end text-right">
+            < div className="absolute bottom-10 right-8 md:bottom-12 md:right-12 z-50 pointer-events-none flex flex-col items-end text-right" >
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 1, duration: 0.8 }}
                     className="flex flex-col items-end"
                 >
-                    {/* Date */}
-                    <span className="text-[8px] md:text-[15px] font-mono text-black/40 mb-2 tracking-widest">{currentDate}</span>
+
 
                     {/* Rotating Message with Underline */}
                     <div className="relative w-[200px] md:w-[350px] h-12 md:h-12 overflow-hidden border-b border-black/10 pb-1">
@@ -973,8 +931,8 @@ function ArchiHero() {
                         ))}
                     </div>
                 </motion.div>
-            </div>
-        </section>
+            </div >
+        </section >
     );
 }
 
@@ -1091,14 +1049,14 @@ function ArchiVision() {
                         {/* Layers */}
                         <div ref={blueprintRef} className="absolute inset-0 z-10">
                             <img
-                                src={IMAGES.vision}
+                                src={IMAGES.renders.montlouis}
                                 alt="Blueprint"
                                 className="w-full h-full object-cover grayscale brightness-[0.2] contrast-[2] opacity-40"
                             />
                         </div>
                         <div ref={realityRef} className="absolute inset-0 z-20">
                             <img
-                                src={IMAGES.vision}
+                                src={IMAGES.renders.montlouis}
                                 alt="Reality"
                                 className="w-full h-full object-cover"
                             />
@@ -1213,11 +1171,20 @@ function ArchiAbout() {
                         <p className="text-lg sm:text-xl md:text-2xl xl:text-3xl font-light leading-[1.5] md:leading-[1.4] text-[#0a0a0a] uppercase tracking-tight italic border-l-2 md:border-l-4 border-black pl-6 md:pl-8">
                             ArchiMade accompagne particuliers et professionnels dans la réalisation de leurs démarches administratives. Nous intervenons sur la production de plans techniques et d’exécution ainsi que sur la modélisation 3D.
                         </p>
-                        <div className="mt-8 md:mt-12 group flex items-center gap-4 md:gap-6 cursor-pointer"
-                            onClick={() => (window as any).lenis?.scrollTo('#expertise', { duration: 2.5 })}>
-                            <span className="text-xs md:text-sm uppercase tracking-[0.3em] md:tracking-[0.4em] font-black group-hover:italic transition-all">En savoir plus</span>
-                            <div className="w-8 md:w-12 h-[1px] bg-black group-hover:w-16 md:group-hover:w-24 transition-all duration-500"></div>
-                        </div>
+                        <motion.button
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                            onClick={() => (window as any).lenis?.scrollTo('#expertise', { duration: 2.5 })}
+                            className="mt-12 group relative flex items-center gap-12 bg-[#0a0a0a] text-white px-8 py-5 rounded-full overflow-hidden transition-all duration-500 shadow-xl"
+                        >
+                            <span className="text-[10px] md:text-xs font-bold uppercase tracking-[0.5em] relative z-10">
+                                En savoir plus
+                            </span>
+                            <div className="relative z-10 flex items-center justify-center">
+                                <ArrowUpRight className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-500" />
+                            </div>
+                            <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"></div>
+                        </motion.button>
                     </div>
 
                     <div className="xl:w-1/3 flex flex-col justify-end mt-12 xl:mt-0 w-full">
@@ -1243,7 +1210,7 @@ function ArchiAbout() {
             <div className="about-img-container relative aspect-video md:aspect-[21/13] lg:aspect-[21/9] w-full overflow-hidden md:mt-8">
                 <img
                     ref={imgRef}
-                    src={IMAGES.about}
+                    src={IMAGES.renders.joue}
                     alt="Projet Résidentiel Moderne - ArchiMade 3D"
                     className="w-full h-full object-cover grayscale brightness-90 contrast-125"
                 />
@@ -1255,13 +1222,13 @@ function ArchiAbout() {
 
 // 3. SERVICES SECTION (EXPERTISE)
 const services = [
-    { title: "Permis de Construire", cat: "Architectural", loc: "Tours, FR", area: "450.00 m² / 4843 ft²", img: IMAGES.renders[0] },
-    { title: "Déclarations Préalables", cat: "Extension", loc: "Bordeaux, FR", area: "85.22 m² / 917 ft²", img: IMAGES.renders[1] },
-    { title: "Plans Techniques", cat: "Structure", loc: "Paris, FR", area: "1200.00 m² / 12916 ft²", img: IMAGES.renders[2] },
-    { title: "Plans d’Exécution", cat: "Construction", loc: "Lyon, FR", area: "650.00 m² / 6996 ft²", img: IMAGES.renders[0] },
-    { title: "Modélisation 3D", cat: "Visualisation", loc: "Studio", area: "Full Render 8K", img: IMAGES.vision },
-    { title: "Rendus Photoréalistes", cat: "Marketing", loc: "Digital", area: "Ultra High Def", img: IMAGES.about },
-    { title: "Dossiers Complets", cat: "Consulting", loc: "National", area: "BIM Integrated", img: IMAGES.renders[1] },
+    { title: "Permis de Construire", cat: "Architectural", loc: "Tours, FR", area: "450.00 m² / 4843 ft²", img: IMAGES.renders.veigne },
+    { title: "Déclarations Préalables", cat: "Extension", loc: "Bordeaux, FR", area: "85.22 m² / 917 ft²", img: IMAGES.renders.mirabeau },
+    { title: "Plans Techniques", cat: "Structure", loc: "Paris, FR", area: "1200.00 m² / 12916 ft²", img: IMAGES.renders.saintes },
+    { title: "Plans d'Exécution", cat: "Construction", loc: "Lyon, FR", area: "650.00 m² / 6996 ft²", img: IMAGES.projects.activites.main },
+    { title: "Modélisation 3D", cat: "Visualisation", loc: "Studio", area: "Full Render 8K", img: IMAGES.projects.esvres.main },
+    { title: "Rendus Photoréalistes", cat: "Marketing", loc: "Digital", area: "Ultra High Def", img: IMAGES.projects.chanceaux.gallery[1] },
+    { title: "Dossiers Complets", cat: "Consulting", loc: "National", area: "BIM Integrated", img: IMAGES.projects.cyr_extension.alt },
 ];
 
 function ArchiServices() {
@@ -1273,15 +1240,7 @@ function ArchiServices() {
 
     useLayoutEffect(() => {
         const ctx = gsap.context(() => {
-            ScrollTrigger.create({
-                trigger: containerRef.current,
-                start: "top 10%",
-                end: "bottom 20%",
-                onEnter: () => gsap.to([".archi-sidebar", ".xl-hidden.fixed"], { autoAlpha: 0, duration: 0.2 }),
-                onLeave: () => gsap.to([".archi-sidebar", ".xl-hidden.fixed"], { autoAlpha: 1, duration: 0.1 }),
-                onEnterBack: () => gsap.to([".archi-sidebar", ".xl-hidden.fixed"], { autoAlpha: 0, duration: 0.2 }),
-                onLeaveBack: () => gsap.to([".archi-sidebar", ".xl-hidden.fixed"], { autoAlpha: 1, duration: 0.1 }),
-            });
+
         });
         return () => ctx.revert();
     }, []);
@@ -1511,114 +1470,128 @@ function ArchiServices() {
 
 // 4. PROCESS / METHOD SECTION (MÉTHODES) - DUAL RAW TEXT MARQUEE
 function ArchiProcess() {
-    const marquee1Ref = useRef(null);
-    const marquee2Ref = useRef(null);
+    const sectionRef = useRef<HTMLElement>(null);
+    const lineRef = useRef<HTMLDivElement>(null);
 
-    const stepsRow1 = [
-        { title: "Analyse du besoin", phase: "01" },
-        { title: "Production", phase: "03" },
-        { title: "Accompagnement", phase: "05" },
+    const allSteps = [
+        { phase: "01", title: "Analyse du besoin", desc: "Immersion dans votre vision et définition des objectifs structurels." },
+        { phase: "02", title: "Étude du projet", desc: "Exploration conceptuelle et esquisses préliminaires du bâti." },
+        { phase: "03", title: "Conception", desc: "Modélisation 3D avancée et mise au point technique des visuels." },
+        { phase: "04", title: "Constitution", desc: "Élaboration des dossiers administratifs et permis de construire." },
+        { phase: "05", title: "Accompagnement", desc: "Suivi rigoureux et conseil stratégique tout au long du cycle." },
+        { phase: "06", title: "Validation", desc: "Finalisation du projet et livraison des supports photoréalistes." },
     ];
-
-    const stepsRow2 = [
-        { title: "Étude du projet", phase: "02" },
-        { title: "Constitution", phase: "04" },
-        { title: "Validation", phase: "06" },
-    ];
-
-    const infiniteRow1 = [...stepsRow1, ...stepsRow1, ...stepsRow1, ...stepsRow1];
-    const infiniteRow2 = [...stepsRow2, ...stepsRow2, ...stepsRow2, ...stepsRow2];
 
     useLayoutEffect(() => {
-        let ctx = gsap.context(() => {
-            const m1 = marquee1Ref.current;
-            const m2 = marquee2Ref.current;
-            if (!m1 || !m2) return;
+        const ctx = gsap.context(() => {
+            // Animation de la ligne verticale
+            gsap.fromTo(lineRef.current,
+                { scaleY: 0 },
+                {
+                    scaleY: 1,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: sectionRef.current,
+                        start: "top 30%",
+                        end: "bottom 70%",
+                        scrub: 1.5
+                    }
+                }
+            );
 
-            // Ensure they are visible
-            gsap.set([m1, m2], { opacity: 1, visibility: "visible" });
+            // Animation des étapes
+            const stepBlocks = gsap.utils.toArray('.step-block');
+            stepBlocks.forEach((step: any, i) => {
+                const tl = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: step,
+                        start: "top 85%",
+                        toggleActions: "play none none reverse"
+                    }
+                });
 
-            // Row 1
-            gsap.to(m1, {
-                xPercent: -25,
-                ease: "none",
-                duration: 40,
-                repeat: -1,
-                force3D: true,
+                tl.from(step.querySelector('.step-number'), {
+                    x: -30,
+                    opacity: 0,
+                    duration: 1,
+                    ease: "power4.out"
+                })
+                    .from(step.querySelector('.step-content'), {
+                        y: 40,
+                        opacity: 0,
+                        duration: 1,
+                        ease: "power4.out"
+                    }, "-=0.7")
+                    .from(step.querySelector('.step-line'), {
+                        scaleX: 0,
+                        transformOrigin: "left",
+                        duration: 1.2,
+                        ease: "expo.out"
+                    }, "-=0.5");
             });
-
-            // Row 2
-            gsap.set(m2, { xPercent: -25 });
-            gsap.to(m2, {
-                xPercent: 0,
-                ease: "none",
-                duration: 45,
-                repeat: -1,
-                force3D: true,
-            });
-        });
+        }, sectionRef);
 
         return () => ctx.revert();
     }, []);
 
-    const TextItem: React.FC<{ step: any }> = ({ step }) => (
-        <div className="flex items-center gap-8 md:gap-16 px-8 md:px-16">
-            <span className="text-[10px] md:text-xs font-mono text-white/20 tracking-[0.5em] uppercase translate-y-[-100%]">
-                Phase_{step.phase}
-            </span>
-            <h3 className="text-5xl md:text-[8vw] font-black text-white uppercase tracking-tighter leading-none hover:italic hover:text-white/60 transition-all duration-500 cursor-default">
-                {step.title}
-            </h3>
-        </div>
-    );
-
     return (
-        <section id="méthodes" className="relative py-24 md:py-48 bg-[#0a0a0a] overflow-visible font-display">
-            {/* Header / Intro */}
-            <div className="relative z-10 xl:pl-[25vw] px-10 mb-20">
-                <ArchiReveal type="fade">
-                    <div className="flex items-center gap-4 mb-4">
-                        <div className="w-8 h-[1px] bg-white/20"></div>
-                        <span className="text-[10px] text-white/40 font-bold uppercase tracking-[0.8em]">Workflow</span>
-                    </div>
-                    <h2 className="text-4xl md:text-6xl font-black text-white uppercase tracking-tighter italic">Méthode</h2>
-                </ArchiReveal>
+        <section id="methodes" ref={sectionRef} className="relative py-32 md:py-56 bg-[#0a0a0a] text-white overflow-visible font-display xl:pl-[25vw]">
+            {/* Background Text Parallax */}
+            <div className="absolute top-0 left-0 w-full h-full opacity-[0.02] pointer-events-none select-none overflow-hidden">
+                <div className="text-[35vw] font-black uppercase tracking-tighter leading-none whitespace-nowrap -translate-x-1/4 translate-y-1/4">
+                    WORKFLOW
+                </div>
             </div>
 
-            {/* Marquee Container with Masking */}
-            <div className="w-full relative overflow-hidden"
-                style={{
-                    WebkitMaskImage: 'linear-gradient(to right, transparent 0%, transparent 15%, black 25%, black 90%, transparent 100%)',
-                    maskImage: 'linear-gradient(to right, transparent 0%, transparent 15%, black 25%, black 90%, transparent 100%)'
-                }}>
-
-                <div className="space-y-4 md:space-y-8">
-                    {/* ROW 1 */}
-                    <div className="relative flex overflow-hidden">
-                        <div ref={marquee1Ref} className="flex whitespace-nowrap py-4">
-                            {infiniteRow1.map((step, i) => (
-                                <TextItem key={i} step={step} />
-                            ))}
+            <div className="max-w-7xl mx-auto px-6 md:px-20 relative z-10">
+                {/* Header */}
+                <div className="mb-24 md:mb-40 max-w-2xl">
+                    <ArchiReveal type="fade">
+                        <div className="flex items-center gap-4 mb-6">
+                            <div className="w-12 h-[1px] bg-white/30"></div>
+                            <span className="text-xs uppercase tracking-[0.5em] text-white/40 font-bold">Processus</span>
                         </div>
-                    </div>
+                        <h2 className="text-5xl md:text-6xl lg:text-8xl font-black uppercase tracking-tighter leading-[0.9] mb-8">
+                            Notre <span className="text-white/30 italic font-medium">Méthode</span>
+                        </h2>
+                        <p className="text-lg text-white/40 font-light leading-relaxed max-w-lg">
+                            Un workflow structuré en six phases clés pour garantir la précision architecturale et la réussite de vos projets.
+                        </p>
+                    </ArchiReveal>
+                </div>
 
-                    {/* ROW 2 */}
-                    <div className="relative flex overflow-hidden">
-                        <div ref={marquee2Ref} className="flex whitespace-nowrap py-4">
-                            {infiniteRow2.map((step, i) => (
-                                <TextItem key={i} step={step} />
-                            ))}
-                        </div>
+                {/* Steps Container */}
+                <div className="relative">
+                    {/* Vertical Progress Line */}
+                    <div ref={lineRef} className="absolute left-[15px] md:left-[40px] top-0 bottom-0 w-[1px] bg-gradient-to-b from-white/60 via-white/20 to-transparent origin-top"></div>
+
+                    <div className="space-y-24 md:space-y-40">
+                        {allSteps.map((step, i) => (
+                            <div key={i} className="step-block relative pl-14 md:pl-32 group">
+                                {/* Dot on the line */}
+                                <div className="absolute left-[11px] md:left-[36px] top-4 w-2 h-2 rounded-full bg-white border-4 border-[#0a0a0a] group-hover:scale-150 transition-transform duration-500 z-10 shadow-[0_0_20px_rgba(255,255,255,0.4)]"></div>
+
+                                <div className="flex flex-col md:flex-row md:items-baseline gap-6 md:gap-16">
+                                    <span className="step-number text-5xl md:text-6xl lg:text-7xl font-black text-white/5 font-mono tracking-tighter group-hover:text-white/20 transition-colors duration-700">
+                                        {step.phase}
+                                    </span>
+
+                                    <div className="step-content max-w-xl">
+                                        <h3 className="text-3xl md:text-4xl lg:text-5xl font-bold uppercase tracking-tight mb-6 group-hover:pl-4 transition-all duration-500">
+                                            {step.title}
+                                        </h3>
+                                        <div className="step-line w-16 h-[1px] bg-white/30 mb-6"></div>
+                                        <p className="text-white/40 font-light leading-relaxed text-base md:text-lg italic max-w-md">
+                                            {step.desc}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </div>
-            {/* Background Decoration */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full opacity-[0.02] pointer-events-none select-none">
-                <div className="flex flex-col items-center justify-center h-full text-[30vw] font-black text-white leading-none">
-                    <span>ARCHI</span>
-                    <span>MADE</span>
-                </div>
-            </div>
+
             {/* Giant Overlapping Title — Perfectly Centered on Border */}
             <div className="absolute bottom-0 right-10 md:right-24 pointer-events-none z-[60] translate-y-1/2">
                 <div className="relative">
@@ -1637,6 +1610,7 @@ function ArchiProcess() {
         </section>
     );
 }
+
 
 
 
@@ -2051,7 +2025,7 @@ function ArchiGallery() {
     }, []);
 
     return (
-        <section id="réalisations" ref={sectionRef} className="relative w-full bg-transparent font-display z-50 flex flex-col items-center pt-30 md:pt-48 pb-25 px-4 md:px-20 overflow-hidden">
+        <section id="realisations" ref={sectionRef} className="relative w-full bg-transparent font-display z-50 flex flex-col items-center pt-30 md:pt-48 pb-25 px-4 md:px-20 xl:pl-[15vw] overflow-hidden">
             {/* Background Decorative Curves */}
             <div className="absolute inset-0 pointer-events-none opacity-[0.05] overflow-hidden">
                 <svg className="w-full h-full" viewBox="0 0 1000 1000" preserveAspectRatio="none">
@@ -2076,13 +2050,13 @@ function ArchiGallery() {
                 {PROJECTS.map((project, i) => (
                     <div
                         key={i}
-                        className="project-block relative w-full flex flex-col cursor-pointer group"
+                        className="project-block relative w-full flex flex-col cursor-pointer group pt-12 md:pt-20"
                         onClick={() => setSelectedProject(project)}
                     >
-                        {/* Project Title (Large, Overlapping Top-Right) */}
-                        <div className="absolute -top-[1.5em] right-0 md:right-0 z-30 pointer-events-none transition-transform duration-700 group-hover:-translate-y-2 text-right">
-                            <h3 className="text-5xl md:text-8xl lg:text-[5vw] font-medium tracking-tighter text-black leading-none lowercase">
-                                {project.title.replace(/\s/g, '-')}
+                        {/* Project Title (Left on Mobile, Right on Desktop - On Border) */}
+                        <div className="absolute top-0 left-0 md:left-auto md:right-0 z-30 pointer-events-none transition-transform duration-700 group-hover:-translate-y-2 translate-y-[-50%] bg-transparent pr-8 md:pr-0 md:pl-8 text-left md:text-right">
+                            <h3 className="text-3xl md:text-5xl lg:text-[4vw] font-medium tracking-tighter text-black leading-none first-letter:uppercase">
+                                {project.title}
                             </h3>
                         </div>
 
@@ -2144,11 +2118,11 @@ function TechnicalShowcase() {
     const sectionRef = useRef<HTMLElement>(null);
 
     const RENDER_IMAGES = [
-        { title: "Maison Veigné", type: "Résidentiel", img: "/IMAGES/3D/Construction d_une maison individuelle 37250 Veigné.png" },
-        { title: "Maison Montlouis", type: "Résidentiel", img: "/IMAGES/3D/Construction d_une maison individuelle Montlouis sur Loire 37270.png" },
-        { title: "Maison Joué-lès-Tours", type: "Résidentiel", img: "/IMAGES/3D/Construction d_une maison individuelle joue les tours 37300.png" },
-        { title: "Extension Mirabeau", type: "Extension", img: "/IMAGES/3D/Création d_une extension 13170 Les pennes Mirabeau.png" },
-        { title: "Façades Saintes", type: "Professionnel", img: "/IMAGES/3D/Modifications de façades d_un entrepôt 17100 saintes.png" }
+        { title: "Maison Veigné", img: IMAGES.renders.veigne },
+        { title: "Maison Montlouis", img: IMAGES.renders.montlouis },
+        { title: "Maison Joué-lès-Tours", img: IMAGES.renders.joue },
+        { title: "Extension Mirabeau", img: IMAGES.renders.mirabeau },
+        { title: "Façades Saintes", img: IMAGES.renders.saintes }
     ];
 
     useLayoutEffect(() => {
@@ -2242,7 +2216,7 @@ function TechnicalShowcase() {
                 {/* Massive Title Section */}
                 <div className="mb-20 md:mb-40 title-reveal-container flex flex-col items-end text-right">
                     <div className="flex items-center justify-end gap-4 mb-6 md:mb-8 overflow-hidden">
-                        <span className="text-[9px] md:text-xs font-mono uppercase tracking-[0.5em] text-black/60 title-line block">Studio Vault 3D</span>
+                        <span className="text-[9px] md:text-xs font-mono uppercase tracking-[0.5em] text-black/60 title-line block">Studio 3D</span>
                         <div className="w-8 md:w-12 h-[1px] bg-black/40 title-line"></div>
                     </div>
                     <h2 className="text-[9vw] md:text-[7vw] font-black uppercase tracking-tighter leading-[0.85]">
@@ -2254,7 +2228,13 @@ function TechnicalShowcase() {
                 {/* Alternating Image Blocks */}
                 <div className="space-y-25 md:space-y-40">
                     {RENDER_IMAGES.map((item, i) => (
-                        <div key={i} className={`render-block relative flex flex-col ${i % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} items-center gap-8 md:gap-20`}>
+                        <div key={i} className={`render-block relative flex flex-col ${i % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} items-center gap-8 md:gap-20 pt-12 md:pt-20`}>
+                            {/* Project Title on Border - Left on Mobile, Right on Desktop */}
+                            <div className="absolute top-0 left-0 md:left-auto md:right-0 z-30 pointer-events-none translate-y-[-50%] bg-[#e5e5e5] pr-6 md:pr-0 md:pl-6 text-left md:text-right">
+                                <h3 className="text-2xl md:text-4xl lg:text-5xl font-black tracking-tighter leading-none text-[#0a0a0a] first-letter:uppercase">
+                                    {item.title}
+                                </h3>
+                            </div>
 
                             {/* Image Container with Reveal Mask */}
                             <div className="w-full md:w-[60%] relative group overflow-hidden rounded-sm md:rounded-md">
@@ -2266,30 +2246,12 @@ function TechnicalShowcase() {
                                         className="inner-image absolute top-[-10%] left-0 w-full h-[120%] object-cover grayscale-[30%] group-hover:grayscale-0 transition-all duration-1000"
                                     />
                                 </div>
-                                {/* HUD Overlay */}
-                                <div className="absolute top-4 left-4 right-4 flex justify-between pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-20">
-                                    <div className="border border-white/40 bg-white/40 backdrop-blur-md p-2 text-[6px] md:text-[8px] font-mono uppercase tracking-[0.3em] text-black font-bold">
-                                        SCAN_ID_{i + 1}
-                                    </div>
-                                    <div className="border border-white/40 bg-white/40 backdrop-blur-md p-2 text-[6px] md:text-[8px] font-mono uppercase tracking-[0.3em] text-black font-bold">
-                                        BUFFER: RAW
-                                    </div>
-                                </div>
+
                             </div>
 
                             {/* Typography Content */}
                             <div className={`w-full md:w-[40%] flex flex-col ${i % 2 === 0 ? 'items-start text-left' : 'items-end text-right'}`}>
-                                <div className={`meta-reveal flex items-center gap-4 mb-4 md:mb-6 w-full ${i % 2 === 0 ? 'justify-start' : 'justify-end'}`}>
-                                    {i % 2 !== 0 && <div className="w-8 h-[1px] bg-black/30 line-reveal"></div>}
-                                    <span className="text-[9px] md:text-[10px] font-mono uppercase tracking-[0.4em] text-black/50">{item.type}</span>
-                                    {i % 2 === 0 && <div className="w-8 h-[1px] bg-black/30 line-reveal"></div>}
-                                </div>
-
-                                <h3 className="text-3xl md:text-5xl lg:text-6xl font-black uppercase tracking-tighter leading-[0.9] title-reveal text-[#0a0a0a]">
-                                    {item.title}
-                                </h3>
-
-                                <p className={`mt-6 text-black/60 font-light text-xs md:text-sm max-w-sm title-reveal leading-relaxed ${i % 2 === 0 ? 'mr-auto' : 'ml-auto'}`}>
+                                <p className="mt-2 text-black/60 font-light text-xs md:text-sm max-w-sm title-reveal leading-relaxed">
                                     Des rendus haute définition conçus pour sublimer l'architecture. La lumière, les matériaux et l'atmosphère sont étudiés avec une précision chirurgicale.
                                 </p>
                             </div>
@@ -2394,7 +2356,7 @@ function ArchiValues() {
                                 <span className="text-3xl md:text-5xl font-mono text-white/10 font-black">
                                     {v.num}
                                 </span>
-                                <h3 className="text-4xl md:text-6xl lg:text-7xl font-black uppercase tracking-tighter italic whitespace-nowrap">
+                                <h3 className="text-4xl md:text-6xl lg:text-7xl font-black uppercase tracking-tighter whitespace-nowrap">
                                     {v.title}
                                 </h3>
                             </div>
@@ -2413,207 +2375,202 @@ function ArchiValues() {
     );
 }
 
-// 7. FINAL CTA / CONTACT
+function ArchiFAQ() {
+    const [openFaq, setOpenFaq] = useState<number | null>(null);
+    const sectionRef = useRef<HTMLElement>(null);
+
+    const faqs = [
+        { q: "Quels sont vos délais ?", a: "Nous intervenons généralement sous 1 à 2 semaines selon la complexité du projet." },
+        { q: "Intervenez-vous dans toute la France ?", a: "Oui, nous accompagnons nos clients sur l'ensemble du territoire grâce à notre workflow digital." },
+        { q: "Quels documents dois-je fournir ?", a: "Un plan de masse ou des photos suffisent pour une première étude de faisabilité." }
+    ];
+
+    useLayoutEffect(() => {
+        const ctx = gsap.context(() => {
+            gsap.from(".faq-header", {
+                x: -50,
+                opacity: 0,
+                duration: 1.2,
+                ease: "power4.out",
+                scrollTrigger: {
+                    trigger: sectionRef.current,
+                    start: "top 80%",
+                    toggleActions: "restart none none none"
+                }
+            });
+            gsap.from(".faq-item", {
+                y: 50,
+                opacity: 0,
+                duration: 1,
+                stagger: 0.1,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: sectionRef.current,
+                    start: "top 75%",
+                    toggleActions: "restart none none none"
+                }
+            });
+        }, sectionRef);
+        return () => ctx.revert();
+    }, []);
+
+    return (
+        <section id="faq" ref={sectionRef} className="bg-white text-[#1a1a1a] py-32 md:py-28 relative z-20">
+            <div className="max-w-4xl mx-auto px-6 md:px-20">
+                <div className="faq-header flex items-center gap-4 mb-12">
+                    <div className="w-8 h-[1px] bg-black/10"></div>
+                    <h3 className="text-[10px] uppercase tracking-[0.4em] text-black/30 font-bold font-display">Questions Fréquentes</h3>
+                </div>
+                <div className="space-y-1">
+                    {faqs.map((faq, i) => (
+                        <div key={i} className="faq-item border-b border-black/[0.05]">
+                            <button
+                                onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                                className="w-full py-6 flex justify-between items-center text-left group"
+                            >
+                                <span className="text-sm md:text-base font-bold uppercase tracking-tight group-hover:pl-2 transition-all duration-300">{faq.q}</span>
+                                <div className={cn("w-4 h-4 flex items-center justify-center transition-transform duration-500", openFaq === i ? "rotate-180" : "rotate-0")}>
+                                    <ChevronDown className="w-3 h-3 text-black/20" />
+                                </div>
+                            </button>
+                            <AnimatePresence>
+                                {openFaq === i && (
+                                    <motion.div
+                                        initial={{ height: 0, opacity: 0 }}
+                                        animate={{ height: "auto", opacity: 1 }}
+                                        exit={{ height: 0, opacity: 0 }}
+                                        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                                        className="overflow-hidden"
+                                    >
+                                        <p className="pb-6 text-sm text-black/50 leading-relaxed font-light italic">
+                                            {faq.a}
+                                        </p>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </section>
+    );
+}
+
 function ArchiContact() {
     const sectionRef = useRef<HTMLElement>(null);
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const [selectedProject, setSelectedProject] = useState("VOTRE PROJET...");
-
-    const projectOptions = [
-        "Permis de Construire",
-        "Déclarations Préalables",
-        "Plans Techniques / 3D",
-        "Autre demande"
-    ];
 
     useLayoutEffect(() => {
         const ctx = gsap.context(() => {
             const tl = gsap.timeline({
                 scrollTrigger: {
                     trigger: sectionRef.current,
-                    start: "top 75%",
-                    toggleActions: "play none none reverse"
+                    start: "top 90%",
+                    toggleActions: "restart none none none"
                 }
             });
 
-            // Title animation
-            tl.from(".contact-title-word", {
-                yPercent: 100,
-                opacity: 0,
-                duration: 1.2,
-                stagger: 0.15,
-                ease: "power4.out"
-            })
-                .from(".contact-info", {
-                    opacity: 0,
-                    x: -30,
-                    duration: 1,
-                    stagger: 0.2,
-                    ease: "power3.out"
-                }, "-=1")
-
-                // Form animation
-                .from(".form-line", {
-                    scaleX: 0,
-                    transformOrigin: "left",
-                    duration: 1,
-                    stagger: 0.15,
-                    ease: "expo.out"
-                }, "-=1")
-                .from(".form-input", {
-                    y: 20,
-                    opacity: 0,
-                    duration: 0.8,
-                    stagger: 0.15,
-                    ease: "power2.out"
-                }, "-=0.8")
-                .from(".submit-btn", {
-                    y: 30,
-                    opacity: 0,
-                    duration: 1,
-                    ease: "expo.out"
-                }, "-=0.5");
-
+            tl.fromTo(".contact-title",
+                { y: 80, opacity: 0 },
+                { y: 0, opacity: 1, duration: 1.2, ease: "power4.out", overwrite: "auto" }
+            )
+                .fromTo(".contact-desc",
+                    { y: 40, opacity: 0 },
+                    { y: 0, opacity: 1, duration: 0.8, ease: "power3.out", overwrite: "auto" },
+                    "-=0.8"
+                )
+                .fromTo(".contact-info-item",
+                    { y: 30, opacity: 0 },
+                    { y: 0, opacity: 1, duration: 0.7, stagger: 0.1, ease: "power3.out", overwrite: "auto" },
+                    "-=0.5"
+                )
+                .fromTo(".contact-form-card",
+                    { y: 60, opacity: 0, scale: 0.97 },
+                    { y: 0, opacity: 1, scale: 1, duration: 1, ease: "power3.out", overwrite: "auto" },
+                    "-=0.8"
+                )
+                .fromTo(".contact-footer-bar",
+                    { y: 20, opacity: 0 },
+                    { y: 0, opacity: 1, duration: 0.6, ease: "power2.out", overwrite: "auto" },
+                    "-=0.4"
+                );
         }, sectionRef);
         return () => ctx.revert();
     }, []);
 
     return (
-        <section ref={sectionRef} id="contact" className="py-22 md:py-20 bg-[#f5f5f5] text-[#0a0a0a] font-display relative overflow-hidden z-40 md:pl-0 lg:pl-50">
-            {/* Very subtle background texture/grid */}
-            <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#000 1px, transparent 1px)', backgroundSize: '40px 40px' }}></div>
-
-            <div className="max-w-7xl mx-auto px-6 md:px-20 relative z-10 flex flex-col lg:flex-row gap-20 xl:gap-40">
-
-                {/* Left Side: Info */}
-                <div className="flex-1 space-y-16 md:space-y-24">
-                    <div className="space-y-6">
-                        <div className="flex items-center gap-4 overflow-hidden">
-                            <div className="w-8 h-[1px] bg-black/40"></div>
-                            <span className="text-[10px] md:text-xs uppercase tracking-[0.5em] text-black/40 font-bold block">Contact</span>
+        <footer
+            ref={sectionRef}
+            id="contact"
+            className="lg:sticky lg:bottom-0 relative z-0 bg-white text-[#1a1a1a] font-display overflow-hidden w-full min-h-screen py-24 lg:py-0 lg:h-screen flex flex-col justify-center"
+        >
+            <div className="max-w-7xl mx-auto px-6 md:px-16 lg:px-24 w-full relative z-10">
+                <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-12 lg:gap-20">
+                    {/* Left: Content */}
+                    <div className="lg:w-1/2 space-y-10">
+                        <div className="space-y-6">
+                            <h2 className="contact-title text-5xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter leading-none">
+                                CONTACT
+                            </h2>
+                            <p className="contact-desc text-black/40 text-base md:text-lg font-light leading-relaxed max-w-md">
+                                Une question ou un projet à nous soumettre ? <br />
+                                Utilisez le formulaire pour toute demande d'information.
+                            </p>
                         </div>
-                        <h2 className="text-[13vw] lg:text-[7vw] font-black tracking-tighter uppercase leading-[0.85]">
-                            <div className="overflow-hidden"><span className="block contact-title-word">Lancez</span></div>
-                            <div className="overflow-hidden"><span className="block contact-title-word">Votre</span></div>
-                            <div className="overflow-hidden"><span className="block contact-title-word text-black/30 italic">Projet.</span></div>
-                        </h2>
+
+                        <div className="flex flex-col sm:flex-row lg:flex-col xl:flex-row gap-10 lg:gap-12 pt-8 border-t border-black/5">
+                            <div className="contact-info-item space-y-2">
+                                <div className="flex items-center gap-3 text-black/30">
+                                    <Mail className="w-4 h-4" />
+                                    <span className="text-[9px] uppercase tracking-widest font-bold">Email</span>
+                                </div>
+                                <a href="mailto:contact@archimade.studio" className="text-lg font-bold hover:opacity-50 transition-opacity whitespace-nowrap">contact@archimade.studio</a>
+                            </div>
+                            <div className="contact-info-item space-y-2">
+                                <div className="flex items-center gap-3 text-black/30">
+                                    <Phone className="w-4 h-4" />
+                                    <span className="text-[9px] uppercase tracking-widest font-bold">Téléphone</span>
+                                </div>
+                                <a href="tel:+33123456789" className="text-lg font-bold hover:opacity-50 transition-opacity whitespace-nowrap">+33 1 23 45 67 89</a>
+                            </div>
+                        </div>
                     </div>
 
-                    <div className="space-y-10">
-                        <div className="contact-info flex items-center gap-6 md:gap-8 group cursor-pointer">
-                            <div className="w-14 h-14 md:w-16 md:h-16 rounded-full border border-black/10 flex items-center justify-center group-hover:bg-[#0a0a0a] group-hover:border-[#0a0a0a] transition-all duration-500 overflow-hidden relative">
-                                <div className="absolute inset-0 bg-[#0a0a0a] translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"></div>
-                                <Mail className="w-5 h-5 md:w-6 md:h-6 text-[#0a0a0a] group-hover:text-white transition-colors duration-500 relative z-10" />
-                            </div>
-                            <div>
-                                <p className="text-[9px] md:text-[10px] uppercase tracking-[0.3em] text-black/40 mb-1 md:mb-2 font-bold">Email</p>
-                                <p className="text-lg md:text-2xl font-bold tracking-tighter">contact@archimade.studio</p>
-                            </div>
-                        </div>
-
-                        <div className="contact-info flex items-center gap-6 md:gap-8 group cursor-pointer">
-                            <div className="w-14 h-14 md:w-16 md:h-16 rounded-full border border-black/10 flex items-center justify-center group-hover:bg-[#0a0a0a] group-hover:border-[#0a0a0a] transition-all duration-500 overflow-hidden relative">
-                                <div className="absolute inset-0 bg-[#0a0a0a] translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"></div>
-                                <Phone className="w-5 h-5 md:w-6 md:h-6 text-[#0a0a0a] group-hover:text-white transition-colors duration-500 relative z-10" />
-                            </div>
-                            <div>
-                                <p className="text-[9px] md:text-[10px] uppercase tracking-[0.3em] text-black/40 mb-1 md:mb-2 font-bold">Téléphone</p>
-                                <p className="text-lg md:text-2xl font-bold tracking-tighter">+33 1 23 45 67 89</p>
-                            </div>
-                        </div>
-
-                        <div className="contact-info flex items-center gap-6 md:gap-8 group cursor-pointer">
-                            <div className="w-14 h-14 md:w-16 md:h-16 rounded-full border border-black/10 flex items-center justify-center group-hover:bg-[#0a0a0a] group-hover:border-[#0a0a0a] transition-all duration-500 overflow-hidden relative">
-                                <div className="absolute inset-0 bg-[#0a0a0a] translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"></div>
-                                <Instagram className="w-5 h-5 md:w-6 md:h-6 text-[#0a0a0a] group-hover:text-white transition-colors duration-500 relative z-10" />
-                            </div>
-                            <div>
-                                <p className="text-[9px] md:text-[10px] uppercase tracking-[0.3em] text-black/40 mb-1 md:mb-2 font-bold">Instagram</p>
-                                <p className="text-lg md:text-2xl font-bold tracking-tighter">@archimade.studio</p>
-                            </div>
+                    {/* Right: Premium Card */}
+                    <div className="contact-form-card lg:w-[500px] xl:w-[580px] w-full">
+                        <div className="bg-[#0a0a0a] p-8 md:p-12 lg:p-14 rounded-2xl border border-black/5 shadow-2xl relative overflow-hidden text-white">
+                            <h3 className="text-xl font-bold uppercase tracking-tight mb-8">Me contacter</h3>
+                            <form className="space-y-6 md:space-y-8" onSubmit={(e) => e.preventDefault()}>
+                                <div className="space-y-2">
+                                    <label className="text-[8px] uppercase tracking-widest text-white/30 font-bold">Nom</label>
+                                    <input type="text" className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-4 text-sm focus:border-white/30 outline-none transition-all placeholder:text-white/15 text-white" placeholder="Votre nom" />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-[8px] uppercase tracking-widest text-white/30 font-bold">Email</label>
+                                    <input type="email" className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-4 text-sm focus:border-white/30 outline-none transition-all placeholder:text-white/15 text-white" placeholder="votreemail@exemple.com" />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-[8px] uppercase tracking-widest text-white/30 font-bold">Message</label>
+                                    <textarea rows={3} className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-4 text-sm focus:border-white/30 outline-none transition-all resize-none placeholder:text-white/15 text-white" placeholder="Parlez-moi de votre projet..." />
+                                </div>
+                                <button className="w-full py-5 bg-white text-black text-[10px] font-black uppercase tracking-[0.4em] rounded-lg hover:bg-opacity-90 transition-all duration-300 transform hover:-translate-y-1">
+                                    Envoyer le message
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>
 
-                {/* Right Side: Form */}
-                <div className="flex-1 lg:max-w-lg mt-10 lg:mt-0">
-                    <form className="space-y-10 md:space-y-12 bg-white p-8 md:p-14 shadow-2xl border border-black/5 rounded-2xl relative" onSubmit={(e) => e.preventDefault()}>
-
-                        <div className="space-y-3 relative overflow-hidden">
-                            <label className="text-[8px] md:text-[9px] uppercase tracking-[0.3em] text-black/40 font-bold block form-input">Nom Complet</label>
-                            <input type="text" className="w-full bg-transparent py-2 font-medium focus:outline-none text-sm md:text-base tracking-widest form-input placeholder:text-black/10" placeholder="VOTRE NOM" />
-                            <div className="absolute bottom-0 left-0 w-full h-[1px] bg-black/10"></div>
-                            <div className="absolute bottom-0 left-0 w-full h-[2px] bg-black form-line"></div>
-                        </div>
-
-                        <div className="space-y-3 relative overflow-hidden">
-                            <label className="text-[8px] md:text-[9px] uppercase tracking-[0.3em] text-black/40 font-bold block form-input">Email</label>
-                            <input type="email" className="w-full bg-transparent py-2 font-medium focus:outline-none text-sm md:text-base tracking-widest form-input placeholder:text-black/10" placeholder="NOM@EXEMPLE.COM" />
-                            <div className="absolute bottom-0 left-0 w-full h-[1px] bg-black/10"></div>
-                            <div className="absolute bottom-0 left-0 w-full h-[2px] bg-black form-line"></div>
-                        </div>
-
-                        <div className="space-y-3 relative z-50">
-                            <label className="text-[8px] md:text-[9px] uppercase tracking-[0.3em] text-black/40 font-bold block form-input">Quel est votre projet ?</label>
-
-                            <div className="relative form-input">
-                                <button
-                                    type="button"
-                                    onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                                    className="w-full bg-transparent py-2 flex items-center justify-between focus:outline-none text-sm md:text-base tracking-widest text-left"
-                                >
-                                    <span className={selectedProject === "VOTRE PROJET..." ? "text-black/30 font-medium" : "text-black/80 font-bold"}>
-                                        {selectedProject}
-                                    </span>
-                                    <ChevronDown className={`w-4 h-4 text-black/40 transition-transform duration-300 ${isDropdownOpen ? 'rotate-180' : ''}`} />
-                                </button>
-
-                                {/* Dropdown Menu */}
-                                <AnimatePresence>
-                                    {isDropdownOpen && (
-                                        <motion.div
-                                            initial={{ opacity: 0, y: 10 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            exit={{ opacity: 0, y: 10 }}
-                                            transition={{ duration: 0.2 }}
-                                            className="absolute top-full left-0 w-full mt-4 bg-white border border-black/5 shadow-[0_20px_40px_-10px_rgba(0,0,0,0.1)] z-[100] rounded-md overflow-hidden"
-                                        >
-                                            {projectOptions.map((opt, i) => (
-                                                <div
-                                                    key={i}
-                                                    onClick={() => {
-                                                        setSelectedProject(opt);
-                                                        setIsDropdownOpen(false);
-                                                    }}
-                                                    className="px-6 py-4 text-[10px] md:text-xs uppercase tracking-[0.2em] font-bold text-black/50 hover:text-black hover:bg-[#f5f5f5] cursor-pointer transition-colors border-b border-black/5 last:border-none"
-                                                >
-                                                    {opt}
-                                                </div>
-                                            ))}
-                                        </motion.div>
-                                    )}
-                                </AnimatePresence>
-                            </div>
-
-                            <div className="absolute bottom-0 left-0 w-full h-[1px] bg-black/10"></div>
-                            <div className="absolute bottom-0 left-0 w-full h-[2px] bg-black form-line"></div>
-                        </div>
-
-                        <div className="space-y-3 relative overflow-hidden">
-                            <label className="text-[8px] md:text-[9px] uppercase tracking-[0.3em] text-black/40 font-bold block form-input">Message</label>
-                            <textarea rows={3} className="w-full bg-transparent py-2 font-medium focus:outline-none text-sm md:text-base tracking-widest form-input resize-none placeholder:text-black/10" placeholder="DÉTAILS DU PROJET..." />
-                            <div className="absolute bottom-0 left-0 w-full h-[1px] bg-black/10"></div>
-                            <div className="absolute bottom-0 left-0 w-full h-[2px] bg-black form-line"></div>
-                        </div>
-
-                        <button className="submit-btn w-full py-5 md:py-6 mt-8 bg-[#0a0a0a] text-white text-[9px] md:text-[10px] uppercase tracking-[0.4em] font-bold hover:bg-black transition-all duration-300 overflow-hidden relative group rounded-md">
-                            <span className="relative z-10 group-hover:text-white transition-colors duration-300">Envoyer la demande</span>
-                            <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"></div>
-                        </button>
-                    </form>
+                {/* Footer Bottom */}
+                <div className="contact-footer-bar mt-12 md:mt-16 lg:mt-24 pt-8 md:pt-10 border-t border-black/5 flex flex-col md:flex-row justify-between items-center opacity-30 text-[9px] uppercase tracking-[0.2em] font-bold">
+                    <p>© {new Date().getFullYear()} ArchiMade Studio — France</p>
+                    <div className="flex gap-8 mt-4 md:mt-0">
+                        <a href="#" className="hover:text-black transition-colors">Mentions légales</a>
+                        <a href="#" className="hover:text-black transition-colors">Politique de confidentialité</a>
+                        <a href="#" className="hover:text-black transition-colors">Cookies</a>
+                    </div>
                 </div>
             </div>
-        </section>
+        </footer>
     );
 }
 
@@ -2656,6 +2613,16 @@ export default function ArchiMadeLanding() {
                     delay: 0.2,
                     clearProps: "all"
                 });
+
+
+                // Hide sidebar when reaching Contact
+                ScrollTrigger.create({
+                    trigger: "#contact",
+                    start: "top 80%",
+                    onEnter: () => gsap.to(".archi-sidebar", { opacity: 0, pointerEvents: "none", duration: 0.5 }),
+                    onLeaveBack: () => gsap.to(".archi-sidebar", { opacity: 1, pointerEvents: "auto", duration: 0.5 }),
+                });
+
             }, mainRef);
             return () => ctx.revert();
         }
@@ -2678,8 +2645,25 @@ export default function ArchiMadeLanding() {
                     <ArchiBackground />
                     <ArchiMobileSocials />
 
+                    {/* Sticky Contact Button */}
+                    <motion.div
+                        initial={{ opacity: 0, x: 50 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 1.5, duration: 1 }}
+                        className="fixed bottom-8 left-8 md:bottom-12 md:left-12 xl:right-[-60px] xl:top-1/2 xl:-translate-y-1/2 xl:bottom-auto xl:left-auto z-[150] pointer-events-none mix-blend-difference"
+                    >
+                        <a
+                            href="#contact"
+                            className="pointer-events-auto group relative flex items-center justify-center bg-white text-black w-14 h-14 md:w-auto md:h-auto md:px-8 md:py-4 xl:px-10 xl:py-5 rounded-full xl:rounded-t-full xl:rounded-b-none overflow-hidden transition-all duration-500 hover:pr-14 xl:rotate-[-90deg] xl:origin-center"
+                        >
+                            <span className="hidden md:block text-[10px] font-bold uppercase tracking-[0.4em] relative z-10 whitespace-nowrap">Nous contacter</span>
+                            <Phone className="w-5 h-5 md:hidden relative z-10" />
+                            <ArrowUpRight className="w-4 h-4 absolute right-6 opacity-0 group-hover:opacity-100 translate-x-4 group-hover:translate-x-0 transition-all duration-500" />
+                        </a>
+                    </motion.div>
+
                     {/* Desktop Left Fixed Frame Column */}
-                    <div className="archi-sidebar fixed top-0 left-0 bottom-0 w-[25vw] z-[100] hidden xl:flex flex-col justify-between pt-16 pb-12 px-12 lg:px-16 pointer-events-none mix-blend-difference text-white">
+                    <div className="archi-sidebar fixed top-0 left-0 bottom-0 w-[25vw] z-[200] hidden xl:flex flex-col justify-between pt-16 pb-12 px-12 lg:px-16 pointer-events-none mix-blend-difference text-white">
                         <div className="pointer-events-auto">
                             <ArchiNav />
                         </div>
@@ -2695,39 +2679,19 @@ export default function ArchiMadeLanding() {
                             <ArchiHero />
                         </div>
 
-                        <ArchiVision />
+                        {/* <ArchiVision /> */}
                         <ArchiAbout />
                         <ArchiServices />
                         <ArchiProcess />
                         <ArchiGallery />
 
                         <TechnicalShowcase />
-                        <ArchiValues />
+                        <div className="relative z-20 bg-white">
+                            <ArchiValues />
+                            <ArchiFAQ />
+                        </div>
                         <ArchiContact />
                     </main>
-
-                    {/* Footer */}
-                    {/* <footer className="py-0 px-10 md:px-20 bg-white border-t border-[#0a0a0a]/5 font-display">
-                        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-16">
-                            <div className="flex flex-col items-center md:items-start text-center md:text-left">
-
-                                <p className="text-[10px] uppercase tracking-[0.4em] text-[#0a0a0a]/40 mt-8 font-bold">
-                                    © 2026 ArchiMade Studio. Accompagnement architectural premium.<br />
-                                    Toute reproduction interdite.
-                                </p>
-                            </div>
-                            <div className="flex flex-col md:flex-row gap-10 items-center md:items-end">
-                                <div className="text-center md:text-right space-y-2">
-                                    <p className="text-[10px] uppercase tracking-widest text-[#0a0a0a]/40 font-bold">Localisation</p>
-                                    <p className="text-xs font-bold uppercase">Intervention France Entière</p>
-                                </div>
-                                <div className="flex gap-8 border-l border-black/10 pl-8">
-                                    <a href="#" className="text-[10px] uppercase tracking-widest text-[#0a0a0a]/40 hover:text-[#0a0a0a] font-bold transition-colors">Mentions Légales</a>
-                                    <a href="#" className="text-[10px] uppercase tracking-widest text-[#0a0a0a]/40 hover:text-[#0a0a0a] font-bold transition-colors">Confidentialité</a>
-                                </div>
-                            </div>
-                        </div>
-                    </footer> */}
 
                     {/* Global Animation Styles */}
                     <style dangerouslySetInnerHTML={{

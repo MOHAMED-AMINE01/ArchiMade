@@ -10,7 +10,7 @@
 }
 
 :root {
-  cursor: none;
+  /* Cursor restored to default */
 }
 
 ::-webkit-scrollbar {
@@ -22,10 +22,3 @@
   -ms-overflow-style: none;
 }
 
-html, body {
-  cursor: none !important;
-}
-
-a, button {
-  cursor: none !important;
-}
