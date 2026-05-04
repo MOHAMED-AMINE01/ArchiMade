@@ -91,7 +91,7 @@ const PROJECTS = [
         specs: ["Architecture"]
     },
     {
-        title: "Extension Contemporaine",
+        title: "Extension contemporaine",
         city: "Esvres",
         year: "2022",
         type: "Extension",
@@ -99,25 +99,6 @@ const PROJECTS = [
         beforePath: IMAGES.projects.esvres.before,
         gallery: [IMAGES.projects.esvres.main, IMAGES.projects.esvres.before],
         specs: ["Ossature Bois", "Légèreté"]
-    },
-    {
-        title: "Maison Fondettes",
-        city: "Fondettes",
-        year: "2023",
-        type: "Neuf",
-        path: IMAGES.projects.fondettes.main,
-        beforePath: IMAGES.renders.montlouis, // On garde celui-ci si on n'a pas de vrai 'avant', ou on l'enlève
-        gallery: [IMAGES.projects.fondettes.main],
-        specs: ["Contemporain", "Grande Baies"]
-    },
-    {
-        title: "Maison Saint-Branchs",
-        city: "Saint-Branchs",
-        year: "2023",
-        type: "Neuf",
-        path: IMAGES.projects.branchs.main,
-        gallery: [IMAGES.projects.branchs.main],
-        specs: ["Modernité", "Toiture Tuiles"]
     },
     {
         title: "Villa Saint-Cyr",
@@ -129,7 +110,7 @@ const PROJECTS = [
         specs: ["Haut de gamme", "Design épuré"]
     },
     {
-        title: "Projet La Suze",
+        title: "Projet La Suze-sur-Sarthe",
         city: "La Suze-sur-Sarthe",
         year: "2023",
         type: "Neuf",
@@ -138,26 +119,7 @@ const PROJECTS = [
         specs: ["Volume", "Clarté"]
     },
     {
-        title: "Villa Ligne",
-        city: "Ligueil",
-        year: "2023",
-        type: "Minimalisme",
-        path: IMAGES.projects.ligueil.main,
-        gallery: [IMAGES.projects.ligueil.main],
-        specs: ["Toit Mono-pente", "Finition Enduit"]
-    },
-    {
-        title: "Surélévation Garage",
-        city: "Chambray-lès-Tours",
-        year: "2022",
-        type: "Surélévation",
-        path: IMAGES.projects.chambray.main,
-        beforePath: IMAGES.projects.chambray.before,
-        gallery: [IMAGES.projects.chambray.before, IMAGES.projects.chambray.main],
-        specs: ["Gain d'espace", "Optimisation"]
-    },
-    {
-        title: "Extension Saint-Cyr",
+        title: "Extension Saint-Cyr-sur-Loire",
         city: "Saint-Cyr-sur-Loire",
         year: "2022",
         type: "Extension",
@@ -167,7 +129,7 @@ const PROJECTS = [
         specs: ["Harmonie", "Transition"]
     },
     {
-        title: "Réhabilitation Bureaux",
+        title: "Réhabilitation bureaux",
         city: "Chanceaux-sur-Choisille",
         year: "2023",
         type: "Tertiaire",
@@ -462,46 +424,78 @@ function ArchiPreloader({ onComplete }: { onComplete: () => void }) {
 }
 // --- COMPONENTS ---
 
-const ArchiLogo = ({ className = "", light = false }: { className?: string; light?: boolean }) => (
-    <div className={cn("pointer-events-auto", className)}>
+const ArchiLogo = ({ className = "", light = false, isScrolling = false }: { className?: string; light?: boolean; isScrolling?: boolean }) => (
+    <div className={cn("pointer-events-auto transition-all duration-700 transform-gpu bg-[rgba(255,255,255,0.01)] rounded-xl", className, isScrolling && "scale-75 opacity-40")}>
         <img
             src="/Logo ArchiMade.png"
             alt="ArchiMade Logo"
             className={cn(
-                "logo-img h-16 md:h-28 scale-280 md:scale-200 xl:scale-200 ml-10 w-auto object-contain transition-all duration-500 brightness-0 invert",
+                "logo-img h-16 md:h-28 scale-280 md:scale-200 xl:scale-200 ml-5 w-auto object-contain transition-all duration-500 brightness-0 invert",
                 light && "brightness-0 invert"
             )}
         />
     </div>
 );
 
-const ArchiMobileSocials = () => (
-    <div className="fixed bottom-6 right-6 z-[250] flex flex-col gap-4 xl:hidden pointer-events-auto mix-blend-difference">
-        <motion.a
-            href="#"
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 1, duration: 0.8 }}
-            className="w-12 h-12 rounded-full border border-white/20 bg-white/5 backdrop-blur-md flex items-center justify-center group hover:border-white transition-all duration-500 overflow-hidden relative"
+const ArchiMobileSocials = () => {
+    const [isHero, setIsHero] = useState(true);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            if (window.scrollY > window.innerHeight * 0.4) {
+                setIsHero(false);
+            } else {
+                setIsHero(true);
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        // Trigger once on mount
+        handleScroll();
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
+    return (
+        <div
+            className={cn(
+                "archi-mobile-socials fixed z-[250] flex flex-col gap-4 xl:hidden pointer-events-auto transition-all duration-700 ease-[cubic-bezier(0.76,0,0.24,1)]",
+                isHero ? "top-[50%] -translate-y-1/2 right-4" : "top-[calc(100dvh-140px)] -translate-y-0 right-6"
+            )}
         >
-            <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"></div>
-            <Facebook className="w-5 h-5 text-white group-hover:text-black transition-colors duration-500 relative z-10" />
-        </motion.a>
-        <motion.a
-            href="#"
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 1.1, duration: 0.8 }}
-            className="w-12 h-12 rounded-full border border-white/20 bg-white/5 backdrop-blur-md flex items-center justify-center group hover:border-white transition-all duration-500 overflow-hidden relative"
-        >
-            <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"></div>
-            <Instagram className="w-5 h-5 text-white group-hover:text-black transition-colors duration-500 relative z-10" />
-        </motion.a>
-    </div>
-);
+            <motion.a
+                href="https://facebook.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 1, duration: 0.8 }}
+                className="w-12 h-12 rounded-full border-2 border-[#1877F2] bg-[#0a0a0a] flex items-center justify-center transition-all duration-300 shadow-xl group"
+            >
+                <Facebook className="w-5 h-5 text-white group-hover:scale-110 transition-transform" />
+            </motion.a>
+            <motion.a
+                href="https://instagram.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 1.1, duration: 0.8 }}
+                className="relative w-12 h-12 rounded-full p-[2px] bg-gradient-to-tr from-[#f9ce34] via-[#ee2a7b] to-[#6228d7] flex items-center justify-center transition-all duration-300 shadow-xl group"
+            >
+                <div className="w-full h-full rounded-full bg-[#0a0a0a] flex items-center justify-center">
+                    <Instagram className="w-5 h-5 text-white group-hover:scale-110 transition-transform" />
+                </div>
+            </motion.a>
+        </div>
+    );
+};
 
 // --- NAVIGATION (DESKTOP) ---
-function ArchiNav() {
+function ArchiNav({ showOnly, isScrolling }: { showOnly?: 'menu' | 'socials', isScrolling?: boolean }) {
     const menuItems = [
         { name: "À propos", slug: "propos" },
         { name: "Méthode", slug: "methodes" },
@@ -512,47 +506,69 @@ function ArchiNav() {
     ];
 
     return (
-        <nav className="flex flex-col items-start gap-12 font-sans">
+        <nav className="flex flex-col items-start gap-12 font-sans pointer-events-none">
             {/* MAIN MENU */}
-            <ul className="flex flex-col items-start gap-1">
-                {menuItems.map((item, i) => (
-                    <ArchiReveal key={item.slug} delay={0.4 + i * 0.1}>
-                        <li className="overflow-hidden group">
-                            <a
-                                href={`#${item.slug}`}
-                                className="text-4xl lg:text-4xl font-semibold text-inherit block hover:italic transition-all relative"
-                            >
-                                <span className="relative z-10">{item.name}</span>
-                                <div className="nav-underline absolute bottom-1 left-0 w-0 h-[2px] bg-white transition-all duration-500 group-hover:w-full z-0 opacity-20"></div>
-                            </a>
-                        </li>
-                    </ArchiReveal>
-                ))}
-            </ul>
+            {showOnly === 'socials' ? (
+                <div className="h-[280px] w-full pointer-events-none" />
+            ) : (
+                <ul className="flex flex-col items-start gap-1 pointer-events-auto">
+                    {menuItems.map((item, i) => (
+                        <ArchiReveal key={item.slug} delay={0.4 + i * 0.1}>
+                            <li className="overflow-hidden group">
+                                <a
+                                    href={`#${item.slug}`}
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        const target = document.getElementById(item.slug);
+                                        if (target) {
+                                            target.scrollIntoView({ behavior: 'smooth' });
+                                        }
+                                    }}
+                                    className={cn(
+                                        "pointer-events-auto cursor-pointer font-semibold text-inherit block hover:italic transition-all duration-500 relative transform-gpu bg-[rgba(255,255,255,0.01)] rounded-md px-2 -ml-2",
+                                        isScrolling ? "text-2xl opacity-40 scale-90" : "text-4xl lg:text-4xl opacity-100 scale-100"
+                                    )}
+                                >
+                                    <span className="relative z-10">{item.name}</span>
+                                    {!isScrolling && (
+                                        <div className="nav-underline absolute bottom-1 left-0 w-0 h-[2px] bg-white transition-all duration-500 group-hover:w-full z-0 opacity-20"></div>
+                                    )}
+                                </a>
+                            </li>
+                        </ArchiReveal>
+                    ))}
+                </ul>
+            )}
 
-            {/* SNS LINKS */}
-            <div className="flex flex-row items-center gap-4 mt-8">
-                <motion.a
-                    href="#"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.8, duration: 0.8 }}
-                    className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center group hover:border-white transition-all duration-500 overflow-hidden relative"
-                >
-                    <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"></div>
-                    <Facebook className="w-5 h-5 text-white/60 group-hover:text-black transition-colors duration-500 relative z-10" />
-                </motion.a>
-                <motion.a
-                    href="#"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.9, duration: 0.8 }}
-                    className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center group hover:border-white transition-all duration-500 overflow-hidden relative"
-                >
-                    <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"></div>
-                    <Instagram className="w-5 h-5 text-white/60 group-hover:text-black transition-colors duration-500 relative z-10" />
-                </motion.a>
-            </div>
+            {/* SOCIAL LINKS */}
+            {showOnly !== 'menu' && (
+                <div className="flex flex-col gap-6 mt-16 pt-10 pointer-events-auto">
+                    <div className="flex flex-col gap-5">
+                        <motion.a
+                            href="https://facebook.com"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.9 }}
+                            className="w-12 h-12 rounded-full border-2 border-[#1877F2] bg-[#0a0a0a] flex items-center justify-center transition-all duration-300 shadow-xl group"
+                        >
+                            <Facebook className="w-5 h-5 text-white group-hover:scale-110 transition-transform" />
+                        </motion.a>
+                        <motion.a
+                            href="https://instagram.com"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.9 }}
+                            className="relative w-12 h-12 rounded-full p-[2px] bg-gradient-to-tr from-[#f9ce34] via-[#ee2a7b] to-[#6228d7] flex items-center justify-center transition-all duration-300 shadow-xl group"
+                        >
+                            <div className="w-full h-full rounded-full bg-[#0a0a0a] flex items-center justify-center">
+                                <Instagram className="w-5 h-5 text-white group-hover:scale-110 transition-transform" />
+                            </div>
+                        </motion.a>
+                    </div>
+                </div>
+            )}
         </nav>
     );
 }
@@ -612,7 +628,30 @@ function ArchiMenuOverlay({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
             <div className="mt-auto flex flex-col md:flex-row gap-10 md:gap-20">
                 <div className="space-y-2">
                     <p className="text-[10px] uppercase tracking-widest text-white/30 font-bold">Inquiries</p>
-                    <p className="text-xl font-bold tracking-tight hover:opacity-50 transition-opacity">contact@archimade.studio</p>
+                    <p className="text-xl font-bold tracking-tight hover:opacity-50 transition-opacity">contact@archi-made.com</p>
+                </div>
+                <div className="space-y-4">
+                    <p className="text-[10px] uppercase tracking-widest text-white/30 font-bold">Follow us</p>
+                    <div className="flex gap-4">
+                        <a
+                            href="https://facebook.com"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="w-10 h-10 rounded-full border-2 border-[#1877F2] bg-[#0a0a0a] flex items-center justify-center transition-all"
+                        >
+                            <Facebook className="w-4 h-4 text-white" />
+                        </a>
+                        <div className="relative w-10 h-10 rounded-full p-[2px] bg-gradient-to-tr from-[#f9ce34] via-[#ee2a7b] to-[#6228d7] flex items-center justify-center">
+                            <a
+                                href="https://instagram.com"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="w-full h-full rounded-full bg-[#0a0a0a] flex items-center justify-center transition-all"
+                            >
+                                <Instagram className="w-4 h-4 text-white" />
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -629,8 +668,31 @@ function ArchiMenuOverlay({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
 
 // --- FIXED HEADER (MOBILE) ---
 function ArchiHeader({ onMenuClick }: { onMenuClick: () => void }) {
+    const [isHidden, setIsHidden] = useState(false);
+    const [lastScrollY, setLastScrollY] = useState(0);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            const currentScrollY = window.scrollY;
+            if (currentScrollY > lastScrollY && currentScrollY > 100) {
+                setIsHidden(true); // scrolling down
+            } else {
+                setIsHidden(false); // scrolling up
+            }
+            setLastScrollY(currentScrollY);
+        };
+
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, [lastScrollY]);
+
     return (
-        <header className="xl:hidden fixed top-0 left-0 right-0 z-[150] p-8 flex justify-between items-center mix-blend-difference pointer-events-none">
+        <header
+            className={cn(
+                "xl:hidden fixed top-0 left-0 right-0 z-[150] p-8 flex justify-between items-center mix-blend-difference pointer-events-none transition-transform duration-500",
+                isHidden ? "-translate-y-full" : "translate-y-0"
+            )}
+        >
             <div className="pointer-events-auto">
                 <ArchiLogo className="text-white" light />
             </div>
@@ -813,8 +875,8 @@ function ArchiHero() {
                             <div className="outer relative">
                                 <span className="inner block overflow-hidden">
                                     <p className="text block archi-title-reveal text-[12px] md:text-lg text-[#0a0a0a] font-medium leading-tight opacity-70">
-                                        Permis de construire, dossiers administratifs et conceptions techniques.<br />
-                                        Expertise 3D photoréaliste incluse pour chaque projet.
+                                        Permis de construire, déclarations préalables et plans techniques.<br />
+                                        Une approche claire et rigoureuse pour donner forme à vos projets.
                                     </p>
                                 </span>
                             </div>
@@ -1084,7 +1146,6 @@ function ArchiAbout() {
 
     return (
         <section id="propos" ref={sectionRef} className="relative bg-transparent overflow-hidden font-display">
-            <ArchiDrawing type="lines" className="top-10 md:top-20 left-0 w-full opacity-5" trigger={sectionRef} />
             <div className="py-20 md:py-32 xl:pl-[25vw] px-6 md:px-10 xl:pr-20 relative z-10">
                 <div className="space-y-4 md:space-y-6">
                     <span className="text-[9px] md:text-[10px] uppercase tracking-[0.4em] md:tracking-[0.6em] text-[#0a0a0a]/30 font-bold block animate-fade-in">Expertise & Accompagnement</span>
@@ -1101,16 +1162,17 @@ function ArchiAbout() {
 
                 <div className="flex flex-col xl:flex-row gap-12 xl:gap-20 mt-16 md:mt-24">
                     <div className="flex-1 about-subtext">
-                        <p className="text-lg sm:text-xl md:text-2xl xl:text-3xl font-light leading-[1.5] md:leading-[1.4] text-[#0a0a0a] uppercase tracking-tight italic border-l-2 md:border-l-4 border-black pl-6 md:pl-8">
-                            ArchiMade accompagne particuliers et professionnels dans la réalisation de leurs démarches administratives. Nous intervenons sur la production de plans techniques et d’exécution ainsi que sur la modélisation 3D.
+                        <p className="text-lg sm:text-xl md:text-2xl xl:text-3xl font-light leading-[1.5] md:leading-[1.4] text-[#0a0a0a] tracking-tight border-l-2 md:border-l-4 border-black pl-6 md:pl-8">
+                            ArchiMade accompagne particuliers et professionnels dans la préparation de leurs projets de construction.<br />
+                            Plans, démarches, projections 3D : chaque élément est pensé pour rendre le projet plus clair, plus lisible et prêt à avancer.
                         </p>
                         <motion.button
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
                             onClick={() => (window as any).lenis?.scrollTo('#expertise', { duration: 2.5 })}
-                            className="mt-12 group relative flex items-center gap-12 bg-[#0a0a0a] text-white px-8 py-5 rounded-full overflow-hidden transition-all duration-500 shadow-xl"
+                            className="mt-12 group relative flex items-center justify-center gap-4 bg-[#0a0a0a] text-white px-8 py-5 rounded-full overflow-hidden transition-all duration-500 shadow-xl"
                         >
-                            <span className="text-[10px] md:text-xs font-bold uppercase tracking-[0.5em] relative z-10">
+                            <span className="text-[10px] md:text-xs font-bold uppercase tracking-[0.5em] pl-[0.5em] relative z-10">
                                 En savoir plus
                             </span>
                             <div className="relative z-10 flex items-center justify-center">
@@ -1133,7 +1195,7 @@ function ArchiAbout() {
                                 <div className="flex items-baseline">
                                     <span className="stat-number text-4xl sm:text-5xl md:text-7xl font-black block text-[#0a0a0a] tracking-tighter" data-target="0.0">0.0</span>
                                 </div>
-                                <p className="text-[8px] md:text-[9px] uppercase tracking-[0.2em] md:tracking-[0.3em] xl:tracking-[0.5em] font-bold text-[#0a0a0a]/40">DÉLAIS_RETARD</p>
+                                <p className="text-[8px] md:text-[9px] uppercase tracking-[0.2em] md:tracking-[0.3em] xl:tracking-[0.5em] font-bold text-[#0a0a0a]/40">RETARD</p>
                             </div>
                         </div>
                     </div>
@@ -1197,13 +1259,6 @@ function ArchiServices() {
             {/* INTRO DIVIDER BLOCK */}
             <div className="relative py-20 md:py-20 px-10 xl:pl-[25vw] md:pr-20 flex flex-col md:flex-row justify-between items-end gap-16 z-10 bg-transparent">
                 <div className="space-y-8 relative w-full md:w-auto">
-                    <ArchiReveal type="fade" delay={0.1}>
-                        <div className="flex items-center gap-4 md:ml-4">
-                            <div className="w-12 h-[1px] bg-[#0a0a0a]/30"></div>
-                            <span className="text-[10px] text-[#0a0a0a] font-bold uppercase tracking-[0.5em]">Phase 02</span>
-                        </div>
-                    </ArchiReveal>
-
                     <div className="relative">
                         {/* Down Arrow */}
                         <ArchiReveal type="fade" delay={0.4} className="absolute -left-10 md:-left-16 top-6 md:top-8">
@@ -1215,7 +1270,7 @@ function ArchiServices() {
                             </div>
                         </ArchiReveal>
 
-                        <h2 className="text-6xl md:text-8xl lg:text-[8vw] font-black text-[#0a0a0a] uppercase tracking-tighter leading-[0.85] flex flex-col">
+                        <h2 className="text-5xl md:text-8xl lg:text-[7vw] font-black text-[#0a0a0a] uppercase tracking-tighter leading-[0.85] flex flex-col">
                             <ArchiReveal type="up" delay={0.2}>
                                 <span className="block">Studio</span>
                             </ArchiReveal>
@@ -1224,7 +1279,7 @@ function ArchiServices() {
                                     className="block italic text-transparent mt-2"
                                     style={{ WebkitTextStroke: '1px rgba(10,10,10,0.2)' }}
                                 >
-                                    Expertise
+                                    conception
                                 </span>
                             </ArchiReveal>
                         </h2>
@@ -1233,8 +1288,9 @@ function ArchiServices() {
 
                 <div className="md:max-w-[320px] lg:max-w-md border-l border-[#0a0a0a]/20 pl-8 mb-4">
                     <ArchiReveal type="fade" delay={0.5}>
-                        <p className="text-[#0a0a0a]/60 text-[9px] md:text-[10px] lg:text-[11px] font-bold uppercase tracking-[0.15em] leading-[2]">
-                            Une gamme complète de services architecturaux, de la conception initiale à la modélisation 3D avancée. Déployez chaque panneau pour explorer.
+                        <p className="text-[#0a0a0a]/60 text-[9px] md:text-[10px] lg:text-[11px] font-bold tracking-[0.15em] leading-[2]">
+                            Une approche complète pour préparer, dessiner et visualiser vos projets de construction.<br></br>
+                            Permis, plans techniques, modélisation 3D : chaque service répond à une étape clé du projet.
                         </p>
                     </ArchiReveal>
                 </div>
@@ -1407,12 +1463,12 @@ function ArchiProcess() {
     const lineRef = useRef<HTMLDivElement>(null);
 
     const allSteps = [
-        { phase: "01", title: "Analyse du besoin", desc: "Immersion dans votre vision et définition des objectifs structurels." },
-        { phase: "02", title: "Étude du projet", desc: "Exploration conceptuelle et esquisses préliminaires du bâti." },
-        { phase: "03", title: "Conception", desc: "Modélisation 3D avancée et mise au point technique des visuels." },
-        { phase: "04", title: "Constitution", desc: "Élaboration des dossiers administratifs et permis de construire." },
+        { phase: "01", title: "Analyse du besoin", desc: "Nous échangeons sur votre projet, vos attentes, vos contraintes et les éléments déjà disponibles." },
+        { phase: "02", title: "Étude du projet", desc: "Nous analysons la faisabilité, les volumes et les premières orientations pour poser une base de travail claire." },
+        { phase: "03", title: "Conception", desc: "Les plans prennent forme, les volumes se précisent et les visuels 3D rendent votre projet plus clair." },
+        { phase: "04", title: "Démarches administratives", desc: "Permis de construire ou déclaration préalable : votre dossier est préparé avec précision, cohérence et une lecture facilitée pour l'instruction." },
         { phase: "05", title: "Accompagnement", desc: "Suivi rigoureux et conseil stratégique tout au long du cycle." },
-        { phase: "06", title: "Validation", desc: "Finalisation du projet et livraison des supports photoréalistes." },
+        { phase: "06", title: "Remise du projet", desc: "Vous recevez les plans, visuels et documents finalisés pour présenter, déposer ou faire avancer votre projet." },
     ];
 
     useLayoutEffect(() => {
@@ -1488,7 +1544,7 @@ function ArchiProcess() {
                             Notre <span className="text-white/30 italic font-medium">Méthode</span>
                         </h2>
                         <p className="text-lg text-white/40 font-light leading-relaxed max-w-lg">
-                            Un workflow structuré en six phases clés pour garantir la précision architecturale et la réussite de vos projets.
+                            Une méthode en six étapes pour clarifier vos besoins, structurer vos plans et préparer la réussite de votre projet.
                         </p>
                     </ArchiReveal>
                 </div>
@@ -1509,12 +1565,12 @@ function ArchiProcess() {
                                         {step.phase}
                                     </span>
 
-                                    <div className="step-content max-w-xl">
-                                        <h3 className="text-3xl md:text-4xl lg:text-5xl font-bold uppercase tracking-tight mb-6 group-hover:pl-4 transition-all duration-500">
+                                    <div className="step-content max-w-4xl">
+                                        <h3 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight mb-6 group-hover:pl-4 transition-all duration-500">
                                             {step.title}
                                         </h3>
                                         <div className="step-line w-16 h-[1px] bg-white/30 mb-6"></div>
-                                        <p className="text-white/40 font-light leading-relaxed text-base md:text-lg italic max-w-md">
+                                        <p className="text-white/40 font-light leading-relaxed text-base md:text-lg max-w-lg">
                                             {step.desc}
                                         </p>
                                     </div>
@@ -1874,27 +1930,27 @@ function InteractiveBeforeAfter({ beforeImg, afterImg }: { beforeImg: string, af
                 )}
             </AnimatePresence>
 
-            {/* Before Image (Background) */}
+            {/* After Image (Background) */}
             <img
-                src={encodeURI(beforeImg)}
+                src={encodeURI(afterImg)}
                 className="absolute inset-0 w-full h-full object-cover transition-all duration-500"
                 style={{ opacity: 1 }}
-                alt="Avant"
+                alt="Après"
             />
 
-            {/* After Image (Clipped) */}
+            {/* Before Image (Clipped) */}
             <div
                 className="absolute inset-0 w-full h-full will-change-transform"
                 style={{ clipPath: `inset(0% ${100 - sliderPos}% 0% 0%)` }}
             >
                 <img
-                    src={encodeURI(afterImg)}
+                    src={encodeURI(beforeImg)}
                     className="absolute inset-0 w-full h-full object-cover will-change-transform"
                     style={{
                         opacity: 1,
                         transform: isHovered ? "scale(1.02)" : "scale(1)"
                     }}
-                    alt="Après"
+                    alt="Avant"
                 />
             </div>
 
@@ -1979,7 +2035,7 @@ function ArchiGallery() {
             </AnimatePresence>
 
             {/* VERTICAL PROJECT LIST */}
-            <div className="w-full max-w-7xl flex flex-col gap-10 md:gap-20">
+            <div className="w-full max-w-7xl flex flex-col gap-10 md:gap-30">
                 {PROJECTS.map((project, i) => (
                     <div
                         key={i}
@@ -2051,11 +2107,11 @@ function TechnicalShowcase() {
     const sectionRef = useRef<HTMLElement>(null);
 
     const RENDER_IMAGES = [
-        { title: "Maison Veigné", img: IMAGES.renders.veigne },
-        { title: "Maison Montlouis", img: IMAGES.renders.montlouis },
-        { title: "Maison Joué-lès-Tours", img: IMAGES.renders.joue },
-        { title: "Extension Mirabeau", img: IMAGES.renders.mirabeau },
-        { title: "Façades Saintes", img: IMAGES.renders.saintes }
+        { title: "Maison individuelle Veigné", img: IMAGES.renders.veigne, desc: "Rendu 3D d'une maison contemporaine, pensé pour mettre en valeur les volumes, les ouvertures et l'intégration du projet dans son environnement." },
+        { title: "Maison individuelle Montlouis-sur-Loire", img: IMAGES.renders.montlouis, desc: "Visualisation 3D d'une maison individuelle, avec un travail précis sur les façades, les accès, les matériaux et la lecture globale du volume." },
+        { title: "Maison individuelle Joué-lès-Tours", img: IMAGES.renders.joue, desc: "Modélisation 3D d'une maison individuelle, conçue pour présenter clairement l'implantation, les proportions et les choix extérieurs du projet." },
+        { title: "Les pennes Mirabeau", img: IMAGES.renders.mirabeau, desc: "Projection 3D d'une extension, réalisée pour visualiser l'ajout de volume, son dialogue avec l'existant et son impact sur l'ensemble de la maison." },
+        { title: "Modifications de façades Saintes", img: IMAGES.renders.saintes, desc: "Rendu 3D de façades, pensé pour apprécier les lignes, les matériaux et l'aspect final du bâtiment avant réalisation." }
     ];
 
     useLayoutEffect(() => {
@@ -2066,18 +2122,17 @@ function TechnicalShowcase() {
                 const lines = container.querySelectorAll('.title-line');
                 gsap.from(lines, {
                     yPercent: 120,
-                    duration: 0.5,
-                    stagger: 0.15,
+                    duration: 0.8,
+                    stagger: 0.1,
                     ease: "power4.out",
                     scrollTrigger: {
                         trigger: container,
-                        start: "top 80%",
-                        toggleActions: "restart reset restart reset"
+                        start: "top 100%",
+                        toggleActions: "play none none none"
                     }
                 });
             });
 
-            // Each Image Block Reveal
             const blocks = gsap.utils.toArray('.render-block');
             blocks.forEach((block: any, i: number) => {
                 const mask = block.querySelector('.image-mask');
@@ -2089,24 +2144,24 @@ function TechnicalShowcase() {
                 const tl = gsap.timeline({
                     scrollTrigger: {
                         trigger: block,
-                        start: "top 85%",
-                        toggleActions: "restart reset restart reset"
+                        start: "top 100%",
+                        toggleActions: "play none none none"
                     }
                 });
 
                 tl.to(mask, {
                     scaleY: 0,
                     transformOrigin: "top",
-                    duration: 0.6,
-                    ease: "power4.inOut"
+                    duration: 0.8,
+                    ease: "expo.inOut"
                 })
                     .fromTo(img,
-                        { scale: 1.1, filter: "blur(5px)" },
-                        { scale: 1, filter: "blur(0px)", duration: 0.4, ease: "power3.out" },
+                        { scale: 1.1 },
+                        { scale: 1, duration: 1, ease: "power2.out" },
                         "<0.2"
                     )
                     .from(title, {
-                        y: 30,
+                        y: 20,
                         opacity: 0,
                         duration: 0.6,
                         ease: "power3.out"
@@ -2124,9 +2179,8 @@ function TechnicalShowcase() {
                         ease: "power3.out"
                     }, "<");
 
-                // Vertical parallax for the image
                 gsap.to(img, {
-                    yPercent: 15,
+                    yPercent: 10,
                     ease: "none",
                     scrollTrigger: {
                         trigger: block,
@@ -2143,27 +2197,27 @@ function TechnicalShowcase() {
     }, []);
 
     return (
-        <section ref={sectionRef} id="expertise-3d" className="relative py-0 md:py-0 bg-transparent text-[#0a0a0a] overflow-hidden font-display z-40">
+        <section ref={sectionRef} id="expertise-3d" className="relative py-15 md:py-30 bg-transparent text-[#0a0a0a] overflow-hidden font-display z-40">
             <div className="max-w-7xl mx-auto px-6 md:px-20 relative z-10">
 
                 {/* Massive Title Section */}
-                <div className="mb-20 md:mb-40 title-reveal-container flex flex-col items-end text-right">
+                <div className="mb-10 md:mb-10 title-reveal-container flex flex-col items-end text-right">
                     <div className="flex items-center justify-end gap-4 mb-6 md:mb-8 overflow-hidden">
                         <span className="text-[9px] md:text-xs font-mono uppercase tracking-[0.5em] text-black/60 title-line block">Studio 3D</span>
                         <div className="w-8 md:w-12 h-[1px] bg-black/40 title-line"></div>
                     </div>
                     <h2 className="text-[9vw] md:text-[7vw] font-black uppercase tracking-tighter leading-[0.85]">
-                        <span className="block overflow-hidden"><span className="block title-line">Photoréalisme</span></span>
-                        <span className="block overflow-hidden"><span className="block title-line text-black/30 italic font-medium">Absolu.</span></span>
+                        <span className="block"><span className="block title-line">Nos projets</span></span>
+                        <span className="block"><span className="block title-line text-black/30 italic font-medium">3D</span></span>
                     </h2>
                 </div>
 
                 {/* Alternating Image Blocks */}
-                <div className="space-y-25 md:space-y-40">
+                <div className="space-y-10 md:space-y-10">
                     {RENDER_IMAGES.map((item, i) => (
                         <div key={i} className={`render-block relative flex flex-col ${i % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} items-center gap-8 md:gap-20 pt-12 md:pt-20`}>
                             {/* Image Container with Reveal Mask */}
-                            <div className="w-full md:w-[60%] relative group overflow-hidden rounded-sm md:rounded-md">
+                            <div className="w-full md:w-[50%] relative group overflow-hidden rounded-sm md:rounded-md">
                                 <div className="aspect-[4/5] md:aspect-[16/10] relative">
                                     <div className="image-mask absolute inset-0 bg-[#e5e5e5] z-10"></div>
                                     <img
@@ -2176,12 +2230,12 @@ function TechnicalShowcase() {
                             </div>
 
                             {/* Typography Content */}
-                            <div className={`w-full md:w-[40%] flex flex-col ${i % 2 === 0 ? 'items-start text-left' : 'items-end text-right'}`}>
+                            <div className={`w-full md:w-[50%] flex flex-col ${i % 2 === 0 ? 'items-start text-left' : 'items-end text-right'}`}>
                                 <h3 className="text-2xl md:text-4xl lg:text-5xl font-black tracking-tighter leading-none text-[#0a0a0a] first-letter:uppercase mb-6">
                                     {item.title}
                                 </h3>
                                 <p className="text-black/60 font-light text-xs md:text-sm max-w-sm title-reveal leading-relaxed">
-                                    Des rendus haute définition conçus pour sublimer l'architecture. La lumière, les matériaux et l'atmosphère sont étudiés avec une précision chirurgicale.
+                                    {item.desc}
                                 </p>
                             </div>
 
@@ -2189,13 +2243,7 @@ function TechnicalShowcase() {
                     ))}
                 </div>
 
-                {/* Final Callout */}
-                <div className="mt-30 md:mt-30 text-center title-reveal-container">
-                    <h3 className="text-[8vw] md:text-6xl font-black uppercase tracking-tighter leading-tight italic text-[#0a0a0a]">
-                        <span className="block overflow-hidden"><span className="block title-line">Une précision</span></span>
-                        <span className="block overflow-hidden"><span className="block title-line text-black/30 font-medium">sans compromis.</span></span>
-                    </h3>
-                </div>
+
             </div>
         </section>
     );
@@ -2206,10 +2254,10 @@ function ArchiValues() {
     const sectionRef = useRef<HTMLElement>(null);
 
     const values = [
-        { num: "01", title: "Réactivité", desc: "Engagement à respecter systématiquement les délais pour chaque projet. La réactivité est notre maître-mot." },
-        { num: "02", title: "Zéro Retard", desc: "Garantie absolue de livraison de vos dossiers administratifs et techniques sans aucun décalage." },
-        { num: "03", title: "Rayonnement", desc: "Intervention sur l'ensemble du territoire français, principalement à distance, avec une efficacité redoutable." },
-        { num: "04", title: "Polyvalence", desc: "Accompagnement immédiat dès que les éléments nécessaires (plans, croquis, relevés) sont fournis." },
+        { num: "01", title: "RÉACTIVITÉ", desc: "Un suivi réactif pour faire avancer vos plans, vos démarches et votre dossier." },
+        { num: "02", title: "Délais maîtrisés", desc: "Chaque projet est organisé avec un calendrier clair pour livrer vos plans et dossiers dans les temps définis." },
+        { num: "03", title: "Rayonnement", desc: "ArchiMade accompagne vos projets partout en France, principalement à distance, à partir de vos plans, photos et éléments techniques." },
+        { num: "04", title: "Flexibilité", desc: "Plans, croquis, relevés ou photos : ArchiMade s'adapte aux éléments disponibles pour démarrer l'étude de votre projet." },
     ];
 
     useLayoutEffect(() => {
@@ -2268,8 +2316,8 @@ function ArchiValues() {
             <div className="relative z-10 text-center mb-32 md:mb-52 px-6">
                 <span className="text-[10px] md:text-xs font-mono uppercase tracking-[0.5em] text-white/40 block mb-8">Pourquoi ArchiMade ?</span>
                 <h2 className="text-[12vw] md:text-[9vw] font-black uppercase tracking-tighter leading-[0.85] overflow-hidden">
-                    <div className="title-left block">PRÉCISION.</div>
-                    <div className="title-right block text-white/20 italic">DISPONIBILITÉ.</div>
+                    <div className="title-left block">Conception.</div>
+                    <div className="title-right block text-white/20 italic">Projections.</div>
                 </h2>
             </div>
 
@@ -2285,12 +2333,12 @@ function ArchiValues() {
                                 <span className="text-3xl md:text-5xl font-mono text-white/10 font-black">
                                     {v.num}
                                 </span>
-                                <h3 className="text-4xl md:text-6xl lg:text-7xl font-black uppercase tracking-tighter whitespace-nowrap">
+                                <h3 className="text-3xl md:text-5xl lg:text-5xl font-black uppercase tracking-tighter whitespace-nowrap">
                                     {v.title}
                                 </h3>
                             </div>
 
-                            <div className="w-full md:w-[40%] text-center md:text-left">
+                            <div className="w-full md:w-[45%] text-center md:text-left">
                                 <p className="text-white/50 font-light text-sm md:text-base leading-relaxed">
                                     {v.desc}
                                 </p>
@@ -2441,8 +2489,8 @@ function ArchiContact() {
                                 CONTACT
                             </h2>
                             <p className="contact-desc text-black/40 text-base md:text-lg font-light leading-relaxed max-w-md">
-                                Une question ou un projet à nous soumettre ? <br />
-                                Utilisez le formulaire pour toute demande d'information.
+                                Un projet de construction, une demande de permis ou des plans à réaliser ?<br />
+                                Présentez votre besoin via le formulaire, ArchiMade vous répond rapidement.
                             </p>
                         </div>
 
@@ -2452,14 +2500,14 @@ function ArchiContact() {
                                     <Mail className="w-4 h-4" />
                                     <span className="text-[9px] uppercase tracking-widest font-bold">Email</span>
                                 </div>
-                                <a href="mailto:contact@archimade.studio" className="text-lg font-bold hover:opacity-50 transition-opacity whitespace-nowrap">contact@archimade.studio</a>
+                                <a href="mailto:contact@archi-made.com" className="text-lg font-bold hover:opacity-50 transition-opacity whitespace-nowrap">contact@archi-made.com</a>
                             </div>
                             <div className="contact-info-item space-y-2">
                                 <div className="flex items-center gap-3 text-black/30">
                                     <Phone className="w-4 h-4" />
                                     <span className="text-[9px] uppercase tracking-widest font-bold">Téléphone</span>
                                 </div>
-                                <a href="tel:+33123456789" className="text-lg font-bold hover:opacity-50 transition-opacity whitespace-nowrap">+33 1 23 45 67 89</a>
+                                <a href="tel:+33624896695" className="text-lg font-bold hover:opacity-50 transition-opacity whitespace-nowrap">+33 6 24 89 66 95</a>
                             </div>
                         </div>
                     </div>
@@ -2467,7 +2515,7 @@ function ArchiContact() {
                     {/* Right: Premium Card */}
                     <div className="contact-form-card lg:w-[500px] xl:w-[580px] w-full">
                         <div className="bg-[#0a0a0a] p-8 md:p-12 lg:p-14 rounded-2xl border border-black/5 shadow-2xl relative overflow-hidden text-white">
-                            <h3 className="text-xl font-bold uppercase tracking-tight mb-8">Me contacter</h3>
+                            <h3 className="text-xl font-bold uppercase tracking-tight mb-8">Nous contacter</h3>
                             <form className="space-y-6 md:space-y-8" onSubmit={(e) => e.preventDefault()}>
                                 <div className="space-y-2">
                                     <label className="text-[8px] uppercase tracking-widest text-white/30 font-bold">Nom</label>
@@ -2507,7 +2555,9 @@ function ArchiContact() {
 export default function ArchiMadeLanding() {
     const [isLoading, setIsLoading] = useState(true);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isScrolling, setIsScrolling] = useState(false);
     const mainRef = useRef<HTMLDivElement>(null);
+    const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
     useEffect(() => {
         const lenis = new Lenis({
@@ -2519,13 +2569,20 @@ export default function ArchiMadeLanding() {
         // Expose lenis globally for component access
         (window as any).lenis = lenis;
 
-        lenis.on('scroll', ScrollTrigger.update);
+        lenis.on('scroll', () => {
+            ScrollTrigger.update();
+            setIsScrolling(true);
+            if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+            scrollTimeoutRef.current = setTimeout(() => setIsScrolling(false), 200);
+        });
+
         gsap.ticker.add((time) => { lenis.raf(time * 1000); });
         gsap.ticker.lagSmoothing(0);
 
         return () => {
             lenis.destroy();
             gsap.ticker.remove(lenis.raf);
+            if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
         };
     }, []);
 
@@ -2544,12 +2601,12 @@ export default function ArchiMadeLanding() {
                 });
 
 
-                // Hide sidebar when reaching Contact
+                // Hide sidebar, socials and contact button when reaching Contact
                 ScrollTrigger.create({
                     trigger: "#contact",
                     start: "top 80%",
-                    onEnter: () => gsap.to(".archi-sidebar", { opacity: 0, pointerEvents: "none", duration: 0.5 }),
-                    onLeaveBack: () => gsap.to(".archi-sidebar", { opacity: 1, pointerEvents: "auto", duration: 0.5 }),
+                    onEnter: () => gsap.to(".archi-sidebar, .archi-mobile-socials, .archi-sticky-contact", { opacity: 0, pointerEvents: "none", duration: 0.5 }),
+                    onLeaveBack: () => gsap.to(".archi-sidebar, .archi-mobile-socials, .archi-sticky-contact", { opacity: 1, pointerEvents: "auto", duration: 0.5 }),
                 });
 
             }, mainRef);
@@ -2583,7 +2640,7 @@ export default function ArchiMadeLanding() {
                     >
                         <a
                             href="#contact"
-                            className="pointer-events-auto group relative flex items-center justify-center bg-white text-black w-14 h-14 md:w-auto md:h-auto md:px-8 md:py-4 xl:px-10 xl:py-5 rounded-full xl:rounded-t-full xl:rounded-b-none overflow-hidden transition-all duration-500 hover:pr-14 xl:rotate-[-90deg] xl:origin-center"
+                            className="archi-sticky-contact pointer-events-auto group relative flex items-center justify-center bg-white text-black w-14 h-14 md:w-auto md:h-auto md:px-8 md:py-4 xl:px-10 xl:py-5 rounded-full xl:rounded-t-full xl:rounded-b-none overflow-hidden transition-all duration-500 hover:pr-14 xl:rotate-[-90deg] xl:origin-center"
                         >
                             <span className="hidden md:block text-[10px] font-bold uppercase tracking-[0.4em] relative z-10 whitespace-nowrap">Nous contacter</span>
                             <Phone className="w-5 h-5 md:hidden relative z-10" />
@@ -2591,14 +2648,15 @@ export default function ArchiMadeLanding() {
                         </a>
                     </motion.div>
 
-                    {/* Desktop Left Fixed Frame Column */}
-                    <div className="archi-sidebar fixed top-0 left-0 bottom-0 w-[25vw] z-[200] hidden xl:flex flex-col justify-between pt-16 pb-12 px-12 lg:px-16 pointer-events-none mix-blend-difference text-white">
-                        <div className="pointer-events-auto">
-                            <ArchiNav />
-                        </div>
-                        <div className="pointer-events-auto">
-                            <ArchiLogo />
-                        </div>
+                    {/* Desktop Left Fixed Frame Column - WITH blend mode (Menu + Logo) */}
+                    <div className="archi-sidebar fixed top-0 left-0 bottom-0 w-[25vw] z-[500] hidden xl:flex flex-col justify-between pt-16 pb-12 px-12 lg:px-16 pointer-events-none mix-blend-difference text-white">
+                        <ArchiNav showOnly="menu" isScrolling={isScrolling} />
+                        <ArchiLogo isScrolling={isScrolling} />
+                    </div>
+
+                    {/* Desktop Socials Overlay - WITHOUT blend mode (Preserves brand colors) */}
+                    <div className="fixed top-0 left-0 bottom-0 w-[25vw] z-[510] hidden xl:flex flex-col pt-16 px-12 lg:px-16 pointer-events-none">
+                        <ArchiNav showOnly="socials" />
                     </div>
 
                     {/* Main Content Layout */}
