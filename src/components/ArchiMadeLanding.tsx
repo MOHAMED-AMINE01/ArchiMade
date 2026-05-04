@@ -41,7 +41,7 @@ const IMAGES = {
             before: "/IMAGES/Projets finis/Bâtiment d_activités/Capture d_écran 2026-04-11 093951.png"
         },
         esvres: {
-            main: "/IMAGES/Projets finis/Construction d_une extension sur maison existant 37320 Esvres/Insertion 2.png",
+            main: "/IMAGES/3D/Construction d_une maison individuelle joue les tours 37300.png",
             before: "/IMAGES/Projets finis/Construction d_une extension sur maison existant 37320 Esvres/WhatsApp Image 2022-10-05 at 09.00.22 (1).jpeg"
         },
         fondettes: {
@@ -72,7 +72,7 @@ const IMAGES = {
             main: "/IMAGES/Projets finis/Loc office rehabiliation d_une zone de stockage en bureau 37390 chanceaux sur choisille/Capture d_écran 2026-04-10 174146.png",
             gallery: [
                 "/IMAGES/Projets finis/Loc office rehabiliation d_une zone de stockage en bureau 37390 chanceaux sur choisille/Capture d_écran 2026-04-10 174722.png",
-                "/IMAGES/Projets finis/Loc office rehabiliation d_une zone de stockage en bureau 37390 chanceaux sur choisille/Capture d_écran 2026-04-10 174735.png",
+                "/IMAGES/3D/pexels-perqued-13203180.jpg",
                 "/IMAGES/Projets finis/Loc office rehabiliation d_une zone de stockage en bureau 37390 chanceaux sur choisille/Capture d_écran 2026-04-10 174750.png"
             ]
         }
@@ -101,7 +101,7 @@ const PROJECTS = [
         specs: ["Ossature Bois", "Légèreté"]
     },
     {
-        title: "Villa Saint-Cyr",
+        title: "Maison individuelle Saint-Cyr-sur-Loire",
         city: "Saint-Cyr-sur-Loire",
         year: "2023",
         type: "Neuf",
@@ -1217,13 +1217,13 @@ function ArchiAbout() {
 
 // 3. SERVICES SECTION (EXPERTISE)
 const services = [
-    { title: "Permis de Construire", cat: "Architectural", loc: "Tours, FR", area: "450.00 m² / 4843 ft²", img: IMAGES.renders.veigne },
-    { title: "Déclarations Préalables", cat: "Extension", loc: "Bordeaux, FR", area: "85.22 m² / 917 ft²", img: IMAGES.renders.mirabeau },
-    { title: "Plans Techniques", cat: "Structure", loc: "Paris, FR", area: "1200.00 m² / 12916 ft²", img: IMAGES.renders.saintes },
-    { title: "Plans d'Exécution", cat: "Construction", loc: "Lyon, FR", area: "650.00 m² / 6996 ft²", img: IMAGES.projects.activites.main },
-    { title: "Modélisation 3D", cat: "Visualisation", loc: "Studio", area: "Full Render 8K", img: IMAGES.projects.esvres.main },
-    { title: "Rendus Photoréalistes", cat: "Marketing", loc: "Digital", area: "Ultra High Def", img: IMAGES.projects.chanceaux.gallery[1] },
-    { title: "Dossiers Complets", cat: "Consulting", loc: "National", area: "BIM Integrated", img: IMAGES.projects.cyr_extension.alt },
+    { title: "Permis de Construire", cat: "Architectural", loc: "Tours, FR", area: "450.00 m² / 4843 ft²", img: IMAGES.renders.veigne, desc: "Un dossier complet pour présenter votre projet, structurer les pièces attendues et faciliter vos démarches administratives." },
+    { title: "Déclarations Préalables", cat: "Extension", loc: "Bordeaux, FR", area: "85.22 m² / 917 ft²", img: IMAGES.renders.mirabeau, desc: "ArchiMade vous accompagne dans la préparation de votre déclaration préalable pour vos extensions, modifications de façade ou aménagements extérieurs." },
+    { title: "Plans Techniques", cat: "Structure", loc: "Paris, FR", area: "1200.00 m² / 12916 ft²", img: IMAGES.renders.saintes, desc: "Des plans précis pour définir les volumes, les niveaux, les façades et les éléments nécessaires à la compréhension du projet." },
+    { title: "Plans d'Exécution", cat: "Construction", loc: "Lyon, FR", area: "650.00 m² / 6996 ft²", img: IMAGES.projects.activites.main, desc: "Des documents techniques détaillés pour préciser les dimensions, les assemblages et les informations utiles à la réalisation du projet." },
+    { title: "Modélisation 3D", cat: "Visualisation", loc: "Studio", area: "Full Render 8K", img: IMAGES.projects.esvres.main, desc: "Une visualisation 3D pour comprendre les volumes, tester les choix esthétiques et mieux vous projeter avant réalisation." },
+    { title: "Rendus Photoréalistes", cat: "Marketing", loc: "Digital", area: "Ultra High Def", img: IMAGES.projects.chanceaux.gallery[1], desc: "Des rendus 3D haute définition pour visualiser le projet dans une version proche du résultat attendu." },
+    { title: "Dossiers Complets", cat: "Consulting", loc: "National", area: "BIM Integrated", img: IMAGES.projects.cyr_extension.alt, desc: "Plans, pièces graphiques et documents administratifs sont réunis dans un dossier structuré pour vos démarches." },
 ];
 
 function ArchiServices() {
@@ -1394,7 +1394,7 @@ function ArchiServices() {
                                         {/* HEADER DATA */}
                                         <div className={cn(
                                             "flex flex-col mb-6 lg:mb-10 w-full max-w-6xl transition-all duration-700",
-                                            isExpanded ? "lg:flex-col items-start gap-4 lg:gap-10" : "md:flex-row justify-between items-end gap-4 lg:gap-10"
+                                            isExpanded ? "lg:flex-col items-start gap-4 lg:gap-10" : "md:flex-row justify-between items-start md:items-end gap-4 lg:gap-10"
                                         )}>
                                             <div>
                                                 <span className="text-white/60 font-mono text-xs lg:text-sm mb-2 lg:mb-4 block">0{index + 1} // EXPERTISE</span>
@@ -1409,7 +1409,7 @@ function ArchiServices() {
                                             {/* EXPANDED EXTRA TEXT */}
                                             {isExpanded && (
                                                 <p className="text-white/80 text-sm sm:text-base lg:text-2xl font-light max-w-3xl leading-relaxed animate-fade-in mt-4 lg:mt-6">
-                                                    Nous prenons en charge la totalité de ce service pour vous offrir une expérience sans friction. De l'audit initial à la livraison des rendus finaux, notre équipe d'experts s'assure d'une précision millimétrée et d'un accompagnement sur-mesure.
+                                                    {service.desc}
                                                 </p>
                                             )}
                                         </div>
@@ -2040,7 +2040,6 @@ function ArchiGallery() {
                     <div
                         key={i}
                         className="project-block relative w-full flex flex-col cursor-pointer group pt-12 md:pt-20"
-                        onClick={() => setSelectedProject(project)}
                     >
                         {/* Project Title (Left on Mobile, Right on Desktop - On Border) */}
                         <div className="absolute top-0 left-0 md:left-auto md:right-0 z-30 pointer-events-none transition-transform duration-700 group-hover:-translate-y-2 translate-y-[-50%] bg-transparent pr-8 md:pr-0 md:pl-8 text-left md:text-right">
@@ -2081,10 +2080,10 @@ function ArchiGallery() {
                         </div>
 
                         {/* Hover Indicator */}
-                        <div className="mt-12 flex justify-between items-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 md:px-12">
+                        {/* <div className="mt-12 flex justify-between items-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 md:px-12">
                             <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-black/60">Découvrir le projet</span>
                             <div className="w-24 h-[1px] bg-black/20"></div>
-                        </div>
+                        </div> */}
                     </div>
                 ))}
             </div>
@@ -2218,7 +2217,7 @@ function TechnicalShowcase() {
                         <div key={i} className={`render-block relative flex flex-col ${i % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} items-center gap-8 md:gap-20 pt-12 md:pt-20`}>
                             {/* Image Container with Reveal Mask */}
                             <div className="w-full md:w-[50%] relative group overflow-hidden rounded-sm md:rounded-md">
-                                <div className="aspect-[4/5] md:aspect-[16/10] relative">
+                                <div className="aspect-[8/5] md:aspect-[16/10] relative">
                                     <div className="image-mask absolute inset-0 bg-[#e5e5e5] z-10"></div>
                                     <img
                                         src={encodeURI(item.img)}
@@ -2601,12 +2600,25 @@ export default function ArchiMadeLanding() {
                 });
 
 
-                // Hide sidebar, socials and contact button when reaching Contact
+                const targetElements = ".archi-sidebar, .archi-desktop-socials, .archi-mobile-socials, .archi-sticky-contact";
+
+                // Hide UI *only* while inside the Expertise section
+                ScrollTrigger.create({
+                    trigger: "#expertise",
+                    start: "top center",
+                    end: "bottom center",
+                    onEnter: () => gsap.to(targetElements, { opacity: 0, pointerEvents: "none", duration: 0.5 }),
+                    onLeave: () => gsap.to(targetElements, { opacity: 1, pointerEvents: "auto", duration: 0.5 }),
+                    onEnterBack: () => gsap.to(targetElements, { opacity: 0, pointerEvents: "none", duration: 0.5 }),
+                    onLeaveBack: () => gsap.to(targetElements, { opacity: 1, pointerEvents: "auto", duration: 0.5 }),
+                });
+
+                // Hide UI when reaching Contact (and keep it hidden)
                 ScrollTrigger.create({
                     trigger: "#contact",
                     start: "top 80%",
-                    onEnter: () => gsap.to(".archi-sidebar, .archi-mobile-socials, .archi-sticky-contact", { opacity: 0, pointerEvents: "none", duration: 0.5 }),
-                    onLeaveBack: () => gsap.to(".archi-sidebar, .archi-mobile-socials, .archi-sticky-contact", { opacity: 1, pointerEvents: "auto", duration: 0.5 }),
+                    onEnter: () => gsap.to(targetElements, { opacity: 0, pointerEvents: "none", duration: 0.5 }),
+                    onLeaveBack: () => gsap.to(targetElements, { opacity: 1, pointerEvents: "auto", duration: 0.5 }),
                 });
 
             }, mainRef);
@@ -2655,7 +2667,7 @@ export default function ArchiMadeLanding() {
                     </div>
 
                     {/* Desktop Socials Overlay - WITHOUT blend mode (Preserves brand colors) */}
-                    <div className="fixed top-0 left-0 bottom-0 w-[25vw] z-[510] hidden xl:flex flex-col pt-16 px-12 lg:px-16 pointer-events-none">
+                    <div className="archi-desktop-socials fixed top-0 left-0 bottom-0 w-[25vw] z-[510] hidden xl:flex flex-col pt-16 px-12 lg:px-16 pointer-events-none">
                         <ArchiNav showOnly="socials" />
                     </div>
 
