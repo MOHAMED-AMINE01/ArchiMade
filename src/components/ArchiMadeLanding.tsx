@@ -372,11 +372,11 @@ function ArchiPreloader({ onComplete }: { onComplete: () => void }) {
             <div className="preloader-content relative z-10 w-full flex flex-col items-center">
 
                 {/* Logo in Preloader */}
-                <div className="preloader-logo mb-12">
+                <div className="preloader-logo mb-30 md:mb-35">
                     <img
-                        src="/Logo ArchiMade.png"
+                        src="/logo_intro.png"
                         alt="Logo"
-                        className="h-42 md:h-62 w-auto object-contain opacity-80"
+                        className="h-24 md:h-38 w-auto object-contain opacity-80"
                     />
                 </div>
                 {/* Horizontal Sequence of Letters */}
@@ -1078,6 +1078,15 @@ function ArchiAbout() {
     const sectionRef = useRef(null);
     const imgRef = useRef(null);
 
+    const allSteps = [
+        { phase: "01", title: "Analyse du besoin", desc: "Nous échangeons sur votre projet, vos attentes, vos contraintes et les éléments déjà disponibles." },
+        { phase: "02", title: "Étude du projet", desc: "Nous analysons la faisabilité, les volumes et les premières orientations pour poser une base de travail claire." },
+        { phase: "03", title: "Conception", desc: "Les plans prennent forme, les volumes se précisent et les visuels 3D rendent votre projet plus clair." },
+        { phase: "04", title: "Démarches administratives", desc: "Permis de construire ou déclaration préalable : votre dossier est préparé avec précision." },
+        { phase: "05", title: "Accompagnement", desc: "Suivi rigoureux et conseil stratégique tout au long du cycle." },
+        { phase: "06", title: "Remise du projet", desc: "Vous recevez les plans, visuels et documents finalisés pour présenter ou faire avancer votre projet." },
+    ];
+
     useLayoutEffect(() => {
         const ctx = gsap.context(() => {
             // Heading Split Reveal
@@ -1202,25 +1211,64 @@ function ArchiAbout() {
                 </div>
             </div>
 
-            <div className="about-img-container relative aspect-video md:aspect-[21/13] lg:aspect-[21/9] w-full overflow-hidden md:mt-8">
-                <img
-                    ref={imgRef}
-                    src={IMAGES.renders.joue}
-                    alt="Projet Résidentiel Moderne - ArchiMade 3D"
-                    className="w-full h-full object-cover grayscale brightness-90 contrast-125"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-white/20 to-transparent pointer-events-none"></div>
+            {/* INTEGRATED PROCESS SECTION */}
+            <div id="methodes" className="relative w-full overflow-hidden mt-12 md:mt-24 group/method">
+                <div className="about-img-container relative w-full overflow-hidden">
+                    <img
+                        ref={imgRef}
+                        src={IMAGES.renders.joue}
+                        alt="Processus ArchiMade"
+                        className="absolute inset-0 w-full h-full object-cover grayscale brightness-50 group-hover/method:scale-105 transition-transform duration-[2s]"
+                    />
+
+                    {/* Dark overlay for text readability - Content defines height */}
+                    <div className="relative z-10 bg-black/60 flex flex-col justify-center px-6 md:px-16 xl:pl-[25vw] md:pr-20 py-20 md:py-32 min-h-[400px] md:min-h-[750px] xl:min-h-[600px]">
+                        <div className="mb-10 md:mb-20">
+                            <ArchiReveal type="fade">
+                                <div className="flex items-center gap-4 mb-4">
+                                    <div className="w-12 h-[1px] bg-white/30"></div>
+                                    <span className="text-[10px] md:text-xs uppercase tracking-[0.5em] text-white/40 font-bold">Processus</span>
+                                </div>
+                                <h2 className="text-4xl md:text-6xl lg:text-7xl font-black text-white uppercase tracking-tighter leading-none">
+                                    Notre <span className="text-white/30 italic font-medium">Méthode</span>
+                                </h2>
+                            </ArchiReveal>
+                        </div>
+
+                        <div className="flex md:grid overflow-x-auto md:overflow-visible snap-x snap-mandatory gap-8 md:gap-x-12 md:gap-y-20 pb-10 md:pb-0 no-scrollbar -mx-6 px-6 md:mx-0 md:px-0 lg:grid-cols-3 md:grid-cols-2">
+                            {allSteps.map((step, i) => (
+                                <div key={i} className="min-w-[85vw] md:min-w-0 snap-center">
+                                    <ArchiReveal delay={0.2 + i * 0.1} type="up" className="flex flex-col gap-4">
+                                        <div className="flex items-center gap-4">
+                                            <span className="text-3xl md:text-3xl font-black text-white/10 font-mono tracking-tighter">{step.phase}</span>
+                                            <div className="h-[1px] flex-1 bg-white/10"></div>
+                                        </div>
+                                        <h3 className="text-white font-bold text-base md:text-base lg:text-lg uppercase tracking-tight">{step.title}</h3>
+                                        <p className="text-white/40 text-xs md:text-xs lg:text-sm leading-relaxed font-light max-w-sm">{step.desc}</p>
+                                    </ArchiReveal>
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* Mobile Scroll Indicator Dots */}
+                        <div className="flex md:hidden justify-center gap-3 mt-4">
+                            {allSteps.map((_, i) => (
+                                <div key={i} className="w-1.5 h-1.5 rounded-full bg-white/20"></div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
     );
 }
 
+
 // 3. SERVICES SECTION (EXPERTISE)
 const services = [
     { title: "Permis de Construire", cat: "Architectural", loc: "Tours, FR", area: "450.00 m² / 4843 ft²", img: IMAGES.renders.veigne, desc: "Un dossier complet pour présenter votre projet, structurer les pièces attendues et faciliter vos démarches administratives." },
     { title: "Déclarations Préalables", cat: "Extension", loc: "Bordeaux, FR", area: "85.22 m² / 917 ft²", img: IMAGES.renders.mirabeau, desc: "ArchiMade vous accompagne dans la préparation de votre déclaration préalable pour vos extensions, modifications de façade ou aménagements extérieurs." },
-    { title: "Plans Techniques", cat: "Structure", loc: "Paris, FR", area: "1200.00 m² / 12916 ft²", img: IMAGES.renders.saintes, desc: "Des plans précis pour définir les volumes, les niveaux, les façades et les éléments nécessaires à la compréhension du projet." },
-    { title: "Plans d'Exécution", cat: "Construction", loc: "Lyon, FR", area: "650.00 m² / 6996 ft²", img: IMAGES.projects.activites.main, desc: "Des documents techniques détaillés pour préciser les dimensions, les assemblages et les informations utiles à la réalisation du projet." },
+    { title: "Plans d'Exécution", cat: "Technique", loc: "Paris, FR", area: "1200.00 m² / 12916 ft²", img: IMAGES.projects.activites.main, desc: "Des plans précis et documents techniques détaillés pour définir les volumes, les assemblages et les informations nécessaires à la réalisation du projet." },
     { title: "Modélisation 3D", cat: "Visualisation", loc: "Studio", area: "Full Render 8K", img: IMAGES.projects.esvres.main, desc: "Une visualisation 3D pour comprendre les volumes, tester les choix esthétiques et mieux vous projeter avant réalisation." },
     { title: "Rendus Photoréalistes", cat: "Marketing", loc: "Digital", area: "Ultra High Def", img: IMAGES.projects.chanceaux.gallery[1], desc: "Des rendus 3D haute définition pour visualiser le projet dans une version proche du résultat attendu." },
     { title: "Dossiers Complets", cat: "Consulting", loc: "National", area: "BIM Integrated", img: IMAGES.projects.cyr_extension.alt, desc: "Plans, pièces graphiques et documents administratifs sont réunis dans un dossier structuré pour vos démarches." },
@@ -1457,148 +1505,7 @@ function ArchiServices() {
 
 
 
-// 4. PROCESS / METHOD SECTION (MÉTHODES) - DUAL RAW TEXT MARQUEE
-function ArchiProcess() {
-    const sectionRef = useRef<HTMLElement>(null);
-    const lineRef = useRef<HTMLDivElement>(null);
 
-    const allSteps = [
-        { phase: "01", title: "Analyse du besoin", desc: "Nous échangeons sur votre projet, vos attentes, vos contraintes et les éléments déjà disponibles." },
-        { phase: "02", title: "Étude du projet", desc: "Nous analysons la faisabilité, les volumes et les premières orientations pour poser une base de travail claire." },
-        { phase: "03", title: "Conception", desc: "Les plans prennent forme, les volumes se précisent et les visuels 3D rendent votre projet plus clair." },
-        { phase: "04", title: "Démarches administratives", desc: "Permis de construire ou déclaration préalable : votre dossier est préparé avec précision, cohérence et une lecture facilitée pour l'instruction." },
-        { phase: "05", title: "Accompagnement", desc: "Suivi rigoureux et conseil stratégique tout au long du cycle." },
-        { phase: "06", title: "Remise du projet", desc: "Vous recevez les plans, visuels et documents finalisés pour présenter, déposer ou faire avancer votre projet." },
-    ];
-
-    useLayoutEffect(() => {
-        const ctx = gsap.context(() => {
-            // Animation de la ligne verticale
-            gsap.fromTo(lineRef.current,
-                { scaleY: 0 },
-                {
-                    scaleY: 1,
-                    ease: "none",
-                    scrollTrigger: {
-                        trigger: sectionRef.current,
-                        start: "top 30%",
-                        end: "bottom 70%",
-                        scrub: 1.5
-                    }
-                }
-            );
-
-            // Animation des étapes
-            const stepBlocks = gsap.utils.toArray('.step-block');
-            stepBlocks.forEach((step: any, i) => {
-                const tl = gsap.timeline({
-                    scrollTrigger: {
-                        trigger: step,
-                        start: "top 85%",
-                        toggleActions: "play none none reverse"
-                    }
-                });
-
-                tl.from(step.querySelector('.step-number'), {
-                    x: -30,
-                    opacity: 0,
-                    duration: 1,
-                    ease: "power4.out"
-                })
-                    .from(step.querySelector('.step-content'), {
-                        y: 40,
-                        opacity: 0,
-                        duration: 1,
-                        ease: "power4.out"
-                    }, "-=0.7")
-                    .from(step.querySelector('.step-line'), {
-                        scaleX: 0,
-                        transformOrigin: "left",
-                        duration: 1.2,
-                        ease: "expo.out"
-                    }, "-=0.5");
-            });
-        }, sectionRef);
-
-        return () => ctx.revert();
-    }, []);
-
-    return (
-        <section id="methodes" ref={sectionRef} className="relative py-32 md:py-56 bg-[#0a0a0a] text-white overflow-visible font-display xl:pl-[25vw]">
-            {/* Background Text Parallax */}
-            <div className="absolute top-0 left-0 w-full h-full opacity-[0.02] pointer-events-none select-none overflow-hidden">
-                <div className="text-[35vw] font-black uppercase tracking-tighter leading-none whitespace-nowrap -translate-x-1/4 translate-y-1/4">
-                    WORKFLOW
-                </div>
-            </div>
-
-            <div className="max-w-7xl mx-auto px-6 md:px-20 relative z-10">
-                {/* Header */}
-                <div className="mb-24 md:mb-40 max-w-2xl">
-                    <ArchiReveal type="fade">
-                        <div className="flex items-center gap-4 mb-6">
-                            <div className="w-12 h-[1px] bg-white/30"></div>
-                            <span className="text-xs uppercase tracking-[0.5em] text-white/40 font-bold">Processus</span>
-                        </div>
-                        <h2 className="text-5xl md:text-6xl lg:text-8xl font-black uppercase tracking-tighter leading-[0.9] mb-8">
-                            Notre <span className="text-white/30 italic font-medium">Méthode</span>
-                        </h2>
-                        <p className="text-lg text-white/40 font-light leading-relaxed max-w-lg">
-                            Une méthode en six étapes pour clarifier vos besoins, structurer vos plans et préparer la réussite de votre projet.
-                        </p>
-                    </ArchiReveal>
-                </div>
-
-                {/* Steps Container */}
-                <div className="relative">
-                    {/* Vertical Progress Line */}
-                    <div ref={lineRef} className="absolute left-[15px] md:left-[40px] top-0 bottom-0 w-[1px] bg-gradient-to-b from-white/60 via-white/20 to-transparent origin-top"></div>
-
-                    <div className="space-y-24 md:space-y-40">
-                        {allSteps.map((step, i) => (
-                            <div key={i} className="step-block relative pl-14 md:pl-32 group">
-                                {/* Dot on the line */}
-                                <div className="absolute left-[11px] md:left-[36px] top-4 w-2 h-2 rounded-full bg-white border-4 border-[#0a0a0a] group-hover:scale-150 transition-transform duration-500 z-10 shadow-[0_0_20px_rgba(255,255,255,0.4)]"></div>
-
-                                <div className="flex flex-col md:flex-row md:items-baseline gap-6 md:gap-16">
-                                    <span className="step-number text-5xl md:text-6xl lg:text-7xl font-black text-white/5 font-mono tracking-tighter group-hover:text-white/20 transition-colors duration-700">
-                                        {step.phase}
-                                    </span>
-
-                                    <div className="step-content max-w-4xl">
-                                        <h3 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight mb-6 group-hover:pl-4 transition-all duration-500">
-                                            {step.title}
-                                        </h3>
-                                        <div className="step-line w-16 h-[1px] bg-white/30 mb-6"></div>
-                                        <p className="text-white/40 font-light leading-relaxed text-base md:text-lg max-w-lg">
-                                            {step.desc}
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </div>
-
-            {/* Giant Overlapping Title — Perfectly Centered on Border */}
-            <div className="absolute bottom-0 right-10 md:right-24 pointer-events-none z-[60] translate-y-1/2">
-                <div className="relative">
-                    {/* Top half: White (on Black background) */}
-                    <h2 className="text-[10vw] font-black text-white uppercase tracking-tighter leading-none whitespace-nowrap"
-                        style={{ clipPath: 'inset(0 0 50% 0)' }}>
-                        PROJETS
-                    </h2>
-                    {/* Bottom half: Black (on Light background) */}
-                    <h2 className="absolute top-0 left-0 text-[10vw] font-black text-black uppercase tracking-tighter leading-none whitespace-nowrap"
-                        style={{ clipPath: 'inset(50% 0 0 0)' }}>
-                        PROJETS
-                    </h2>
-                </div>
-            </div>
-        </section>
-    );
-}
 
 
 
@@ -1682,13 +1589,11 @@ function ArchiTransitionOverlay({ isVisible, onComplete, projectTitle }: { isVis
 }
 
 
-function ArchiProjectDetail({ project, onClose, onNext }: { project: any, onClose: () => void, onNext?: (p: any) => void, key?: any }) {
-    const heroImgRef = useRef(null);
-    const containerRef = useRef(null);
-
-    // Find next project
-    const currentIndex = PROJECTS.findIndex(p => p.title === project.title);
-    const nextProject = PROJECTS[(currentIndex + 1) % PROJECTS.length];
+function ArchiProjectDetail({ project, onClose, onNext, key }: { project: any; onClose: () => void; onNext?: (p: any) => void; key?: any }) {
+    const containerRef = useRef<HTMLDivElement>(null);
+    const heroImgRef = useRef<HTMLImageElement>(null);
+    const nextProjectIndex = (PROJECTS.findIndex(p => p.title === project.title) + 1) % PROJECTS.length;
+    const nextProject = PROJECTS[nextProjectIndex];
 
     useLayoutEffect(() => {
         if (!project) return;
@@ -1755,16 +1660,12 @@ function ArchiProjectDetail({ project, onClose, onNext }: { project: any, onClos
             <div className="w-full">
                 {/* Hero Section */}
                 <div className="h-[80vh] md:h-screen w-full relative overflow-hidden group">
-                    {(project as any).beforePath ? (
-                        <InteractiveBeforeAfter beforeImg={(project as any).beforePath} afterImg={project.path} />
-                    ) : (
-                        <img
-                            ref={heroImgRef}
-                            src={encodeURI(project.path)}
-                            alt={project.title}
-                            className="w-full h-full object-cover"
-                        />
-                    )}
+                    <img
+                        ref={heroImgRef}
+                        src={encodeURI(project.path)}
+                        alt={project.title}
+                        className="w-full h-full object-cover"
+                    />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent opacity-90 pointer-events-none z-10"></div>
 
                     <div className="absolute bottom-10 left-6 md:bottom-20 md:left-20 max-w-5xl space-y-6 pointer-events-none z-20">
@@ -1803,7 +1704,7 @@ function ArchiProjectDetail({ project, onClose, onNext }: { project: any, onClos
 
                 {/* Content Gallery */}
                 <div className="py-20 md:py-40 px-6 md:px-20 gallery-grid grid grid-cols-12 gap-8 md:gap-16 max-w-screen-2xl mx-auto">
-                    {Array.from(new Set([project.path, (project as any).beforePath, ...(project.gallery || [])])).filter(Boolean).map((img: any, i: number) => {
+                    {Array.from(new Set([project.path, ...(project.gallery || [])])).filter(Boolean).map((img: any, i: number) => {
                         let colSpan = "col-span-12";
                         if (i % 3 === 1) colSpan = "col-span-12 md:col-span-8 md:col-start-1";
                         if (i % 3 === 2) colSpan = "col-span-12 md:col-span-7 md:col-start-6";
@@ -1863,118 +1764,51 @@ function ArchiProjectDetail({ project, onClose, onNext }: { project: any, onClos
 }
 
 
-function InteractiveBeforeAfter({ beforeImg, afterImg }: { beforeImg: string, afterImg: string }) {
-    const containerRef = useRef<HTMLDivElement>(null);
-    const [sliderPos, setSliderPos] = useState(50);
-    const [isHovered, setIsHovered] = useState(false);
-    const [hasInteracted, setHasInteracted] = useState(false);
-
-    const handleMove = (clientX: number) => {
-        if (!containerRef.current) return;
-        const rect = containerRef.current.getBoundingClientRect();
-        const x = Math.max(0, Math.min(clientX - rect.left, rect.width));
-        const percent = (x / rect.width) * 100;
-        setSliderPos(percent);
-        if (!hasInteracted) setHasInteracted(true);
-    };
-
-    const handleMouseMove = (e: React.MouseEvent) => handleMove(e.clientX);
-    const handleTouchMove = (e: React.TouchEvent) => {
-        if (e.touches.length > 0) handleMove(e.touches[0].clientX);
-    };
+function ArchiImageModal({ src, onClose }: { src: string; onClose: () => void }) {
+    useEffect(() => {
+        if ((window as any).lenis) (window as any).lenis.stop();
+        document.body.style.overflow = 'hidden';
+        return () => {
+            if ((window as any).lenis) (window as any).lenis.start();
+            document.body.style.overflow = '';
+        };
+    }, []);
 
     return (
-        <div
-            ref={containerRef}
-            className="absolute inset-0 w-full h-full overflow-hidden touch-none group/ba"
-            onMouseMove={handleMouseMove}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => {
-                setIsHovered(false);
-            }}
-            onTouchStart={(e) => {
-                setIsHovered(true);
-                if (!hasInteracted) setHasInteracted(true);
-                if (e.touches.length > 0) handleMove(e.touches[0].clientX);
-            }}
-            onTouchMove={handleTouchMove}
-            onTouchEnd={() => {
-                setIsHovered(false);
-            }}
+        <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[1000] bg-black/95 backdrop-blur-xl flex items-center justify-center p-4 md:p-10"
+            onClick={onClose}
         >
-            {/* MOBILE ONLY: Simple Side-by-Side or Toggle hint */}
-            <div className="md:hidden absolute top-4 left-1/2 -translate-x-1/2 z-30 bg-black/60 backdrop-blur-md px-4 py-2 rounded-full border border-white/20 whitespace-nowrap">
-                <p className="text-[8px] font-bold text-white uppercase tracking-widest">Glissez pour comparer</p>
-            </div>
+            <button
+                onClick={onClose}
+                className="fixed top-6 right-6 z-[1010] w-12 h-12 rounded-full bg-white/10 text-white flex items-center justify-center hover:bg-white hover:text-black transition-all"
+            >
+                <X className="w-6 h-6" />
+            </button>
 
-            {/* Hint Overlay (Desktop) */}
-            <AnimatePresence>
-                {!hasInteracted && (
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        className="absolute inset-0 z-30 flex items-center justify-center bg-black/20 backdrop-blur-[2px] pointer-events-none"
-                    >
-                        <div className="flex flex-col items-center gap-4">
-                            <motion.div
-                                animate={{ x: [-20, 20, -20] }}
-                                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                                className="w-12 h-12 rounded-full border-2 border-white flex items-center justify-center"
-                            >
-                                <div className="w-1 h-1 bg-white rounded-full"></div>
-                            </motion.div>
-                            <span className="text-[10px] font-black text-white uppercase tracking-[0.3em] bg-black/40 px-4 py-2 rounded-sm">Glissez pour comparer</span>
-                        </div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
-
-            {/* After Image (Background) */}
-            <img
-                src={encodeURI(afterImg)}
-                className="absolute inset-0 w-full h-full object-cover transition-all duration-500"
-                style={{ opacity: 1 }}
-                alt="Après"
-            />
-
-            {/* Before Image (Clipped) */}
-            <div
-                className="absolute inset-0 w-full h-full will-change-transform"
-                style={{ clipPath: `inset(0% ${100 - sliderPos}% 0% 0%)` }}
+            <motion.div
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.9, opacity: 0 }}
+                className="relative max-w-7xl w-full h-full flex items-center justify-center"
+                onClick={(e) => e.stopPropagation()}
             >
                 <img
-                    src={encodeURI(beforeImg)}
-                    className="absolute inset-0 w-full h-full object-cover will-change-transform"
-                    style={{
-                        opacity: 1,
-                        transform: isHovered ? "scale(1.02)" : "scale(1)"
-                    }}
-                    alt="Avant"
+                    src={encodeURI(src)}
+                    alt="Modal"
+                    className="max-w-full max-h-full object-contain rounded-sm shadow-2xl"
                 />
-            </div>
-
-            {/* Slider Line & Handle */}
-            <div
-                className={cn(
-                    "absolute top-0 bottom-0 w-[1.5px] bg-white/80 shadow-[0_0_15px_rgba(255,255,255,0.5)] z-20 pointer-events-none",
-                    isHovered || !hasInteracted ? "opacity-100" : "opacity-0"
-                )}
-                style={{ left: `${sliderPos}%` }}
-            >
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center px-4 py-2 rounded-full backdrop-blur-md bg-black/50 border border-white/20 text-white text-[9px] font-bold tracking-[0.2em] uppercase whitespace-nowrap shadow-2xl">
-                    <span className="opacity-70 mr-3">Avant</span>
-                    <span className="w-[1px] h-3 bg-white/30"></span>
-                    <span className="ml-3">Après</span>
-                </div>
-            </div>
-        </div>
+            </motion.div>
+        </motion.div>
     );
 }
 
 function ArchiGallery() {
     const sectionRef = useRef<HTMLElement>(null);
-    const [selectedProject, setSelectedProject] = useState<any>(null);
+    const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
     const scrollToNext = () => {
         if ((window as any).lenis) {
@@ -1984,123 +1818,140 @@ function ArchiGallery() {
         }
     };
 
+    // Prepare all images for the gallery
+    const galleryItems = PROJECTS.flatMap(project => {
+        const items = [];
+        // Before image
+        if (project.beforePath) {
+            items.push({
+                src: project.beforePath,
+                title: project.title,
+                city: project.city,
+                label: "AVANT",
+                project
+            });
+        }
+        // Main after image
+        items.push({
+            src: project.path,
+            title: project.title,
+            city: project.city,
+            label: project.beforePath ? "APRÈS" : "PROJET",
+            project
+        });
+        // Additional gallery images
+        if (project.gallery) {
+            project.gallery.forEach(img => {
+                if (img !== project.path && img !== project.beforePath) {
+                    items.push({
+                        src: img,
+                        title: project.title,
+                        city: project.city,
+                        label: "DÉTAIL",
+                        project
+                    });
+                }
+            });
+        }
+        return items;
+    });
+
     useLayoutEffect(() => {
         const ctx = gsap.context(() => {
-            const projects = gsap.utils.toArray('.project-block');
-            projects.forEach((project: any, i: number) => {
-                const isEven = i % 2 === 0;
-                gsap.fromTo(project,
-                    {
-                        x: isEven ? -100 : 100,
-                        opacity: 0,
-                        scale: 0.95
-                    },
-                    {
-                        x: 0,
-                        opacity: 1,
-                        scale: 1,
-                        duration: 1.5,
-                        ease: "expo.out",
-                        scrollTrigger: {
-                            trigger: project,
-                            start: "top 85%",
-                            toggleActions: "play none none none"
-                        }
+            gsap.from(".gallery-header", {
+                y: 50,
+                opacity: 0,
+                duration: 1.2,
+                ease: "power4.out",
+                scrollTrigger: {
+                    trigger: ".gallery-header",
+                    start: "top 90%"
+                }
+            });
+
+            const cards = gsap.utils.toArray('.project-card');
+            cards.forEach((card: any, i: number) => {
+                gsap.from(card, {
+                    y: 60,
+                    opacity: 0,
+                    duration: 1,
+                    delay: (i % 3) * 0.1,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: card,
+                        start: "top 95%",
+                        toggleActions: "play none none none"
                     }
-                );
+                });
             });
         }, sectionRef);
         return () => ctx.revert();
     }, []);
 
     return (
-        <section id="realisations" ref={sectionRef} className="relative w-full bg-transparent font-display z-50 flex flex-col items-center pt-30 md:pt-48 pb-25 px-4 md:px-20 xl:pl-[15vw] overflow-hidden">
-            {/* Background Decorative Curves */}
-            <div className="absolute inset-0 pointer-events-none opacity-[0.05] overflow-hidden">
-                <svg className="w-full h-full" viewBox="0 0 1000 1000" preserveAspectRatio="none">
-                    <path d="M0,1000 C300,800 700,800 1000,1000" fill="none" stroke="black" strokeWidth="0.5" />
-                    <path d="M0,0 C300,200 700,200 1000,0" fill="none" stroke="black" strokeWidth="0.5" />
-                </svg>
-            </div>
-
+        <section id="realisations" ref={sectionRef} className="relative w-full bg-transparent font-display z-50 flex flex-col items-center pt-32 md:pt-56 pb-0 px-6 md:px-16 xl:pl-[25vw] md:pr-[10vw] overflow-hidden">
             <AnimatePresence mode="wait">
-                {selectedProject && (
-                    <ArchiProjectDetail
-                        key={selectedProject.title}
-                        project={selectedProject}
-                        onClose={() => setSelectedProject(null)}
-                        onNext={(p) => setSelectedProject(p)}
+                {selectedImage && (
+                    <ArchiImageModal
+                        src={selectedImage}
+                        onClose={() => setSelectedImage(null)}
                     />
                 )}
             </AnimatePresence>
 
-            {/* VERTICAL PROJECT LIST */}
-            <div className="w-full max-w-7xl flex flex-col gap-10 md:gap-30">
-                {PROJECTS.map((project, i) => (
+            {/* Gallery Header */}
+            <div className="w-full mb-20 md:mb-32 gallery-header">
+                <div className="md:justify-end flex items-center gap-4 mb-6">
+                    <div className="w-12 h-[1px] bg-black/20"></div>
+                    <span className="text-[10px] md:text-xs font-mono uppercase tracking-[0.5em] text-black/30 font-bold">Réalisations</span>
+                </div>
+                <h2 className="text-5xl md:text-8xl md:text-end font-black uppercase tracking-tighter leading-[0.85] text-black">
+                    L'Art de <br />
+                    <span className="text-black/20 italic font-medium">Bâtir</span>
+                </h2>
+            </div>
+
+            {/* MASONRY GALLERY - Side-by-side on mobile (2 cols) and 3 on desktop */}
+            <div className="w-full columns-2 lg:columns-3 gap-3 md:gap-6 space-y-3 md:space-y-6">
+                {galleryItems.map((item, i) => (
                     <div
                         key={i}
-                        className="project-block relative w-full flex flex-col cursor-pointer group pt-12 md:pt-20"
+                        onClick={() => setSelectedImage(item.src)}
+                        className="project-card break-inside-avoid relative group cursor-pointer overflow-hidden rounded-xl bg-neutral-100 shadow-sm border border-black/5"
                     >
-                        {/* Project Title (Left on Mobile, Right on Desktop - On Border) */}
-                        <div className="absolute top-0 left-0 md:left-auto md:right-0 z-30 pointer-events-none transition-transform duration-700 group-hover:-translate-y-2 translate-y-[-50%] bg-transparent pr-8 md:pr-0 md:pl-8 text-left md:text-right">
-                            <h3 className="text-3xl md:text-5xl lg:text-[4vw] font-medium tracking-tighter text-black leading-none first-letter:uppercase">
-                                {project.title}
-                            </h3>
-                        </div>
+                        {/* Image */}
+                        <img
+                            src={encodeURI(item.src)}
+                            alt={item.title}
+                            className="w-full h-auto object-cover transition-all duration-1000 group-hover:scale-[1.03] group-hover:brightness-90"
+                        />
 
-                        {/* Main Visual Block */}
-                        <div className="relative w-full aspect-[16/10] md:aspect-[21/9] overflow-hidden rounded-sm shadow-2xl border border-black/5 bg-neutral-100">
-                            {(project as any).beforePath ? (
-                                <InteractiveBeforeAfter beforeImg={(project as any).beforePath} afterImg={project.path} />
-                            ) : (
-                                <img
-                                    src={encodeURI(project.path)}
-                                    alt={project.title}
-                                    className="absolute inset-0 w-full h-full object-cover transition-all duration-1000 grayscale-[0.2] group-hover:grayscale-0 group-hover:scale-[1.02]"
-                                />
-                            )}
-                        </div>
-
-                        {/* Metadata Box (Right-Aligned Bottom Overlay) */}
-                        <div className="absolute bottom-0 right-0 md:right-10 lg:right-24 translate-y-[-120%] md:translate-y-[0%] z-40 bg-[#1a1a1a] text-white p-2 md:p-6 lg:p-10 w-auto min-w-[200px] md:min-w-[400px] lg:min-w-[500px] shadow-[0_30px_60px_rgba(0,0,0,0.6)]">
-                            <div className="grid grid-cols-3 gap-2 md:gap-6 lg:gap-10 text-center">
-                                <div className="flex flex-col gap-0.5 md:gap-2 lg:gap-3">
-                                    <span className="text-[6px] md:text-[8px] lg:text-[9px] font-bold uppercase tracking-[0.1em] text-white/40">Catégorie</span>
-                                    <span className="text-[8px] md:text-sm lg:text-base font-medium uppercase tracking-tight text-white">{project.type}</span>
-                                </div>
-                                <div className="flex flex-col gap-0.5 md:gap-2 lg:gap-3">
-                                    <span className="text-[6px] md:text-[8px] lg:text-[9px] font-bold uppercase tracking-[0.1em] text-white/40">Localisation</span>
-                                    <span className="text-[8px] md:text-sm lg:text-base font-medium uppercase tracking-tight text-white">france</span>
-                                </div>
-                                <div className="flex flex-col gap-0.5 md:gap-2 lg:gap-3">
-                                    <span className="text-[6px] md:text-[8px] lg:text-[9px] font-bold uppercase tracking-[0.1em] text-white/40">Surface</span>
-                                    <span className="text-[8px] md:text-sm lg:text-base font-medium uppercase tracking-tight text-white">{(120 + i * 45)}m²</span>
-                                </div>
+                        {/* Status Label (Avant/Après) */}
+                        {item.label && (
+                            <div className="absolute top-6 left-6 z-20">
+                                <span className={cn(
+                                    "px-4 py-2 rounded-sm text-[9px] font-black uppercase tracking-widest backdrop-blur-md shadow-xl border border-white/10",
+                                    item.label === "AVANT" ? "bg-white/90 text-black" :
+                                        item.label === "APRÈS" ? "bg-black/90 text-white" :
+                                            "bg-black/40 text-white/90"
+                                )}>
+                                    {item.label}
+                                </span>
                             </div>
-                        </div>
+                        )}
 
-                        {/* Hover Indicator */}
-                        {/* <div className="mt-12 flex justify-between items-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 md:px-12">
-                            <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-black/60">Découvrir le projet</span>
-                            <div className="w-24 h-[1px] bg-black/20"></div>
-                        </div> */}
+                        {/* Hover Subtle Tint Overlay (No text per request) */}
+                        <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
                     </div>
                 ))}
             </div>
 
-            {/* NEXT SECTION BUTTON */}
-            <div className="mt-10 md:mt-24">
-                <button
-                    onClick={scrollToNext}
-                    className="group flex flex-col items-center gap-4 text-black/40 hover:text-black transition-colors duration-300"
-                >
-                    <span className="text-[10px] text-black font-bold uppercase tracking-[0.5em]">Continuer l'exploration</span>
-                    <div className="w-[1px] h-12 bg-black/20 group-hover:h-20 transition-all duration-700"></div>
-                </button>
-            </div>
+
         </section>
     );
 }
+
+
 // 5.5 TECHNICAL SHOWCASE (3D RENDERS)
 function TechnicalShowcase() {
     const sectionRef = useRef<HTMLElement>(null);
@@ -2264,26 +2115,26 @@ function ArchiValues() {
 
             // Titles converge from Left and Right
             gsap.from(".title-left", {
-                x: "-100vw",
+                x: "-50vw",
                 opacity: 0,
-                duration: 1.5,
+                duration: 2,
                 ease: "expo.out",
                 scrollTrigger: {
-                    trigger: ".title-left",
+                    trigger: sectionRef.current,
                     start: "top 85%",
-                    toggleActions: "restart reset restart reset"
+                    toggleActions: "play none none none"
                 }
             });
 
             gsap.from(".title-right", {
-                x: "100vw",
+                x: "50vw",
                 opacity: 0,
-                duration: 1.5,
+                duration: 2,
                 ease: "expo.out",
                 scrollTrigger: {
-                    trigger: ".title-right",
+                    trigger: sectionRef.current,
                     start: "top 85%",
-                    toggleActions: "restart reset restart reset"
+                    toggleActions: "play none none none"
                 }
             });
 
@@ -2291,14 +2142,14 @@ function ArchiValues() {
             const rows = gsap.utils.toArray('.val-row');
             rows.forEach((row: any, i: number) => {
                 gsap.from(row, {
-                    x: i % 2 === 0 ? "-100vw" : "100vw",
+                    x: i % 2 === 0 ? "-30vw" : "30vw",
                     opacity: 0,
                     duration: 1.5,
-                    ease: "expo.out",
+                    ease: "power4.out",
                     scrollTrigger: {
                         trigger: row,
-                        start: "top 90%",
-                        toggleActions: "restart reset restart reset"
+                        start: "top 95%",
+                        toggleActions: "play none none none"
                     }
                 });
             });
@@ -2526,7 +2377,7 @@ function ArchiContact() {
                                 </div>
                                 <div className="space-y-2">
                                     <label className="text-[8px] uppercase tracking-widest text-white/30 font-bold">Message</label>
-                                    <textarea rows={3} className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-4 text-sm focus:border-white/30 outline-none transition-all resize-none placeholder:text-white/15 text-white" placeholder="Parlez-moi de votre projet..." />
+                                    <textarea rows={3} className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-4 text-sm focus:border-white/30 outline-none transition-all resize-none placeholder:text-white/15 text-white" placeholder="Parlez-nous de votre projet..." />
                                 </div>
                                 <button className="w-full py-5 bg-white text-black text-[10px] font-black uppercase tracking-[0.4em] rounded-lg hover:bg-opacity-90 transition-all duration-300 transform hover:-translate-y-1">
                                     Envoyer le message
@@ -2681,7 +2532,6 @@ export default function ArchiMadeLanding() {
                         {/* <ArchiVision /> */}
                         <ArchiAbout />
                         <ArchiServices />
-                        <ArchiProcess />
                         <ArchiGallery />
 
                         <TechnicalShowcase />
@@ -2717,6 +2567,13 @@ export default function ArchiMadeLanding() {
                 @keyframes rotate-slow {
                     from { transform: rotate(0deg); }
                     to { transform: rotate(360deg); }
+                }
+                .no-scrollbar::-webkit-scrollbar {
+                    display: none;
+                }
+                .no-scrollbar {
+                    -ms-overflow-style: none;
+                    scrollbar-width: none;
                 }
                 html {
                    scroll-behavior: auto;
