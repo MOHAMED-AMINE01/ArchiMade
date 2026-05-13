@@ -20,7 +20,9 @@ import {
     Facebook,
     ChevronDown,
     ChevronLeft,
-    ChevronRight
+    ChevronRight,
+    ShieldCheck,
+    Cookie
 } from "lucide-react";
 import { cn } from "../lib/utils";
 
@@ -2493,6 +2495,81 @@ function ArchiContact() {
     );
 }
 
+// --- COOKIE BANNER COMPONENT ---
+function ArchiCookieBanner() {
+    const [isVisible, setIsVisible] = useState(false);
+
+    useEffect(() => {
+        const consent = localStorage.getItem('archimade-cookies-consent');
+        if (!consent) {
+            const timer = setTimeout(() => setIsVisible(true), 4000);
+            return () => clearTimeout(timer);
+        }
+    }, []);
+
+    const handleAction = (type: 'accept' | 'decline') => {
+        localStorage.setItem('archimade-cookies-consent', type);
+        setIsVisible(false);
+    };
+
+    return (
+        <AnimatePresence>
+            {isVisible && (
+                <motion.div
+                    initial={{ y: 50, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    exit={{ y: 50, opacity: 0 }}
+                    transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                    className="fixed bottom-6 left-4 right-4 md:bottom-8 md:left-1/2 md:-translate-x-1/2 z-[3000] md:w-auto md:max-w-2xl"
+                >
+                    <div className="bg-[#0a0a0a]/90 backdrop-blur-[30px] border border-white/10 rounded-[2rem] p-4 md:p-2 flex flex-col md:flex-row items-center gap-4 md:gap-6 shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden group">
+                        
+                        {/* Left Side: Icon & Context */}
+                        <div className="flex items-center gap-4 w-full md:w-auto pl-2 md:pl-4">
+                            <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center shrink-0 shadow-lg">
+                                <Cookie className="w-5 h-5 text-black" />
+                            </div>
+                            <div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-3">
+                                <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-white whitespace-nowrap">Studio Experience</h4>
+                                <p className="text-[9px] text-white/40 font-light leading-none hidden md:block border-l border-white/10 pl-3">
+                                    Nous personnalisons votre parcours digital.
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Right Side: Actions */}
+                        <div className="flex items-center justify-between md:justify-end gap-2 w-full md:w-auto md:ml-auto">
+                            <Link 
+                                to="/cookies"
+                                className="px-3 py-3 text-white/30 text-[9px] font-bold uppercase tracking-widest hover:text-white transition-colors"
+                            >
+                                Détails
+                            </Link>
+                            <div className="flex items-center gap-2">
+                                <button 
+                                    onClick={() => handleAction('decline')}
+                                    className="px-4 py-2.5 bg-white/5 border border-white/10 text-white/60 text-[9px] font-black uppercase tracking-[0.2em] rounded-full hover:bg-white/10 hover:text-white transition-all duration-300"
+                                >
+                                    Refuser
+                                </button>
+                                <button 
+                                    onClick={() => handleAction('accept')}
+                                    className="px-7 py-2.5 bg-white text-black text-[9px] font-black uppercase tracking-[0.3em] rounded-full hover:scale-105 transition-all duration-300 shadow-xl"
+                                >
+                                    Accepter
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Animated Glow Accent */}
+                        <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
+                    </div>
+                </motion.div>
+            )}
+        </AnimatePresence>
+    );
+}
+
 // --- MAIN PAGE EXPORT ---
 export default function ArchiMadeLanding() {
     const [isLoading, setIsLoading] = useState(true);
@@ -2644,6 +2721,8 @@ export default function ArchiMadeLanding() {
                         </div>
                         <ArchiContact />
                     </main>
+
+                    <ArchiCookieBanner />
 
                     {/* Global Animation Styles */}
                     <style dangerouslySetInnerHTML={{
