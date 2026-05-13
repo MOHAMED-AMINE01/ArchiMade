@@ -1,4 +1,5 @@
 import React, { useLayoutEffect, useRef, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion"; import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
@@ -33,7 +34,8 @@ const IMAGES = {
         joue: "/IMAGES/3D/Construction d_une maison individuelle joue les tours 37300.png",
         montlouis: "/IMAGES/3D/Construction d_une maison individuelle Montlouis sur Loire 37270.png",
         mirabeau: "/IMAGES/3D/Création d_une extension 13170 Les pennes Mirabeau.png",
-        saintes: "/IMAGES/3D/Modifications de façades d_un entrepôt 17100 saintes.png"
+        saintes: "/IMAGES/3D/Modifications de façades d_un entrepôt 17100 saintes.png",
+        pexels: "/IMAGES/3D/pexels-perqued-13203180.jpg"
     },
     projects: {
         activites: {
@@ -75,67 +77,161 @@ const IMAGES = {
                 "/IMAGES/3D/pexels-perqued-13203180.jpg",
                 "/IMAGES/Projets finis/Loc office rehabiliation d_une zone de stockage en bureau 37390 chanceaux sur choisille/Capture d_écran 2026-04-10 174750.png"
             ]
+        },
+        padel: {
+            main: "/Nouvelles images/WhatsApp Image 2026-04-23 at 17.48.14.jpeg",
+            gallery: [
+                "/Nouvelles images/WhatsApp Image 2026-04-23 at 17.48.13.jpeg",
+                "/Nouvelles images/WhatsApp Image 2026-04-23 at 17.48.14 (1).jpeg",
+                "/Nouvelles images/WhatsApp Image 2026-04-23 at 17.48.14.jpeg"
+            ]
+        },
+        whatsapp: {
+            i1: "/Nouvelles images/WhatsApp Image 2026-04-23 at 17.48.13.jpeg",
+            i2: "/Nouvelles images/WhatsApp Image 2026-04-23 at 17.48.14 (1).jpeg",
+            i3: "/Nouvelles images/WhatsApp Image 2026-04-23 at 17.48.14.jpeg"
         }
     }
 };
 
 const PROJECTS = [
     {
-        title: "Bâtiment d'activités",
-        city: "Inconnu",
+        title: "Espace Tertiaire",
+        city: "La Ville-aux-Dames",
         year: "2024",
-        type: "Projet",
-        path: IMAGES.projects.activites.main,
-        beforePath: IMAGES.projects.activites.before,
-        gallery: [IMAGES.projects.activites.main, IMAGES.projects.activites.before],
-        specs: ["Architecture"]
+        type: "Bureaux",
+        path: IMAGES.renders.pexels,
+        gallery: [IMAGES.renders.pexels],
+        specs: ["Architecture", "Design"]
     },
     {
-        title: "Extension contemporaine",
-        city: "Esvres",
-        year: "2022",
-        type: "Extension",
-        path: IMAGES.projects.esvres.main,
-        beforePath: IMAGES.projects.esvres.before,
-        gallery: [IMAGES.projects.esvres.main, IMAGES.projects.esvres.before],
-        specs: ["Ossature Bois", "Légèreté"]
-    },
-    {
-        title: "Maison individuelle Saint-Cyr-sur-Loire",
-        city: "Saint-Cyr-sur-Loire",
+        title: "Villa Contemporaine",
+        city: "Joué-lès-Tours",
         year: "2023",
         type: "Neuf",
-        path: IMAGES.projects.cyr_villa.main,
-        gallery: [IMAGES.projects.cyr_villa.main],
-        specs: ["Haut de gamme", "Design épuré"]
+        path: IMAGES.renders.joue,
+        gallery: [IMAGES.renders.joue],
+        specs: ["Haut de gamme", "Design épuré"],
+        featured: true
     },
     {
-        title: "Projet La Suze-sur-Sarthe",
-        city: "La Suze-sur-Sarthe",
-        year: "2023",
+        title: "Résidence de Prestige",
+        city: "Montlouis-sur-Loire",
+        year: "2024",
         type: "Neuf",
-        path: IMAGES.projects.suze.main,
-        gallery: [IMAGES.projects.suze.main],
-        specs: ["Volume", "Clarté"]
+        path: IMAGES.renders.montlouis,
+        gallery: [IMAGES.renders.montlouis],
+        specs: ["Volume", "Clarté"],
+        featured: true
     },
     {
-        title: "Extension Saint-Cyr-sur-Loire",
-        city: "Saint-Cyr-sur-Loire",
-        year: "2022",
+        title: "Extension Moderne",
+        city: "Les Pennes-Mirabeau",
+        year: "2023",
         type: "Extension",
-        path: IMAGES.projects.cyr_extension.main,
-        beforePath: IMAGES.projects.cyr_extension.before,
-        gallery: [IMAGES.projects.cyr_extension.before, IMAGES.projects.cyr_extension.main, IMAGES.projects.cyr_extension.alt],
+        path: IMAGES.renders.mirabeau,
+        gallery: [IMAGES.renders.mirabeau],
         specs: ["Harmonie", "Transition"]
     },
     {
-        title: "Réhabilitation bureaux",
-        city: "Chanceaux-sur-Choisille",
+        title: "Pavillon Veigné",
+        city: "Veigné",
         year: "2023",
-        type: "Tertiaire",
-        path: IMAGES.projects.chanceaux.main,
-        gallery: [IMAGES.projects.chanceaux.main, ...IMAGES.projects.chanceaux.gallery],
-        specs: ["Reconversion", "Open-space"]
+        type: "Neuf",
+        path: IMAGES.renders.veigne,
+        gallery: [IMAGES.renders.veigne],
+        specs: ["Conception 3D", "Modélisation"]
+    },
+    {
+        title: "Modifications de Façades",
+        city: "Saintes",
+        year: "2024",
+        type: "Industriel",
+        path: IMAGES.renders.saintes,
+        gallery: [IMAGES.renders.saintes],
+        specs: ["Modernisation", "Structure"]
+    },
+    {
+        title: "Club House Padel Arena",
+        city: "Tours",
+        year: "2024",
+        type: "Club House",
+        path: IMAGES.projects.padel.main,
+        gallery: IMAGES.projects.padel.gallery,
+        specs: ["Loisirs", "Premium", "Design"],
+        featured: true
+    },
+    {
+        title: "Pavillon de Chasse",
+        city: "Sologne",
+        year: "2024",
+        type: "Rénovation",
+        path: IMAGES.projects.whatsapp.i1,
+        gallery: [IMAGES.projects.whatsapp.i1, IMAGES.projects.whatsapp.i2],
+        specs: ["Tradition", "Modernité"]
+    },
+    {
+        title: "Loft Industriel",
+        city: "Tours Centre",
+        year: "2023",
+        type: "Transformation",
+        path: IMAGES.projects.whatsapp.i3,
+        gallery: [IMAGES.projects.whatsapp.i3, IMAGES.projects.whatsapp.i2],
+        specs: ["Volume", "Acier"]
+    },
+    {
+        title: "Villa Fondettes",
+        city: "Fondettes",
+        year: "2024",
+        type: "Neuf",
+        path: IMAGES.projects.fondettes.main,
+        gallery: [IMAGES.projects.fondettes.main],
+        specs: ["Contemporain", "Lumière"]
+    },
+    {
+        title: "Résidence Saint-Cyr",
+        city: "Saint-Cyr-sur-Loire",
+        year: "2024",
+        type: "Neuf",
+        path: IMAGES.projects.cyr_villa.main,
+        gallery: [IMAGES.projects.cyr_villa.main],
+        specs: ["Prestige", "Design"]
+    },
+    {
+        title: "Maison de la Suze",
+        city: "La Suze-sur-Sarthe",
+        year: "2024",
+        type: "Neuf",
+        path: IMAGES.projects.suze.main,
+        gallery: [IMAGES.projects.suze.main],
+        specs: ["Harmonie", "Volume"]
+    },
+    {
+        title: "Pavillon Ligueil",
+        city: "Ligueil",
+        year: "2023",
+        type: "Neuf",
+        path: IMAGES.projects.ligueil.main,
+        gallery: [IMAGES.projects.ligueil.main],
+        specs: ["Simplicité", "Élégance"]
+    },
+    {
+        title: "Surélévation Garage",
+        city: "Chambray-lès-Tours",
+        year: "2024",
+        type: "Extension",
+        path: IMAGES.projects.chambray.main,
+        gallery: [IMAGES.projects.chambray.main],
+        specs: ["Optimisation", "Structure"]
+    },
+    {
+        title: "Villa Saint-Branchs",
+        city: "Saint-Branchs",
+        year: "2023",
+        type: "Neuf",
+        path: IMAGES.projects.branchs.main,
+        gallery: [IMAGES.projects.branchs.main],
+        specs: ["Modernité", "Espace"]
     }
 ];
 
@@ -1269,8 +1365,8 @@ const services = [
     { title: "Permis de Construire", cat: "Architectural", loc: "Tours, FR", area: "450.00 m² / 4843 ft²", img: IMAGES.renders.veigne, desc: "Un dossier complet pour présenter votre projet, structurer les pièces attendues et faciliter vos démarches administratives." },
     { title: "Déclarations Préalables", cat: "Extension", loc: "Bordeaux, FR", area: "85.22 m² / 917 ft²", img: IMAGES.renders.mirabeau, desc: "ArchiMade vous accompagne dans la préparation de votre déclaration préalable pour vos extensions, modifications de façade ou aménagements extérieurs." },
     { title: "Plans d'Exécution", cat: "Technique", loc: "Paris, FR", area: "1200.00 m² / 12916 ft²", img: IMAGES.projects.activites.main, desc: "Des plans précis et documents techniques détaillés pour définir les volumes, les assemblages et les informations nécessaires à la réalisation du projet." },
-    { title: "Modélisation 3D", cat: "Visualisation", loc: "Studio", area: "Full Render 8K", img: IMAGES.projects.esvres.main, desc: "Une visualisation 3D pour comprendre les volumes, tester les choix esthétiques et mieux vous projeter avant réalisation." },
-    { title: "Rendus Photoréalistes", cat: "Marketing", loc: "Digital", area: "Ultra High Def", img: IMAGES.projects.chanceaux.gallery[1], desc: "Des rendus 3D haute définition pour visualiser le projet dans une version proche du résultat attendu." },
+    { title: "Modélisation 3D", cat: "Visualisation", loc: "Studio", area: "Full Render 8K", img: IMAGES.projects.padel.main, desc: "Une visualisation 3D pour comprendre les volumes, tester les choix esthétiques et mieux vous projeter avant réalisation." },
+    { title: "Rendus Photoréalistes", cat: "Marketing", loc: "Digital", area: "Ultra High Def", img: IMAGES.renders.montlouis, desc: "Des rendus 3D haute définition pour visualiser le projet dans une version proche du résultat attendu." },
     { title: "Dossiers Complets", cat: "Consulting", loc: "National", area: "BIM Integrated", img: IMAGES.projects.cyr_extension.alt, desc: "Plans, pièces graphiques et documents administratifs sont réunis dans un dossier structuré pour vos démarches." },
 ];
 
@@ -1344,8 +1440,8 @@ function ArchiServices() {
                 </div>
             </div>
 
-            {/* ACCORDION CONTAINER */}
-            <div ref={accordionRef} className="relative h-[85vh] lg:h-[85vh] flex flex-col lg:flex-row overflow-hidden border-y border-black/10 z-[110] bg-[#0a0a0a]">
+            {/* ACCORDION CONTAINER - Trigger for UI hiding */}
+            <div id="expertise-content" ref={accordionRef} className="relative h-[85vh] lg:h-[85vh] flex flex-col lg:flex-row overflow-hidden border-y border-black/10 z-[110] bg-[#0a0a0a]">
                 {services.map((service, index) => {
                     const isActive = activeIndex === index;
                     const isExpanded = expandedIndex === index;
@@ -1818,43 +1914,44 @@ function ArchiGallery() {
         }
     };
 
-    // Prepare all images for the gallery
+    // Prepare all images for the gallery with duplicate prevention
+    const seenImages = new Set<string>();
     const galleryItems = PROJECTS.flatMap(project => {
         const items = [];
-        // Before image
-        if (project.beforePath) {
+        // Main image
+        if (!seenImages.has(project.path)) {
             items.push({
-                src: project.beforePath,
+                src: project.path,
                 title: project.title,
                 city: project.city,
-                label: "AVANT",
-                project
+                label: "RÉALISATION",
+                project,
+                featured: project.featured
             });
+            seenImages.add(project.path);
         }
-        // Main after image
-        items.push({
-            src: project.path,
-            title: project.title,
-            city: project.city,
-            label: project.beforePath ? "APRÈS" : "PROJET",
-            project
-        });
+        
         // Additional gallery images
         if (project.gallery) {
-            project.gallery.forEach(img => {
-                if (img !== project.path && img !== project.beforePath) {
+            project.gallery.forEach((img, idx) => {
+                if (!seenImages.has(img)) {
                     items.push({
                         src: img,
                         title: project.title,
                         city: project.city,
                         label: "DÉTAIL",
-                        project
+                        project,
+                        featured: project.featured && idx === 0
                     });
+                    seenImages.add(img);
                 }
             });
         }
         return items;
     });
+
+    // Reorder to put featured first
+    galleryItems.sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0));
 
     useLayoutEffect(() => {
         const ctx = gsap.context(() => {
@@ -1889,7 +1986,7 @@ function ArchiGallery() {
     }, []);
 
     return (
-        <section id="realisations" ref={sectionRef} className="relative w-full bg-transparent font-display z-50 flex flex-col items-center pt-32 md:pt-56 pb-0 px-6 md:px-16 xl:pl-[25vw] md:pr-[10vw] overflow-hidden">
+        <section id="realisations" ref={sectionRef} className="relative w-full bg-transparent font-display z-50 flex flex-col items-center pt-32 md:pt-56 pb-20 px-6 md:px-20 lg:px-32 overflow-hidden">
             <AnimatePresence mode="wait">
                 {selectedImage && (
                     <ArchiImageModal
@@ -1911,37 +2008,30 @@ function ArchiGallery() {
                 </h2>
             </div>
 
-            {/* MASONRY GALLERY - Side-by-side on mobile (2 cols) and 3 on desktop */}
-            <div className="w-full columns-2 lg:columns-3 gap-3 md:gap-6 space-y-3 md:space-y-6">
+            {/* MASONRY GALLERY - Content Trigger for UI hiding */}
+            <div id="realisations-content" className="w-full columns-2 lg:columns-3 gap-4 md:gap-8 space-y-4 md:space-y-8">
                 {galleryItems.map((item, i) => (
                     <div
                         key={i}
                         onClick={() => setSelectedImage(item.src)}
-                        className="project-card break-inside-avoid relative group cursor-pointer overflow-hidden rounded-xl bg-neutral-100 shadow-sm border border-black/5"
+                        className="project-card break-inside-avoid relative group cursor-pointer overflow-hidden rounded-2xl bg-neutral-100 shadow-sm border border-black/5"
                     >
-                        {/* Image */}
-                        <img
-                            src={encodeURI(item.src)}
-                            alt={item.title}
-                            className="w-full h-auto object-cover transition-all duration-1000 group-hover:scale-[1.03] group-hover:brightness-90"
-                        />
+                        {/* Image with Parallax Scroll */}
+                        <div className="overflow-hidden">
+                            <img
+                                src={encodeURI(item.src)}
+                                alt={item.title}
+                                className="w-full h-auto object-cover transition-all duration-[1.5s] group-hover:scale-110 group-hover:rotate-1"
+                            />
+                        </div>
 
-                        {/* Status Label (Avant/Après) */}
-                        {item.label && (
-                            <div className="absolute top-6 left-6 z-20">
-                                <span className={cn(
-                                    "px-4 py-2 rounded-sm text-[9px] font-black uppercase tracking-widest backdrop-blur-md shadow-xl border border-white/10",
-                                    item.label === "AVANT" ? "bg-white/90 text-black" :
-                                        item.label === "APRÈS" ? "bg-black/90 text-white" :
-                                            "bg-black/40 text-white/90"
-                                )}>
-                                    {item.label}
-                                </span>
-                            </div>
-                        )}
 
-                        {/* Hover Subtle Tint Overlay (No text per request) */}
-                        <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
+
+                        {/* Minimal Info Overlay */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700 flex flex-col justify-end p-8">
+                            <p className="text-white/60 text-[8px] font-mono uppercase tracking-[0.4em] mb-2 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">{item.city}</p>
+                            <h3 className="text-white text-xl font-black uppercase tracking-tighter leading-none translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-75">{item.title}</h3>
+                        </div>
                     </div>
                 ))}
             </div>
@@ -2283,6 +2373,8 @@ function ArchiFAQ() {
     );
 }
 
+// --- LEGAL MODAL COMPONENT --- (Supprimé car remplacé par des pages)
+
 function ArchiContact() {
     const sectionRef = useRef<HTMLElement>(null);
 
@@ -2391,9 +2483,9 @@ function ArchiContact() {
                 <div className="contact-footer-bar mt-12 md:mt-16 lg:mt-24 pt-8 md:pt-10 border-t border-black/5 flex flex-col md:flex-row justify-between items-center opacity-30 text-[9px] uppercase tracking-[0.2em] font-bold">
                     <p>© {new Date().getFullYear()} ArchiMade Studio — France</p>
                     <div className="flex gap-8 mt-4 md:mt-0">
-                        <a href="#" className="hover:text-black transition-colors">Mentions légales</a>
-                        <a href="#" className="hover:text-black transition-colors">Politique de confidentialité</a>
-                        <a href="#" className="hover:text-black transition-colors">Cookies</a>
+                        <Link to="/mentions-legales" className="hover:text-black transition-colors uppercase">Mentions légales</Link>
+                        <Link to="/confidentialite" className="hover:text-black transition-colors uppercase">Confidentialité</Link>
+                        <Link to="/cookies" className="hover:text-black transition-colors uppercase">Cookies</Link>
                     </div>
                 </div>
             </div>
@@ -2406,6 +2498,7 @@ export default function ArchiMadeLanding() {
     const [isLoading, setIsLoading] = useState(true);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isScrolling, setIsScrolling] = useState(false);
+    const [isUIHidden, setIsUIHidden] = useState(false);
     const mainRef = useRef<HTMLDivElement>(null);
     const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -2451,25 +2544,27 @@ export default function ArchiMadeLanding() {
                 });
 
 
-                const targetElements = ".archi-sidebar, .archi-desktop-socials, .archi-mobile-socials, .archi-sticky-contact";
-
-                // Hide UI *only* while inside the Expertise section
+                // UI HIDING LOGIC (Triggered only when content starts)
+                // Hiding happens exactly when the section hits the top of the viewport
                 ScrollTrigger.create({
                     trigger: "#expertise",
-                    start: "top center",
-                    end: "bottom center",
-                    onEnter: () => gsap.to(targetElements, { opacity: 0, pointerEvents: "none", duration: 0.5 }),
-                    onLeave: () => gsap.to(targetElements, { opacity: 1, pointerEvents: "auto", duration: 0.5 }),
-                    onEnterBack: () => gsap.to(targetElements, { opacity: 0, pointerEvents: "none", duration: 0.5 }),
-                    onLeaveBack: () => gsap.to(targetElements, { opacity: 1, pointerEvents: "auto", duration: 0.5 }),
+                    start: "top top",
+                    endTrigger: "#expertise-3d",
+                    end: "bottom 20%",
+                    onEnter: () => setIsUIHidden(true),
+                    onLeave: () => setIsUIHidden(false),
+                    onEnterBack: () => setIsUIHidden(true),
+                    onLeaveBack: () => setIsUIHidden(false),
                 });
 
-                // Hide UI when reaching Contact (and keep it hidden)
                 ScrollTrigger.create({
-                    trigger: "#contact",
-                    start: "top 80%",
-                    onEnter: () => gsap.to(targetElements, { opacity: 0, pointerEvents: "none", duration: 0.5 }),
-                    onLeaveBack: () => gsap.to(targetElements, { opacity: 1, pointerEvents: "auto", duration: 0.5 }),
+                    trigger: "#realisations",
+                    start: "top top",
+                    end: "bottom 20%",
+                    onEnter: () => setIsUIHidden(true),
+                    onLeave: () => setIsUIHidden(false),
+                    onEnterBack: () => setIsUIHidden(true),
+                    onLeaveBack: () => setIsUIHidden(false),
                 });
 
             }, mainRef);
@@ -2486,7 +2581,6 @@ export default function ArchiMadeLanding() {
                     ref={mainRef}
                     className="min-h-screen text-[#0a0a0a] selection:bg-[#0a0a0a] selection:text-white font-sans antialiased overflow-x-hidden block"
                 >
-
                     <ArchiHeader onMenuClick={() => setIsMenuOpen(true)} />
                     <ArchiMenuOverlay isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
 
@@ -2497,13 +2591,16 @@ export default function ArchiMadeLanding() {
                     {/* Sticky Contact Button */}
                     <motion.div
                         initial={{ opacity: 0, x: 50 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: 1.5, duration: 1 }}
-                        className="fixed bottom-8 left-8 md:bottom-12 md:left-12 xl:right-[-60px] xl:top-1/2 xl:-translate-y-1/2 xl:bottom-auto xl:left-auto z-[150] pointer-events-none mix-blend-difference"
+                        animate={{ opacity: isUIHidden ? 0 : 1, x: isUIHidden ? 50 : 0 }}
+                        transition={{ duration: 0.5 }}
+                        className={cn(
+                            "fixed bottom-8 left-8 md:bottom-12 md:left-12 xl:right-[-60px] xl:top-1/2 xl:-translate-y-1/2 xl:bottom-auto xl:left-auto z-[150] mix-blend-difference transition-all duration-500",
+                            isUIHidden ? "pointer-events-none" : "pointer-events-auto"
+                        )}
                     >
                         <a
                             href="#contact"
-                            className="archi-sticky-contact pointer-events-auto group relative flex items-center justify-center bg-white text-black w-14 h-14 md:w-auto md:h-auto md:px-8 md:py-4 xl:px-10 xl:py-5 rounded-full xl:rounded-t-full xl:rounded-b-none overflow-hidden transition-all duration-500 hover:pr-14 xl:rotate-[-90deg] xl:origin-center"
+                            className="archi-sticky-contact group relative flex items-center justify-center bg-white text-black w-14 h-14 md:w-auto md:h-auto md:px-8 md:py-4 xl:px-10 xl:py-5 rounded-full xl:rounded-t-full xl:rounded-b-none overflow-hidden transition-all duration-500 hover:pr-14 xl:rotate-[-90deg] xl:origin-center"
                         >
                             <span className="hidden md:block text-[10px] font-bold uppercase tracking-[0.4em] relative z-10 whitespace-nowrap">Nous contacter</span>
                             <Phone className="w-5 h-5 md:hidden relative z-10" />
@@ -2512,13 +2609,19 @@ export default function ArchiMadeLanding() {
                     </motion.div>
 
                     {/* Desktop Left Fixed Frame Column - WITH blend mode (Menu + Logo) */}
-                    <div className="archi-sidebar fixed top-0 left-0 bottom-0 w-[25vw] z-[500] hidden xl:flex flex-col justify-between pt-16 pb-12 px-12 lg:px-16 pointer-events-none mix-blend-difference text-white">
+                    <div className={cn(
+                        "archi-sidebar fixed top-0 left-0 bottom-0 w-[25vw] z-[500] hidden xl:flex flex-col justify-between pt-16 pb-12 px-12 lg:px-16 pointer-events-none mix-blend-difference text-white transition-all duration-700",
+                        isUIHidden ? "opacity-0 -translate-x-10" : "opacity-100 translate-x-0"
+                    )}>
                         <ArchiNav showOnly="menu" isScrolling={isScrolling} />
                         <ArchiLogo isScrolling={isScrolling} />
                     </div>
 
                     {/* Desktop Socials Overlay - WITHOUT blend mode (Preserves brand colors) */}
-                    <div className="archi-desktop-socials fixed top-0 left-0 bottom-0 w-[25vw] z-[510] hidden xl:flex flex-col pt-16 px-12 lg:px-16 pointer-events-none">
+                    <div className={cn(
+                        "archi-desktop-socials fixed top-0 left-0 bottom-0 w-[25vw] z-[510] hidden xl:flex flex-col pt-16 px-12 lg:px-16 pointer-events-none transition-all duration-700 delay-75",
+                        isUIHidden ? "opacity-0 -translate-x-10" : "opacity-100 translate-x-0"
+                    )}>
                         <ArchiNav showOnly="socials" />
                     </div>
 
