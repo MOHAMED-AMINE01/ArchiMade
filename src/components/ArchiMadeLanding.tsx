@@ -16,8 +16,6 @@ import {
     CheckCircle2,
     Phone,
     Mail,
-    Instagram,
-    Facebook,
     ChevronDown,
     ChevronLeft,
     ChevronRight,
@@ -45,7 +43,7 @@ const IMAGES = {
             before: "/IMAGES/Projets finis/Bâtiment d_activités/Capture d_écran 2026-04-11 093951.png"
         },
         esvres: {
-            main: "/IMAGES/3D/Construction d_une maison individuelle joue les tours 37300.png",
+            main: "/IMAGES/Projets finis/Construction d_une extension sur maison existant 37320 Esvres/Insertion 2.png",
             before: "/IMAGES/Projets finis/Construction d_une extension sur maison existant 37320 Esvres/WhatsApp Image 2022-10-05 at 09.00.22 (1).jpeg"
         },
         fondettes: {
@@ -98,15 +96,6 @@ const IMAGES = {
 
 const PROJECTS = [
     {
-        title: "Espace Tertiaire",
-        city: "La Ville-aux-Dames",
-        year: "2024",
-        type: "Bureaux",
-        path: IMAGES.renders.pexels,
-        gallery: [IMAGES.renders.pexels],
-        specs: ["Architecture", "Design"]
-    },
-    {
         title: "Villa Contemporaine",
         city: "Joué-lès-Tours",
         year: "2023",
@@ -155,7 +144,7 @@ const PROJECTS = [
     },
     {
         title: "Club House Padel Arena",
-        city: "Tours",
+        city: "Vendôme/Saint Ouen",
         year: "2024",
         type: "Club House",
         path: IMAGES.projects.padel.main,
@@ -164,58 +153,23 @@ const PROJECTS = [
         featured: true
     },
     {
-        title: "Pavillon de Chasse",
-        city: "Sologne",
-        year: "2024",
-        type: "Rénovation",
-        path: IMAGES.projects.whatsapp.i1,
-        gallery: [IMAGES.projects.whatsapp.i1, IMAGES.projects.whatsapp.i2],
-        specs: ["Tradition", "Modernité"]
-    },
-    {
-        title: "Loft Industriel",
-        city: "Tours Centre",
-        year: "2023",
-        type: "Transformation",
-        path: IMAGES.projects.whatsapp.i3,
-        gallery: [IMAGES.projects.whatsapp.i3, IMAGES.projects.whatsapp.i2],
-        specs: ["Volume", "Acier"]
-    },
-    {
-        title: "Villa Fondettes",
-        city: "Fondettes",
-        year: "2024",
-        type: "Neuf",
-        path: IMAGES.projects.fondettes.main,
-        gallery: [IMAGES.projects.fondettes.main],
-        specs: ["Contemporain", "Lumière"]
-    },
-    {
-        title: "Résidence Saint-Cyr",
+        title: "Extension Saint-Cyr",
         city: "Saint-Cyr-sur-Loire",
         year: "2024",
-        type: "Neuf",
-        path: IMAGES.projects.cyr_villa.main,
-        gallery: [IMAGES.projects.cyr_villa.main],
-        specs: ["Prestige", "Design"]
+        type: "Extension",
+        path: IMAGES.projects.cyr_extension.main,
+        gallery: [IMAGES.projects.cyr_extension.main, IMAGES.projects.cyr_extension.alt],
+        specs: ["Volume", "Luminosité", "Modernité"],
+        featured: true
     },
     {
-        title: "Maison de la Suze",
-        city: "La Suze-sur-Sarthe",
-        year: "2024",
-        type: "Neuf",
-        path: IMAGES.projects.suze.main,
-        gallery: [IMAGES.projects.suze.main],
-        specs: ["Harmonie", "Volume"]
-    },
-    {
-        title: "Pavillon Ligueil",
-        city: "Ligueil",
+        title: "Extension Esvres",
+        city: "Esvres",
         year: "2023",
-        type: "Neuf",
-        path: IMAGES.projects.ligueil.main,
-        gallery: [IMAGES.projects.ligueil.main],
-        specs: ["Simplicité", "Élégance"]
+        type: "Extension",
+        path: IMAGES.projects.esvres.main,
+        gallery: [IMAGES.projects.esvres.main],
+        specs: ["Intégration", "Sur-mesure"]
     },
     {
         title: "Surélévation Garage",
@@ -225,15 +179,6 @@ const PROJECTS = [
         path: IMAGES.projects.chambray.main,
         gallery: [IMAGES.projects.chambray.main],
         specs: ["Optimisation", "Structure"]
-    },
-    {
-        title: "Villa Saint-Branchs",
-        city: "Saint-Branchs",
-        year: "2023",
-        type: "Neuf",
-        path: IMAGES.projects.branchs.main,
-        gallery: [IMAGES.projects.branchs.main],
-        specs: ["Modernité", "Espace"]
     }
 ];
 
@@ -535,65 +480,8 @@ const ArchiLogo = ({ className = "", light = false, isScrolling = false }: { cla
     </div>
 );
 
-const ArchiMobileSocials = () => {
-    const [isHero, setIsHero] = useState(true);
-
-    useEffect(() => {
-        const handleScroll = () => {
-            if (window.scrollY > window.innerHeight * 0.4) {
-                setIsHero(false);
-            } else {
-                setIsHero(true);
-            }
-        };
-
-        window.addEventListener('scroll', handleScroll);
-        // Trigger once on mount
-        handleScroll();
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
-
-    return (
-        <div
-            className={cn(
-                "archi-mobile-socials fixed z-[250] flex flex-col gap-4 xl:hidden pointer-events-auto transition-all duration-700 ease-[cubic-bezier(0.76,0,0.24,1)]",
-                isHero ? "top-[50%] -translate-y-1/2 right-4" : "top-[calc(100dvh-140px)] -translate-y-0 right-6"
-            )}
-        >
-            <motion.a
-                href="https://facebook.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 1, duration: 0.8 }}
-                className="w-12 h-12 rounded-full border-2 border-[#1877F2] bg-[#0a0a0a] flex items-center justify-center transition-all duration-300 shadow-xl group"
-            >
-                <Facebook className="w-5 h-5 text-white group-hover:scale-110 transition-transform" />
-            </motion.a>
-            <motion.a
-                href="https://instagram.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 1.1, duration: 0.8 }}
-                className="relative w-12 h-12 rounded-full p-[2px] bg-gradient-to-tr from-[#f9ce34] via-[#ee2a7b] to-[#6228d7] flex items-center justify-center transition-all duration-300 shadow-xl group"
-            >
-                <div className="w-full h-full rounded-full bg-[#0a0a0a] flex items-center justify-center">
-                    <Instagram className="w-5 h-5 text-white group-hover:scale-110 transition-transform" />
-                </div>
-            </motion.a>
-        </div>
-    );
-};
-
 // --- NAVIGATION (DESKTOP) ---
-function ArchiNav({ showOnly, isScrolling }: { showOnly?: 'menu' | 'socials', isScrolling?: boolean }) {
+function ArchiNav({ isScrolling }: { isScrolling?: boolean }) {
     const menuItems = [
         { name: "À propos", slug: "propos" },
         { name: "Méthode", slug: "methodes" },
@@ -606,67 +494,33 @@ function ArchiNav({ showOnly, isScrolling }: { showOnly?: 'menu' | 'socials', is
     return (
         <nav className="flex flex-col items-start gap-12 font-sans pointer-events-none">
             {/* MAIN MENU */}
-            {showOnly === 'socials' ? (
-                <div className="h-[280px] w-full pointer-events-none" />
-            ) : (
-                <ul className="flex flex-col items-start gap-1 pointer-events-auto">
-                    {menuItems.map((item, i) => (
-                        <ArchiReveal key={item.slug} delay={0.4 + i * 0.1}>
-                            <li className="overflow-hidden group">
-                                <a
-                                    href={`#${item.slug}`}
-                                    onClick={(e) => {
-                                        e.preventDefault();
-                                        const target = document.getElementById(item.slug);
-                                        if (target) {
-                                            target.scrollIntoView({ behavior: 'smooth' });
-                                        }
-                                    }}
-                                    className={cn(
-                                        "pointer-events-auto cursor-pointer font-semibold text-inherit block hover:italic transition-all duration-500 relative transform-gpu bg-[rgba(255,255,255,0.01)] rounded-md px-2 -ml-2",
-                                        isScrolling ? "text-2xl opacity-40 scale-90" : "text-4xl lg:text-4xl opacity-100 scale-100"
-                                    )}
-                                >
-                                    <span className="relative z-10">{item.name}</span>
-                                    {!isScrolling && (
-                                        <div className="nav-underline absolute bottom-1 left-0 w-0 h-[2px] bg-white transition-all duration-500 group-hover:w-full z-0 opacity-20"></div>
-                                    )}
-                                </a>
-                            </li>
-                        </ArchiReveal>
-                    ))}
-                </ul>
-            )}
-
-            {/* SOCIAL LINKS */}
-            {showOnly !== 'menu' && (
-                <div className="flex flex-col gap-6 mt-16 pt-10 pointer-events-auto">
-                    <div className="flex flex-col gap-5">
-                        <motion.a
-                            href="https://facebook.com"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            whileHover={{ scale: 1.1 }}
-                            whileTap={{ scale: 0.9 }}
-                            className="w-12 h-12 rounded-full border-2 border-[#1877F2] bg-[#0a0a0a] flex items-center justify-center transition-all duration-300 shadow-xl group"
-                        >
-                            <Facebook className="w-5 h-5 text-white group-hover:scale-110 transition-transform" />
-                        </motion.a>
-                        <motion.a
-                            href="https://instagram.com"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            whileHover={{ scale: 1.1 }}
-                            whileTap={{ scale: 0.9 }}
-                            className="relative w-12 h-12 rounded-full p-[2px] bg-gradient-to-tr from-[#f9ce34] via-[#ee2a7b] to-[#6228d7] flex items-center justify-center transition-all duration-300 shadow-xl group"
-                        >
-                            <div className="w-full h-full rounded-full bg-[#0a0a0a] flex items-center justify-center">
-                                <Instagram className="w-5 h-5 text-white group-hover:scale-110 transition-transform" />
-                            </div>
-                        </motion.a>
-                    </div>
-                </div>
-            )}
+            <ul className="flex flex-col items-start gap-1 pointer-events-auto">
+                {menuItems.map((item, i) => (
+                    <ArchiReveal key={item.slug} delay={0.4 + i * 0.1}>
+                        <li className="overflow-hidden group">
+                            <a
+                                href={`#${item.slug}`}
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    const target = document.getElementById(item.slug);
+                                    if (target) {
+                                        target.scrollIntoView({ behavior: 'smooth' });
+                                    }
+                                }}
+                                className={cn(
+                                    "pointer-events-auto cursor-pointer font-semibold text-inherit block hover:italic transition-all duration-500 relative transform-gpu bg-[rgba(255,255,255,0.01)] rounded-md px-2 -ml-2",
+                                    isScrolling ? "text-2xl opacity-40 scale-90" : "text-4xl lg:text-4xl opacity-100 scale-100"
+                                )}
+                            >
+                                <span className="relative z-10">{item.name}</span>
+                                {!isScrolling && (
+                                    <div className="nav-underline absolute bottom-1 left-0 w-0 h-[2px] bg-white transition-all duration-500 group-hover:w-full z-0 opacity-20"></div>
+                                )}
+                            </a>
+                        </li>
+                    </ArchiReveal>
+                ))}
+            </ul>
         </nav>
     );
 }
@@ -727,29 +581,6 @@ function ArchiMenuOverlay({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
                 <div className="space-y-2">
                     <p className="text-[10px] uppercase tracking-widest text-white/30 font-bold">Inquiries</p>
                     <p className="text-xl font-bold tracking-tight hover:opacity-50 transition-opacity">contact@archi-made.com</p>
-                </div>
-                <div className="space-y-4">
-                    <p className="text-[10px] uppercase tracking-widest text-white/30 font-bold">Follow us</p>
-                    <div className="flex gap-4">
-                        <a
-                            href="https://facebook.com"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="w-10 h-10 rounded-full border-2 border-[#1877F2] bg-[#0a0a0a] flex items-center justify-center transition-all"
-                        >
-                            <Facebook className="w-4 h-4 text-white" />
-                        </a>
-                        <div className="relative w-10 h-10 rounded-full p-[2px] bg-gradient-to-tr from-[#f9ce34] via-[#ee2a7b] to-[#6228d7] flex items-center justify-center">
-                            <a
-                                href="https://instagram.com"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="w-full h-full rounded-full bg-[#0a0a0a] flex items-center justify-center transition-all"
-                            >
-                                <Instagram className="w-4 h-4 text-white" />
-                            </a>
-                        </div>
-                    </div>
                 </div>
             </div>
 
@@ -840,7 +671,7 @@ function ArchiBackground() {
                 delay: 1.2
             });
         }, bgRef);
-        return () => ctx.revert();
+        return () => bgRef.current && ctx.revert();
     }, []);
 
     return (
@@ -875,7 +706,6 @@ const HERO_MESSAGES = [
 
 function ArchiHero() {
     const sectionRef = useRef(null);
-    const bgRef = useRef(null);
 
     const [textIndex, setTextIndex] = useState(0);
 
@@ -918,8 +748,6 @@ function ArchiHero() {
         }, sectionRef);
         return () => ctx.revert();
     }, []);
-
-    const currentYear = new Date().getFullYear();
 
     const handleHeroClick = (e: React.MouseEvent) => {
         const target = e.target as HTMLElement;
@@ -1026,148 +854,6 @@ function ArchiHero() {
                 </motion.div>
             </div >
         </section >
-    );
-}
-
-function ArchiVision() {
-    const sectionRef = useRef(null);
-    const containerRef = useRef(null);
-    const scannerRef = useRef(null);
-    const blueprintRef = useRef(null);
-    const realityRef = useRef(null);
-    const [scanPos, setScanPos] = useState(0);
-
-    useLayoutEffect(() => {
-        const ctx = gsap.context(() => {
-            const tl = gsap.timeline({
-                scrollTrigger: {
-                    trigger: sectionRef.current,
-                    start: window.innerWidth < 768 ? "center center" : "top top",
-                    end: window.innerWidth < 768 ? "+=20%" : "+=100%",
-                    pin: true,
-                    scrub: 1,
-                    onUpdate: (self) => setScanPos(Math.round(self.progress * 100)),
-                    // RESTORE NAVIGATION COLOR TOGGLE
-                    // COLOR TOGGLE REMOVED - NOW USING MIX-BLEND-DIFFERENCE FOR AUTOMATIC THEMING
-                    onEnter: () => { },
-                    onLeave: () => { },
-                    onEnterBack: () => { },
-                    onLeaveBack: () => { }
-                }
-            });
-
-            // 1. Scanner Line movement (Left to Right)
-            tl.fromTo(scannerRef.current, { left: "0%" }, { left: "100%", ease: "none" }, 0);
-
-            // 2. Reality layer reveal (Left to Right)
-            tl.fromTo(realityRef.current, { clipPath: "inset(0% 100% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", ease: "none" }, 0);
-
-            // TOP TITLE: Left to Right reveal
-            tl.fromTo(".vision-title-top",
-                { opacity: 0, x: -50, filter: "blur(10px)" },
-                { opacity: 1, x: 0, filter: "blur(0px)", duration: 1, ease: "expo.out" },
-                0.2
-            );
-
-            // BOTTOM TITLE: Right to Left reveal
-            tl.fromTo(".vision-title-bottom",
-                { opacity: 0, x: 50, filter: "blur(10px)" },
-                { opacity: 1, x: 0, filter: "blur(0px)", duration: 1, ease: "expo.out" },
-                0.2
-            );
-
-            // 4. Background Grid Animation
-            tl.to(".vision-bg-grid", { backgroundPosition: "100% 0%", ease: "none" }, 0);
-
-        }, sectionRef);
-
-        return () => ctx.revert();
-    }, []);
-
-    return (
-        <section id="archi-vision" ref={sectionRef} className="relative w-full h-[60vh] md:h-screen bg-[#060606] overflow-hidden font-sans z-40">
-            {/* BACKGROUND: Technical Grid & Dots */}
-            <div className="absolute inset-0 pointer-events-none overflow-hidden">
-                {/* Square Grid */}
-                <div className="vision-bg-grid absolute inset-0 opacity-[0.03]"
-                    style={{
-                        backgroundImage: `linear-gradient(rgb(255, 255, 255) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
-                        backgroundSize: '100px 100px',
-                    }}>
-                </div>
-                {/* Dot Grid */}
-                <div className="absolute inset-0 opacity-[0.1]"
-                    style={{
-                        backgroundImage: 'radial-gradient(rgb(255, 255, 255) 1.5px, transparent 0)',
-                        backgroundSize: '25px 25px'
-                    }}>
-                </div>
-            </div>
-
-            {/* MAIN VISUAL CONTAINER */}
-            <div ref={containerRef} className="relative w-full h-full flex items-center justify-center p-8 md:p-24">
-
-                <div className="relative w-full h-full max-w-7xl aspect-[21/9] flex items-center">
-
-                    {/* TITLE 1: Top Right Border (Horizontal) */}
-                    <div className="absolute -top-[1.5px] right-0 z-50 pointer-events-none translate-y-[-50%] pr-4 md:pr-12">
-                        <div className="flex items-center gap-4 md:gap-8">
-
-                            <h2 className="vision-title-top text-xs sm:text-2xl md:text-4xl uppercase text-white leading-none whitespace-nowrap">
-                                <span className="font-black tracking-tight">Photoréalisme</span>
-                                <span className="font-light italic ml-2 md:ml-4 text-white/40 tracking-widest lowercase">Architectural</span>
-                                {("Photoréalisme Architectural").split("").map((c, i) => (
-                                    <span key={i} className="vision-title-char hidden">{c}</span>
-                                ))}
-                            </h2>
-                        </div>
-                    </div>
-
-                    {/* TITLE 2: Bottom Border (Horizontal) */}
-                    <div className="absolute -bottom-[1.5px] left-0 z-50 pointer-events-none translate-y-[50%] pl-4 md:pl-12">
-                        <div className="flex items-center gap-4 md:gap-8">
-                            <h2 className="vision-title-bottom text-xs sm:text-2xl md:text-4xl uppercase text-white leading-none whitespace-nowrap">
-                                <span className="font-black tracking-tight">Notre Vision</span>
-                                <span className="font-light italic ml-2 md:ml-4 text-white/40 tracking-widest lowercase">Studio</span>
-                                {("Notre Vision Studio").split("").map((c, i) => (
-                                    <span key={i} className="vision-title-char hidden">{c}</span>
-                                ))}
-                            </h2>
-
-                        </div>
-                    </div>
-
-                    {/* THE VIEWER */}
-                    <div className="relative w-full h-full shadow-[0_0_150px_rgba(0,0,0,1)] overflow-hidden border border-white/10 bg-black">
-                        {/* Layers */}
-                        <div ref={blueprintRef} className="absolute inset-0 z-10">
-                            <img
-                                src={IMAGES.renders.montlouis}
-                                alt="Blueprint"
-                                className="w-full h-full object-cover grayscale brightness-[0.2] contrast-[2] opacity-40"
-                            />
-                        </div>
-                        <div ref={realityRef} className="absolute inset-0 z-20">
-                            <img
-                                src={IMAGES.renders.montlouis}
-                                alt="Reality"
-                                className="w-full h-full object-cover"
-                            />
-                        </div>
-
-                        {/* Scanner Line (Vertical) */}
-                        <div ref={scannerRef} className="absolute top-0 bottom-0 w-[2.5px] bg-white z-30 shadow-[0_0_40px_rgba(255,255,255,1)] flex flex-col justify-between py-10">
-                            <div className="bg-white text-black text-[8px] font-black px-2 py-0.5 tracking-widest uppercase origin-left rotate-90 translate-x-[50%] whitespace-nowrap">
-                                Synchronizing...
-                            </div>
-                            <div className="text-white font-mono text-[16px] font-bold tracking-[0.2em] origin-left rotate-90 translate-x-[50%]">
-                                {scanPos}%
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
     );
 }
 
@@ -2043,252 +1729,80 @@ function ArchiGallery() {
     );
 }
 
-
-// 5.5 TECHNICAL SHOWCASE (3D RENDERS)
-function TechnicalShowcase() {
-    const sectionRef = useRef<HTMLElement>(null);
-
-    const RENDER_IMAGES = [
-        { title: "Maison individuelle Veigné", img: IMAGES.renders.veigne, desc: "Rendu 3D d'une maison contemporaine, pensé pour mettre en valeur les volumes, les ouvertures et l'intégration du projet dans son environnement." },
-        { title: "Maison individuelle Montlouis-sur-Loire", img: IMAGES.renders.montlouis, desc: "Visualisation 3D d'une maison individuelle, avec un travail précis sur les façades, les accès, les matériaux et la lecture globale du volume." },
-        { title: "Maison individuelle Joué-lès-Tours", img: IMAGES.renders.joue, desc: "Modélisation 3D d'une maison individuelle, conçue pour présenter clairement l'implantation, les proportions et les choix extérieurs du projet." },
-        { title: "Les pennes Mirabeau", img: IMAGES.renders.mirabeau, desc: "Projection 3D d'une extension, réalisée pour visualiser l'ajout de volume, son dialogue avec l'existant et son impact sur l'ensemble de la maison." },
-        { title: "Modifications de façades Saintes", img: IMAGES.renders.saintes, desc: "Rendu 3D de façades, pensé pour apprécier les lignes, les matériaux et l'aspect final du bâtiment avant réalisation." }
-    ];
-
-    useLayoutEffect(() => {
-        const ctx = gsap.context(() => {
-            // Title Reveals (Main and Final Callout)
-            const titleContainers = gsap.utils.toArray('.title-reveal-container');
-            titleContainers.forEach((container: any) => {
-                const lines = container.querySelectorAll('.title-line');
-                gsap.from(lines, {
-                    yPercent: 120,
-                    duration: 0.8,
-                    stagger: 0.1,
-                    ease: "power4.out",
-                    scrollTrigger: {
-                        trigger: container,
-                        start: "top 100%",
-                        toggleActions: "play none none none"
-                    }
-                });
-            });
-
-            const blocks = gsap.utils.toArray('.render-block');
-            blocks.forEach((block: any, i: number) => {
-                const mask = block.querySelector('.image-mask');
-                const img = block.querySelector('.inner-image');
-                const title = block.querySelector('.title-reveal');
-                const meta = block.querySelector('.meta-reveal');
-                const line = block.querySelector('.line-reveal');
-
-                const tl = gsap.timeline({
-                    scrollTrigger: {
-                        trigger: block,
-                        start: "top 100%",
-                        toggleActions: "play none none none"
-                    }
-                });
-
-                tl.to(mask, {
-                    scaleY: 0,
-                    transformOrigin: "top",
-                    duration: 0.8,
-                    ease: "expo.inOut"
-                })
-                    .fromTo(img,
-                        { scale: 1.1 },
-                        { scale: 1, duration: 1, ease: "power2.out" },
-                        "<0.2"
-                    )
-                    .from(title, {
-                        y: 20,
-                        opacity: 0,
-                        duration: 0.6,
-                        ease: "power3.out"
-                    }, "<0.1")
-                    .from(meta, {
-                        opacity: 0,
-                        x: i % 2 === 0 ? -10 : 10,
-                        duration: 0.5,
-                        ease: "power2.out"
-                    }, "<")
-                    .from(line, {
-                        scaleX: 0,
-                        transformOrigin: i % 2 === 0 ? "left" : "right",
-                        duration: 0.6,
-                        ease: "power3.out"
-                    }, "<");
-
-                gsap.to(img, {
-                    yPercent: 10,
-                    ease: "none",
-                    scrollTrigger: {
-                        trigger: block,
-                        start: "top bottom",
-                        end: "bottom top",
-                        scrub: true
-                    }
-                });
-            });
-
-        }, sectionRef);
-
-        return () => ctx.revert();
-    }, []);
-
-    return (
-        <section ref={sectionRef} id="expertise-3d" className="relative py-15 md:py-30 bg-transparent text-[#0a0a0a] overflow-hidden font-display z-40">
-            <div className="max-w-7xl mx-auto px-6 md:px-20 relative z-10">
-
-                {/* Massive Title Section */}
-                <div className="mb-10 md:mb-10 title-reveal-container flex flex-col items-end text-right">
-                    <div className="flex items-center justify-end gap-4 mb-6 md:mb-8 overflow-hidden">
-                        <span className="text-[9px] md:text-xs font-mono uppercase tracking-[0.5em] text-black/60 title-line block">Studio 3D</span>
-                        <div className="w-8 md:w-12 h-[1px] bg-black/40 title-line"></div>
-                    </div>
-                    <h2 className="text-[9vw] md:text-[7vw] font-black uppercase tracking-tighter leading-[0.85]">
-                        <span className="block"><span className="block title-line">Nos projets</span></span>
-                        <span className="block"><span className="block title-line text-black/30 italic font-medium">3D</span></span>
-                    </h2>
-                </div>
-
-                {/* Alternating Image Blocks */}
-                <div className="space-y-10 md:space-y-10">
-                    {RENDER_IMAGES.map((item, i) => (
-                        <div key={i} className={`render-block relative flex flex-col ${i % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} items-center gap-8 md:gap-20 pt-12 md:pt-20`}>
-                            {/* Image Container with Reveal Mask */}
-                            <div className="w-full md:w-[50%] relative group overflow-hidden rounded-sm md:rounded-md">
-                                <div className="aspect-[8/5] md:aspect-[16/10] relative">
-                                    <div className="image-mask absolute inset-0 bg-[#e5e5e5] z-10"></div>
-                                    <img
-                                        src={encodeURI(item.img)}
-                                        alt={item.title}
-                                        className="inner-image absolute top-[-10%] left-0 w-full h-[120%] object-cover grayscale-[30%] group-hover:grayscale-0 transition-all duration-1000"
-                                    />
-                                </div>
-
-                            </div>
-
-                            {/* Typography Content */}
-                            <div className={`w-full md:w-[50%] flex flex-col ${i % 2 === 0 ? 'items-start text-left' : 'items-end text-right'}`}>
-                                <h3 className="text-2xl md:text-4xl lg:text-5xl font-black tracking-tighter leading-none text-[#0a0a0a] first-letter:uppercase mb-6">
-                                    {item.title}
-                                </h3>
-                                <p className="text-black/60 font-light text-xs md:text-sm max-w-sm title-reveal leading-relaxed">
-                                    {item.desc}
-                                </p>
-                            </div>
-
-                        </div>
-                    ))}
-                </div>
-
-
-            </div>
-        </section>
-    );
-}
-
-// 6. VALUE SECTION (PROMESSE)
 function ArchiValues() {
     const sectionRef = useRef<HTMLElement>(null);
+    const imgRef = useRef<HTMLImageElement>(null);
 
     const values = [
         { num: "01", title: "RÉACTIVITÉ", desc: "Un suivi réactif pour faire avancer vos plans, vos démarches et votre dossier." },
-        { num: "02", title: "Délais maîtrisés", desc: "Chaque projet est organisé avec un calendrier clair pour livrer vos plans et dossiers dans les temps définis." },
-        { num: "03", title: "Rayonnement", desc: "ArchiMade accompagne vos projets partout en France, principalement à distance, à partir de vos plans, photos et éléments techniques." },
-        { num: "04", title: "Flexibilité", desc: "Plans, croquis, relevés ou photos : ArchiMade s'adapte aux éléments disponibles pour démarrer l'étude de votre projet." },
+        { num: "02", title: "DÉLAIS MAÎTRISÉS", desc: "Chaque projet est organisé avec un calendrier clair pour livrer vos plans et dossiers dans les temps définis." },
+        { num: "03", title: "RAYONNEMENT", desc: "ArchiMade accompagne vos projets partout en France, principalement à distance, à partir de vos plans, photos et éléments techniques." },
+        { num: "04", title: "FLEXIBILITÉ", desc: "Plans, croquis, relevés ou photos : ArchiMade s'adapte aux éléments disponibles pour démarrer l'étude de votre projet." },
     ];
 
     useLayoutEffect(() => {
         const ctx = gsap.context(() => {
-
-            // Titles converge from Left and Right
-            gsap.from(".title-left", {
-                x: "-50vw",
-                opacity: 0,
-                duration: 2,
-                ease: "expo.out",
+            gsap.to(imgRef.current, {
+                yPercent: 10,
+                ease: "none",
                 scrollTrigger: {
                     trigger: sectionRef.current,
-                    start: "top 85%",
-                    toggleActions: "play none none none"
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: true
                 }
             });
-
-            gsap.from(".title-right", {
-                x: "50vw",
-                opacity: 0,
-                duration: 2,
-                ease: "expo.out",
-                scrollTrigger: {
-                    trigger: sectionRef.current,
-                    start: "top 85%",
-                    toggleActions: "play none none none"
-                }
-            });
-
-            // Rows converge from alternating sides
-            const rows = gsap.utils.toArray('.val-row');
-            rows.forEach((row: any, i: number) => {
-                gsap.from(row, {
-                    x: i % 2 === 0 ? "-30vw" : "30vw",
-                    opacity: 0,
-                    duration: 1.5,
-                    ease: "power4.out",
-                    scrollTrigger: {
-                        trigger: row,
-                        start: "top 95%",
-                        toggleActions: "play none none none"
-                    }
-                });
-            });
-
         }, sectionRef);
         return () => ctx.revert();
     }, []);
 
     return (
-        <section ref={sectionRef} className="py-32 md:py-40 bg-[#0a0a0a] text-[#f5f5f5] overflow-hidden font-display relative z-30">
-            {/* Background elements */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[100vw] h-[100vw] bg-white/[0.01] blur-[150px] rounded-full pointer-events-none"></div>
+        <section ref={sectionRef} id="pourquoi-archimade" className="relative w-full overflow-hidden group/values z-30 font-display bg-[#0a0a0a]">
+            <div className="relative w-full overflow-hidden">
+                <img
+                    ref={imgRef}
+                    src={IMAGES.renders.montlouis}
+                    alt="Pourquoi ArchiMade ?"
+                    className="absolute top-[-10%] left-0 w-full h-[120%] object-cover grayscale brightness-50 group-hover/values:scale-105 transition-transform duration-[2s]"
+                />
 
-            <div className="relative z-10 text-center mb-32 md:mb-52 px-6">
-                <span className="text-[10px] md:text-xs font-mono uppercase tracking-[0.5em] text-white/40 block mb-8">Pourquoi ArchiMade ?</span>
-                <h2 className="text-[12vw] md:text-[9vw] font-black uppercase tracking-tighter leading-[0.85] overflow-hidden">
-                    <div className="title-left block">Conception.</div>
-                    <div className="title-right block text-white/20 italic">Projections.</div>
-                </h2>
-            </div>
-
-            <div className="flex flex-col w-full">
-                {values.map((v, i) => (
-                    <div key={i} className={`val-row w-full flex justify-center py-12 md:py-24 border-y border-white/[0.05] bg-[#0a0a0a] relative`}>
-                        {/* Hover Overlay */}
-                        <div className="absolute inset-0 bg-white opacity-0 hover:opacity-[0.02] transition-opacity duration-500"></div>
-
-                        <div className={`max-w-7xl w-full px-6 flex flex-col md:flex-row items-center justify-between gap-10 md:gap-20`}>
-
-                            <div className="flex items-center gap-8 md:gap-16 w-full md:w-auto">
-                                <span className="text-3xl md:text-5xl font-mono text-white/10 font-black">
-                                    {v.num}
-                                </span>
-                                <h3 className="text-3xl md:text-5xl lg:text-5xl font-black uppercase tracking-tighter whitespace-nowrap">
-                                    {v.title}
-                                </h3>
+                {/* Dark overlay for text readability */}
+                <div className="relative z-10 bg-black/60 flex flex-col justify-center px-6 md:px-16 xl:pl-[25vw] md:pr-20 py-20 md:py-32 min-h-[400px] md:min-h-[750px] xl:min-h-[600px]">
+                    <div className="mb-10 md:mb-20">
+                        <ArchiReveal type="fade">
+                            <div className="flex items-center gap-4 mb-4">
+                                <div className="w-12 h-[1px] bg-white/30"></div>
+                                <span className="text-[10px] md:text-xs uppercase tracking-[0.5em] text-white/40 font-bold">Pourquoi ArchiMade ?</span>
                             </div>
-
-                            <div className="w-full md:w-[45%] text-center md:text-left">
-                                <p className="text-white/50 font-light text-sm md:text-base leading-relaxed">
-                                    {v.desc}
-                                </p>
-                            </div>
-
-                        </div>
+                            <h2 className="text-4xl md:text-6xl lg:text-7xl font-black text-white uppercase tracking-tighter leading-none flex flex-col">
+                                <span>Conception.</span>
+                                <span className="text-white/20 italic font-medium">Projections.</span>
+                            </h2>
+                        </ArchiReveal>
                     </div>
-                ))}
+
+                    <div className="flex md:grid overflow-x-auto md:overflow-visible snap-x snap-mandatory gap-8 md:gap-x-12 md:gap-y-20 pb-10 md:pb-0 no-scrollbar -mx-6 px-6 md:mx-0 md:px-0 lg:grid-cols-4 md:grid-cols-2">
+                        {values.map((v, i) => (
+                            <div key={i} className="min-w-[85vw] md:min-w-0 snap-center">
+                                <ArchiReveal delay={0.2 + i * 0.1} type="up" className="flex flex-col gap-4">
+                                    <div className="flex items-center gap-4">
+                                        <span className="text-3xl md:text-3xl font-black text-white/10 font-mono tracking-tighter">{v.num}</span>
+                                        <div className="h-[1px] flex-1 bg-white/10"></div>
+                                    </div>
+                                    <h3 className="text-white font-bold text-base md:text-base lg:text-lg uppercase tracking-tight">{v.title}</h3>
+                                    <p className="text-white/40 text-xs md:text-xs lg:text-sm leading-relaxed font-light max-w-sm">{v.desc}</p>
+                                </ArchiReveal>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Mobile Scroll Indicator Dots */}
+                    <div className="flex md:hidden justify-center gap-3 mt-4">
+                        {values.map((_, i) => (
+                            <div key={i} className="w-1.5 h-1.5 rounded-full bg-white/20"></div>
+                        ))}
+                    </div>
+                </div>
             </div>
         </section>
     );
@@ -2374,8 +1888,6 @@ function ArchiFAQ() {
         </section>
     );
 }
-
-// --- LEGAL MODAL COMPONENT --- (Supprimé car remplacé par des pages)
 
 function ArchiContact() {
     const sectionRef = useRef<HTMLElement>(null);
@@ -2663,7 +2175,6 @@ export default function ArchiMadeLanding() {
 
                     {/* Global Background UI */}
                     <ArchiBackground />
-                    <ArchiMobileSocials />
 
                     {/* Sticky Contact Button */}
                     <motion.div
@@ -2690,16 +2201,8 @@ export default function ArchiMadeLanding() {
                         "archi-sidebar fixed top-0 left-0 bottom-0 w-[25vw] z-[500] hidden xl:flex flex-col justify-between pt-16 pb-12 px-12 lg:px-16 pointer-events-none mix-blend-difference text-white transition-all duration-700",
                         isUIHidden ? "opacity-0 -translate-x-10" : "opacity-100 translate-x-0"
                     )}>
-                        <ArchiNav showOnly="menu" isScrolling={isScrolling} />
+                        <ArchiNav isScrolling={isScrolling} />
                         <ArchiLogo isScrolling={isScrolling} />
-                    </div>
-
-                    {/* Desktop Socials Overlay - WITHOUT blend mode (Preserves brand colors) */}
-                    <div className={cn(
-                        "archi-desktop-socials fixed top-0 left-0 bottom-0 w-[25vw] z-[510] hidden xl:flex flex-col pt-16 px-12 lg:px-16 pointer-events-none transition-all duration-700 delay-75",
-                        isUIHidden ? "opacity-0 -translate-x-10" : "opacity-100 translate-x-0"
-                    )}>
-                        <ArchiNav showOnly="socials" />
                     </div>
 
                     {/* Main Content Layout */}
@@ -2714,7 +2217,6 @@ export default function ArchiMadeLanding() {
                         <ArchiServices />
                         <ArchiGallery />
 
-                        <TechnicalShowcase />
                         <div className="relative z-20 bg-white">
                             <ArchiValues />
                             <ArchiFAQ />
