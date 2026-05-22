@@ -34,7 +34,7 @@ app.post('/api/send-email', async (req: Request, res: Response) => {
       subject: `Nouveau message de ${name} — ArchiMade`,
       html: `
           <div style="font-family:Helvetica,Arial,sans-serif;max-width:600px;margin:auto;background:#fafafa;border-radius:12px;padding:20px;box-shadow:0 4px 12px rgba(0,0,0,0.1);">
-            <img src="${BASE_URL}/Logo%20ArchiMade.png" alt="ArchiMade Logo" style="display:block;margin:0 auto 20px;width:120px;height:auto;" />
+            <h1 style="font-size:28px;color:#0a0a0a;text-align:center;margin:0 auto 20px;">Archi Made</h1>
             <h2 style="font-size:24px;color:#0a0a0a;margin-bottom:16px;text-align:center;">Nouveau Message</h2>
             <p style="margin:8px 0;font-weight:600;"><strong>Nom :</strong> ${name}</p>
             <p style="margin:8px 0;font-weight:600;"><strong>Email :</strong> ${email}</p>
