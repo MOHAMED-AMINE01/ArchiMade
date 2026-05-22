@@ -42,6 +42,7 @@ app.post('/api/send-email', async (req: Request, res: Response) => {
             <p style="margin:8px 0;padding:12px;background:#fff;border:1px solid #eee;border-radius:6px;white-space:pre-wrap;">${message}</p>
           </div>`,
     });
+
     if (error) {
       console.error('Resend error →', error);
       return res.status(500).json({ error: 'Erreur d\'envoi.' });
