@@ -1891,6 +1891,38 @@ function ArchiFAQ() {
 
 function ArchiContact() {
     const sectionRef = useRef<HTMLElement>(null);
+    const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+    const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+    const [errorMsg, setErrorMsg] = useState('');
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!formData.name || !formData.email || !formData.message) return;
+
+        setStatus('sending');
+        setErrorMsg('');
+
+        try {
+            const res = await fetch('/api/send-email', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData),
+            });
+
+            if (!res.ok) {
+                const data = await res.json();
+                throw new Error(data.error || 'Erreur lors de l\'envoi.');
+            }
+
+            setStatus('success');
+            setFormData({ name: '', email: '', message: '' });
+            setTimeout(() => setStatus('idle'), 5000);
+        } catch (err: any) {
+            setStatus('error');
+            setErrorMsg(err.message || 'Une erreur est survenue.');
+            setTimeout(() => setStatus('idle'), 5000);
+        }
+    };
 
     useLayoutEffect(() => {
         const ctx = gsap.context(() => {
@@ -1929,6 +1961,23 @@ function ArchiContact() {
         }, sectionRef);
         return () => ctx.revert();
     }, []);
+
+    const buttonContent = () => {
+        if (status === 'sending') return (
+            <span className="flex items-center justify-center gap-3">
+                <svg className="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" className="opacity-20" /><path d="M12 2a10 10 0 0 1 10 10" stroke="currentColor" strokeWidth="3" strokeLinecap="round" /></svg>
+                Envoi en cours...
+            </span>
+        );
+        if (status === 'success') return (
+            <span className="flex items-center justify-center gap-3">
+                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+                Message envoyé !
+            </span>
+        );
+        if (status === 'error') return 'Réessayer';
+        return 'Envoyer le message';
+    };
 
     return (
         <footer
@@ -1972,21 +2021,57 @@ function ArchiContact() {
                     <div className="contact-form-card lg:w-[500px] xl:w-[580px] w-full">
                         <div className="bg-[#0a0a0a] p-8 md:p-12 lg:p-14 rounded-2xl border border-black/5 shadow-2xl relative overflow-hidden text-white">
                             <h3 className="text-xl font-bold uppercase tracking-tight mb-8">Nous contacter</h3>
-                            <form className="space-y-6 md:space-y-8" onSubmit={(e) => e.preventDefault()}>
+                            <form className="space-y-6 md:space-y-8" onSubmit={handleSubmit}>
                                 <div className="space-y-2">
                                     <label className="text-[8px] uppercase tracking-widest text-white/30 font-bold">Nom</label>
-                                    <input type="text" className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-4 text-sm focus:border-white/30 outline-none transition-all placeholder:text-white/15 text-white" placeholder="Votre nom" />
+                                    <input
+                                        type="text"
+                                        required
+                                        value={formData.name}
+                                        onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+                                        className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-4 text-sm focus:border-white/30 outline-none transition-all placeholder:text-white/15 text-white"
+                                        placeholder="Votre nom"
+                                    />
                                 </div>
                                 <div className="space-y-2">
                                     <label className="text-[8px] uppercase tracking-widest text-white/30 font-bold">Email</label>
-                                    <input type="email" className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-4 text-sm focus:border-white/30 outline-none transition-all placeholder:text-white/15 text-white" placeholder="votreemail@exemple.com" />
+                                    <input
+                                        type="email"
+                                        required
+                                        value={formData.email}
+                                        onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
+                                        className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-4 text-sm focus:border-white/30 outline-none transition-all placeholder:text-white/15 text-white"
+                                        placeholder="votreemail@exemple.com"
+                                    />
                                 </div>
                                 <div className="space-y-2">
                                     <label className="text-[8px] uppercase tracking-widest text-white/30 font-bold">Message</label>
-                                    <textarea rows={3} className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-4 text-sm focus:border-white/30 outline-none transition-all resize-none placeholder:text-white/15 text-white" placeholder="Parlez-nous de votre projet..." />
+                                    <textarea
+                                        rows={3}
+                                        required
+                                        value={formData.message}
+                                        onChange={(e) => setFormData(prev => ({ ...prev, message: e.target.value }))}
+                                        className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-4 text-sm focus:border-white/30 outline-none transition-all resize-none placeholder:text-white/15 text-white"
+                                        placeholder="Parlez-nous de votre projet..."
+                                    />
                                 </div>
-                                <button className="w-full py-5 bg-white text-black text-[10px] font-black uppercase tracking-[0.4em] rounded-lg hover:bg-opacity-90 transition-all duration-300 transform hover:-translate-y-1">
-                                    Envoyer le message
+                                {status === 'error' && (
+                                    <p className="text-red-400 text-xs font-medium">{errorMsg}</p>
+                                )}
+                                <button
+                                    type="submit"
+                                    disabled={status === 'sending' || status === 'success'}
+                                    className={cn(
+                                        "w-full py-5 text-[10px] font-black uppercase tracking-[0.4em] rounded-lg transition-all duration-300 transform hover:-translate-y-1",
+                                        status === 'success'
+                                            ? "bg-emerald-500 text-white"
+                                            : status === 'error'
+                                                ? "bg-red-500 text-white hover:bg-red-400"
+                                                : "bg-white text-black hover:bg-opacity-90",
+                                        (status === 'sending' || status === 'success') && "opacity-80 cursor-not-allowed hover:translate-y-0"
+                                    )}
+                                >
+                                    {buttonContent()}
                                 </button>
                             </form>
                         </div>
