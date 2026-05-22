@@ -1903,7 +1903,8 @@ function ArchiContact() {
         setErrorMsg('');
 
         try {
-            const res = await fetch('/api/send-email', {
+            console.log('🚀 Submitting form data:', formData);
+    const res = await fetch('/api/send-email', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData),

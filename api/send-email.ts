@@ -10,6 +10,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   const { name, email, message } = req.body;
+  console.log('🔍 Vercel received body:', req.body);
 
   // Basic validation
   if (!name || !email || !message) {
