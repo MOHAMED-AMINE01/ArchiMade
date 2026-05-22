@@ -9,8 +9,23 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { name, email, message } = req.body;
-  console.log('🔍 Vercel received body:', req.body);
+  let body = req.body;
+if (!body) {
+  try {
+    const raw = await new Promise<string>((resolve, reject) => {
+      let data = '';
+      req.on('data', chunk => (data += chunk));
+      req.on('end', () => resolve(data));
+      req.on('error', err => reject(err));
+    });
+    body = JSON.parse(raw || '{}');
+  } catch (e) {
+    console.error('❗️ Unable to parse JSON body:', e);
+    return res.status(400).json({ error: 'Invalid JSON body' });
+  }
+}
+console.log('🔍 Vercel received body:', body);
+const { name, email, message } = body;
 
   // Basic validation
   if (!name || !email || !message) {
@@ -29,7 +44,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             
             <!-- Header Section -->
             <div style="padding: 40px 40px 30px; border-bottom: 1px solid #e5e5e5; text-align: center;">
-              <img src="https://archi-made.com/Logo%20ArchiMade.png" alt="ArchiMade Logo" style="width: 140px; height: auto; margin-bottom: 24px;" />
+              <h1 style="font-size:28px;color:#0a0a0a;text-align:center;margin:0 auto 20px;">Archi Made</h1>
               <h1 style="margin: 0; font-size: 22px; font-weight: 800; text-transform: uppercase; letter-spacing: -0.5px; color: #0a0a0a;">
                 NOUVEAU MESSAGE
               </h1>
