@@ -10,22 +10,22 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   let body = req.body;
-if (!body) {
-  try {
-    const raw = await new Promise<string>((resolve, reject) => {
-      let data = '';
-      req.on('data', chunk => (data += chunk));
-      req.on('end', () => resolve(data));
-      req.on('error', err => reject(err));
-    });
-    body = JSON.parse(raw || '{}');
-  } catch (e) {
-    console.error('❗️ Unable to parse JSON body:', e);
-    return res.status(400).json({ error: 'Invalid JSON body' });
+  if (!body) {
+    try {
+      const raw = await new Promise<string>((resolve, reject) => {
+        let data = '';
+        req.on('data', chunk => (data += chunk));
+        req.on('end', () => resolve(data));
+        req.on('error', err => reject(err));
+      });
+      body = JSON.parse(raw || '{}');
+    } catch (e) {
+      console.error('❗️ Unable to parse JSON body:', e);
+      return res.status(400).json({ error: 'Invalid JSON body' });
+    }
   }
-}
-console.log('🔍 Vercel received body:', body);
-const { name, email, message } = body;
+  console.log('🔍 Vercel received body:', body);
+  const { name, email, message } = body;
 
   // Basic validation
   if (!name || !email || !message) {
@@ -35,7 +35,7 @@ const { name, email, message } = body;
   try {
     const { data, error } = await resend.emails.send({
       from: 'ArchiMade <onboarding@resend.dev>',
-      to: ['m.a.khatouf@gmail.com'],
+      to: ['contact@archi-made.com'],
       replyTo: email,
       subject: `Nouveau message de ${name} — ArchiMade`,
       html: `
@@ -48,9 +48,6 @@ const { name, email, message } = body;
               <h1 style="margin: 0; font-size: 22px; font-weight: 800; text-transform: uppercase; letter-spacing: -0.5px; color: #0a0a0a;">
                 NOUVEAU MESSAGE
               </h1>
-              <p style="margin: 8px 0 0 0; font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #888888;">
-                Demande de contact — archi-made.com
-              </p>
             </div>
 
             <!-- Body Section -->
