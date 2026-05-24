@@ -62,8 +62,8 @@ const IMAGES = {
             main: "/IMAGES/Projets finis/construction d_une maison indivuelle neuve 37240 ligueil/Capture d_écran 2026-04-11 102902.png"
         },
         chambray: {
-            main: "/IMAGES/Projets finis/creation d_une surelevation au dessus d_un garage 37170 chambray les tours/46f52069-d1b9-41b3-b202-29c8108447e7.jpg",
-            before: "/IMAGES/Projets finis/creation d_une surelevation au dessus d_un garage 37170 chambray les tours/1abff9e6-a427-41ba-84e4-6202cf7be7ee.jpg"
+            main: "/IMAGES/Projets finis/creation d_une surelevation au dessus d_un garage 37170 chambray les tours/1abff9e6-a427-41ba-84e4-6202cf7be7ee.jpg",
+            before: "/IMAGES/Projets finis/creation d_une surelevation au dessus d_un garage 37170 chambray les tours/46f52069-d1b9-41b3-b202-29c8108447e7.jpg"
         },
         cyr_extension: {
             main: "/IMAGES/Projets finis/Extension sur maison existante 37540/Creation d_une extenstion 37540 saint cyr sur loire - 01.jpeg",
@@ -90,6 +90,12 @@ const IMAGES = {
             i1: "/Nouvelles images/WhatsApp Image 2026-04-23 at 17.48.13.jpeg",
             i2: "/Nouvelles images/WhatsApp Image 2026-04-23 at 17.48.14 (1).jpeg",
             i3: "/Nouvelles images/WhatsApp Image 2026-04-23 at 17.48.14.jpeg"
+        }
+    },
+    industrial: {
+        activites: {
+            main: "/IMAGES/Projets finis/Bâtiment d_activités/4 cellules d_activités rue Jacqueline Auriol la ville aux dames 37700.png",
+            alt: "/IMAGES/Projets finis/Bâtiment d_activités/Capture d_écran 2026-04-11 093951.png"
         }
     }
 };
@@ -143,6 +149,26 @@ const PROJECTS = [
         specs: ["Modernisation", "Structure"]
     },
     {
+        title: "Villa Saint-Cyr",
+        city: "Saint-Cyr-sur-Loire",
+        year: "2023",
+        type: "Neuf",
+        path: IMAGES.projects.cyr_villa.main,
+        gallery: [IMAGES.projects.cyr_villa.main],
+        specs: ["Haut de gamme", "Design épuré"],
+        featured: false
+    },
+    {
+        title: "Projet La Suze",
+        city: "La Suze-sur-Sarthe",
+        year: "2023",
+        type: "Neuf",
+        path: IMAGES.projects.suze.main,
+        gallery: [IMAGES.projects.suze.main],
+        specs: ["Volume", "Clarté"],
+        featured: false
+    },
+    {
         title: "Club House Padel Arena",
         city: "Vendôme/Saint Ouen",
         year: "2024",
@@ -158,7 +184,7 @@ const PROJECTS = [
         year: "2024",
         type: "Extension",
         path: IMAGES.projects.cyr_extension.main,
-        gallery: [IMAGES.projects.cyr_extension.main, IMAGES.projects.cyr_extension.alt],
+        gallery: [IMAGES.projects.cyr_extension.main],
         specs: ["Volume", "Luminosité", "Modernité"],
         featured: true
     },
@@ -874,7 +900,7 @@ function ArchiAbout() {
     useLayoutEffect(() => {
         const ctx = gsap.context(() => {
             // Heading Split Reveal
-            gsap.from(".about-heading span", {
+            gsap.from(".about-heading span span", {
                 opacity: 0,
                 y: 40,
                 rotateX: -40,
@@ -1840,7 +1866,7 @@ function ArchiFAQ() {
                 scrollTrigger: {
                     trigger: sectionRef.current,
                     start: "top 75%",
-                    toggleActions: "restart none none none"
+                    toggleActions: "play none none none"
                 }
             });
         }, sectionRef);
