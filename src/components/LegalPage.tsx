@@ -13,11 +13,11 @@ const content = {
         sections: [
             {
                 h: "Éditeur du site",
-                p: "Le site internet ArchiMade, accessible à l’adresse www.archi-made.com, est édité par :\n\n[Nom de l’entreprise / raison sociale]\nStatut juridique : [SAS / SASU / SARL / micro-entreprise / autre]\nCapital social : [montant du capital, si société]\nSiège social : [adresse complète]\nSIRET : [numéro SIRET]\nRCS : [ville d’immatriculation, si applicable]\nNuméro de TVA intracommunautaire : [numéro, si applicable]\nAdresse email : [email de contact]\nTéléphone : [numéro, si souhaité]\n\nDirecteur de la publication : [Nom du responsable légal]"
+                p: "Le site internet ArchiMade, accessible à l’adresse www.archi-made.com, est édité par :\n\nARCHI-MADE LTD\nStatut juridique : Société commerciale étrangère immatriculée au RCS\nCapital social : 1 000 €\nSiège social : 20 Wenlock Road, W1B 3HH London, Royaume-Uni\nSIRET : 101 715 993 00024\nRCS : RCS Tours\nNuméro de TVA intracommunautaire : non indiqué (à compléter si applicable)\nAdresse email : contact@archi-made.com\n\nDirecteur de la publication : Damien DE SOUSA"
             },
             {
                 h: "Hébergement",
-                p: "Le site est hébergé par :\n\n[Nom de l’hébergeur]\nAdresse : [adresse de l’hébergeur]\nSite internet : [site de l’hébergeur]"
+                p: "Le site est hébergé par :\n\nSquarespace Domains LLC\nAdresse : 225 Varick Street, New York, NY 10014, États-Unis\nSite internet : https://domains.squarespace.com"
             },
             {
                 h: "Activité",
@@ -37,7 +37,7 @@ const content = {
             },
             {
                 h: "Contact",
-                p: "Pour toute question relative au site ou à son contenu, l’utilisateur peut contacter ArchiMade à l’adresse suivante :\n\n[email de contact]"
+                p: "Pour toute question relative au site ou à son contenu, l’utilisateur peut contacter ArchiMade à l’adresse suivante :\n\ncontact@archi-made.com"
             }
         ]
     },
@@ -72,7 +72,7 @@ const content = {
             },
             {
                 h: "Contact",
-                p: "Pour toute question relative à l’utilisation des cookies, l’utilisateur peut contacter ArchiMade à l’adresse suivante :\n\n[email de contact]"
+                p: "Pour toute question relative à l’utilisation des cookies, l’utilisateur peut contacter ArchiMade à l’adresse suivante :\n\ncontact@archi-made.com"
             }
         ]
     },
@@ -87,7 +87,7 @@ const content = {
             },
             {
                 h: "Responsable du traitement",
-                p: "Le responsable du traitement des données personnelles est :\n\n[Nom de l’entreprise / raison sociale]\nAdresse : [adresse complète]\nEmail : [email de contact]"
+                p: "Le responsable du traitement des données personnelles est :\n\nARCHI-MADE LTD\nAdresse : 20 Wenlock Road, W1B 3HH London, Royaume-Uni\nEmail : contact@archi-made.com"
             },
             {
                 h: "Données collectées",
@@ -115,7 +115,7 @@ const content = {
             },
             {
                 h: "Droits des utilisateurs",
-                p: "Conformément à la réglementation applicable, l’utilisateur dispose des droits suivants :\n- Droit d’accès à ses données\n- Droit de rectification\n- Droit d’effacement\n- Droit d’opposition\n- Droit à la limitation du traitement\n- Droit à la portabilité des données, lorsque cela est applicable\n- Droit de retirer son consentement à tout moment, lorsque le traitement repose sur le consentement\n\nPour exercer ses droits, l’utilisateur peut contacter ArchiMade à l’adresse suivante : [email de contact]\n\nEn cas de difficulté, l’utilisateur peut également introduire une réclamation auprès de la CNIL."
+                p: "Conformément à la réglementation applicable, l’utilisateur dispose des droits suivants :\n- Droit d’accès à ses données\n- Droit de rectification\n- Droit d’effacement\n- Droit d’opposition\n- Droit à la limitation du traitement\n- Droit à la portabilité des données, lorsque cela est applicable\n- Droit de retirer son consentement à tout moment, lorsque le traitement repose sur le consentement\n\nPour exercer ses droits, l’utilisateur peut contacter ArchiMade à l’adresse suivante : contact@archi-made.com\n\nEn cas de difficulté, l’utilisateur peut également introduire une réclamation auprès de la CNIL."
             },
             {
                 h: "Sécurité des données",

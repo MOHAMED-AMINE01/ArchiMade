@@ -1874,7 +1874,7 @@ function ArchiFAQ() {
     }, []);
 
     return (
-        <section id="faq" ref={sectionRef} className="bg-white text-[#1a1a1a] py-32 md:py-28 relative z-20">
+        <section id="faq" ref={sectionRef} className="relative z-30 bg-white text-[#1a1a1a] py-32 md:py-28">
             <div className="max-w-4xl mx-auto px-6 md:px-20">
                 <div className="faq-header flex items-center gap-4 mb-12">
                     <div className="w-8 h-[1px] bg-black/10"></div>
@@ -2010,7 +2010,7 @@ function ArchiContact() {
         <footer
             ref={sectionRef}
             id="contact"
-            className="lg:sticky lg:bottom-0 relative z-0 bg-white text-[#1a1a1a] font-display overflow-hidden w-full min-h-screen py-24 lg:py-0 lg:h-screen flex flex-col justify-center"
+            className="lg:sticky lg:bottom-0 relative z-10 bg-white text-[#1a1a1a] font-display overflow-hidden w-full min-h-screen py-24 lg:py-0 lg:h-screen flex flex-col justify-center"
         >
             <div className="max-w-7xl mx-auto px-6 md:px-16 lg:px-24 w-full relative z-10">
                 <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-12 lg:gap-20">
