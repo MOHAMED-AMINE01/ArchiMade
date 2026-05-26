@@ -147,7 +147,7 @@ export default function LegalPage({ type }: { type: LegalType }) {
             <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-white/[0.02] rounded-full blur-[150px] -translate-y-1/2 translate-x-1/2 pointer-events-none" />
 
             {/* Navigation */}
-            <nav className="fixed top-0 left-0 right-0 z-[60] px-6 md:px-12 py-10 flex justify-between items-center">
+            <nav className="fixed top-0 left-0 right-0 z-60 px-6 md:px-12 py-10 flex justify-between items-center">
                 <Link to="/" className="group flex items-center gap-4 bg-white/5 backdrop-blur-xl border border-white/10 rounded-full pl-2 pr-8 py-2 hover:bg-white hover:text-black transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)]">
                     <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-black/5 transition-colors">
                         <ArrowLeft className="w-6 h-6" />
@@ -169,7 +169,7 @@ export default function LegalPage({ type }: { type: LegalType }) {
                         className="space-y-6"
                     >
                         <div className="flex items-center gap-4">
-                            <div className="w-10 h-[1px] bg-white/20" />
+                            <div className="w-10 h-px bg-white/20" />
                             <span className="text-[10px] font-black uppercase tracking-[0.6em] text-white/40">Section Juridique</span>
                         </div>
                         <h1 className="text-6xl md:text-[10rem] xl:text-[13rem] font-black uppercase tracking-tighter leading-[0.75] text-white">
@@ -207,7 +207,7 @@ export default function LegalPage({ type }: { type: LegalType }) {
                                         </h2>
                                     </div>
                                     <div className="pl-20 relative">
-                                        <div className="absolute left-6 top-0 bottom-0 w-px bg-gradient-to-b from-white/20 via-white/5 to-transparent" />
+                                        <div className="absolute left-6 top-0 bottom-0 w-px bg-linear-to-b from-white/20 via-white/5 to-transparent" />
                                         <div className="text-white/40 text-base md:text-xl leading-[1.6] whitespace-pre-wrap font-light tracking-wide max-w-4xl text-left md:text-justify">
                                             {section.p}
                                         </div>

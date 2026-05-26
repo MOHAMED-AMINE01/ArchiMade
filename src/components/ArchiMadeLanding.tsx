@@ -427,7 +427,7 @@ function ArchiPreloader({ onComplete }: { onComplete: () => void }) {
     const words = "ARCHI MADE STUDIO".split(" ");
 
     return (
-        <div ref={containerRef} translate="no" className="notranslate fixed inset-0 z-[1000] bg-[#e5e5e5] flex items-center justify-center overflow-hidden font-display perspective-[1000px]">
+        <div ref={containerRef} translate="no" className="notranslate fixed inset-0 z-1000 bg-[#e5e5e5] flex items-center justify-center overflow-hidden font-display perspective-[1000px]">
             {/* Drafting Paper Background */}
             <div className="absolute inset-0 opacity-[0.1] pointer-events-none"
                 style={{
@@ -456,13 +456,13 @@ function ArchiPreloader({ onComplete }: { onComplete: () => void }) {
                                 <div key={cIdx} className="char-wrap relative w-8 h-10 md:w-12 md:h-16 flex items-center justify-center">
 
                                     {/* Border Lines - Circulating Effect */}
-                                    <div className="border-line-h line-top absolute top-0 left-0 right-0 h-[1px] bg-black/40 origin-left"></div>
-                                    <div className="border-line-v line-right absolute top-0 right-0 bottom-0 w-[1px] bg-black/40 origin-top"></div>
-                                    <div className="border-line-h line-bottom absolute bottom-0 left-0 right-0 h-[1px] bg-black/40 origin-right"></div>
-                                    <div className="border-line-v line-left absolute top-0 left-0 bottom-0 w-[1px] bg-black/40 origin-bottom"></div>
+                                    <div className="border-line-h line-top absolute top-0 left-0 right-0 h-px bg-black/40 origin-left"></div>
+                                    <div className="border-line-v line-right absolute top-0 right-0 bottom-0 w-px bg-black/40 origin-top"></div>
+                                    <div className="border-line-h line-bottom absolute bottom-0 left-0 right-0 h-px bg-black/40 origin-right"></div>
+                                    <div className="border-line-v line-left absolute top-0 left-0 bottom-0 w-px bg-black/40 origin-bottom"></div>
 
                                     {/* The Letter */}
-                                    <span className="char-inner text-2xl md:text-5xl font-bold tracking-tighter text-[#0a0a0a] z-10 select-none">
+                                    <span className="char-inner text-2xl md:text-5xl font-bold tracking-tighter text-brand-dark z-10 select-none">
                                         {char}
                                     </span>
 
@@ -483,7 +483,7 @@ function ArchiPreloader({ onComplete }: { onComplete: () => void }) {
             <div className="absolute right-10 top-1/2 -translate-y-1/2 hidden md:flex flex-col gap-3 opacity-20">
                 {Array.from({ length: 8 }).map((_, i) => (
                     <div key={i} className="flex items-center gap-2">
-                        <div className={cn("h-[1px] bg-black", i % 4 === 0 ? "w-6" : "w-3")}></div>
+                        <div className={cn("h-px bg-black", i % 4 === 0 ? "w-6" : "w-3")}></div>
                         {i % 4 === 0 && <span className="text-[8px] font-mono uppercase">Lvl.0{i}</span>}
                     </div>
                 ))}
@@ -540,7 +540,7 @@ function ArchiNav({ isScrolling }: { isScrolling?: boolean }) {
                             >
                                 <span className="relative z-10">{item.name}</span>
                                 {!isScrolling && (
-                                    <div className="nav-underline absolute bottom-1 left-0 w-0 h-[2px] bg-white transition-all duration-500 group-hover:w-full z-0 opacity-20"></div>
+                                    <div className="nav-underline absolute bottom-1 left-0 w-0 h-0.5 bg-white transition-all duration-500 group-hover:w-full z-0 opacity-20"></div>
                                 )}
                             </a>
                         </li>
@@ -575,7 +575,9 @@ function ArchiMenuOverlay({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
             initial={{ opacity: 0, y: "-100%" }}
             animate={{ opacity: isOpen ? 1 : 0, y: isOpen ? "0%" : "-100%" }}
             transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
-            className="fixed inset-0 z-[200] bg-[#0a0a0a] text-white p-10 md:p-20 flex flex-col font-display"
+            className={cn("fixed inset-0 z-200 bg-brand-dark text-white p-10 md:p-20 flex flex-col font-display", 
+                !isOpen && "pointer-events-none"
+            )}
         >
             <div className="flex justify-between items-start">
                 <ArchiLogo light />
@@ -596,7 +598,7 @@ function ArchiMenuOverlay({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: isOpen ? 1 : 0, x: isOpen ? 0 : -20 }}
                         transition={{ delay: 0.4 + i * 0.1, duration: 0.5 }}
-                        className="text-5xl md:text-8xl font-bold tracking-tighter uppercase hover:italic transition-all leading-none underline decoration-2 underline-offset-8 decoration-white/0 hover:decoration-white/100"
+                        className="text-5xl md:text-8xl font-bold tracking-tighter uppercase hover:italic transition-all leading-none underline decoration-2 underline-offset-8 decoration-white/0 hover:decoration-white"
                     >
                         {item.name}
                     </motion.a>
@@ -644,7 +646,7 @@ function ArchiHeader({ onMenuClick }: { onMenuClick: () => void }) {
     return (
         <header
             className={cn(
-                "xl:hidden fixed top-0 left-0 right-0 z-[150] p-8 flex justify-between items-center mix-blend-difference pointer-events-none transition-transform duration-500",
+                "xl:hidden fixed top-0 left-0 right-0 z-150 p-8 flex justify-between items-center mix-blend-difference pointer-events-none transition-transform duration-500",
                 isHidden ? "-translate-y-full" : "translate-y-0"
             )}
         >
@@ -697,7 +699,7 @@ function ArchiBackground() {
                 delay: 1.2
             });
         }, bgRef);
-        return () => bgRef.current && ctx.revert();
+        return () => ctx.revert();
     }, []);
 
     return (
@@ -705,15 +707,15 @@ function ArchiBackground() {
             {/* Minimalist Structural Circles - Maximum Visibility White */}
             <div className="bg-circle-anim absolute top-[20%] left-[65%] -translate-x-1/2 -translate-y-1/2 w-[50vw] h-[50vw] border-[1.5px] border-white/90 rounded-full shadow-[0_0_15px_rgba(255,255,255,0.2)]"></div>
             <div className="bg-circle-anim absolute top-[20%] left-[65%] -translate-x-1/2 -translate-y-1/2 w-[70vw] h-[70vw] border-[1.5px] border-white/70 rounded-full"></div>
-            <div className="bg-circle-anim absolute top-[20%] left-[65%] -translate-x-1/2 -translate-y-1/2 w-[90vw] h-[90vw] border-[1px] border-white/50 rounded-full"></div>
+            <div className="bg-circle-anim absolute top-[20%] left-[65%] -translate-x-1/2 -translate-y-1/2 w-[90vw] h-[90vw] border border-white/50 rounded-full"></div>
 
             {/* Secondary Axis Circle */}
-            <div className="bg-circle-anim absolute bottom-[-10%] left-[5%] w-[40vw] h-[40vw] border-[1px] border-white/60 rounded-full"></div>
+            <div className="bg-circle-anim absolute bottom-[-10%] left-[5%] w-[40vw] h-[40vw] border border-white/60 rounded-full"></div>
 
             {/* Main Architectural Axis Lines - Solid 1px White */}
-            <div className="bg-line-anim absolute left-[25vw] top-0 bottom-0 w-[1px] bg-white/60 hidden md:block origin-top"></div>
-            <div className="bg-line-anim absolute left-[75vw] top-0 bottom-0 w-[1px] bg-white/40 hidden md:block origin-bottom"></div>
-            <div className="bg-line-anim absolute top-[35vh] left-0 right-0 h-[1px] bg-white/40 origin-left"></div>
+            <div className="bg-line-anim absolute left-[25vw] top-0 bottom-0 w-px bg-white/60 hidden md:block origin-top"></div>
+            <div className="bg-line-anim absolute left-[75vw] top-0 bottom-0 w-px bg-white/40 hidden md:block origin-bottom"></div>
+            <div className="bg-line-anim absolute top-[35vh] left-0 right-0 h-px bg-white/40 origin-left"></div>
 
             {/* Technical Grid - Enhanced Texture */}
             <div className="bg-dots absolute inset-0 opacity-[0.25]"
@@ -804,7 +806,7 @@ function ArchiHero() {
             {/* Largo-Style Container */}
             <div className="relative z-10 w-full h-full flex flex-col justify-center md:justify-start md:pt-[20vh] px-10 md:px-20 md:pl-[24vw] items-start text-left">
                 <div className="max-w-6xl relative z-20 flex flex-col items-start px-2">
-                    <h1 translate="no" className="notranslate archi-title text-[12vw] md:text-[9.5vw] font-bold tracking-tighter leading-[1.1] md:leading-[0.8] text-[#0a0a0a] flex flex-col items-start relative translate-z-0 mb-12">
+                    <h1 translate="no" className="notranslate archi-title text-[12vw] md:text-[9.5vw] font-bold tracking-tighter leading-[1.1] md:leading-[0.8] text-brand-dark flex flex-col items-start relative translate-z-0 mb-12">
                         {/* Title Lines (1, 2, 3) */}
                         {["Concevoir votre", "futur projet"].map((text, idx) => (
                             <div key={idx} className="sentence">
@@ -826,7 +828,7 @@ function ArchiHero() {
                         <div className="sentence overflow-hidden max-w-xxl">
                             <div className="outer relative">
                                 <span className="inner block overflow-hidden">
-                                    <p className="text block archi-title-reveal text-[12px] md:text-lg text-[#0a0a0a] font-medium leading-tight opacity-70">
+                                    <p className="text block archi-title-reveal text-[12px] md:text-lg text-brand-dark font-medium leading-tight opacity-70">
                                         Permis de construire, déclarations préalables et plans techniques.<br />
                                         Une approche claire et rigoureuse pour donner forme à vos projets.
                                     </p>
@@ -848,7 +850,7 @@ function ArchiHero() {
 
 
                     {/* Rotating Message with Underline */}
-                    <div className="relative w-[200px] md:w-[350px] h-12 md:h-12 overflow-hidden border-b border-black/10 pb-1">
+                    <div className="relative w-50 md:w-87.5 h-12 md:h-12 overflow-hidden border-b border-black/10 pb-1">
                         {HERO_MESSAGES.map((msg, i) => (
                             <motion.p
                                 key={i}
@@ -905,7 +907,7 @@ function ArchiAbout() {
                 y: 40,
                 rotateX: -40,
                 filter: "blur(5px)",
-                stagger: 0.01,
+                stagger: 0.1,
                 duration: 1.2,
                 ease: "expo.out",
                 scrollTrigger: {
@@ -967,21 +969,22 @@ function ArchiAbout() {
         <section id="propos" ref={sectionRef} className="relative bg-transparent overflow-hidden font-display">
             <div className="py-20 md:py-32 xl:pl-[25vw] px-6 md:px-10 xl:pr-20 relative z-10">
                 <div className="space-y-4 md:space-y-6">
-                    <span className="text-[9px] md:text-[10px] uppercase tracking-[0.4em] md:tracking-[0.6em] text-[#0a0a0a]/30 font-bold block animate-fade-in">Expertise & Accompagnement</span>
-                    <h2 className="about-heading text-3xl sm:text-4xl md:text-5xl xl:text-7xl font-bold leading-[1.1] md:leading-[1.1] text-[#0a0a0a] uppercase tracking-tighter max-w-5xl">
+                    <span className="text-[9px] md:text-[10px] uppercase tracking-[0.4em] md:tracking-[0.6em] text-brand-dark/30 font-bold block animate-fade-in">Expertise & Accompagnement</span>
+                    <h2 className="about-heading text-3xl sm:text-4xl md:text-5xl xl:text-7xl font-bold leading-[1.1] md:leading-[1.1] text-brand-dark uppercase tracking-tighter max-w-5xl">
                         {"Spécialiste dans la conception de projets de construction.".split(" ").map((word, i) => (
-                            <span key={i} className="inline-block whitespace-nowrap mr-[0.2em]">
-                                {word.split("").map((char, j) => (
-                                    <span key={j} className="inline-block">{char}</span>
-                                ))}
-                            </span>
+                            <React.Fragment key={i}>
+                                <span className="inline-block whitespace-nowrap">
+                                    <span className="inline-block">{word}</span>
+                                </span>
+                                {" "}
+                            </React.Fragment>
                         ))}
                     </h2>
                 </div>
 
                 <div className="flex flex-col xl:flex-row gap-12 xl:gap-20 mt-16 md:mt-24">
                     <div className="flex-1 about-subtext">
-                        <p className="text-lg sm:text-xl md:text-2xl xl:text-3xl font-light leading-[1.5] md:leading-[1.4] text-[#0a0a0a] tracking-tight border-l-2 md:border-l-4 border-black pl-6 md:pl-8">
+                        <p className="text-lg sm:text-xl md:text-2xl xl:text-3xl font-light leading-normal md:leading-[1.4] text-brand-dark tracking-tight border-l-2 md:border-l-4 border-black pl-6 md:pl-8">
                             ArchiMade accompagne particuliers et professionnels dans la préparation de leurs projets de construction.<br />
                             Plans, démarches, projections 3D : chaque élément est pensé pour rendre le projet plus clair, plus lisible et prêt à avancer.
                         </p>
@@ -989,7 +992,7 @@ function ArchiAbout() {
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
                             onClick={() => (window as any).lenis?.scrollTo('#expertise', { duration: 2.5 })}
-                            className="mt-12 group relative flex items-center justify-center gap-4 bg-[#0a0a0a] text-white px-8 py-5 rounded-full overflow-hidden transition-all duration-500 shadow-xl"
+                            className="mt-12 group relative flex items-center justify-center gap-4 bg-brand-dark text-white px-8 py-5 rounded-full overflow-hidden transition-all duration-500 shadow-xl"
                         >
                             <span className="text-[10px] md:text-xs font-bold uppercase tracking-[0.5em] pl-[0.5em] relative z-10">
                                 En savoir plus
@@ -1005,16 +1008,16 @@ function ArchiAbout() {
                         <div className="grid grid-cols-2 gap-8 md:gap-12 pt-8 md:pt-12 ">
                             <div className="space-y-2 md:space-y-6">
                                 <div className="flex items-baseline">
-                                    <span className="stat-number text-4xl sm:text-5xl md:text-7xl font-black block text-[#0a0a0a] tracking-tighter" data-target="100">0</span>
+                                    <span className="stat-number text-4xl sm:text-5xl md:text-7xl font-black block text-brand-dark tracking-tighter" data-target="100">0</span>
                                     <span className="text-xl md:text-2xl font-bold ml-1">%</span>
                                 </div>
-                                <p className="text-[8px] md:text-[9px] uppercase tracking-[0.2em] md:tracking-[0.3em] xl:tracking-[0.5em] font-bold text-[#0a0a0a]/40">CONFORMITÉ_PC_DP</p>
+                                <p className="text-[8px] md:text-[9px] uppercase tracking-[0.2em] md:tracking-[0.3em] xl:tracking-[0.5em] font-bold text-brand-dark/40">CONFORMITÉ_PC_DP</p>
                             </div>
                             <div className="space-y-2 md:space-y-6">
                                 <div className="flex items-baseline">
-                                    <span className="stat-number text-4xl sm:text-5xl md:text-7xl font-black block text-[#0a0a0a] tracking-tighter" data-target="0.0">0.0</span>
+                                    <span className="stat-number text-4xl sm:text-5xl md:text-7xl font-black block text-brand-dark tracking-tighter" data-target="0.0">0.0</span>
                                 </div>
-                                <p className="text-[8px] md:text-[9px] uppercase tracking-[0.2em] md:tracking-[0.3em] xl:tracking-[0.5em] font-bold text-[#0a0a0a]/40">RETARD</p>
+                                <p className="text-[8px] md:text-[9px] uppercase tracking-[0.2em] md:tracking-[0.3em] xl:tracking-[0.5em] font-bold text-brand-dark/40">RETARD</p>
                             </div>
                         </div>
                     </div>
@@ -1032,11 +1035,11 @@ function ArchiAbout() {
                     />
 
                     {/* Dark overlay for text readability - Content defines height */}
-                    <div className="relative z-10 bg-black/60 flex flex-col justify-center px-6 md:px-16 xl:pl-[25vw] md:pr-20 py-20 md:py-32 min-h-[400px] md:min-h-[750px] xl:min-h-[600px]">
+                    <div className="relative z-10 bg-black/60 flex flex-col justify-center px-6 md:px-16 xl:pl-[25vw] md:pr-20 py-20 md:py-32 min-h-100 md:min-h-187.5 xl:min-h-150">
                         <div className="mb-10 md:mb-20">
                             <ArchiReveal type="fade">
                                 <div className="flex items-center gap-4 mb-4">
-                                    <div className="w-12 h-[1px] bg-white/30"></div>
+                                    <div className="w-12 h-px bg-white/30"></div>
                                     <span className="text-[10px] md:text-xs uppercase tracking-[0.5em] text-white/40 font-bold">Processus</span>
                                 </div>
                                 <h2 className="text-4xl md:text-6xl lg:text-7xl font-black text-white uppercase tracking-tighter leading-none">
@@ -1051,7 +1054,7 @@ function ArchiAbout() {
                                     <ArchiReveal delay={0.2 + i * 0.1} type="up" className="flex flex-col gap-4">
                                         <div className="flex items-center gap-4">
                                             <span className="text-3xl md:text-3xl font-black text-white/10 font-mono tracking-tighter">{step.phase}</span>
-                                            <div className="h-[1px] flex-1 bg-white/10"></div>
+                                            <div className="h-px flex-1 bg-white/10"></div>
                                         </div>
                                         <h3 className="text-white font-bold text-base md:text-base lg:text-lg uppercase tracking-tight">{step.title}</h3>
                                         <p className="text-white/40 text-xs md:text-xs lg:text-sm leading-relaxed font-light max-w-sm">{step.desc}</p>
@@ -1112,7 +1115,7 @@ function ArchiServices() {
     return (
         <section id="expertise" ref={containerRef} className="bg-transparent font-display relative">
             {/* BACKGROUND DECORATIVE CIRCLES */}
-            <ArchiDrawing type="circle" className="-top-20 left-0 md:-left-[10%] w-[120vw] md:w-[60vw] opacity-[0.03]" trigger={containerRef} />
+            <ArchiDrawing type="circle" className="-top-20 left-0 md:left-[-10%] w-[120vw] md:w-[60vw] opacity-[0.03]" trigger={containerRef} />
 
             {/* INTRO DIVIDER BLOCK */}
             <div className="relative py-20 md:py-20 px-10 xl:pl-[25vw] md:pr-20 flex flex-col md:flex-row justify-between items-end gap-16 z-10 bg-transparent">
@@ -1128,7 +1131,7 @@ function ArchiServices() {
                             </div>
                         </ArchiReveal>
 
-                        <h2 className="text-5xl md:text-8xl lg:text-[7vw] font-black text-[#0a0a0a] uppercase tracking-tighter leading-[0.85] flex flex-col">
+                        <h2 className="text-5xl md:text-8xl lg:text-[7vw] font-black text-brand-dark uppercase tracking-tighter leading-[0.85] flex flex-col">
                             <ArchiReveal type="up" delay={0.2}>
                                 <span className="block">Studio</span>
                             </ArchiReveal>
@@ -1144,9 +1147,9 @@ function ArchiServices() {
                     </div>
                 </div>
 
-                <div className="md:max-w-[320px] lg:max-w-md border-l border-[#0a0a0a]/20 pl-8 mb-4">
+                <div className="md:max-w-[320px] lg:max-w-md border-l border-brand-dark/20 pl-8 mb-4">
                     <ArchiReveal type="fade" delay={0.5}>
-                        <p className="text-[#0a0a0a]/60 text-[9px] md:text-[10px] lg:text-[11px] font-bold tracking-[0.15em] leading-[2]">
+                        <p className="text-brand-dark/60 text-[9px] md:text-[10px] lg:text-[11px] font-bold tracking-[0.15em] leading-loose">
                             Une approche complète pour préparer, dessiner et visualiser vos projets de construction.<br></br>
                             Permis, plans techniques, modélisation 3D : chaque service répond à une étape clé du projet.
                         </p>
@@ -1155,7 +1158,7 @@ function ArchiServices() {
             </div>
 
             {/* ACCORDION CONTAINER - Trigger for UI hiding */}
-            <div id="expertise-content" ref={accordionRef} className="relative h-[85vh] lg:h-[85vh] flex flex-col lg:flex-row overflow-hidden border-y border-black/10 z-[110] bg-[#0a0a0a]">
+            <div id="expertise-content" ref={accordionRef} className="relative h-[85vh] lg:h-[85vh] flex flex-col lg:flex-row overflow-hidden border-y border-black/10 z-110 bg-brand-dark">
                 {services.map((service, index) => {
                     const isActive = activeIndex === index;
                     const isExpanded = expandedIndex === index;
@@ -1171,7 +1174,7 @@ function ArchiServices() {
                             key={index}
                             onMouseEnter={() => { if (!anyExpanded) setActiveIndex(index); }}
                             className={cn(
-                                "relative w-full lg:w-auto h-full transition-all duration-[1500ms] ease-[cubic-bezier(0.25,1,0.5,1)] cursor-default overflow-hidden border-b lg:border-b-0 lg:border-r border-white/10 group",
+                                "relative w-full lg:w-auto h-full transition-all duration-1500 ease-[cubic-bezier(0.25,1,0.5,1)] cursor-default overflow-hidden border-b lg:border-b-0 lg:border-r border-white/10 group",
                                 flexClass
                             )}
                             style={{ perspective: "2500px" }}
@@ -1195,13 +1198,13 @@ function ArchiServices() {
                                         />
                                     </div>
                                     <div className="mt-12 flex flex-col items-center gap-2">
-                                        <div className="w-8 h-[1px] bg-black/20"></div>
+                                        <div className="w-8 h-px bg-black/20"></div>
                                         <p className="text-black/40 tracking-[0.6em] font-bold uppercase text-[9px] animate-fade-in delay-500">Processing Data</p>
                                     </div>
                                 </div>
 
                                 {/* FRONT FACE (MAIN CONTENT) */}
-                                <div className="absolute inset-0 backface-hidden bg-[#0a0a0a] z-10 overflow-hidden">
+                                <div className="absolute inset-0 backface-hidden bg-brand-dark z-10 overflow-hidden">
                                     {/* BACKGROUND IMAGE */}
                                     <div className="absolute inset-0 w-full h-full">
                                         <img
@@ -1215,7 +1218,7 @@ function ArchiServices() {
                                         {/* GRADIENT OVERLAY FOR TEXT READABILITY */}
                                         <div className={cn(
                                             "absolute inset-0 transition-opacity duration-1000",
-                                            isActive || isExpanded ? "bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-100" : "bg-black/60 opacity-100"
+                                            isActive || isExpanded ? "bg-linear-to-t from-black/90 via-black/40 to-transparent opacity-100" : "bg-black/60 opacity-100"
                                         )}></div>
                                     </div>
 
@@ -1368,16 +1371,16 @@ function ArchiTransitionOverlay({ isVisible, onComplete, projectTitle }: { isVis
     if (!isVisible) return null;
 
     return (
-        <div ref={containerRef} className="fixed inset-0 z-[400] opacity-0">
+        <div ref={containerRef} className="fixed inset-0 z-400 opacity-0">
             {/* Geometric Shapes Background */}
             <div className="absolute inset-0 bg-[#e5e5e5] overflow-hidden">
                 <div
                     ref={circle1Ref}
-                    className="absolute -top-[20%] -left-[10%] w-[80vw] h-[80vw] border-[100px] border-black/5 rounded-full"
+                    className="absolute top-[-20%] left-[-10%] w-[80vw] h-[80vw] border-100 border-black/5 rounded-full"
                 />
                 <div
                     ref={circle2Ref}
-                    className="absolute -bottom-[30%] -right-[10%] w-[100vw] h-[100vw] border-[150px] border-black/5 rounded-full"
+                    className="absolute bottom-[-30%] right-[-10%] w-screen h-[100vw] border-150 border-black/5 rounded-full"
                 />
 
                 <div ref={textRef} className="absolute inset-0 flex items-center justify-center">
@@ -1392,7 +1395,7 @@ function ArchiTransitionOverlay({ isVisible, onComplete, projectTitle }: { isVis
             />
             <div
                 ref={blackPanelRef}
-                className="absolute inset-0 bg-[#0a0a0a] z-50"
+                className="absolute inset-0 bg-brand-dark z-50"
             />
         </div>
     );
@@ -1453,13 +1456,13 @@ function ArchiProjectDetail({ project, onClose, onNext, key }: { project: any; o
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[200] bg-[#0a0a0a]/98 backdrop-blur-3xl overflow-y-auto overflow-x-hidden font-display text-white"
+            className="fixed inset-0 z-200 bg-brand-dark/98 backdrop-blur-3xl overflow-y-auto overflow-x-hidden font-display text-white"
             ref={containerRef}
         >
             {/* Header / Close */}
             <button
                 onClick={onClose}
-                className="fixed top-6 right-6 md:top-10 md:right-10 z-[250] group flex items-center gap-4"
+                className="fixed top-6 right-6 md:top-10 md:right-10 z-250 group flex items-center gap-4"
             >
                 <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/60 opacity-0 group-hover:opacity-100 transition-all hidden md:block">Fermer</span>
                 <div className="w-10 h-10 md:w-14 md:h-14 rounded-full bg-white text-black flex items-center justify-center hover:scale-110 transition-transform shadow-xl">
@@ -1476,11 +1479,11 @@ function ArchiProjectDetail({ project, onClose, onNext, key }: { project: any; o
                         alt={project.title}
                         className="w-full h-full object-cover"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent opacity-90 pointer-events-none z-10"></div>
+                    <div className="absolute inset-0 bg-linear-to-t from-brand-dark via-transparent to-transparent opacity-90 pointer-events-none z-10"></div>
 
                     <div className="absolute bottom-10 left-6 md:bottom-20 md:left-20 max-w-5xl space-y-6 pointer-events-none z-20">
                         <div className="flex items-center gap-4 cinematic-text">
-                            <div className="w-12 h-[1px] bg-white/40"></div>
+                            <div className="w-12 h-px bg-white/40"></div>
                             <span className="text-[10px] font-mono text-white/60 uppercase tracking-[0.5em]">{project.city}</span>
                         </div>
                         <h2 className="text-5xl md:text-[8vw] font-black uppercase tracking-tighter leading-[0.8] cinematic-text drop-shadow-2xl">
@@ -1530,7 +1533,7 @@ function ArchiProjectDetail({ project, onClose, onNext, key }: { project: any; o
                                 </div>
                                 <div className="mt-6 flex justify-between items-center opacity-30 group-hover:opacity-100 transition-opacity">
                                     <span className="text-[8px] font-mono uppercase tracking-widest font-bold text-white/60">Asset_{i + 1}.render</span>
-                                    <div className="h-[1px] flex-1 mx-8 bg-white/10"></div>
+                                    <div className="h-px flex-1 mx-8 bg-white/10"></div>
                                     <span className="text-[8px] font-mono uppercase font-bold text-white/40">ID_{project.year}</span>
                                 </div>
                             </div>
@@ -1589,12 +1592,12 @@ function ArchiImageModal({ src, onClose }: { src: string; onClose: () => void })
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[1000] bg-black/95 backdrop-blur-xl flex items-center justify-center p-4 md:p-10"
+            className="fixed inset-0 z-1000 bg-black/95 backdrop-blur-xl flex items-center justify-center p-4 md:p-10"
             onClick={onClose}
         >
             <button
                 onClick={onClose}
-                className="fixed top-6 right-6 z-[1010] w-12 h-12 rounded-full bg-white/10 text-white flex items-center justify-center hover:bg-white hover:text-black transition-all"
+                className="fixed top-6 right-6 z-1010 w-12 h-12 rounded-full bg-white/10 text-white flex items-center justify-center hover:bg-white hover:text-black transition-all"
             >
                 <X className="w-6 h-6" />
             </button>
@@ -1713,7 +1716,7 @@ function ArchiGallery() {
             {/* Gallery Header */}
             <div className="w-full mb-20 md:mb-32 gallery-header">
                 <div className="md:justify-end flex items-center gap-4 mb-6">
-                    <div className="w-12 h-[1px] bg-black/20"></div>
+                    <div className="w-12 h-px bg-black/20"></div>
                     <span className="text-[10px] md:text-xs font-mono uppercase tracking-[0.5em] text-black/30 font-bold">Réalisations</span>
                 </div>
                 <h2 className="text-5xl md:text-8xl md:text-end font-black uppercase tracking-tighter leading-[0.85] text-black">
@@ -1742,7 +1745,7 @@ function ArchiGallery() {
 
 
                         {/* Minimal Info Overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700 flex flex-col justify-end p-8">
+                        <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700 flex flex-col justify-end p-8">
                             <p className="text-white/60 text-[8px] font-mono uppercase tracking-[0.4em] mb-2 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">{item.city}</p>
                             <h3 className="text-white text-xl font-black uppercase tracking-tighter leading-none translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-75">{item.title}</h3>
                         </div>
@@ -1783,7 +1786,7 @@ function ArchiValues() {
     }, []);
 
     return (
-        <section ref={sectionRef} id="pourquoi-archimade" className="relative w-full overflow-hidden group/values z-30 font-display bg-[#0a0a0a]">
+        <section ref={sectionRef} id="pourquoi-archimade" className="relative w-full overflow-hidden group/values z-30 font-display bg-brand-dark">
             <div className="relative w-full overflow-hidden">
                 <img
                     ref={imgRef}
@@ -1793,11 +1796,11 @@ function ArchiValues() {
                 />
 
                 {/* Dark overlay for text readability */}
-                <div className="relative z-10 bg-black/60 flex flex-col justify-center px-6 md:px-16 xl:pl-[25vw] md:pr-20 py-20 md:py-32 min-h-[400px] md:min-h-[750px] xl:min-h-[600px]">
+                <div className="relative z-10 bg-black/60 flex flex-col justify-center px-6 md:px-16 xl:pl-[25vw] md:pr-20 py-20 md:py-32 min-h-100 md:min-h-187.5 xl:min-h-150">
                     <div className="mb-10 md:mb-20">
                         <ArchiReveal type="fade">
                             <div className="flex items-center gap-4 mb-4">
-                                <div className="w-12 h-[1px] bg-white/30"></div>
+                                <div className="w-12 h-px bg-white/30"></div>
                                 <span className="text-[10px] md:text-xs uppercase tracking-[0.5em] text-white/40 font-bold">Pourquoi ArchiMade ?</span>
                             </div>
                             <h2 className="text-4xl md:text-6xl lg:text-7xl font-black text-white uppercase tracking-tighter leading-none flex flex-col">
@@ -1813,7 +1816,7 @@ function ArchiValues() {
                                 <ArchiReveal delay={0.2 + i * 0.1} type="up" className="flex flex-col gap-4">
                                     <div className="flex items-center gap-4">
                                         <span className="text-3xl md:text-3xl font-black text-white/10 font-mono tracking-tighter">{v.num}</span>
-                                        <div className="h-[1px] flex-1 bg-white/10"></div>
+                                        <div className="h-px flex-1 bg-white/10"></div>
                                     </div>
                                     <h3 className="text-white font-bold text-base md:text-base lg:text-lg uppercase tracking-tight">{v.title}</h3>
                                     <p className="text-white/40 text-xs md:text-xs lg:text-sm leading-relaxed font-light max-w-sm">{v.desc}</p>
@@ -1877,12 +1880,12 @@ function ArchiFAQ() {
         <section id="faq" ref={sectionRef} className="relative z-30 bg-white text-[#1a1a1a] py-32 md:py-28">
             <div className="max-w-4xl mx-auto px-6 md:px-20">
                 <div className="faq-header flex items-center gap-4 mb-12">
-                    <div className="w-8 h-[1px] bg-black/10"></div>
+                    <div className="w-8 h-px bg-black/10"></div>
                     <h3 className="text-[10px] uppercase tracking-[0.4em] text-black/30 font-bold font-display">Questions Fréquentes</h3>
                 </div>
                 <div className="space-y-1">
                     {faqs.map((faq, i) => (
-                        <div key={i} className="faq-item border-b border-black/[0.05]">
+                        <div key={i} className="faq-item border-b border-black/5">
                             <button
                                 onClick={() => setOpenFaq(openFaq === i ? null : i)}
                                 className="w-full py-6 flex justify-between items-center text-left group"
@@ -2045,8 +2048,8 @@ function ArchiContact() {
                     </div>
 
                     {/* Right: Premium Card */}
-                    <div className="contact-form-card lg:w-[500px] xl:w-[580px] w-full">
-                        <div className="bg-[#0a0a0a] p-8 md:p-12 lg:p-14 rounded-2xl border border-black/5 shadow-2xl relative overflow-hidden text-white">
+                    <div className="contact-form-card lg:w-125 xl:w-145 w-full">
+                        <div className="bg-brand-dark p-8 md:p-12 lg:p-14 rounded-2xl border border-black/5 shadow-2xl relative overflow-hidden text-white">
                             <h3 className="text-xl font-bold uppercase tracking-tight mb-8">Nous contacter</h3>
                             <form className="space-y-6 md:space-y-8" onSubmit={handleSubmit}>
                                 <div className="space-y-2">
@@ -2144,9 +2147,9 @@ function ArchiCookieBanner() {
                     animate={{ y: 0, opacity: 1 }}
                     exit={{ y: 50, opacity: 0 }}
                     transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                    className="fixed bottom-6 left-4 right-4 md:bottom-8 md:left-1/2 md:-translate-x-1/2 z-[3000] md:w-auto md:max-w-2xl"
+                    className="fixed bottom-6 left-4 right-4 md:bottom-8 md:left-1/2 md:-translate-x-1/2 z-3000 md:w-auto md:max-w-2xl"
                 >
-                    <div className="bg-[#0a0a0a]/90 backdrop-blur-[30px] border border-white/10 rounded-[2rem] p-4 md:p-2 flex flex-col md:flex-row items-center gap-4 md:gap-6 shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden group">
+                    <div className="bg-brand-dark/90 backdrop-blur-[30px] border border-white/10 rounded-4xl p-4 md:p-2 flex flex-col md:flex-row items-center gap-4 md:gap-6 shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden group">
                         
                         {/* Left Side: Icon & Context */}
                         <div className="flex items-center gap-4 w-full md:w-auto pl-2 md:pl-4">
@@ -2186,7 +2189,7 @@ function ArchiCookieBanner() {
                         </div>
 
                         {/* Animated Glow Accent */}
-                        <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
+                        <div className="absolute top-0 left-0 w-full h-px bg-linear-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
                     </div>
                 </motion.div>
             )}
@@ -2280,7 +2283,7 @@ export default function ArchiMadeLanding() {
             ) : (
                 <div
                     ref={mainRef}
-                    className="min-h-screen text-[#0a0a0a] selection:bg-[#0a0a0a] selection:text-white font-sans antialiased overflow-x-hidden block"
+                    className="min-h-screen text-brand-dark selection:bg-brand-dark selection:text-white font-sans antialiased overflow-x-hidden block"
                 >
                     <ArchiHeader onMenuClick={() => setIsMenuOpen(true)} />
                     <ArchiMenuOverlay isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
@@ -2294,13 +2297,24 @@ export default function ArchiMadeLanding() {
                         animate={{ opacity: isUIHidden ? 0 : 1, x: isUIHidden ? 50 : 0 }}
                         transition={{ duration: 0.5 }}
                         className={cn(
-                            "fixed bottom-8 left-8 md:bottom-12 md:left-12 xl:right-[-60px] xl:top-1/2 xl:-translate-y-1/2 xl:bottom-auto xl:left-auto z-[150] mix-blend-difference transition-all duration-500",
+                            "fixed bottom-8 left-8 md:bottom-12 md:left-12 xl:-right-15 xl:top-1/2 xl:-translate-y-1/2 xl:bottom-auto xl:left-auto z-150 mix-blend-difference transition-all duration-500",
                             isUIHidden ? "pointer-events-none" : "pointer-events-auto"
                         )}
                     >
                         <a
                             href="#contact"
-                            className="archi-sticky-contact group relative flex items-center justify-center bg-white text-black w-14 h-14 md:w-auto md:h-auto md:px-8 md:py-4 xl:px-10 xl:py-5 rounded-full xl:rounded-t-full xl:rounded-b-none overflow-hidden transition-all duration-500 hover:pr-14 xl:rotate-[-90deg] xl:origin-center"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                const target = document.getElementById("contact");
+                                if (target) {
+                                    if ((window as any).lenis) {
+                                        (window as any).lenis.scrollTo(target, { duration: 1.5, offset: 0 });
+                                    } else {
+                                        target.scrollIntoView({ behavior: 'smooth' });
+                                    }
+                                }
+                            }}
+                            className="archi-sticky-contact group relative flex items-center justify-center bg-white text-black w-14 h-14 md:w-auto md:h-auto md:px-8 md:py-4 xl:px-10 xl:py-5 rounded-full xl:rounded-t-full xl:rounded-b-none overflow-hidden transition-all duration-500 hover:pr-14 xl:-rotate-90 xl:origin-center"
                         >
                             <span className="hidden md:block text-[10px] font-bold uppercase tracking-[0.4em] relative z-10 whitespace-nowrap">Nous contacter</span>
                             <Phone className="w-5 h-5 md:hidden relative z-10" />
@@ -2310,7 +2324,7 @@ export default function ArchiMadeLanding() {
 
                     {/* Desktop Left Fixed Frame Column - WITH blend mode (Menu + Logo) */}
                     <div className={cn(
-                        "archi-sidebar fixed top-0 left-0 bottom-0 w-[25vw] z-[500] hidden xl:flex flex-col justify-between pt-16 pb-12 px-12 lg:px-16 pointer-events-none mix-blend-difference text-white transition-all duration-700",
+                        "archi-sidebar fixed top-0 left-0 bottom-0 w-[25vw] z-500 hidden xl:flex flex-col justify-between pt-16 pb-12 px-12 lg:px-16 pointer-events-none mix-blend-difference text-white transition-all duration-700",
                         isUIHidden ? "opacity-0 -translate-x-10" : "opacity-100 translate-x-0"
                     )}>
                         <ArchiNav isScrolling={isScrolling} />
@@ -2318,7 +2332,7 @@ export default function ArchiMadeLanding() {
                     </div>
 
                     {/* Main Content Layout */}
-                    <main className="archi-entrance relative z-10 pointer-events-none [&>*]:pointer-events-auto">
+                    <main className="archi-entrance relative z-10 pointer-events-none *:pointer-events-auto">
                         {/* All components take 100% width, offsets handled internally per section */}
                         <div id="hero">
                             <ArchiHero />
