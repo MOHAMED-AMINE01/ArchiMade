@@ -2197,12 +2197,65 @@ function ArchiCookieBanner() {
     );
 }
 
+// --- FLOATING INSTAGRAM BUTTON ---
+const INSTAGRAM_URL = "https://www.instagram.com/archi_made.studio";
+
+function InstagramBadge() {
+    return (
+        <span className="relative block rounded-full p-[2.5px] bg-[conic-gradient(from_215deg,#feda75,#fa7e1e,#d62976,#962fbf,#4f5bd5,#feda75)] shadow-[0_12px_30px_rgba(0,0,0,0.35)] transition-transform duration-500 ease-out group-hover:scale-110 group-hover:rotate-6">
+            <span className="flex items-center justify-center rounded-full bg-brand-dark w-12 h-12 md:w-14 md:h-14">
+                <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5 md:w-6 md:h-6 text-white" aria-hidden="true">
+                    <rect x="2" y="2" width="20" height="20" rx="5.5" stroke="currentColor" strokeWidth="1.8" />
+                    <circle cx="12" cy="12" r="4.2" stroke="currentColor" strokeWidth="1.8" />
+                    <circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" />
+                </svg>
+            </span>
+        </span>
+    );
+}
+
+function ArchiInstagramFloat({ isUIHidden, hasScrolled }: { isUIHidden: boolean; hasScrolled: boolean }) {
+    return (
+        <>
+            {/* Desktop: fixed on the left, vertically centered between the menu and the logo */}
+            <a
+                href={INSTAGRAM_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Suivez ArchiMade Studio sur Instagram"
+                className={cn(
+                    "group hidden xl:block fixed left-12 lg:left-16 top-1/2 -translate-y-1/2 z-150 transition-all duration-700",
+                    isUIHidden ? "opacity-0 -translate-x-10 pointer-events-none" : "opacity-100 pointer-events-auto"
+                )}
+            >
+                <InstagramBadge />
+            </a>
+
+            {/* Mobile/Tablet: starts centered on the right, slides down to bottom-right on scroll */}
+            <a
+                href={INSTAGRAM_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Suivez ArchiMade Studio sur Instagram"
+                className={cn(
+                    "group xl:hidden fixed top-0 right-6 z-150 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]",
+                    hasScrolled ? "translate-y-[calc(100vh-100%-2rem)]" : "translate-y-[calc(50vh-50%)]",
+                    isUIHidden ? "opacity-0 pointer-events-none" : "opacity-100 pointer-events-auto"
+                )}
+            >
+                <InstagramBadge />
+            </a>
+        </>
+    );
+}
+
 // --- MAIN PAGE EXPORT ---
 export default function ArchiMadeLanding() {
     const [isLoading, setIsLoading] = useState(true);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isScrolling, setIsScrolling] = useState(false);
     const [isUIHidden, setIsUIHidden] = useState(false);
+    const [hasScrolled, setHasScrolled] = useState(false);
     const mainRef = useRef<HTMLDivElement>(null);
     const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -2219,6 +2272,7 @@ export default function ArchiMadeLanding() {
         lenis.on('scroll', () => {
             ScrollTrigger.update();
             setIsScrolling(true);
+            setHasScrolled(window.scrollY > 80);
             if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
             scrollTimeoutRef.current = setTimeout(() => setIsScrolling(false), 200);
         });
@@ -2349,6 +2403,8 @@ export default function ArchiMadeLanding() {
                         </div>
                         <ArchiContact />
                     </main>
+
+                    <ArchiInstagramFloat isUIHidden={isUIHidden} hasScrolled={hasScrolled} />
 
                     <ArchiCookieBanner />
 
