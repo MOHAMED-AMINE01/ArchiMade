@@ -575,7 +575,7 @@ function ArchiMenuOverlay({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
             initial={{ opacity: 0, y: "-100%" }}
             animate={{ opacity: isOpen ? 1 : 0, y: isOpen ? "0%" : "-100%" }}
             transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
-            className={cn("fixed inset-0 z-200 bg-brand-dark text-white p-10 md:p-20 flex flex-col font-display", 
+            className={cn("fixed inset-0 z-200 bg-brand-dark text-white p-10 md:p-20 flex flex-col font-display",
                 !isOpen && "pointer-events-none"
             )}
         >
@@ -1647,7 +1647,7 @@ function ArchiGallery() {
             });
             seenImages.add(project.path);
         }
-        
+
         // Additional gallery images
         if (project.gallery) {
             project.gallery.forEach((img, idx) => {
@@ -1933,7 +1933,7 @@ function ArchiContact() {
 
         try {
             console.log('🚀 Submitting form data:', formData);
-    const res = await fetch('/api/send-email', {
+            const res = await fetch('/api/send-email', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData),
@@ -2150,7 +2150,7 @@ function ArchiCookieBanner() {
                     className="fixed bottom-6 left-4 right-4 md:bottom-8 md:left-1/2 md:-translate-x-1/2 z-3000 md:w-auto md:max-w-2xl"
                 >
                     <div className="bg-brand-dark/90 backdrop-blur-[30px] border border-white/10 rounded-4xl p-4 md:p-2 flex flex-col md:flex-row items-center gap-4 md:gap-6 shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden group">
-                        
+
                         {/* Left Side: Icon & Context */}
                         <div className="flex items-center gap-4 w-full md:w-auto pl-2 md:pl-4">
                             <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center shrink-0 shadow-lg">
@@ -2166,20 +2166,20 @@ function ArchiCookieBanner() {
 
                         {/* Right Side: Actions */}
                         <div className="flex items-center justify-between md:justify-end gap-2 w-full md:w-auto md:ml-auto">
-                            <Link 
+                            <Link
                                 to="/cookies"
                                 className="px-3 py-3 text-white/30 text-[9px] font-bold uppercase tracking-widest hover:text-white transition-colors"
                             >
                                 Détails
                             </Link>
                             <div className="flex items-center gap-2">
-                                <button 
+                                <button
                                     onClick={() => handleAction('decline')}
                                     className="px-4 py-2.5 bg-white/5 border border-white/10 text-white/60 text-[9px] font-black uppercase tracking-[0.2em] rounded-full hover:bg-white/10 hover:text-white transition-all duration-300"
                                 >
                                     Refuser
                                 </button>
-                                <button 
+                                <button
                                     onClick={() => handleAction('accept')}
                                     className="px-7 py-2.5 bg-white text-black text-[9px] font-black uppercase tracking-[0.3em] rounded-full hover:scale-105 transition-all duration-300 shadow-xl"
                                 >
@@ -2198,7 +2198,7 @@ function ArchiCookieBanner() {
 }
 
 // --- FLOATING INSTAGRAM BUTTON ---
-const INSTAGRAM_URL = "https://www.instagram.com/archi_made.studio";
+const INSTAGRAM_URL = "https://www.instagram.com/archi.made.studio";
 
 function InstagramBadge() {
     return (
