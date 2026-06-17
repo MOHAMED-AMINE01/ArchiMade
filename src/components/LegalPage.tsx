@@ -255,7 +255,7 @@ export default function LegalPage({ type }: { type: LegalType }) {
                         </div>
                         <div className="text-center md:text-right space-y-2">
                             <p className="text-[11px] font-black uppercase tracking-[0.4em] text-white/20">
-                                © {new Date().getFullYear()} ArchiMade Studio
+                                © {__BUILD_YEAR__} ArchiMade Studio
                             </p>
                             <p className="text-[9px] uppercase tracking-[0.5em] text-white/10">Architecture d'exception — France</p>
                         </div>

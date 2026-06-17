@@ -9,6 +9,10 @@ export default defineConfig(({mode}) => {
     plugins: [react(), tailwindcss()],
     define: {
       'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY),
+      // Build-time constant so the footer copyright year is identical in the
+      // prerendered HTML and at hydration time (no New-Year mismatch). Resolved
+      // once when the bundle is built, not per render.
+      __BUILD_YEAR__: JSON.stringify(new Date().getFullYear()),
     },
     resolve: {
       alias: {
@@ -16,8 +20,8 @@ export default defineConfig(({mode}) => {
       },
     },
     // Bundle the animation / icon libs into the SSR build so the prerender pass
-    // (vite-react-ssg) doesn't choke on their ESM-only / browser-oriented entry
-    // points when imported from Node.
+    // (scripts/prerender.mjs) doesn't choke on their ESM-only / browser-oriented
+    // entry points when imported from Node.
     ssr: {
       noExternal: ['gsap', 'lenis', 'framer-motion', 'motion', 'lucide-react'],
     },

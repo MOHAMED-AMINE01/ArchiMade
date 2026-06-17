@@ -1642,9 +1642,9 @@ function ArchiGallery() {
 
     const scrollToNext = () => {
         if ((window as any).lenis) {
-            (window as any).lenis.scrollTo("#expertise-3d", { duration: 2 });
+            (window as any).lenis.scrollTo("#expertise-content", { duration: 2 });
         } else {
-            document.getElementById("expertise-3d")?.scrollIntoView({ behavior: "smooth" });
+            document.getElementById("expertise-content")?.scrollIntoView({ behavior: "smooth" });
         }
     };
 
@@ -1949,7 +1949,6 @@ function ArchiContact() {
         setErrorMsg('');
 
         try {
-            console.log('🚀 Submitting form data:', formData);
             const res = await fetch('/api/send-email', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -2127,7 +2126,7 @@ function ArchiContact() {
 
                 {/* Footer Bottom */}
                 <div className="contact-footer-bar mt-12 md:mt-16 lg:mt-24 pt-8 md:pt-10 border-t border-black/5 flex flex-col md:flex-row justify-between items-center opacity-30 text-[9px] uppercase tracking-[0.2em] font-bold">
-                    <p>© {new Date().getFullYear()} ArchiMade Studio — France</p>
+                    <p>© {__BUILD_YEAR__} ArchiMade Studio — France</p>
                     <div className="flex gap-8 mt-4 md:mt-0">
                         <Link to="/mentions-legales" className="hover:text-black transition-colors uppercase">Mentions légales</Link>
                         <Link to="/confidentialite" className="hover:text-black transition-colors uppercase">Confidentialité</Link>
@@ -2324,7 +2323,7 @@ export default function ArchiMadeLanding() {
                 ScrollTrigger.create({
                     trigger: "#expertise",
                     start: "top top",
-                    endTrigger: "#expertise-3d",
+                    endTrigger: "#expertise-content",
                     end: "bottom 20%",
                     onEnter: () => setIsUIHidden(true),
                     onLeave: () => setIsUIHidden(false),

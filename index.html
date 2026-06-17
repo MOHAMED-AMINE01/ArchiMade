@@ -6,7 +6,9 @@
   <link rel="icon" type="image/png" href="/Logo ArchiMade.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <!-- Per-route <title>/description/canonical/OG/Twitter are injected at build
-       time by the <Seo> component (vite-react-ssg Head). -->
+       time by the <Seo> component (react-helmet-async) via scripts/prerender.mjs.
+       This static <title> is the SPA-fallback default and is stripped from each
+       prerendered file so Helmet's per-route title is the only one. -->
   <title>ArchiMade Studio</title>
 
   <!-- Progressive enhancement: without JS the entrance animations never run, so
