@@ -2,8 +2,28 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Mail, ShieldCheck, Cookie, Scale, FileText, ChevronRight } from 'lucide-react';
 import { useEffect } from 'react';
+import Seo from './Seo';
 
 type LegalType = 'mentions' | 'privacy' | 'cookies';
+
+// TODO(SEO): refine these titles/descriptions with final keyword/geo strategy.
+const SEO_BY_TYPE: Record<LegalType, { path: string; title: string; description: string }> = {
+    mentions: {
+        path: '/mentions-legales',
+        title: 'Mentions Légales | ArchiMade Studio',
+        description: "Mentions légales d'ArchiMade Studio : éditeur, hébergeur, propriété intellectuelle et responsabilité du site archi-made.com.",
+    },
+    privacy: {
+        path: '/confidentialite',
+        title: 'Politique de Confidentialité | ArchiMade Studio',
+        description: "Politique de confidentialité d'ArchiMade Studio : données collectées, finalités, durées de conservation et droits RGPD des utilisateurs.",
+    },
+    cookies: {
+        path: '/cookies',
+        title: 'Politique Cookies | ArchiMade Studio',
+        description: "Politique cookies d'ArchiMade Studio : types de cookies utilisés, consentement et gestion via le navigateur.",
+    },
+};
 
 const content = {
     mentions: {
@@ -131,6 +151,7 @@ const content = {
 
 export default function LegalPage({ type }: { type: LegalType }) {
     const activeContent = content[type];
+    const seo = SEO_BY_TYPE[type];
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -138,6 +159,7 @@ export default function LegalPage({ type }: { type: LegalType }) {
 
     return (
         <div className="min-h-screen bg-[#050505] text-white font-display selection:bg-white selection:text-black overflow-x-hidden relative">
+            <Seo path={seo.path} title={seo.title} description={seo.description} />
             {/* Grain Overlay */}
             <div className="fixed inset-0 pointer-events-none opacity-[0.03] z-50"
                 style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3BaseFilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/baseFilter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}

@@ -15,6 +15,12 @@ export default defineConfig(({mode}) => {
         '@': path.resolve(__dirname, '.'),
       },
     },
+    // Bundle the animation / icon libs into the SSR build so the prerender pass
+    // (vite-react-ssg) doesn't choke on their ESM-only / browser-oriented entry
+    // points when imported from Node.
+    ssr: {
+      noExternal: ['gsap', 'lenis', 'framer-motion', 'motion', 'lucide-react'],
+    },
     server: {
       // HMR is disabled in AI Studio via DISABLE_HMR env var.
       // Do not modify—file watching is disabled to prevent flickering during agent edits.

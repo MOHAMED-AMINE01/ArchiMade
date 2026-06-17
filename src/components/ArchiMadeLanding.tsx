@@ -1,5 +1,6 @@
-import React, { useLayoutEffect, useRef, useEffect, useState } from "react";
+import React, { useLayoutEffect, useRef, useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
+import Seo from "./Seo";
 import { motion, AnimatePresence } from "framer-motion"; import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
@@ -23,6 +24,17 @@ import {
     Cookie
 } from "lucide-react";
 import { cn } from "../lib/utils";
+
+// useLayoutEffect warns when run during server-side prerender; fall back to
+// useEffect on the server (effects don't run there anyway). Client behaviour is
+// unchanged (still useLayoutEffect in the browser).
+const useIsomorphicLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
+
+// Broadcasts the preloader state down the tree. Content is now ALWAYS rendered
+// (so it is present in the prerendered HTML and crawlable); the preloader is a
+// full-screen overlay on top of it. Auto-playing intro animations read this to
+// wait until the preloader has finished, preserving the original choreography.
+const LoadingContext = React.createContext<boolean>(true);
 
 // --- CONFIG ---
 const IMAGES = {
@@ -216,7 +228,7 @@ if (typeof window !== "undefined") {
 const ArchiReveal = ({ children, className = "", delay = 0, type = "up" }: { children: React.ReactNode; className?: string; delay?: number; type?: "up" | "down" | "scale" | "fade"; key?: React.Key }) => {
     const elRef = useRef<HTMLDivElement>(null);
 
-    useLayoutEffect(() => {
+    useIsomorphicLayoutEffect(() => {
         const el = elRef.current;
         if (!el) return;
 
@@ -253,7 +265,7 @@ const ArchiReveal = ({ children, className = "", delay = 0, type = "up" }: { chi
 const ArchiDrawing = ({ type = "circle", className = "", trigger }: { type?: "circle" | "rect" | "lines"; className?: string; trigger: any }) => {
     const svgRef = useRef(null);
 
-    useLayoutEffect(() => {
+    useIsomorphicLayoutEffect(() => {
         const ctx = gsap.context(() => {
             gsap.fromTo(".draw-path",
                 { strokeDasharray: 1000, strokeDashoffset: 1000 },
@@ -427,7 +439,7 @@ function ArchiPreloader({ onComplete }: { onComplete: () => void }) {
     const words = "ARCHI MADE STUDIO".split(" ");
 
     return (
-        <div ref={containerRef} translate="no" className="notranslate fixed inset-0 z-1000 bg-[#e5e5e5] flex items-center justify-center overflow-hidden font-display perspective-[1000px]">
+        <div ref={containerRef} translate="no" className="archi-preloader notranslate fixed inset-0 z-1000 bg-[#e5e5e5] flex items-center justify-center overflow-hidden font-display perspective-[1000px]">
             {/* Drafting Paper Background */}
             <div className="absolute inset-0 opacity-[0.1] pointer-events-none"
                 style={{
@@ -668,7 +680,7 @@ function ArchiHeader({ onMenuClick }: { onMenuClick: () => void }) {
 function ArchiBackground() {
     const bgRef = useRef<HTMLDivElement>(null);
 
-    useLayoutEffect(() => {
+    useIsomorphicLayoutEffect(() => {
         const ctx = gsap.context(() => {
             // Precise rotation for circles
             gsap.from(".bg-circle-anim", {
@@ -734,6 +746,7 @@ const HERO_MESSAGES = [
 
 function ArchiHero() {
     const sectionRef = useRef(null);
+    const isLoading = useContext(LoadingContext);
 
     const [textIndex, setTextIndex] = useState(0);
 
@@ -744,7 +757,11 @@ function ArchiHero() {
         return () => clearInterval(interval);
     }, []);
 
-    useLayoutEffect(() => {
+    useIsomorphicLayoutEffect(() => {
+        // Wait until the preloader finishes so the hero reveal plays for the
+        // user (same choreography as before), instead of running hidden under
+        // the overlay. The element text is already in the (prerendered) DOM.
+        if (isLoading) return;
         const ctx = gsap.context(() => {
             // High-end alternating reveal for ALL elements
             const allReveals = gsap.utils.toArray(".archi-title-reveal");
@@ -775,7 +792,7 @@ function ArchiHero() {
             });
         }, sectionRef);
         return () => ctx.revert();
-    }, []);
+    }, [isLoading]);
 
     const handleHeroClick = (e: React.MouseEvent) => {
         const target = e.target as HTMLElement;
@@ -899,7 +916,7 @@ function ArchiAbout() {
         { phase: "06", title: "Remise du projet", desc: "Vous recevez les plans, visuels et documents finalisés pour présenter ou faire avancer votre projet." },
     ];
 
-    useLayoutEffect(() => {
+    useIsomorphicLayoutEffect(() => {
         const ctx = gsap.context(() => {
             // Heading Split Reveal
             gsap.from(".about-heading span span", {
@@ -1094,7 +1111,7 @@ function ArchiServices() {
     const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
     const [lastExpandedIndex, setLastExpandedIndex] = useState<number | null>(null);
 
-    useLayoutEffect(() => {
+    useIsomorphicLayoutEffect(() => {
         const ctx = gsap.context(() => {
 
         });
@@ -1331,7 +1348,7 @@ function ArchiTransitionOverlay({ isVisible, onComplete, projectTitle }: { isVis
     const blackPanelRef = useRef<HTMLDivElement>(null);
     const textRef = useRef<HTMLDivElement>(null);
 
-    useLayoutEffect(() => {
+    useIsomorphicLayoutEffect(() => {
         if (!isVisible) return;
 
         const ctx = gsap.context(() => {
@@ -1408,7 +1425,7 @@ function ArchiProjectDetail({ project, onClose, onNext, key }: { project: any; o
     const nextProjectIndex = (PROJECTS.findIndex(p => p.title === project.title) + 1) % PROJECTS.length;
     const nextProject = PROJECTS[nextProjectIndex];
 
-    useLayoutEffect(() => {
+    useIsomorphicLayoutEffect(() => {
         if (!project) return;
         if ((window as any).lenis) (window as any).lenis.stop();
         document.body.style.overflow = 'hidden';
@@ -1670,7 +1687,7 @@ function ArchiGallery() {
     // Reorder to put featured first
     galleryItems.sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0));
 
-    useLayoutEffect(() => {
+    useIsomorphicLayoutEffect(() => {
         const ctx = gsap.context(() => {
             gsap.from(".gallery-header", {
                 y: 50,
@@ -1769,7 +1786,7 @@ function ArchiValues() {
         { num: "04", title: "FLEXIBILITÉ", desc: "Plans, croquis, relevés ou photos : ArchiMade s'adapte aux éléments disponibles pour démarrer l'étude de votre projet." },
     ];
 
-    useLayoutEffect(() => {
+    useIsomorphicLayoutEffect(() => {
         const ctx = gsap.context(() => {
             gsap.to(imgRef.current, {
                 yPercent: 10,
@@ -1847,7 +1864,7 @@ function ArchiFAQ() {
         { q: "Quels documents dois-je fournir ?", a: "Un plan de masse ou des photos suffisent pour une première étude de faisabilité." }
     ];
 
-    useLayoutEffect(() => {
+    useIsomorphicLayoutEffect(() => {
         const ctx = gsap.context(() => {
             gsap.from(".faq-header", {
                 x: -50,
@@ -1954,7 +1971,7 @@ function ArchiContact() {
         }
     };
 
-    useLayoutEffect(() => {
+    useIsomorphicLayoutEffect(() => {
         const ctx = gsap.context(() => {
             const tl = gsap.timeline({
                 scrollTrigger: {
@@ -2287,7 +2304,7 @@ export default function ArchiMadeLanding() {
         };
     }, []);
 
-    useLayoutEffect(() => {
+    useIsomorphicLayoutEffect(() => {
         if (!isLoading) {
             const ctx = gsap.context(() => {
                 // Entrance animation for the main layout
@@ -2331,14 +2348,25 @@ export default function ArchiMadeLanding() {
     }, [isLoading]);
 
     return (
-        <>
-            {isLoading ? (
-                <ArchiPreloader onComplete={() => setIsLoading(false)} />
-            ) : (
-                <div
-                    ref={mainRef}
-                    className="min-h-screen text-brand-dark selection:bg-brand-dark selection:text-white font-sans antialiased overflow-x-hidden block"
-                >
+        <LoadingContext.Provider value={isLoading}>
+            {/* TODO(SEO): finalise home title/description with the target
+                keywords + geo (e.g. Orsay / Essonne / Paris-Saclay) once the
+                local strategy is locked. */}
+            <Seo
+                path="/"
+                title="ArchiMade Studio | Architecture, Permis de Construire & Modélisation 3D"
+                description="ArchiMade Studio accompagne particuliers et professionnels : permis de construire, déclarations préalables, plans techniques et modélisation 3D photoréaliste."
+            />
+
+            {/* Preloader is a full-screen opaque overlay rendered ON TOP of the
+                real content (which is always mounted, so it ships in the
+                prerendered HTML and is crawlable). */}
+            {isLoading && <ArchiPreloader onComplete={() => setIsLoading(false)} />}
+
+            <div
+                ref={mainRef}
+                className="min-h-screen text-brand-dark selection:bg-brand-dark selection:text-white font-sans antialiased overflow-x-hidden block"
+            >
                     <ArchiHeader onMenuClick={() => setIsMenuOpen(true)} />
                     <ArchiMenuOverlay isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
 
@@ -2445,8 +2473,7 @@ export default function ArchiMadeLanding() {
                    scroll-behavior: auto;
                 }
             `}} />
-                </div>
-            )}
-        </>
+            </div>
+        </LoadingContext.Provider>
     );
 }

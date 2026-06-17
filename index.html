@@ -5,9 +5,21 @@
   <meta charset="UTF-8" />
   <link rel="icon" type="image/png" href="/Logo ArchiMade.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description"
-    content="ArchiMade Studio - Accompagnement architectural premium, modélisation 3D et photoréalisme absolu." />
-  <title>ArchiMade Studio | Architecture & Design 3D</title>
+  <!-- Per-route <title>/description/canonical/OG/Twitter are injected at build
+       time by the <Seo> component (vite-react-ssg Head). -->
+  <title>ArchiMade Studio</title>
+
+  <!-- Progressive enhancement: without JS the entrance animations never run, so
+       elements that start hidden (opacity:0 / framer initial state) would stay
+       invisible and the preloader overlay would never fade. Force them visible
+       for no-JS clients and crawlers. JS clients are unaffected. -->
+  <noscript>
+    <style>
+      .archi-preloader { display: none !important; }
+      .opacity-0 { opacity: 1 !important; }
+      [style*="opacity:0"], [style*="opacity: 0"] { opacity: 1 !important; }
+    </style>
+  </noscript>
 </head>
 
 <body>
