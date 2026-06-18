@@ -6,6 +6,10 @@ export const SITE_URL = 'https://www.archi-made.com';
 
 const DEFAULT_OG_IMAGE = `${SITE_URL}/og-card.png`;
 
+// TODO(config): set VITE_GSC_ID in .env with the Google Search Console verification code.
+// DNS TXT verification is an alternative — no meta tag needed in that case.
+const GSC_ID = import.meta.env.VITE_GSC_ID as string | undefined;
+
 export interface SeoProps {
   /** Route path beginning with "/", e.g. "/mentions-legales". */
   path: string;
@@ -24,6 +28,7 @@ export default function Seo({ path, title, description, image = DEFAULT_OG_IMAGE
       <title>{title}</title>
       <meta name="description" content={description} />
       {noindex && <meta name="robots" content="noindex" />}
+      {GSC_ID && <meta name="google-site-verification" content={GSC_ID} />}
       <link rel="canonical" href={url} />
 
       {/* Open Graph */}

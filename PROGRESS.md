@@ -19,7 +19,8 @@
 
 ## P4 Measure & security
 
-[ ] GA4 consent-gated [ ] GSC verification [ ] rate-limit /api/send-email [ ] honeypot + escape email + remove body log
+[x] GA4 consent-gated (src/lib/gtag.ts, VITE_GA_ID) [x] GSC verification (VITE_GSC_ID meta)
+[x] rate-limit /api/send-email [x] honeypot + time-trap + escape email + remove body log
 
 ## DECISIONS / BLOCKED
 
@@ -36,3 +37,4 @@ apex→www 301 + HTTPS · real 404 status · GSC sitemap+URL-Inspection · Rich 
 - 2026-06-18 — P2 — JSON-LD @graph in raw HTML (Organization + ProfessionalService + 5 Services linked via @id); prerender.mjs now emits helmet.script; public/og-card.png 1200x630 via sharp; Seo DEFAULT_OG_IMAGE → og-card.png. Build green (4 routes); seo-check STRUCTURED DATA 3/3 PASS. P2 complete. Next: P3 performance/CWV.
 - 2026-06-18 — P3 (images) — All 30 images converted PNG/JPEG→WebP (36MB→6.5MB, 82% saved); renamed kebab-case to public/img/; ex-3MB renders now <300KB. width+height on every <img>; hero(logo-intro) fetchpriority="high"; all others loading="lazy"; React 19 SSR preload links stripped in prerender.mjs (0 image preloads). Old dirs deleted. Build green (4 routes); seo-check IMAGES section all PASS. Remaining FAILs: chunk>500KB + fonts @import (separate items).
 - 2026-06-18 — P3 (JS+fonts) — manualChunks: vendor-animation (262KB) + vendor-react (66KB) + index (297KB); SSR uses animation-only split. Self-hosted Montserrat+Inter variable WOFF2 in public/fonts/; @font-face + preload in index.html; removed Google Fonts @import. Build: no chunk warning; seo-check 23/23 PASS. P3 complete (srcset/sizes deferred). Next: P4 measure & security.
+- 2026-06-18 — P4 — GA4 consent-gated (src/lib/gtag.ts): loads gtag defer only when VITE_GA_ID set + user accepted cookies; fires on accept click or re-visit. GSC meta via VITE_GSC_ID (env-driven, DNS alternative noted). api/send-email.ts hardened: honeypot (hidden "website" field), time-trap (_t <3s = silent reject), all user input HTML-escaped, body length capped, full-body console.log removed, in-memory IP rate-limit 5/min. Form sends honeypot+_t. Build green; seo-check 23/23 PASS; 4 routes prerendered. P4 complete.
