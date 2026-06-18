@@ -4,13 +4,44 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/webp" href="/img/logo-archimade.webp" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="preload" href="/fonts/montserrat-variable.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/fonts/inter-variable.woff2" as="font" type="font/woff2" crossorigin />
+    <link
+      rel="preload"
+      href="/fonts/montserrat-variable.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/fonts/inter-variable.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
     <!-- Per-route <title>/description/canonical/OG/Twitter are injected at build
        time by the <Seo> component (react-helmet-async) via scripts/prerender.mjs.
        This static <title> is the SPA-fallback default and is stripped from each
        prerendered file so Helmet's per-route title is the only one. -->
     <title>ArchiMade Studio</title>
+
+    <!-- Static boot shell: visible before React loads (dev empty #root). Removed by main.tsx on boot. -->
+    <style>
+      #static-loading-shell {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #e5e5e5;
+        font-family: system-ui, sans-serif;
+      }
+      #static-loading-shell img {
+        height: 6rem;
+        width: auto;
+        opacity: 0.85;
+      }
+    </style>
 
     <!-- Progressive enhancement: without JS the entrance animations never run, so
        elements that start hidden (opacity:0 / framer initial state) would stay
@@ -33,6 +64,16 @@
   </head>
 
   <body>
+    <div id="static-loading-shell" aria-hidden="true">
+      <img
+        src="/img/logo-intro-256w.webp"
+        alt=""
+        width="256"
+        height="256"
+        fetchpriority="high"
+        decoding="sync"
+      />
+    </div>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

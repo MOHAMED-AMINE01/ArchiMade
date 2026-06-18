@@ -11,12 +11,12 @@ let initialized = false;
 export function initGA4() {
   if (initialized) return;
   if (!GA_ID) return;
-  if (typeof window === 'undefined') return;
+  if (typeof window === "undefined") return;
 
-  const consent = localStorage.getItem('archimade-cookies-consent');
-  if (consent !== 'accept') return;
+  const consent = localStorage.getItem("archimade-cookies-consent");
+  if (consent !== "accept") return;
 
-  const script = document.createElement('script');
+  const script = document.createElement("script");
   script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
   script.defer = true;
   document.head.appendChild(script);
@@ -25,8 +25,8 @@ export function initGA4() {
   function gtag(...args: any[]) {
     (window as any).dataLayer.push(args);
   }
-  gtag('js', new Date());
-  gtag('config', GA_ID, { anonymize_ip: true });
+  gtag("js", new Date());
+  gtag("config", GA_ID, { anonymize_ip: true });
 
   initialized = true;
 }

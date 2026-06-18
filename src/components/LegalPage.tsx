@@ -10,7 +10,11 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { useEffect } from "react";
-import { ResponsiveImage, IMAGE_SIZES } from "./ResponsiveImage";
+import {
+  ResponsiveImage,
+  IMAGE_SIZES,
+  intrinsicFromSrc,
+} from "./ResponsiveImage";
 import Seo from "./Seo";
 
 type LegalType = "mentions" | "privacy" | "cookies";
@@ -203,8 +207,8 @@ export default function LegalPage({ type }: { type: LegalType }) {
           <ResponsiveImage
             src="/img/logo-archimade.webp"
             alt="Logo"
-            width={1254}
-            height={1254}
+            width={intrinsicFromSrc("/img/logo-archimade.webp").width}
+            height={intrinsicFromSrc("/img/logo-archimade.webp").height}
             loading="lazy"
             sizes={IMAGE_SIZES.logo}
             className="h-7 w-auto invert opacity-30 hover:opacity-100 transition-opacity duration-700"

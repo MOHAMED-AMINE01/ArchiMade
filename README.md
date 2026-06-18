@@ -1,20 +1,52 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# ArchiMade Studio — archi-made.com
 
-# Run and deploy your AI Studio app
+React 19 · Vite 6 · SSG prerender · Vercel.
 
-This contains everything you need to run your app locally.
+## Run locally
 
-View your app in AI Studio: https://ai.studio/apps/715f21a0-8c89-4b9c-a7ca-5d4635aa3278
+**Prerequisites:** Node.js 20+
 
-## Run Locally
+```powershell
+npm install
+```
 
-**Prerequisites:**  Node.js
+Copy env template and add your Resend key for the contact form:
 
+```powershell
+copy .env.local.example .env.local
+```
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+Edit `.env.local` and set `RESEND_API_KEY=re_...` from [Resend](https://resend.com).
+
+### Development (`npm run dev`)
+
+- **Frontend:** http://localhost:5173 (Vite)
+- **API proxy:** `/api/*` → Express on http://localhost:5000
+
+Dev uses an empty `#root` until JavaScript loads. A static boot shell (logo on grey) appears immediately; the full React app follows. The cinematic preloader is **skipped in dev**; production builds still use it.
+
+Express starts even without `RESEND_API_KEY`; `/api/send-email` returns 503 until the key is set.
+
+### Production-like preview (recommended for perf / SEO checks)
+
+```powershell
+npm run build
+npm run preview
+```
+
+Serves prerendered HTML from `dist/` (usually http://localhost:4173). Closer to what users see after deploy.
+
+### Verify SEO build
+
+```powershell
+npm run build
+node scripts/seo-check.mjs
+```
+
+## Deploy-day env (Vercel)
+
+- `RESEND_API_KEY` — contact form
+- `VITE_GA_ID` — GA4 (consent-gated)
+- `VITE_GSC_ID` — Google Search Console meta (or DNS TXT alternative)
+
+See `PROGRESS.md` deploy-day checklist for apex→www, GSC, PSI, etc.

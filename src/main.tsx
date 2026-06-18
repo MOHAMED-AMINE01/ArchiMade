@@ -1,11 +1,18 @@
-import './index.css';
-import { StrictMode } from 'react';
-import { createRoot, hydrateRoot } from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom';
-import { HelmetProvider } from 'react-helmet-async';
-import AppRoutes from './App';
+import "./index.css";
+import { StrictMode } from "react";
+import { createRoot, hydrateRoot } from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
+import { HelmetProvider } from "react-helmet-async";
+import AppRoutes from "./App";
 
-const container = document.getElementById('root')!;
+if (typeof performance !== "undefined") {
+  performance.mark("js_start");
+}
+
+const shell = document.getElementById("static-loading-shell");
+if (shell) shell.remove();
+
+const container = document.getElementById("root")!;
 
 const app = (
   <StrictMode>
@@ -23,4 +30,8 @@ if (container.hasChildNodes()) {
   hydrateRoot(container, app);
 } else {
   createRoot(container).render(app);
+}
+
+if (typeof performance !== "undefined") {
+  performance.mark("react_boot_complete");
 }

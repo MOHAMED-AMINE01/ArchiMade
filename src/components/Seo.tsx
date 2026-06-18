@@ -1,8 +1,8 @@
-import { Helmet } from 'react-helmet-async';
+import { Helmet } from "react-helmet-async";
 
 // Canonical host. apex (archi-made.com) -> www redirect must be enforced in
 // Vercel domain settings — see TODO(config) in vercel.json / report.
-export const SITE_URL = 'https://www.archi-made.com';
+export const SITE_URL = "https://www.archi-made.com";
 
 const DEFAULT_OG_IMAGE = `${SITE_URL}/og-card.png`;
 
@@ -20,7 +20,13 @@ export interface SeoProps {
   noindex?: boolean;
 }
 
-export default function Seo({ path, title, description, image = DEFAULT_OG_IMAGE, noindex = false }: SeoProps) {
+export default function Seo({
+  path,
+  title,
+  description,
+  image = DEFAULT_OG_IMAGE,
+  noindex = false,
+}: SeoProps) {
   const url = `${SITE_URL}${path}`;
   return (
     <Helmet>
