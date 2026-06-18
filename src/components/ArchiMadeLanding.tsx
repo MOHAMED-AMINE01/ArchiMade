@@ -708,7 +708,7 @@ const ArchiLogo = ({
       loading="lazy"
       sizes={IMAGE_SIZES.logo}
       className={cn(
-        "logo-img h-16 md:h-28 scale-100 ml-5 w-auto object-contain transition-all duration-500 brightness-0 invert",
+        "logo-img h-44 md:h-56 scale-100 ml-5 w-auto object-contain transition-all duration-500 brightness-0 invert",
         light && "brightness-0 invert",
       )}
     />
