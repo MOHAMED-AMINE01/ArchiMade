@@ -4,9 +4,7 @@ import { Helmet } from 'react-helmet-async';
 // Vercel domain settings — see TODO(config) in vercel.json / report.
 export const SITE_URL = 'https://www.archi-made.com';
 
-// Placeholder social image: reuse the existing logo until a dedicated 1200x630
-// OG card is produced. TODO(SEO): replace with a real og-image (1200x630).
-const DEFAULT_OG_IMAGE = `${SITE_URL}/Logo%20ArchiMade.png`;
+const DEFAULT_OG_IMAGE = `${SITE_URL}/og-card.png`;
 
 export interface SeoProps {
   /** Route path beginning with "/", e.g. "/mentions-legales". */

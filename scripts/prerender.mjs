@@ -30,7 +30,12 @@ for (const route of ROUTES) {
   const { appHtml, helmet } = render(route);
 
   const headTags = helmet
-    ? [helmet.title.toString(), helmet.meta.toString(), helmet.link.toString()]
+    ? [
+        helmet.title.toString(),
+        helmet.meta.toString(),
+        helmet.link.toString(),
+        helmet.script.toString(),
+      ]
         .filter(Boolean)
         .join('\n    ')
     : '';

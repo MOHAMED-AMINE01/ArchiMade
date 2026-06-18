@@ -8,9 +8,9 @@
 
 ## P2 Structured data & social
 
-[ ] JSON-LD in raw HTML [ ] Organization(@id,logo,sameAs,contactPoint)
-[ ] ProfessionalService (NOT Architect; areaServed=TODO) [ ] Service nodes→@id
-[x] no self-rating [ ] real 1200x630 OG card
+[x] JSON-LD in raw HTML [x] Organization(@id,logo,sameAs,contactPoint)
+[x] ProfessionalService (NOT Architect; areaServed=TODO) [x] Service nodes→@id
+[x] no self-rating [x] real 1200x630 OG card
 
 ## P3 Performance/CWV
 
@@ -33,3 +33,4 @@ apex→www 301 + HTTPS · real 404 status · GSC sitemap+URL-Inspection · Rich 
 
 - (append: date — phase — done — next)
 - 2026-06-18 — P1 — .npmrc legacy-peer-deps confirmed; soft-404 fixed: catch-all `*`→NotFound(noindex) added LAST in App.tsx, Seo gained noindex prop, removed SPA fallback rewrite in vercel.json so unknown paths return real 404. Clean install exit 0; build green (4 routes prerendered, `*` not prerendered); seo-check PRERENDER&HEAD 14/14 PASS. P1 = 8/8. Remaining FAILs are P2 (JSON-LD) / P3 (img sizing, preloads, >500KB chunk, fonts @import). Next: P2 structured data.
+- 2026-06-18 — P2 — JSON-LD @graph in raw HTML (Organization + ProfessionalService + 5 Services linked via @id); prerender.mjs now emits helmet.script; public/og-card.png 1200x630 via sharp; Seo DEFAULT_OG_IMAGE → og-card.png. Build green (4 routes); seo-check STRUCTURED DATA 3/3 PASS. P2 complete. Next: P3 performance/CWV.

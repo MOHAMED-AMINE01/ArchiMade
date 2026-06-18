@@ -1,6 +1,7 @@
 import React, { useLayoutEffect, useRef, useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import Seo from "./Seo";
+import StructuredData from "./StructuredData";
 import { motion, AnimatePresence } from "framer-motion"; import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
@@ -2356,6 +2357,7 @@ export default function ArchiMadeLanding() {
                 title="ArchiMade Studio | Architecture, Permis de Construire & Modélisation 3D"
                 description="ArchiMade Studio accompagne particuliers et professionnels : permis de construire, déclarations préalables, plans techniques et modélisation 3D photoréaliste."
             />
+            <StructuredData />
 
             {/* Preloader is a full-screen opaque overlay rendered ON TOP of the
                 real content (which is always mounted, so it ships in the
