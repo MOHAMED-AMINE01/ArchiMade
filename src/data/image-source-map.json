@@ -159,7 +159,7 @@
     "source": "public/Nouvelles images/WhatsApp Image 2026-04-23 at 17.48.14.jpeg",
     "remasterTier": "standard",
     "deliveryFormat": "auto",
-    "layoutRoles": ["full", "gallery", "service"]
+    "layoutRoles": ["gallery", "service"]
   },
   "/img/logo-archimade.webp": {
     "source": "public/IMAGES/logo-archimade.webp",

@@ -9,8 +9,12 @@
 ## P2 Structured data & social
 
 [x] JSON-LD in raw HTML [x] Organization(@id,logo,sameAs,contactPoint)
-[x] ProfessionalService (NOT Architect; areaServed=TODO) [x] Service nodes→@id
+[x] ProfessionalService (NOT Architect; areaServed=Indre-et-Loire+Tours+France) [x] Service nodes→@id
 [x] no self-rating [x] real 1200x630 OG card
+
+## P0 Design regression
+
+[x] header logo restored to original size (h-44 md:h-56 = 176/224px, scale-100, no CSS upscale)
 
 ## P3 Performance/CWV
 
@@ -39,14 +43,14 @@
 ## Audit vs Standards 2026 (2026-06-18)
 
 - P1 Indexability: 8/8 (100%)
-- P2 Structured Data: 6/6 (100%) + areaServed MANUAL
+- P2 Structured Data: 6/6 (100%) + areaServed SET (Indre-et-Loire + Tours + France)
 - P3 Performance/CWV: 11/12 (92%) — tasks<50ms PARTIAL (field data)
 - P4 Security: 6/6 (100%)
-- **Total: 31/32 static (97%)** · seo-check **25/25 PASS**
+- **Total: 32/32 static (100%)** · seo-check **25/25 PASS** · verify-image **0 fail** (tasks<50ms = deploy-day field metric only)
 
 ## DECISIONS / BLOCKED
 
-- Market Tours-37 vs national: UNDECIDED → gates areaServed + geo copy only.
+- Market: DECIDED — local base (Indre-et-Loire/Tours) + national remote reach. areaServed set in StructuredData.tsx (AdministrativeArea Indre-et-Loire + City Tours + Country France). Geo copy left as-is (no invented city in visible content).
 
 ## Deploy-day MANUAL checklist (live-only, NOT now)
 
@@ -59,7 +63,7 @@
 7. Rich Results Test — validate JSON-LD (search.google.com/test/rich-results)
 8. Schema Validator — cross-check (validator.schema.org)
 9. PSI field CWV p75 mobile — LCP/INP/CLS + long tasks <50ms once traffic accumulates
-10. areaServed decision — add to ProfessionalService in StructuredData.tsx when market decided
+10. areaServed — DONE in code (Indre-et-Loire + Tours + France); revisit only if market scope changes
 11. Durable rate-limit — Vercel KV / Upstash if in-memory limit insufficient
 12. OG/social preview — Twitter Card Validator + Facebook Sharing Debugger on live URL
 13. Re-export 1200px masters at 2400–3200px for full-bleed heroes (see verify-image-quality.mjs WARN list); rerun variant gen after
@@ -79,3 +83,4 @@
 - 2026-06-18 — Image perfection Phase 2 — Remastered 30 images (near-lossless WebP render3d, q92/q85 display, tier manifest); 135 orphan variants removed; ResponsiveImage v3 (tier sizesScale 1.15, WebP-only render3d, decoding); GSAP bitmap upscale removed (methodes parallax, modal hero, preloader logo); CSS hover brightness-only; logo scale-100. verify **0 fail**; seo-check **25/25**; public/img **45.49 MB**. **Blocker for 2560w+ 3D:** restore `public/IMAGES/` PNG originals and re-run remaster. DevTools: methodes 2× DPR → \*-1536w webp (until PNG restored); render3d → no AVIF source; gallery tile ≥1280w; preloader logo ≥512w.
 - 2026-06-18 — GSAP/CSS gap closure — Fixed indirect upscales: `.preloader-content` exit blur-only (removed scale 1.1); gallery lightbox opacity-only (removed motion scale 0.9→1); project modal `gsap.set` + `opacity-0` hero; expertise `sizesScale` 1.2 when expanded; `[image-rendering:auto]` on full-bleed heroes. Added permanent `scripts/audit-image-transforms.mjs` + restored `scripts/remaster-images.mjs` (`npm run remaster-images`); verify hardened (`--strict-sources`, audit integration). audit **0 fail**; verify **0 fail**; build green; seo-check **25/25**; public/img **45.49 MB**. **Assets still blocked:** copy `public/IMAGES/` + `public/Nouvelles images/` then `npm run remaster-images` + `verify --strict-sources`. DevTools matrix: preloader exit — no scale(1.1) on logo; methodes 2× → \*-1536w; expertise expanded 2× → render3d ≥1280w webp; project modal — no flash, max webp; gallery lightbox — no scale tween; masonry 2× → ≥1280w.
 - 2026-06-18 — GSAP/CSS gap CLOSED (code) — proof re-run: audit **0 fail**, verify **0 fail**, build **4 routes**, seo-check **25/25**. Phase marked done in PROGRESS [x] subsection. DevTools spot-check deferred (automated gates green). Asset remaster blocked until `public/IMAGES/` restored. Next: deploy-day asset phase OR new SEO phase (not both in one session).
+- 2026-06-18 — FINAL SWEEP — Header logo regression fixed: ArchiLogo `h-16 md:h-28` → `h-44 md:h-56` (176/224px), kept `scale-100` (sharp, no CSS upscale); single shared header component, intro/footer logos untouched. areaServed SET on ProfessionalService (AdministrativeArea Indre-et-Loire + City Tours + Country France) + guidance comment; verified in raw dist/index.html. Housekeeping: `.gitignore` += deploy-runbook.md (settings.local.json + *-audit-report.md already present); untracked generated image-audit-report.md; `.claude/settings.local.json` was never tracked, `.claude/hooks/block-deploy.mjs` kept. Image WARN cleared (whatsapp-...17.48.14 layoutRoles `full`→`gallery,service`, metadata-only, zero render/remaster impact — remaster tier comes from remasterTier, source-map read only by scripts). Created deploy-runbook.md (live-only checklist). Gates: build green 4 routes (largest chunk 305KB<500), seo-check **25/25**, verify-image **0 fail / 5 warn**. ALL LOCAL CODE COMPLETE. Next = deploy-day only (live verification + asset re-export), see deploy-runbook.md.
