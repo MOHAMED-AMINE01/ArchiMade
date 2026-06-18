@@ -14,15 +14,18 @@ export interface SeoProps {
   title: string;
   description: string;
   image?: string;
+  /** When true, emit <meta name="robots" content="noindex"> (e.g. 404). */
+  noindex?: boolean;
 }
 
-export default function Seo({ path, title, description, image = DEFAULT_OG_IMAGE }: SeoProps) {
+export default function Seo({ path, title, description, image = DEFAULT_OG_IMAGE, noindex = false }: SeoProps) {
   const url = `${SITE_URL}${path}`;
   return (
     <Helmet>
       <html lang="fr" />
       <title>{title}</title>
       <meta name="description" content={description} />
+      {noindex && <meta name="robots" content="noindex" />}
       <link rel="canonical" href={url} />
 
       {/* Open Graph */}
