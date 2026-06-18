@@ -22,7 +22,7 @@ const structuredData = {
       '@id': ORG_ID,
       name: 'ArchiMade Studio',
       url: SITE_URL,
-      logo: `${SITE_URL}/Logo%20ArchiMade.png`,
+      logo: `${SITE_URL}/img/logo-archimade.webp`,
       sameAs: ['https://www.instagram.com/archi_made37/'],
       contactPoint: {
         '@type': 'ContactPoint',

@@ -40,75 +40,75 @@ const LoadingContext = React.createContext<boolean>(true);
 // --- CONFIG ---
 const IMAGES = {
     logos: {
-        v1: "/Logo ArchiMade.png"
+        v1: "/img/logo-archimade.webp"
     },
     renders: {
-        veigne: "/IMAGES/3D/Construction d_une maison individuelle 37250 Veigné.png",
-        joue: "/IMAGES/3D/Construction d_une maison individuelle joue les tours 37300.png",
-        montlouis: "/IMAGES/3D/Construction d_une maison individuelle Montlouis sur Loire 37270.png",
-        mirabeau: "/IMAGES/3D/Création d_une extension 13170 Les pennes Mirabeau.png",
-        saintes: "/IMAGES/3D/Modifications de façades d_un entrepôt 17100 saintes.png",
-        pexels: "/IMAGES/3D/pexels-perqued-13203180.jpg"
+        veigne: "/img/construction-d-une-maison-individuelle-37250-veigne.webp",
+        joue: "/img/construction-d-une-maison-individuelle-joue-les-tours-37300.webp",
+        montlouis: "/img/construction-d-une-maison-individuelle-montlouis-sur-loire-37270.webp",
+        mirabeau: "/img/creation-d-une-extension-13170-les-pennes-mirabeau.webp",
+        saintes: "/img/modifications-de-facades-d-un-entrepot-17100-saintes.webp",
+        pexels: "/img/pexels-perqued-13203180.webp"
     },
     projects: {
         activites: {
-            main: "/IMAGES/Projets finis/Bâtiment d_activités/4 cellules d_activités rue Jacqueline Auriol la ville aux dames 37700.png",
-            before: "/IMAGES/Projets finis/Bâtiment d_activités/Capture d_écran 2026-04-11 093951.png"
+            main: "/img/4-cellules-d-activites-rue-jacqueline-auriol-la-ville-aux-dames-37700.webp",
+            before: "/img/capture-d-ecran-2026-04-11-093951.webp"
         },
         esvres: {
-            main: "/IMAGES/Projets finis/Construction d_une extension sur maison existant 37320 Esvres/Insertion 2.png",
-            before: "/IMAGES/Projets finis/Construction d_une extension sur maison existant 37320 Esvres/WhatsApp Image 2022-10-05 at 09.00.22 (1).jpeg"
+            main: "/img/insertion-2.webp",
+            before: "/img/whatsapp-image-2022-10-05-at-09.00.22-1.webp"
         },
         fondettes: {
-            main: "/IMAGES/Projets finis/Construction d_une maison individuelle neuve 37230 fondettes/Capture d_écran 2026-04-11 101030.png"
+            main: "/img/capture-d-ecran-2026-04-11-101030.webp"
         },
         branchs: {
-            main: "/IMAGES/Projets finis/Construction d_une maison individuelle neuve 37320 saint branchs/Capture d_écran 2026-04-11 102547.png"
+            main: "/img/capture-d-ecran-2026-04-11-102547.webp"
         },
         cyr_villa: {
-            main: "/IMAGES/Projets finis/Construction d_une maison individuelle neuve 37540 saint cyr sur loire/Capture d_écran 2026-04-11 102226.png"
+            main: "/img/capture-d-ecran-2026-04-11-102226.webp"
         },
         suze: {
-            main: "/IMAGES/Projets finis/Construction d_une maison individuelle neuve 72210 la suze sur sarthe/Capture d_écran 2026-04-11 101430.png"
+            main: "/img/capture-d-ecran-2026-04-11-101430.webp"
         },
         ligueil: {
-            main: "/IMAGES/Projets finis/construction d_une maison indivuelle neuve 37240 ligueil/Capture d_écran 2026-04-11 102902.png"
+            main: "/img/capture-d-ecran-2026-04-11-102902.webp"
         },
         chambray: {
-            main: "/IMAGES/Projets finis/creation d_une surelevation au dessus d_un garage 37170 chambray les tours/1abff9e6-a427-41ba-84e4-6202cf7be7ee.jpg",
-            before: "/IMAGES/Projets finis/creation d_une surelevation au dessus d_un garage 37170 chambray les tours/46f52069-d1b9-41b3-b202-29c8108447e7.jpg"
+            main: "/img/1abff9e6-a427-41ba-84e4-6202cf7be7ee.webp",
+            before: "/img/46f52069-d1b9-41b3-b202-29c8108447e7.webp"
         },
         cyr_extension: {
-            main: "/IMAGES/Projets finis/Extension sur maison existante 37540/Creation d_une extenstion 37540 saint cyr sur loire - 01.jpeg",
-            alt: "/IMAGES/Projets finis/Extension sur maison existante 37540/Creation d_une extenstion 37540 saint cyr sur loire - 02.jpeg",
-            before: "/IMAGES/Projets finis/Extension sur maison existante 37540/avant projet.jpeg"
+            main: "/img/creation-d-une-extenstion-37540-saint-cyr-sur-loire-01.webp",
+            alt: "/img/creation-d-une-extenstion-37540-saint-cyr-sur-loire-02.webp",
+            before: "/img/avant-projet.webp"
         },
         chanceaux: {
-            main: "/IMAGES/Projets finis/Loc office rehabiliation d_une zone de stockage en bureau 37390 chanceaux sur choisille/Capture d_écran 2026-04-10 174146.png",
+            main: "/img/capture-d-ecran-2026-04-10-174146.webp",
             gallery: [
-                "/IMAGES/Projets finis/Loc office rehabiliation d_une zone de stockage en bureau 37390 chanceaux sur choisille/Capture d_écran 2026-04-10 174722.png",
-                "/IMAGES/3D/pexels-perqued-13203180.jpg",
-                "/IMAGES/Projets finis/Loc office rehabiliation d_une zone de stockage en bureau 37390 chanceaux sur choisille/Capture d_écran 2026-04-10 174750.png"
+                "/img/capture-d-ecran-2026-04-10-174722.webp",
+                "/img/pexels-perqued-13203180.webp",
+                "/img/capture-d-ecran-2026-04-10-174750.webp"
             ]
         },
         padel: {
-            main: "/Nouvelles images/WhatsApp Image 2026-04-23 at 17.48.14.jpeg",
+            main: "/img/whatsapp-image-2026-04-23-at-17.48.14.webp",
             gallery: [
-                "/Nouvelles images/WhatsApp Image 2026-04-23 at 17.48.13.jpeg",
-                "/Nouvelles images/WhatsApp Image 2026-04-23 at 17.48.14 (1).jpeg",
-                "/Nouvelles images/WhatsApp Image 2026-04-23 at 17.48.14.jpeg"
+                "/img/whatsapp-image-2026-04-23-at-17.48.13.webp",
+                "/img/whatsapp-image-2026-04-23-at-17.48.14-1.webp",
+                "/img/whatsapp-image-2026-04-23-at-17.48.14.webp"
             ]
         },
         whatsapp: {
-            i1: "/Nouvelles images/WhatsApp Image 2026-04-23 at 17.48.13.jpeg",
-            i2: "/Nouvelles images/WhatsApp Image 2026-04-23 at 17.48.14 (1).jpeg",
-            i3: "/Nouvelles images/WhatsApp Image 2026-04-23 at 17.48.14.jpeg"
+            i1: "/img/whatsapp-image-2026-04-23-at-17.48.13.webp",
+            i2: "/img/whatsapp-image-2026-04-23-at-17.48.14-1.webp",
+            i3: "/img/whatsapp-image-2026-04-23-at-17.48.14.webp"
         }
     },
     industrial: {
         activites: {
-            main: "/IMAGES/Projets finis/Bâtiment d_activités/4 cellules d_activités rue Jacqueline Auriol la ville aux dames 37700.png",
-            alt: "/IMAGES/Projets finis/Bâtiment d_activités/Capture d_écran 2026-04-11 093951.png"
+            main: "/img/4-cellules-d-activites-rue-jacqueline-auriol-la-ville-aux-dames-37700.webp",
+            alt: "/img/capture-d-ecran-2026-04-11-093951.webp"
         }
     }
 };
@@ -456,8 +456,11 @@ function ArchiPreloader({ onComplete }: { onComplete: () => void }) {
                 {/* Logo in Preloader */}
                 <div className="preloader-logo mb-30 md:mb-35">
                     <img
-                        src="/logo_intro.png"
+                        src="/img/logo-intro.webp"
                         alt="Logo"
+                        width={1254}
+                        height={1254}
+                        fetchPriority="high"
                         className="h-24 md:h-38 w-auto object-contain opacity-80"
                     />
                 </div>
@@ -509,8 +512,11 @@ function ArchiPreloader({ onComplete }: { onComplete: () => void }) {
 const ArchiLogo = ({ className = "", light = false, isScrolling = false }: { className?: string; light?: boolean; isScrolling?: boolean }) => (
     <div className={cn("pointer-events-auto transition-all duration-700 transform-gpu bg-[rgba(255,255,255,0.01)] rounded-xl", className, isScrolling && "scale-75 opacity-40")}>
         <img
-            src="/Logo ArchiMade.png"
+            src="/img/logo-archimade.webp"
             alt="ArchiMade Logo"
+            width={1254}
+            height={1254}
+            loading="lazy"
             className={cn(
                 "logo-img h-16 md:h-28 scale-280 md:scale-200 xl:scale-200 ml-5 w-auto object-contain transition-all duration-500 brightness-0 invert",
                 light && "brightness-0 invert"
@@ -1049,6 +1055,9 @@ function ArchiAbout() {
                         ref={imgRef}
                         src={IMAGES.renders.joue}
                         alt="Processus ArchiMade"
+                        width={1536}
+                        height={1024}
+                        loading="lazy"
                         className="absolute inset-0 w-full h-full object-cover grayscale brightness-50 group-hover/method:scale-105 transition-transform duration-[2s]"
                     />
 
@@ -1210,8 +1219,11 @@ function ArchiServices() {
                                 <div className="absolute inset-0 bg-white flex flex-col items-center justify-center backface-hidden border border-black/5 z-0" style={{ transform: 'rotateY(180deg)' }}>
                                     <div className="relative">
                                         <img
-                                            src="/Logo%20ArchiMade.png"
+                                            src="/img/logo-archimade.webp"
                                             alt="ArchiMade Logo"
+                                            width={1254}
+                                            height={1254}
+                                            loading="lazy"
                                             className="w-48 md:w-64 relative z-10 drop-shadow-2xl"
                                         />
                                     </div>
@@ -1228,6 +1240,9 @@ function ArchiServices() {
                                         <img
                                             src={service.img}
                                             alt={service.title}
+                                            width={1536}
+                                            height={1024}
+                                            loading="lazy"
                                             className={cn(
                                                 "w-full h-full object-cover transition-all duration-1000",
                                                 isActive || isExpanded ? "scale-100 grayscale-0 brightness-100" : "scale-125 grayscale brightness-50"
@@ -1495,6 +1510,9 @@ function ArchiProjectDetail({ project, onClose, onNext, key }: { project: any; o
                         ref={heroImgRef}
                         src={encodeURI(project.path)}
                         alt={project.title}
+                        width={1536}
+                        height={1024}
+                        loading="lazy"
                         className="w-full h-full object-cover"
                     />
                     <div className="absolute inset-0 bg-linear-to-t from-brand-dark via-transparent to-transparent opacity-90 pointer-events-none z-10"></div>
@@ -1545,6 +1563,9 @@ function ArchiProjectDetail({ project, onClose, onNext, key }: { project: any; o
                                 <div className="aspect-video md:aspect-auto">
                                     <img
                                         src={encodeURI(img)}
+                                        width={1536}
+                                        height={1024}
+                                        loading="lazy"
                                         className="w-full h-full object-cover shadow-2xl transition-transform duration-1000 group-hover:scale-105"
                                         alt={`Gallery ${i}`}
                                     />
@@ -1575,6 +1596,9 @@ function ArchiProjectDetail({ project, onClose, onNext, key }: { project: any; o
                     <img
                         src={encodeURI(nextProject.path)}
                         alt={nextProject.title}
+                        width={1536}
+                        height={1024}
+                        loading="lazy"
                         className="absolute inset-0 w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-1500 ease-out opacity-40 group-hover:opacity-60"
                     />
                     <div className="absolute inset-0 bg-black/60 group-hover:bg-black/40 transition-colors"></div>
@@ -1630,6 +1654,9 @@ function ArchiImageModal({ src, onClose }: { src: string; onClose: () => void })
                 <img
                     src={encodeURI(src)}
                     alt="Modal"
+                    width={1536}
+                    height={1024}
+                    loading="lazy"
                     className="max-w-full max-h-full object-contain rounded-sm shadow-2xl"
                 />
             </motion.div>
@@ -1756,6 +1783,9 @@ function ArchiGallery() {
                             <img
                                 src={encodeURI(item.src)}
                                 alt={item.title}
+                                width={1536}
+                                height={1024}
+                                loading="lazy"
                                 className="w-full h-auto object-cover transition-all duration-[1.5s] group-hover:scale-110 group-hover:rotate-1"
                             />
                         </div>
@@ -1810,6 +1840,9 @@ function ArchiValues() {
                     ref={imgRef}
                     src={IMAGES.renders.montlouis}
                     alt="Pourquoi ArchiMade ?"
+                    width={1536}
+                    height={1024}
+                    loading="lazy"
                     className="absolute top-[-10%] left-0 w-full h-[120%] object-cover grayscale brightness-50 group-hover/values:scale-105 transition-transform duration-[2s]"
                 />
 

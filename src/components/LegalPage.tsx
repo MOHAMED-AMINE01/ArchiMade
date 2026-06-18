@@ -177,7 +177,7 @@ export default function LegalPage({ type }: { type: LegalType }) {
                     <span className="text-[11px] font-black uppercase tracking-[0.4em]">Retour</span>
                 </Link>
                 <div className="hidden md:block">
-                    <img src="/Logo ArchiMade.png" alt="Logo" className="h-7 w-auto invert opacity-30 hover:opacity-100 transition-opacity duration-700" />
+                    <img src="/img/logo-archimade.webp" alt="Logo" width={1254} height={1254} loading="lazy" className="h-7 w-auto invert opacity-30 hover:opacity-100 transition-opacity duration-700" />
                 </div>
             </nav>
 

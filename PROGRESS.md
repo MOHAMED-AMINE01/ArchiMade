@@ -14,7 +14,7 @@
 
 ## P3 Performance/CWV
 
-[ ] WebP/AVIF (3D PNGs 2.5–3MB) [ ] width/height every img [ ] hero eager+fetchpriority / kill below-fold preload / lazy rest
+[x] WebP (3D PNGs 2.5–3MB → <300KB) [x] width/height every img [x] hero eager+fetchpriority / kill below-fold preload / lazy rest
 [ ] srcset/sizes [ ] code-split <500KB/chunk [ ] fonts preconnect+preload+swap
 
 ## P4 Measure & security
@@ -34,3 +34,4 @@ apex→www 301 + HTTPS · real 404 status · GSC sitemap+URL-Inspection · Rich 
 - (append: date — phase — done — next)
 - 2026-06-18 — P1 — .npmrc legacy-peer-deps confirmed; soft-404 fixed: catch-all `*`→NotFound(noindex) added LAST in App.tsx, Seo gained noindex prop, removed SPA fallback rewrite in vercel.json so unknown paths return real 404. Clean install exit 0; build green (4 routes prerendered, `*` not prerendered); seo-check PRERENDER&HEAD 14/14 PASS. P1 = 8/8. Remaining FAILs are P2 (JSON-LD) / P3 (img sizing, preloads, >500KB chunk, fonts @import). Next: P2 structured data.
 - 2026-06-18 — P2 — JSON-LD @graph in raw HTML (Organization + ProfessionalService + 5 Services linked via @id); prerender.mjs now emits helmet.script; public/og-card.png 1200x630 via sharp; Seo DEFAULT_OG_IMAGE → og-card.png. Build green (4 routes); seo-check STRUCTURED DATA 3/3 PASS. P2 complete. Next: P3 performance/CWV.
+- 2026-06-18 — P3 (images) — All 30 images converted PNG/JPEG→WebP (36MB→6.5MB, 82% saved); renamed kebab-case to public/img/; ex-3MB renders now <300KB. width+height on every <img>; hero(logo-intro) fetchpriority="high"; all others loading="lazy"; React 19 SSR preload links stripped in prerender.mjs (0 image preloads). Old dirs deleted. Build green (4 routes); seo-check IMAGES section all PASS. Remaining FAILs: chunk>500KB + fonts @import (separate items).

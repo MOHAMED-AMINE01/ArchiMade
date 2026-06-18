@@ -40,11 +40,17 @@ for (const route of ROUTES) {
         .join('\n    ')
     : '';
 
+  // React 19 SSR hoists <link rel="preload" as="image"> for every img src into
+  // the body stream. Strip all of them to avoid dozens of below-fold preloads
+  // that hurt CWV. The hero/LCP image (logo-intro) uses fetchpriority="high"
+  // which the browser handles natively — no manual preload needed.
+  const cleanedAppHtml = appHtml.replace(/<link[^>]+rel="preload"[^>]+as="image"[^>]*>/g, '');
+
   const html = template
     // Drop the static fallback <title> so Helmet's per-route title is the only one.
     .replace(/\s*<title>[\s\S]*?<\/title>/, '')
     .replace('</head>', `    ${headTags}\n  </head>`)
-    .replace('<div id="root"></div>', `<div id="root">${appHtml}</div>`);
+    .replace('<div id="root"></div>', `<div id="root">${cleanedAppHtml}</div>`);
 
   const file = routeToFile(route);
   writeFileSync(resolve(distDir, file), html, 'utf8');
