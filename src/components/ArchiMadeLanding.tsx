@@ -8,6 +8,7 @@ import React, {
 import { Link } from "react-router-dom";
 import Seo from "./Seo";
 import StructuredData from "./StructuredData";
+import { ResponsiveImage, IMAGE_SIZES } from "./ResponsiveImage";
 import { initGA4 } from "../lib/gtag";
 import { motion, AnimatePresence } from "framer-motion";
 import gsap from "gsap";
@@ -615,12 +616,13 @@ function ArchiPreloader({ onComplete }: { onComplete: () => void }) {
       <div className="preloader-content relative z-10 w-full flex flex-col items-center">
         {/* Logo in Preloader */}
         <div className="preloader-logo mb-30 md:mb-35">
-          <img
+          <ResponsiveImage
             src="/img/logo-intro.webp"
             alt="Logo"
             width={1254}
             height={1254}
             fetchPriority="high"
+            sizes={IMAGE_SIZES.logo}
             className="h-24 md:h-38 w-auto object-contain opacity-80"
           />
         </div>
@@ -686,12 +688,13 @@ const ArchiLogo = ({
       isScrolling && "scale-75 opacity-40",
     )}
   >
-    <img
+    <ResponsiveImage
       src="/img/logo-archimade.webp"
       alt="ArchiMade Logo"
       width={1254}
       height={1254}
       loading="lazy"
+      sizes={IMAGE_SIZES.logo}
       className={cn(
         "logo-img h-16 md:h-28 scale-280 md:scale-200 xl:scale-200 ml-5 w-auto object-contain transition-all duration-500 brightness-0 invert",
         light && "brightness-0 invert",
@@ -1308,13 +1311,14 @@ function ArchiAbout() {
         className="relative w-full overflow-hidden mt-12 md:mt-24 group/method"
       >
         <div className="about-img-container relative w-full overflow-hidden">
-          <img
+          <ResponsiveImage
             ref={imgRef}
             src={IMAGES.renders.joue}
             alt="Processus ArchiMade"
             width={1536}
             height={1024}
             loading="lazy"
+            sizes={IMAGE_SIZES.full}
             className="absolute inset-0 w-full h-full object-cover grayscale brightness-50 group-hover/method:scale-105 transition-transform duration-[2s]"
           />
 
@@ -1571,12 +1575,13 @@ function ArchiServices() {
                   style={{ transform: "rotateY(180deg)" }}
                 >
                   <div className="relative">
-                    <img
+                    <ResponsiveImage
                       src="/img/logo-archimade.webp"
                       alt="ArchiMade Logo"
                       width={1254}
                       height={1254}
                       loading="lazy"
+                      sizes={IMAGE_SIZES.logo}
                       className="w-48 md:w-64 relative z-10 drop-shadow-2xl"
                     />
                   </div>
@@ -1591,12 +1596,13 @@ function ArchiServices() {
                 <div className="absolute inset-0 backface-hidden bg-brand-dark z-10 overflow-hidden">
                   {/* BACKGROUND IMAGE */}
                   <div className="absolute inset-0 w-full h-full">
-                    <img
+                    <ResponsiveImage
                       src={service.img}
                       alt={service.title}
                       width={1536}
                       height={1024}
                       loading="lazy"
+                      sizes={IMAGE_SIZES.service}
                       className={cn(
                         "w-full h-full object-cover transition-all duration-1000",
                         isActive || isExpanded
@@ -1943,13 +1949,14 @@ function ArchiProjectDetail({
       <div className="w-full">
         {/* Hero Section */}
         <div className="h-[80vh] md:h-screen w-full relative overflow-hidden group">
-          <img
+          <ResponsiveImage
             ref={heroImgRef}
             src={encodeURI(project.path)}
             alt={project.title}
             width={1536}
             height={1024}
             loading="lazy"
+            sizes={IMAGE_SIZES.full}
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-linear-to-t from-brand-dark via-transparent to-transparent opacity-90 pointer-events-none z-10"></div>
@@ -2021,11 +2028,16 @@ function ArchiProjectDetail({
                   )}
                 >
                   <div className="aspect-video md:aspect-auto">
-                    <img
+                    <ResponsiveImage
                       src={encodeURI(img)}
                       width={1536}
                       height={1024}
                       loading="lazy"
+                      sizes={
+                        colSpan.includes("col-span-12") && !colSpan.includes("md:col-span")
+                          ? IMAGE_SIZES.full
+                          : IMAGE_SIZES.galleryWide
+                      }
                       className="w-full h-full object-cover shadow-2xl transition-transform duration-1000 group-hover:scale-105"
                       alt={`Gallery ${i}`}
                     />
@@ -2061,12 +2073,13 @@ function ArchiProjectDetail({
           className="relative w-full h-[60vh] md:h-screen overflow-hidden group cursor-pointer border-t border-white/10"
           onClick={() => onNext && onNext(nextProject)}
         >
-          <img
+          <ResponsiveImage
             src={encodeURI(nextProject.path)}
             alt={nextProject.title}
             width={1536}
             height={1024}
             loading="lazy"
+            sizes={IMAGE_SIZES.full}
             className="absolute inset-0 w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-1500 ease-out opacity-40 group-hover:opacity-60"
           />
           <div className="absolute inset-0 bg-black/60 group-hover:bg-black/40 transition-colors"></div>
@@ -2126,12 +2139,13 @@ function ArchiImageModal({
         className="relative max-w-7xl w-full h-full flex items-center justify-center"
         onClick={(e) => e.stopPropagation()}
       >
-        <img
+        <ResponsiveImage
           src={encodeURI(src)}
           alt="Modal"
           width={1536}
           height={1024}
           loading="lazy"
+          sizes={IMAGE_SIZES.full}
           className="max-w-full max-h-full object-contain rounded-sm shadow-2xl"
         />
       </motion.div>
@@ -2266,12 +2280,13 @@ function ArchiGallery() {
           >
             {/* Image with Parallax Scroll */}
             <div className="overflow-hidden">
-              <img
+              <ResponsiveImage
                 src={encodeURI(item.src)}
                 alt={item.title}
                 width={1536}
                 height={1024}
                 loading="lazy"
+                sizes={IMAGE_SIZES.columns}
                 className="w-full h-auto object-cover transition-all duration-[1.5s] group-hover:scale-110 group-hover:rotate-1"
               />
             </div>
@@ -2342,13 +2357,14 @@ function ArchiValues() {
       className="relative w-full overflow-hidden group/values z-30 font-display bg-brand-dark"
     >
       <div className="relative w-full overflow-hidden">
-        <img
+        <ResponsiveImage
           ref={imgRef}
           src={IMAGES.renders.montlouis}
           alt="Pourquoi ArchiMade ?"
           width={1536}
           height={1024}
           loading="lazy"
+          sizes={IMAGE_SIZES.full}
           className="absolute top-[-10%] left-0 w-full h-[120%] object-cover grayscale brightness-50 group-hover/values:scale-105 transition-transform duration-[2s]"
         />
 
@@ -2539,7 +2555,11 @@ function ArchiContact() {
       const res = await fetch("/api/send-email", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...formData, website: honeypot, _t: formLoadedAt.current }),
+        body: JSON.stringify({
+          ...formData,
+          website: honeypot,
+          _t: formLoadedAt.current,
+        }),
       });
 
       if (!res.ok) {
@@ -2746,7 +2766,12 @@ function ArchiContact() {
                   autoComplete="off"
                   tabIndex={-1}
                   aria-hidden="true"
-                  style={{ position: 'absolute', left: '-9999px', opacity: 0, height: 0 }}
+                  style={{
+                    position: "absolute",
+                    left: "-9999px",
+                    opacity: 0,
+                    height: 0,
+                  }}
                 />
                 <div className="space-y-2">
                   <label className="text-[8px] uppercase tracking-widest text-white/30 font-bold">

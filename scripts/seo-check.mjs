@@ -62,6 +62,14 @@ for (const f of src)
 unsized === 0
   ? ok("every <img> width+height")
   : no(`${unsized} <img> missing width/height`);
+const srcsetCount = (home.match(/\bsrcset=/gi) || []).length;
+srcsetCount >= 1
+  ? ok(`srcset in raw HTML (${srcsetCount})`)
+  : no("no srcset in raw home");
+const avifCount = (home.match(/type="image\/avif"/g) || []).length;
+avifCount >= 1
+  ? ok(`AVIF picture sources (${avifCount})`)
+  : no("no AVIF <picture> sources");
 const pre = (home.match(/<link[^>]+rel="preload"[^>]+as="image"/g) || [])
   .length;
 pre <= 1
