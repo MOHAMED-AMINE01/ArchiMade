@@ -1,32 +1,39 @@
 <!doctype html>
 <html lang="fr">
-
-<head>
-  <meta charset="UTF-8" />
-  <link rel="icon" type="image/webp" href="/img/logo-archimade.webp" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <!-- Per-route <title>/description/canonical/OG/Twitter are injected at build
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/webp" href="/img/logo-archimade.webp" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preload" href="/fonts/montserrat-variable.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/inter-variable.woff2" as="font" type="font/woff2" crossorigin />
+    <!-- Per-route <title>/description/canonical/OG/Twitter are injected at build
        time by the <Seo> component (react-helmet-async) via scripts/prerender.mjs.
        This static <title> is the SPA-fallback default and is stripped from each
        prerendered file so Helmet's per-route title is the only one. -->
-  <title>ArchiMade Studio</title>
+    <title>ArchiMade Studio</title>
 
-  <!-- Progressive enhancement: without JS the entrance animations never run, so
+    <!-- Progressive enhancement: without JS the entrance animations never run, so
        elements that start hidden (opacity:0 / framer initial state) would stay
        invisible and the preloader overlay would never fade. Force them visible
        for no-JS clients and crawlers. JS clients are unaffected. -->
-  <noscript>
-    <style>
-      .archi-preloader { display: none !important; }
-      .opacity-0 { opacity: 1 !important; }
-      [style*="opacity:0"], [style*="opacity: 0"] { opacity: 1 !important; }
-    </style>
-  </noscript>
-</head>
+    <noscript>
+      <style>
+        .archi-preloader {
+          display: none !important;
+        }
+        .opacity-0 {
+          opacity: 1 !important;
+        }
+        [style*="opacity:0"],
+        [style*="opacity: 0"] {
+          opacity: 1 !important;
+        }
+      </style>
+    </noscript>
+  </head>
 
-<body>
-  <div id="root"></div>
-  <script type="module" src="/src/main.tsx"></script>
-</body>
-
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>

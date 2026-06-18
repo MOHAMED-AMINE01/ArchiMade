@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react';
 import path from 'path';
 import {defineConfig, loadEnv} from 'vite';
 
-export default defineConfig(({mode}) => {
+export default defineConfig(({mode, isSsrBuild}) => {
   const env = loadEnv(mode, '.', '');
   return {
     plugins: [react(), tailwindcss()],
@@ -17,6 +17,38 @@ export default defineConfig(({mode}) => {
     resolve: {
       alias: {
         '@': path.resolve(__dirname, '.'),
+      },
+    },
+    build: {
+      rollupOptions: {
+        output: {
+          // Client: split vendors so no chunk >500KB. SSR: react is external — only split animation.
+          manualChunks: isSsrBuild
+            ? {
+                'vendor-animation': [
+                  'gsap',
+                  'gsap/ScrollTrigger',
+                  'framer-motion',
+                  'motion',
+                  'lenis',
+                ],
+              }
+            : {
+                'vendor-animation': [
+                  'gsap',
+                  'gsap/ScrollTrigger',
+                  'framer-motion',
+                  'motion',
+                  'lenis',
+                ],
+                'vendor-react': [
+                  'react',
+                  'react-dom',
+                  'react-router-dom',
+                  'react-helmet-async',
+                ],
+              },
+        },
       },
     },
     // Bundle the animation / icon libs into the SSR build so the prerender pass
