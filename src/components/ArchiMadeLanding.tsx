@@ -8,7 +8,11 @@ import React, {
 import { Link } from "react-router-dom";
 import Seo from "./Seo";
 import StructuredData from "./StructuredData";
-import { ResponsiveImage, IMAGE_SIZES } from "./ResponsiveImage";
+import {
+  ResponsiveImage,
+  IMAGE_SIZES,
+  intrinsicFromSrc,
+} from "./ResponsiveImage";
 import { initGA4 } from "../lib/gtag";
 import { motion, AnimatePresence } from "framer-motion";
 import gsap from "gsap";
@@ -486,15 +490,23 @@ function ArchiPreloader({ onComplete }: { onComplete: () => void }) {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
+    if (typeof performance !== "undefined") {
+      performance.mark("preloader_visible");
+    }
+
     const tl = gsap.timeline({
       onComplete: () => {
         gsap.to(containerRef.current, {
-          scale: 1.1,
           opacity: 0,
           filter: "blur(40px)",
           duration: 1.5,
           ease: "power4.inOut",
-          onComplete: onComplete,
+          onComplete: () => {
+            if (typeof performance !== "undefined") {
+              performance.mark("preloader_done");
+            }
+            onComplete();
+          },
         });
       },
     });
@@ -506,14 +518,14 @@ function ArchiPreloader({ onComplete }: { onComplete: () => void }) {
     gsap.set(".char-inner", { opacity: 0, y: 30 });
     gsap.set(".preloader-logo", {
       opacity: 0,
-      scale: 0.8,
+      scale: 0.95,
       filter: "blur(20px)",
     });
 
     // Entrance for Logo
     tl.to(".preloader-logo", {
       opacity: 1,
-      scale: 1.7,
+      scale: 1,
       filter: "blur(0px)",
       duration: 1.5,
       ease: "expo.out",
@@ -582,10 +594,10 @@ function ArchiPreloader({ onComplete }: { onComplete: () => void }) {
         );
     });
 
-    // Exit transition
+    // Exit transition — blur dissolve only (no scale; logo is child of .preloader-content)
     tl.to(".preloader-content", {
       opacity: 0,
-      scale: 1.1,
+      filter: "blur(10px)",
       duration: 0.8,
       ease: "power2.inOut",
       delay: 0.5,
@@ -696,7 +708,7 @@ const ArchiLogo = ({
       loading="lazy"
       sizes={IMAGE_SIZES.logo}
       className={cn(
-        "logo-img h-16 md:h-28 scale-280 md:scale-200 xl:scale-200 ml-5 w-auto object-contain transition-all duration-500 brightness-0 invert",
+        "logo-img h-16 md:h-28 scale-100 ml-5 w-auto object-contain transition-all duration-500 brightness-0 invert",
         light && "brightness-0 invert",
       )}
     />
@@ -1191,10 +1203,9 @@ function ArchiAbout() {
       // Parallax Image
       gsap.fromTo(
         imgRef.current,
-        { y: -50, scale: 1.2 },
+        { y: -50 },
         {
           y: 50,
-          scale: 1,
           ease: "none",
           scrollTrigger: {
             trigger: ".about-img-container",
@@ -1315,11 +1326,11 @@ function ArchiAbout() {
             ref={imgRef}
             src={IMAGES.renders.joue}
             alt="Processus ArchiMade"
-            width={1536}
-            height={1024}
+            width={intrinsicFromSrc(IMAGES.renders.joue).width}
+            height={intrinsicFromSrc(IMAGES.renders.joue).height}
             loading="lazy"
             sizes={IMAGE_SIZES.full}
-            className="absolute inset-0 w-full h-full object-cover grayscale brightness-50 group-hover/method:scale-105 transition-transform duration-[2s]"
+            className="absolute inset-0 w-full h-full object-cover grayscale brightness-50 group-hover/method:brightness-110 transition-[filter,transform] duration-[2s] [image-rendering:auto]"
           />
 
           {/* Dark overlay for text readability - Content defines height */}
@@ -1599,15 +1610,16 @@ function ArchiServices() {
                     <ResponsiveImage
                       src={service.img}
                       alt={service.title}
-                      width={1536}
-                      height={1024}
+                      width={intrinsicFromSrc(service.img).width}
+                      height={intrinsicFromSrc(service.img).height}
                       loading="lazy"
                       sizes={IMAGE_SIZES.service}
+                      sizesScale={isActive || isExpanded ? 1.2 : undefined}
                       className={cn(
-                        "w-full h-full object-cover transition-all duration-1000",
+                        "w-full h-full object-cover object-center transition-all duration-1000",
                         isActive || isExpanded
                           ? "scale-100 grayscale-0 brightness-100"
-                          : "scale-125 grayscale brightness-50",
+                          : "scale-100 grayscale brightness-50",
                       )}
                     />
                     {/* GRADIENT OVERLAY FOR TEXT READABILITY */}
@@ -1887,10 +1899,11 @@ function ArchiProjectDetail({
     document.body.style.overflow = "hidden";
 
     const ctx = gsap.context(() => {
+      gsap.set(heroImgRef.current, { opacity: 0, filter: "blur(20px)" });
       gsap.fromTo(
         heroImgRef.current,
-        { scale: 1.5, filter: "blur(20px)" },
-        { scale: 1, filter: "blur(0px)", duration: 2.5, ease: "expo.out" },
+        { opacity: 0, filter: "blur(20px)" },
+        { opacity: 1, filter: "blur(0px)", duration: 2.5, ease: "expo.out" },
       );
 
       gsap.from(".cinematic-text", {
@@ -1953,11 +1966,11 @@ function ArchiProjectDetail({
             ref={heroImgRef}
             src={encodeURI(project.path)}
             alt={project.title}
-            width={1536}
-            height={1024}
+            width={intrinsicFromSrc(project.path).width}
+            height={intrinsicFromSrc(project.path).height}
             loading="lazy"
             sizes={IMAGE_SIZES.full}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover opacity-0 [image-rendering:auto]"
           />
           <div className="absolute inset-0 bg-linear-to-t from-brand-dark via-transparent to-transparent opacity-90 pointer-events-none z-10"></div>
 
@@ -2030,15 +2043,16 @@ function ArchiProjectDetail({
                   <div className="aspect-video md:aspect-auto">
                     <ResponsiveImage
                       src={encodeURI(img)}
-                      width={1536}
-                      height={1024}
+                      width={intrinsicFromSrc(img).width}
+                      height={intrinsicFromSrc(img).height}
                       loading="lazy"
                       sizes={
-                        colSpan.includes("col-span-12") && !colSpan.includes("md:col-span")
+                        colSpan.includes("col-span-12") &&
+                        !colSpan.includes("md:col-span")
                           ? IMAGE_SIZES.full
                           : IMAGE_SIZES.galleryWide
                       }
-                      className="w-full h-full object-cover shadow-2xl transition-transform duration-1000 group-hover:scale-105"
+                      className="w-full h-full object-cover shadow-2xl transition-[filter] duration-1000 group-hover:brightness-110"
                       alt={`Gallery ${i}`}
                     />
                   </div>
@@ -2076,11 +2090,11 @@ function ArchiProjectDetail({
           <ResponsiveImage
             src={encodeURI(nextProject.path)}
             alt={nextProject.title}
-            width={1536}
-            height={1024}
+            width={intrinsicFromSrc(nextProject.path).width}
+            height={intrinsicFromSrc(nextProject.path).height}
             loading="lazy"
             sizes={IMAGE_SIZES.full}
-            className="absolute inset-0 w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-1500 ease-out opacity-40 group-hover:opacity-60"
+            className="absolute inset-0 w-full h-full object-cover scale-100 transition-opacity duration-1500 ease-out opacity-40 group-hover:opacity-60"
           />
           <div className="absolute inset-0 bg-black/60 group-hover:bg-black/40 transition-colors"></div>
 
@@ -2133,17 +2147,18 @@ function ArchiImageModal({
       </button>
 
       <motion.div
-        initial={{ scale: 0.9, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0.9, opacity: 0 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
         className="relative max-w-7xl w-full h-full flex items-center justify-center"
         onClick={(e) => e.stopPropagation()}
       >
         <ResponsiveImage
           src={encodeURI(src)}
           alt="Modal"
-          width={1536}
-          height={1024}
+          width={intrinsicFromSrc(src).width}
+          height={intrinsicFromSrc(src).height}
           loading="lazy"
           sizes={IMAGE_SIZES.full}
           className="max-w-full max-h-full object-contain rounded-sm shadow-2xl"
@@ -2283,11 +2298,11 @@ function ArchiGallery() {
               <ResponsiveImage
                 src={encodeURI(item.src)}
                 alt={item.title}
-                width={1536}
-                height={1024}
+                width={intrinsicFromSrc(item.src).width}
+                height={intrinsicFromSrc(item.src).height}
                 loading="lazy"
                 sizes={IMAGE_SIZES.columns}
-                className="w-full h-auto object-cover transition-all duration-[1.5s] group-hover:scale-110 group-hover:rotate-1"
+                className="w-full h-auto object-cover transition-all duration-[1.5s] group-hover:brightness-110 group-hover:rotate-1"
               />
             </div>
 
@@ -2361,11 +2376,11 @@ function ArchiValues() {
           ref={imgRef}
           src={IMAGES.renders.montlouis}
           alt="Pourquoi ArchiMade ?"
-          width={1536}
-          height={1024}
+          width={intrinsicFromSrc(IMAGES.renders.montlouis).width}
+          height={intrinsicFromSrc(IMAGES.renders.montlouis).height}
           loading="lazy"
           sizes={IMAGE_SIZES.full}
-          className="absolute top-[-10%] left-0 w-full h-[120%] object-cover grayscale brightness-50 group-hover/values:scale-105 transition-transform duration-[2s]"
+          className="absolute top-0 left-0 w-full h-full object-cover grayscale brightness-50 group-hover/values:brightness-110 transition-[filter,transform] duration-[2s] [image-rendering:auto]"
         />
 
         {/* Dark overlay for text readability */}
@@ -3040,7 +3055,8 @@ function ArchiInstagramFloat({
 
 // --- MAIN PAGE EXPORT ---
 export default function ArchiMadeLanding() {
-  const [isLoading, setIsLoading] = useState(true);
+  // Dev: skip cinematic preloader (production SSG keeps full intro).
+  const [isLoading, setIsLoading] = useState(() => !import.meta.env.DEV);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolling, setIsScrolling] = useState(false);
   const [isUIHidden, setIsUIHidden] = useState(false);
@@ -3049,6 +3065,8 @@ export default function ArchiMadeLanding() {
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
+    if (isLoading) return;
+
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -3076,7 +3094,7 @@ export default function ArchiMadeLanding() {
       gsap.ticker.remove(lenis.raf);
       if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
     };
-  }, []);
+  }, [isLoading]);
 
   useIsomorphicLayoutEffect(() => {
     if (!isLoading) {
