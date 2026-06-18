@@ -13,7 +13,6 @@ const SERVICES = [
 ] as const;
 
 // Single @graph in raw HTML: Organization + ProfessionalService (NOT Architect) + Services.
-// areaServed omitted — TODO(SEO): Tours-37 vs national market undecided; never invent a city.
 const structuredData = {
   '@context': 'https://schema.org',
   '@graph': [
@@ -40,6 +39,12 @@ const structuredData = {
       image: `${SITE_URL}/og-card.png`,
       description:
         'Accompagnement pour permis de construire, déclarations préalables, plans techniques et modélisation 3D photoréaliste.',
+      // Local base (Indre-et-Loire/Tours) + national remote reach — narrow to City/AdministrativeArea only for purely-local, or Country only for purely-national.
+      areaServed: [
+        { '@type': 'AdministrativeArea', name: 'Indre-et-Loire' },
+        { '@type': 'City', name: 'Tours' },
+        { '@type': 'Country', name: 'France' },
+      ],
       parentOrganization: { '@id': ORG_ID },
     },
     ...SERVICES.map((service) => ({
