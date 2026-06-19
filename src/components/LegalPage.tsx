@@ -304,7 +304,7 @@ export default function LegalPage({ type }: { type: LegalType }) {
                 © {__BUILD_YEAR__} ArchiMade Studio
               </p>
               <p className="text-[9px] uppercase tracking-[0.5em] text-white/10">
-                Architecture d'exception — France
+                Conception de plans & modélisation 3D — France
               </p>
             </div>
           </motion.div>

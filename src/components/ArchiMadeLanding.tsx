@@ -958,7 +958,7 @@ const HERO_MESSAGES = [
   "Accompagnement premium pour particuliers et professionnels. Conception de dossiers techniques complets.",
   "Expertise 3D photoréaliste pour une immersion totale dans vos projets futurs.",
   "Dossiers administratifs et permis de construire gérés avec une précision chirurgicale.",
-  "Solutions techniques innovantes pour une architecture durable et esthétique.",
+  "Solutions techniques sur mesure pour des projets durables et esthétiques.",
 ];
 
 function ArchiHero() {
@@ -1050,7 +1050,7 @@ function ArchiHero() {
             className="notranslate archi-title text-[12vw] md:text-[9.5vw] font-bold tracking-tighter leading-[1.1] md:leading-[0.8] text-brand-dark flex flex-col items-start relative translate-z-0 mb-12"
           >
             {/* Title Lines (1, 2, 3) */}
-            {["Concevoir votre", "futur projet"].map((text, idx) => (
+            {["Vos plans de construction,", "du croquis au permis"].map((text, idx) => (
               <div key={idx} className="sentence">
                 <div className="outer relative perspective-[2000px]">
                   <span className="inner block overflow-hidden md:pb-[0.18em]">
@@ -1069,12 +1069,32 @@ function ArchiHero() {
               <div className="outer relative">
                 <span className="inner block overflow-hidden">
                   <p className="text block archi-title-reveal text-[12px] md:text-lg text-brand-dark font-medium leading-tight opacity-70">
-                    Permis de construire, déclarations préalables et plans
-                    techniques.
-                    <br />
-                    Une approche claire et rigoureuse pour donner forme à vos
-                    projets.
+                    ArchiMade conçoit vos plans, monte vos dossiers de permis de
+                    construire et de déclaration préalable, et donne vie à vos
+                    projets en 3D photoréaliste. Un interlocuteur unique — en
+                    Indre-et-Loire comme à distance partout en France.
                   </p>
+                </span>
+              </div>
+            </div>
+            {/* CTA */}
+            <div className="sentence overflow-hidden">
+              <div className="outer relative">
+                <span className="inner block overflow-hidden">
+                  <span
+                    className="text block archi-title-reveal cursor-pointer"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      (window as any).lenis?.scrollTo("#contact", { duration: 2.5 });
+                    }}
+                  >
+                    <span className="inline-flex items-center gap-3 bg-brand-dark text-white px-7 py-4 rounded-full group hover:opacity-90 transition-opacity">
+                      <span className="text-[10px] md:text-xs font-bold uppercase tracking-[0.4em] pl-[0.4em]">
+                        Demander un devis gratuit
+                      </span>
+                      <ArrowUpRight className="w-4 h-4 md:w-5 md:h-5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                    </span>
+                  </span>
                 </span>
               </div>
             </div>
@@ -1396,52 +1416,52 @@ function ArchiAbout() {
 // 3. SERVICES SECTION (EXPERTISE)
 const services = [
   {
-    title: "Permis de Construire",
-    cat: "Architectural",
+    title: "Permis de construire",
+    cat: "Réglementaire",
     loc: "Tours, FR",
-    area: "450.00 m² / 4843 ft²",
+    area: "≤ 150 m²",
     img: IMAGES.renders.veigne,
-    desc: "Un dossier complet pour présenter votre projet, structurer les pièces attendues et faciliter vos démarches administratives.",
+    desc: "Constitution et dépôt de votre dossier de permis de construire (projets jusqu'à 150 m²) : plans réglementaires, notice, pièces graphiques. On gère le formalisme, vous gagnez du temps.",
   },
   {
-    title: "Déclarations Préalables",
-    cat: "Extension",
-    loc: "Bordeaux, FR",
-    area: "85.22 m² / 917 ft²",
+    title: "Déclaration préalable de travaux",
+    cat: "Urbanisme",
+    loc: "Indre-et-Loire, FR",
+    area: "Toutes surfaces",
     img: IMAGES.renders.mirabeau,
-    desc: "ArchiMade vous accompagne dans la préparation de votre déclaration préalable pour vos extensions, modifications de façade ou aménagements extérieurs.",
+    desc: "Extensions, abris, clôtures, ravalements, changements de façade : dossier de déclaration préalable complet et conforme aux règles d'urbanisme.",
   },
   {
-    title: "Plans d'Exécution",
+    title: "Conception de plans",
     cat: "Technique",
-    loc: "Paris, FR",
-    area: "1200.00 m² / 12916 ft²",
+    loc: "France",
+    area: "Tous projets",
     img: IMAGES.projects.activites.main,
-    desc: "Des plans précis et documents techniques détaillés pour définir les volumes, les assemblages et les informations nécessaires à la réalisation du projet.",
+    desc: "Plans de niveaux, façades, coupes et plans techniques pour votre construction, extension ou rénovation. Des documents clairs, précis et conformes, prêts pour le dépôt.",
   },
   {
     title: "Modélisation 3D",
     cat: "Visualisation",
     loc: "Studio",
-    area: "Full Render 8K",
+    area: "Full Render",
     img: IMAGES.projects.padel.main,
-    desc: "Une visualisation 3D pour comprendre les volumes, tester les choix esthétiques et mieux vous projeter avant réalisation.",
+    desc: "Votre projet modélisé en 3D avant les travaux : volumes, implantation, aménagement — pour décider et vous projeter en toute clarté.",
   },
   {
-    title: "Rendus Photoréalistes",
-    cat: "Marketing",
+    title: "Rendus photoréalistes",
+    cat: "Imagerie",
     loc: "Digital",
-    area: "Ultra High Def",
+    area: "Ultra HD",
     img: IMAGES.renders.montlouis,
-    desc: "Des rendus 3D haute définition pour visualiser le projet dans une version proche du résultat attendu.",
+    desc: "Des images réalistes de votre futur projet, fidèles aux matériaux et à la lumière — pour présenter, convaincre et valider.",
   },
   {
-    title: "Dossiers Complets",
-    cat: "Consulting",
+    title: "Accompagnement de projet habitat",
+    cat: "Conseil",
     loc: "National",
-    area: "BIM Integrated",
+    area: "De A à Z",
     img: IMAGES.projects.cyr_extension.alt,
-    desc: "Plans, pièces graphiques et documents administratifs sont réunis dans un dossier structuré pour vos démarches.",
+    desc: "De la première esquisse au dépôt en mairie : conseil, conception et dossier administratif, de bout en bout. À distance partout en France.",
   },
 ];
 
@@ -3139,13 +3159,10 @@ export default function ArchiMadeLanding() {
 
   return (
     <LoadingContext.Provider value={isLoading}>
-      {/* TODO(SEO): finalise home title/description with the target
-                keywords + geo (e.g. Orsay / Essonne / Paris-Saclay) once the
-                local strategy is locked. */}
       <Seo
         path="/"
-        title="ArchiMade Studio | Architecture, Permis de Construire & Modélisation 3D"
-        description="ArchiMade Studio accompagne particuliers et professionnels : permis de construire, déclarations préalables, plans techniques et modélisation 3D photoréaliste."
+        title="Plans, permis de construire & 3D à Tours (37) | ArchiMade"
+        description="Dessinateur en bâtiment à Tours et partout en France : conception de plans, permis de construire, déclaration préalable et modélisation 3D. Devis gratuit."
       />
       <StructuredData />
 
