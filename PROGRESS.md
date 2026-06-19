@@ -1,5 +1,9 @@
 # PROGRESS — archi-made.com. Branch seo/finalize (off seo/phase-1-indexability). LOCAL ONLY. [ ]todo [x]done [~]partial
 
+## DECISION (2026-06-19) — Brand = "ArchiMade Studio" (final) + DEPLOY-READY
+
+"Studio" is legally safe (only "architecte/architecture" mattered → stays 0). The earlier "drop Studio" was a misstep: reverted the preloader edit (splash keeps "ARCHI MADE STUDIO"); restored "Studio" in the 4 route titles (reverses cff0596). Brand now consistent: 4 titles + og:site_name + footers + aria-labels all "ArchiMade Studio"; Instagram handle archi.made.studio untouched (immutable). FINAL cert: build green 4 routes (max chunk 307 KB), seo-check 25/25, verify-image 0 fail; architecte/architecture = 0; block B intact (H1 + 6/6 service H2s + title/meta); JSON-LD ProfessionalService (no Architect) + legalName ARCHI-MADE LTD + PostalAddress Tours + areaServed + 7 services + no aggregateRating; mentions légales complete; OG 1200×630 + w/h meta; NAP consistent. **DEPLOY-READY: YES** (code-complete; remaining = live-only per deploy-runbook.md + Fayçal text validation + GBP). Runbook gap: §1 still names old branch `seo/phase-1-indexability` (operator should use `seo/finalize`).
+
 ## DECISION (2026-06-19) — Architect pivot ABANDONED
 
 Official RNE/INPI lookup: APE **7112B** "Ingénierie, études techniques", déclared object **"Conception de plans dans le domaine du bâtiment"** → the client is **NOT an architect**. The `seo/architect-pivot` branch (which flipped to `@type Architect` + "architecte" keyword) is dead — NOT merged. `seo/finalize` branches off the certified non-architect HEAD `3a99891` and finalizes the legally-safe version. Confirmed identity now locked in CLAUDE.md Business (legalName ARCHI-MADE LTD, brand ArchiMade, SIREN 101 715 993, SIRET 10171599300024, APE 7112B, établissement 25 rue du Maréchal Ney 37100 Tours, siège London, areaServed Indre-et-Loire/Tours + France). seo-check guard correct: `@type "Architect"` present = FAIL.

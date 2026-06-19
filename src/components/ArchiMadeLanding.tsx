@@ -3161,7 +3161,7 @@ export default function ArchiMadeLanding() {
     <LoadingContext.Provider value={isLoading}>
       <Seo
         path="/"
-        title="Plans, permis de construire & 3D à Tours (37) | ArchiMade"
+        title="Plans, permis de construire & 3D à Tours (37) | ArchiMade Studio"
         description="Dessinateur en bâtiment à Tours et partout en France : conception de plans, permis de construire, déclaration préalable et modélisation 3D. Devis gratuit."
       />
       <StructuredData />
