@@ -630,7 +630,7 @@ function ArchiPreloader({ onComplete }: { onComplete: () => void }) {
         <div className="preloader-logo mb-30 md:mb-35">
           <ResponsiveImage
             src="/img/logo-intro.webp"
-            alt="Logo"
+            alt="ArchiMade Studio — dessinateur en bâtiment à Tours"
             width={1254}
             height={1254}
             fetchPriority="high"
@@ -702,7 +702,7 @@ const ArchiLogo = ({
   >
     <ResponsiveImage
       src="/img/logo-archimade.webp"
-      alt="ArchiMade Logo"
+      alt="ArchiMade Studio — dessinateur en bâtiment à Tours"
       width={1254}
       height={1254}
       loading="lazy"
@@ -1045,12 +1045,17 @@ function ArchiHero() {
       {/* Largo-Style Container */}
       <div className="relative z-10 w-full h-full flex flex-col justify-center md:justify-start md:pt-[20vh] px-10 md:px-20 md:pl-[24vw] items-start text-left">
         <div className="max-w-6xl relative z-20 flex flex-col items-start px-2">
+          {/* Crawlable SEO eyebrow (dessinateur + geo) above the H1 */}
+          <span className="text-[9px] md:text-xs uppercase tracking-[0.25em] md:tracking-[0.3em] text-brand-dark/40 font-bold mb-5 md:mb-7 block">
+            Dessinateur en bâtiment · Indre-et-Loire &amp; à distance partout en
+            France
+          </span>
           <h1
             translate="no"
             className="notranslate archi-title text-[12vw] md:text-[9.5vw] font-bold tracking-tighter leading-[1.1] md:leading-[0.8] text-brand-dark flex flex-col items-start relative translate-z-0 mb-12"
           >
             {/* Title Lines (1, 2, 3) */}
-            {["Vos plans de construction,", "du croquis au permis"].map((text, idx) => (
+            {["Vos plans de construction à Tours,", "du croquis au permis"].map((text, idx) => (
               <div key={idx} className="sentence">
                 <div className="outer relative perspective-[2000px]">
                   <span className="inner block overflow-hidden md:pb-[0.18em]">
@@ -1303,34 +1308,27 @@ function ArchiAbout() {
           </div>
 
           <div className="xl:w-1/3 flex flex-col justify-end mt-12 xl:mt-0 w-full">
-            <div className="grid grid-cols-2 gap-8 md:gap-12 pt-8 md:pt-12 ">
-              <div className="space-y-2 md:space-y-6">
-                <div className="flex items-baseline">
-                  <span
-                    className="stat-number text-4xl sm:text-5xl md:text-7xl font-black block text-brand-dark tracking-tighter"
-                    data-target="100"
-                  >
-                    0
-                  </span>
-                  <span className="text-xl md:text-2xl font-bold ml-1">%</span>
-                </div>
-                <p className="text-[8px] md:text-[9px] uppercase tracking-[0.2em] md:tracking-[0.3em] xl:tracking-[0.5em] font-bold text-brand-dark/40">
-                  CONFORMITÉ_PC_DP
+            {/* Trust scaffold — replaces the "0.0 RETARD / 100% CONFORMITÉ"
+                gimmick. Founder name is public; all metrics/credentials below
+                are placeholders — DO NOT invent (see TODO comments). */}
+            <div className="border-t border-black/10 pt-8 md:pt-12 space-y-6">
+              <div>
+                <p className="text-2xl md:text-3xl font-bold text-brand-dark tracking-tight">
+                  Damien De Sousa
+                </p>
+                <p className="text-[10px] md:text-xs uppercase tracking-[0.3em] font-bold text-brand-dark/40 mt-2">
+                  Dessinateur en bâtiment · Fondateur
                 </p>
               </div>
-              <div className="space-y-2 md:space-y-6">
-                <div className="flex items-baseline">
-                  <span
-                    className="stat-number text-4xl sm:text-5xl md:text-7xl font-black block text-brand-dark tracking-tighter"
-                    data-target="0.0"
-                  >
-                    0.0
-                  </span>
-                </div>
-                <p className="text-[8px] md:text-[9px] uppercase tracking-[0.2em] md:tracking-[0.3em] xl:tracking-[0.5em] font-bold text-brand-dark/40">
-                  RETARD
-                </p>
-              </div>
+              <p className="text-sm md:text-base text-brand-dark/60 font-light leading-relaxed max-w-sm">
+                Un interlocuteur unique pour vos plans, vos démarches et vos
+                rendus 3D — de l'esquisse au dépôt en mairie, en Indre-et-Loire
+                comme à distance partout en France.
+              </p>
+              {/* TODO(CONFIRM client): années d'expérience / nombre de projets réalisés — afficher une fois confirmé. */}
+              {/* TODO(RCP): assurance responsabilité civile professionnelle (assureur + n° de police). */}
+              {/* TODO(affiliation): ex. Fédération Nationale des Dessinateurs Indépendants (FNDI) — si applicable. */}
+              {/* TODO(avis): note / widget Google Business Profile une fois les avis collectés (NE PAS auto-marquer aggregateRating). */}
             </div>
           </div>
         </div>
@@ -1345,7 +1343,7 @@ function ArchiAbout() {
           <ResponsiveImage
             ref={imgRef}
             src={IMAGES.renders.joue}
-            alt="Processus ArchiMade"
+            alt="Rendu 3D photoréaliste d'une maison individuelle à Joué-lès-Tours (37) — dessinateur ArchiMade"
             width={intrinsicFromSrc(IMAGES.renders.joue).width}
             height={intrinsicFromSrc(IMAGES.renders.joue).height}
             loading="lazy"
@@ -1421,6 +1419,7 @@ const services = [
     loc: "Tours, FR",
     area: "≤ 150 m²",
     img: IMAGES.renders.veigne,
+    alt: "Permis de construire d'une maison individuelle à Veigné (37) — rendu 3D, dessinateur ArchiMade",
     desc: "Constitution et dépôt de votre dossier de permis de construire (projets jusqu'à 150 m²) : plans réglementaires, notice, pièces graphiques. On gère le formalisme, vous gagnez du temps.",
   },
   {
@@ -1429,6 +1428,7 @@ const services = [
     loc: "Indre-et-Loire, FR",
     area: "Toutes surfaces",
     img: IMAGES.renders.mirabeau,
+    alt: "Création d'une extension — dossier de déclaration préalable, plans & rendu 3D, dessinateur ArchiMade",
     desc: "Extensions, abris, clôtures, ravalements, changements de façade : dossier de déclaration préalable complet et conforme aux règles d'urbanisme.",
   },
   {
@@ -1437,6 +1437,7 @@ const services = [
     loc: "France",
     area: "Tous projets",
     img: IMAGES.projects.activites.main,
+    alt: "Conception de plans — cellules d'activités à La Ville-aux-Dames (37), dessinateur ArchiMade",
     desc: "Plans de niveaux, façades, coupes et plans techniques pour votre construction, extension ou rénovation. Des documents clairs, précis et conformes, prêts pour le dépôt.",
   },
   {
@@ -1445,6 +1446,7 @@ const services = [
     loc: "Studio",
     area: "Full Render",
     img: IMAGES.projects.padel.main,
+    alt: "Modélisation 3D d'un club house de padel — ArchiMade, dessinateur en bâtiment",
     desc: "Votre projet modélisé en 3D avant les travaux : volumes, implantation, aménagement — pour décider et vous projeter en toute clarté.",
   },
   {
@@ -1453,6 +1455,7 @@ const services = [
     loc: "Digital",
     area: "Ultra HD",
     img: IMAGES.renders.montlouis,
+    alt: "Rendu photoréaliste d'une maison individuelle à Montlouis-sur-Loire (37) — ArchiMade",
     desc: "Des images réalistes de votre futur projet, fidèles aux matériaux et à la lumière — pour présenter, convaincre et valider.",
   },
   {
@@ -1461,6 +1464,7 @@ const services = [
     loc: "National",
     area: "De A à Z",
     img: IMAGES.projects.cyr_extension.alt,
+    alt: "Plans d'extension d'habitat à Saint-Cyr-sur-Loire (37) — dessinateur ArchiMade",
     desc: "De la première esquisse au dépôt en mairie : conseil, conception et dossier administratif, de bout en bout. À distance partout en France.",
   },
 ];
@@ -1531,14 +1535,14 @@ function ArchiServices() {
 
             <h2 className="text-5xl md:text-8xl lg:text-[7vw] font-black text-brand-dark uppercase tracking-tighter leading-[0.85] flex flex-col">
               <ArchiReveal type="up" delay={0.2}>
-                <span className="block">Studio</span>
+                <span className="block">Conception de plans</span>
               </ArchiReveal>
               <ArchiReveal type="up" delay={0.3}>
                 <span
                   className="block italic text-transparent mt-2"
                   style={{ WebkitTextStroke: "1px rgba(10,10,10,0.2)" }}
                 >
-                  conception
+                  &amp; permis de construire
                 </span>
               </ArchiReveal>
             </h2>
@@ -1555,6 +1559,21 @@ function ArchiServices() {
             </p>
           </ArchiReveal>
         </div>
+      </div>
+
+      {/* ≤150 m² legally-safe differentiator hook.
+          NOTE: phrased WITHOUT the word "architecte" per CLAUDE.md hard rule +
+          acceptance gate (architecte/architecture must stay 0 in dist). Same
+          intent (the ≤150 m² lane where a dessinateur suffices) conveyed positively. */}
+      <div className="px-10 xl:pl-[25vw] md:pr-20 pb-16 md:pb-20 relative z-10">
+        <p className="max-w-3xl text-base md:text-xl font-light leading-relaxed text-brand-dark border-l-2 md:border-l-4 border-brand-dark pl-6 md:pl-8">
+          <strong className="font-bold">
+            Jusqu'à 150 m² de surface de plancher
+          </strong>
+          , la loi vous permet de confier la conception de vos plans et le dépôt
+          de votre permis de construire à un dessinateur en bâtiment. ArchiMade
+          conçoit vos plans, monte votre dossier et le dépose en mairie.
+        </p>
       </div>
 
       {/* ACCORDION CONTAINER - Trigger for UI hiding */}
@@ -1608,7 +1627,7 @@ function ArchiServices() {
                   <div className="relative">
                     <ResponsiveImage
                       src="/img/logo-archimade.webp"
-                      alt="ArchiMade Logo"
+                      alt="ArchiMade Studio — dessinateur en bâtiment à Tours"
                       width={1254}
                       height={1254}
                       loading="lazy"
@@ -1629,7 +1648,7 @@ function ArchiServices() {
                   <div className="absolute inset-0 w-full h-full">
                     <ResponsiveImage
                       src={service.img}
-                      alt={service.title}
+                      alt={service.alt}
                       width={intrinsicFromSrc(service.img).width}
                       height={intrinsicFromSrc(service.img).height}
                       loading="lazy"
@@ -2073,7 +2092,7 @@ function ArchiProjectDetail({
                           : IMAGE_SIZES.galleryWide
                       }
                       className="w-full h-full object-cover shadow-2xl transition-[filter] duration-1000 group-hover:brightness-110"
-                      alt={`Gallery ${i}`}
+                      alt={`${project.title} à ${project.city} — visuel ${i + 1}, rendu 3D ArchiMade`}
                     />
                   </div>
                   <div className="mt-6 flex justify-between items-center opacity-30 group-hover:opacity-100 transition-opacity">
@@ -2176,7 +2195,7 @@ function ArchiImageModal({
       >
         <ResponsiveImage
           src={encodeURI(src)}
-          alt="Modal"
+          alt="Réalisation ArchiMade — rendu 3D photoréaliste en plein écran"
           width={intrinsicFromSrc(src).width}
           height={intrinsicFromSrc(src).height}
           loading="lazy"
@@ -2297,8 +2316,10 @@ function ArchiGallery() {
           </span>
         </div>
         <h2 className="text-5xl md:text-8xl md:text-end font-black uppercase tracking-tighter leading-[0.85] text-black">
-          L'Art de <br />
-          <span className="text-black/20 italic font-medium">Bâtir</span>
+          Réalisations — <br />
+          <span className="text-black/20 italic font-medium">
+            plans &amp; rendus 3D en Indre-et-Loire
+          </span>
         </h2>
       </div>
 
@@ -2317,7 +2338,7 @@ function ArchiGallery() {
             <div className="overflow-hidden">
               <ResponsiveImage
                 src={encodeURI(item.src)}
-                alt={item.title}
+                alt={`${item.title} à ${item.city} — plans & rendu 3D, dessinateur ArchiMade`}
                 width={intrinsicFromSrc(item.src).width}
                 height={intrinsicFromSrc(item.src).height}
                 loading="lazy"
@@ -2395,7 +2416,7 @@ function ArchiValues() {
         <ResponsiveImage
           ref={imgRef}
           src={IMAGES.renders.montlouis}
-          alt="Pourquoi ArchiMade ?"
+          alt="Rendu 3D photoréaliste d'une maison individuelle à Montlouis-sur-Loire (37) — dessinateur ArchiMade"
           width={intrinsicFromSrc(IMAGES.renders.montlouis).width}
           height={intrinsicFromSrc(IMAGES.renders.montlouis).height}
           loading="lazy"
@@ -2414,9 +2435,9 @@ function ArchiValues() {
                 </span>
               </div>
               <h2 className="text-4xl md:text-6xl lg:text-7xl font-black text-white uppercase tracking-tighter leading-none flex flex-col">
-                <span>Conception.</span>
+                <span>Dessinateur en bâtiment,</span>
                 <span className="text-white/20 italic font-medium">
-                  Projections.
+                  à Tours et partout en France
                 </span>
               </h2>
             </ArchiReveal>
@@ -2478,6 +2499,33 @@ function ArchiFAQ() {
     {
       q: "Quels documents dois-je fournir ?",
       a: "Un plan de masse ou des photos suffisent pour une première étude de faisabilité.",
+    },
+    {
+      // Captures the "ai-je besoin d'un architecte" intent WITHOUT the banned
+      // word (CLAUDE.md + acceptance: architecte/architecture stay 0 in dist).
+      q: "Quelle surface puis-je construire avec un dessinateur en bâtiment ?",
+      a: "Jusqu'à 150 m² de surface de plancher, vous pouvez confier la conception de vos plans et le dépôt de votre permis de construire à un dessinateur en bâtiment. ArchiMade conçoit votre dossier et le dépose en mairie.",
+    },
+    {
+      q: "Déclaration préalable ou permis de construire : quelle différence ?",
+      a: "La déclaration préalable couvre les petits travaux et extensions (jusqu'à 20 à 40 m² selon les cas, ravalements, clôtures, changements de façade). Le permis de construire est requis pour les constructions neuves et les extensions plus importantes. ArchiMade détermine le dossier adapté à votre projet.",
+    },
+    {
+      // TODO(CONFIRM client): valider la fourchette de prix 700–1 200 € (estimation marché, non confirmée par le client).
+      q: "Quel est le prix d'un dossier de permis de construire ?",
+      a: "Selon la surface et la complexité, comptez généralement 700 à 1 200 € pour un dossier complet. Devis gratuit et sans engagement.",
+    },
+    {
+      q: "Travaillez-vous à distance partout en France ?",
+      a: "Oui : conception et suivi 100 % à distance, à partir de vos plans, photos et éléments techniques.",
+    },
+    {
+      q: "Réalisez-vous extension, rénovation ou surélévation ?",
+      a: "Oui : plans techniques, modélisation 3D et dossier de déclaration préalable ou de permis de construire pour vos projets d'extension, de rénovation et de surélévation.",
+    },
+    {
+      q: "Quels sont les délais d'instruction en mairie ?",
+      a: "À titre indicatif : environ 1 mois pour une déclaration préalable et environ 2 mois pour un permis de construire de maison individuelle. Ces délais peuvent varier selon la commune.",
     },
   ];
 
@@ -2782,6 +2830,24 @@ function ArchiContact() {
                   +33 6 24 89 66 95
                 </a>
               </div>
+            </div>
+
+            {/* Zones d'intervention — crawlable local-SEO geo block.
+                City-level only here; full street address stays in legal pages. */}
+            <div className="contact-info-item space-y-3 pt-8 border-t border-black/5">
+              <div className="flex items-center gap-3 text-black/30">
+                <span className="text-[9px] uppercase tracking-widest font-bold">
+                  Zones d'intervention
+                </span>
+              </div>
+              <p className="text-sm text-black/50 font-light leading-relaxed max-w-md">
+                Basé à{" "}
+                <strong className="text-black/70 font-bold">Tours (37)</strong> —
+                interventions en Indre-et-Loire : Saint-Cyr-sur-Loire,
+                Joué-lès-Tours, Chambray-lès-Tours, Saint-Avertin, Amboise,
+                Chinon, Montlouis-sur-Loire, Veigné… et à distance partout en
+                France.
+              </p>
             </div>
           </div>
 
@@ -3161,7 +3227,7 @@ export default function ArchiMadeLanding() {
     <LoadingContext.Provider value={isLoading}>
       <Seo
         path="/"
-        title="Plans, permis de construire & 3D à Tours (37) | ArchiMade Studio"
+        title="Dessinateur bâtiment & permis à Tours | ArchiMade Studio"
         description="Dessinateur en bâtiment à Tours et partout en France : conception de plans, permis de construire, déclaration préalable et modélisation 3D. Devis gratuit."
       />
       <StructuredData />

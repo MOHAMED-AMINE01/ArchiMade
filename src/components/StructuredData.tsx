@@ -3,6 +3,11 @@ import { SITE_URL } from './Seo';
 
 const ORG_ID = `${SITE_URL}/#organization`;
 const BUSINESS_ID = `${SITE_URL}/#business`;
+const WEBSITE_ID = `${SITE_URL}/#website`;
+
+// Social profile — MUST match the live UI handle used in ArchiMadeLanding
+// (INSTAGRAM_URL) and the footer/aria links. TODO(CONFIRM: real live handle).
+const INSTAGRAM_URL = 'https://www.instagram.com/archi.made.studio';
 
 const SERVICES = [
   { id: 'conception-de-plans', name: 'Conception de plans' },
@@ -19,13 +24,21 @@ const structuredData = {
   '@context': 'https://schema.org',
   '@graph': [
     {
+      '@type': 'WebSite',
+      '@id': WEBSITE_ID,
+      name: 'ArchiMade Studio',
+      url: SITE_URL,
+      inLanguage: 'fr',
+      publisher: { '@id': ORG_ID },
+    },
+    {
       '@type': 'Organization',
       '@id': ORG_ID,
       name: 'ArchiMade',
       legalName: 'ARCHI-MADE LTD',
       url: SITE_URL,
       logo: `${SITE_URL}/img/logo-archimade.webp`,
-      sameAs: ['https://www.instagram.com/archi_made37/'],
+      sameAs: [INSTAGRAM_URL],
       contactPoint: {
         '@type': 'ContactPoint',
         contactType: 'customer service',
@@ -42,6 +55,7 @@ const structuredData = {
       url: SITE_URL,
       image: `${SITE_URL}/og-card.png`,
       telephone: '+33624896695',
+      priceRange: '€€',
       description:
         'Accompagnement pour permis de construire, déclarations préalables, plans techniques et modélisation 3D photoréaliste.',
       // Local base (Indre-et-Loire/Tours) + national remote reach — narrow to City/AdministrativeArea only for purely-local, or Country only for purely-national.
