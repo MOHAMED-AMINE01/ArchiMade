@@ -26,19 +26,19 @@ const SEO_BY_TYPE: Record<
 > = {
   mentions: {
     path: "/mentions-legales",
-    title: "Mentions Légales | ArchiMade Studio",
+    title: "Mentions Légales | ArchiMade",
     description:
       "Mentions légales d'ArchiMade Studio : éditeur, hébergeur, propriété intellectuelle et responsabilité du site archi-made.com.",
   },
   privacy: {
     path: "/confidentialite",
-    title: "Politique de Confidentialité | ArchiMade Studio",
+    title: "Politique de Confidentialité | ArchiMade",
     description:
       "Politique de confidentialité d'ArchiMade Studio : données collectées, finalités, durées de conservation et droits RGPD des utilisateurs.",
   },
   cookies: {
     path: "/cookies",
-    title: "Politique Cookies | ArchiMade Studio",
+    title: "Politique Cookies | ArchiMade",
     description:
       "Politique cookies d'ArchiMade Studio : types de cookies utilisés, consentement et gestion via le navigateur.",
   },
