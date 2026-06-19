@@ -5,11 +5,13 @@ const ORG_ID = `${SITE_URL}/#organization`;
 const BUSINESS_ID = `${SITE_URL}/#business`;
 
 const SERVICES = [
-  { id: 'permis-construire', name: 'Permis de construire' },
+  { id: 'conception-de-plans', name: 'Conception de plans' },
+  { id: 'permis-construire', name: 'Permis de construire (≤150 m²)' },
   { id: 'declaration-prealable', name: 'Déclaration préalable' },
   { id: 'plans-techniques', name: 'Plans techniques' },
   { id: 'modelisation-3d', name: 'Modélisation 3D' },
-  { id: 'rendu-photoréaliste', name: 'Rendu photoréaliste' },
+  { id: 'rendus-photorealistes', name: 'Rendus photoréalistes' },
+  { id: 'accompagnement-habitat', name: 'Accompagnement projet habitat' },
 ] as const;
 
 // Single @graph in raw HTML: Organization + ProfessionalService (NOT Architect) + Services.
@@ -19,7 +21,8 @@ const structuredData = {
     {
       '@type': 'Organization',
       '@id': ORG_ID,
-      name: 'ArchiMade Studio',
+      name: 'ArchiMade',
+      legalName: 'ARCHI-MADE LTD',
       url: SITE_URL,
       logo: `${SITE_URL}/img/logo-archimade.webp`,
       sameAs: ['https://www.instagram.com/archi_made37/'],
@@ -34,9 +37,11 @@ const structuredData = {
     {
       '@type': 'ProfessionalService',
       '@id': BUSINESS_ID,
-      name: 'ArchiMade Studio',
+      name: 'ArchiMade',
+      legalName: 'ARCHI-MADE LTD',
       url: SITE_URL,
       image: `${SITE_URL}/og-card.png`,
+      telephone: '+33624896695',
       description:
         'Accompagnement pour permis de construire, déclarations préalables, plans techniques et modélisation 3D photoréaliste.',
       // Local base (Indre-et-Loire/Tours) + national remote reach — narrow to City/AdministrativeArea only for purely-local, or Country only for purely-national.
@@ -45,6 +50,16 @@ const structuredData = {
         { '@type': 'City', name: 'Tours' },
         { '@type': 'Country', name: 'France' },
       ],
+      // NAP: real public address of the French establishment (Tours). GBP stays a
+      // service-area profile (no public pin) unless a real client-facing office is confirmed;
+      // including the address in JSON-LD for NAP consistency is fine even if GBP hides it.
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: '25 rue du Maréchal Ney',
+        addressLocality: 'Tours',
+        postalCode: '37100',
+        addressCountry: 'FR',
+      },
       parentOrganization: { '@id': ORG_ID },
     },
     ...SERVICES.map((service) => ({
