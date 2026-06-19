@@ -3,7 +3,7 @@
 ## Mission & golden rules (read EVERY session)
 
 - LOCAL ONLY. NEVER push, merge, deploy. The human deploys manually, once, later.
-- All work on branch `seo/phase-1-indexability`. Commit by checkpoints; clear messages; no "Co-Authored-By".
+- All work on branch `seo/finalize`. Commit by checkpoints; clear messages; no "Co-Authored-By".
 - ONE session = ONE phase. Keep context small.
 - Compaction/limit protocol: re-anchor from git + PROGRESS.md, NOT memory. Update PROGRESS.md before ending or near the context limit. Never stop for token-budget fear; save state first.
 - Proof > assertion: show command output / dist snippets. Never claim "done" without evidence.
@@ -21,7 +21,7 @@
 
 ## Business (non-negotiable)
 
-Dessinateur-projeteur / maître d'œuvre, NOT an Ordre architect → never the word/schema "architecte"/`Architect`. Scope: déclarations préalables + permis <=150 m². Differentiator: 3D/photorealistic renders. Market (Tours-37 vs national) UNDECIDED → leave areaServed/geo as TODO(SEO); never invent a city.
+CONFIRMED IDENTITY (official RNE/INPI — source of truth, no longer a TODO): legalName **ARCHI-MADE LTD**; brand **"ArchiMade"**; SIREN **101 715 993**; SIRET **10171599300024**; APE **7112B** "Ingénierie, études techniques", déclared object **"Conception de plans dans le domaine du bâtiment"**. → The client is **NOT an architect** (not inscribed at the Ordre des Architectes): NEVER use the word "architecte" or schema `@type "Architect"` in title/headings/copy/JSON-LD — usurpation de titre is criminal in FR. Role = dessinateur-projeteur / conception de plans; differentiator = 3D/photorealistic renders. Scope: déclarations préalables + permis de construire **≤150 m²** (French law requires an architect above 150 m² — that ceiling is a legal boundary, not a downside). Établissement France (real public address): **25 rue du Maréchal Ney, 37100 Tours**; siège social: **London (UK)**. Market DECIDED → areaServed SET = **Indre-et-Loire + Tours + France**; never invent a city in visible copy.
 
 ## Stack & architecture
 
