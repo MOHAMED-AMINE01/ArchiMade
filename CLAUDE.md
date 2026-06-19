@@ -21,7 +21,17 @@
 
 ## Business (non-negotiable)
 
-CONFIRMED IDENTITY (official RNE/INPI — source of truth, no longer a TODO): legalName **ARCHI-MADE LTD**; brand **"ArchiMade"**; SIREN **101 715 993**; SIRET **10171599300024**; APE **7112B** "Ingénierie, études techniques", déclared object **"Conception de plans dans le domaine du bâtiment"**. → The client is **NOT an architect** (not inscribed at the Ordre des Architectes): NEVER use the word "architecte" or schema `@type "Architect"` in title/headings/copy/JSON-LD — usurpation de titre is criminal in FR. Role = dessinateur-projeteur / conception de plans; differentiator = 3D/photorealistic renders. Scope: déclarations préalables + permis de construire **≤150 m²** (French law requires an architect above 150 m² — that ceiling is a legal boundary, not a downside). Établissement France (real public address): **25 rue du Maréchal Ney, 37100 Tours**; siège social: **London (UK)**. Market DECIDED → areaServed SET = **Indre-et-Loire + Tours + France**; never invent a city in visible copy.
+CONFIRMED IDENTITY (official RNE/INPI — source of truth, no longer a TODO):
+- legalName **ARCHI-MADE LTD** (société commerciale étrangère immatriculée au RCS — UK Ltd); brand / nom commercial **"ArchiMade"**.
+- SIREN **101 715 993**; SIRET (établissement France, Tours) **10171599300024**; capital **1000 €**.
+- APE **7112B** "Ingénierie, études techniques"; déclared object **"Conception de plans dans le domaine du bâtiment"**.
+- → The client is **NOT an architect** (not inscribed at the Ordre des Architectes): NEVER use the word "architecte" or schema `@type "Architect"` in title/headings/copy/JSON-LD — usurpation de titre is criminal in FR. Positioning = **dessinateur / concepteur de plans**; differentiator = 3D/photorealistic renders. Scope: déclarations préalables + permis de construire **≤150 m²** (French law requires an architect above 150 m² — that ceiling is a legal boundary, not a downside).
+- Établissement France (real public address): **25 rue du Maréchal Ney, 37100 Tours, France**. Siège social: **20 Wenlock Road, W1B 3HH London, Royaume-Uni**.
+- Dirigeant / directeur de publication: **Damien De Sousa** (Tours).
+- Site: **archi-made.com** · Hébergeur: **Vercel Inc.** `TODO(CONFIRM: hébergeur)`.
+- Market DECIDED → areaServed SET = **Indre-et-Loire + Tours + France** (zone locale + à distance partout en France); never invent a city in visible copy.
+
+Mentions légales MUST display (when wired): legalName + UK Ltd / RCS + capital + SIREN/SIRET + APE; siège London + établissement Tours; directeur de publication; hébergeur. NEVER fabricate a regulated credential — do NOT show any Ordre des Architectes inscription (the client has none).
 
 ## Stack & architecture
 
