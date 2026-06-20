@@ -2810,7 +2810,7 @@ function ArchiContact() {
     <footer
       ref={sectionRef}
       id="contact"
-      className="lg:sticky lg:bottom-0 relative z-10 bg-white text-[#1a1a1a] font-display overflow-hidden w-full min-h-screen py-24 lg:py-0 lg:h-screen flex flex-col justify-center"
+      className="lg:sticky lg:bottom-0 relative z-10 bg-white text-[#1a1a1a] font-display overflow-hidden w-full min-h-screen py-24 lg:py-28 flex flex-col justify-center"
     >
       {/* CLEARANCE ONLY (composition unchanged): at xl the fixed left sidebar
           (nav ~215px / bottom logo ~260px) overlays this section. The centered
@@ -2818,22 +2818,23 @@ function ArchiContact() {
           only kicks in below ~1668px (max(96px, 930px - 50vw)) so the balanced
           side-by-side composition is never restructured, just inset. */}
       <div className="max-w-7xl mx-auto px-6 md:px-16 lg:px-24 xl:pl-[max(96px,calc(930px-50vw))] w-full relative z-10">
+        {/* Self-balancing structure: the heading is a FULL-WIDTH block on top
+            (cleared from the fixed nav by the container's xl:pl + its clamp), and
+            the info|form row sits below it. The form no longer needs a manual
+            top offset: being a sibling of the row (not of the heading), it
+            naturally aligns to the intro paragraph at the row's top edge. */}
+        <h2 className="contact-title text-5xl md:text-7xl lg:text-8xl xl:text-[clamp(3.75rem,calc(14vw-7.5rem),6rem)] font-black uppercase tracking-tighter leading-none mb-12 lg:mb-16">
+          CONTACT
+        </h2>
         <div className="flex flex-col lg:flex-row justify-between items-start gap-12 lg:gap-20">
-          {/* Left: Content */}
+          {/* Left: contact info (intro + email/phone + zones) */}
           <div className="lg:w-1/2 space-y-10">
-            <div className="space-y-6">
-              {/* xl scale (STEP 3): fit the heading to the nav-cleared left
-                  column at narrow xl widths; returns to full 8xl by ~1536. */}
-              <h2 className="contact-title text-5xl md:text-7xl lg:text-8xl xl:text-[clamp(3.75rem,calc(14vw-7.5rem),6rem)] font-black uppercase tracking-tighter leading-none">
-                CONTACT
-              </h2>
-              <p className="contact-desc text-black/40 text-base md:text-lg font-light leading-relaxed max-w-md">
-                Un projet de construction, une demande de permis ou des plans à
-                réaliser ?<br />
-                Présentez votre besoin via le formulaire, ArchiMade vous répond
-                rapidement.
-              </p>
-            </div>
+            <p className="contact-desc text-black/40 text-base md:text-lg font-light leading-relaxed max-w-md">
+              Un projet de construction, une demande de permis ou des plans à
+              réaliser ?<br />
+              Présentez votre besoin via le formulaire, ArchiMade vous répond
+              rapidement.
+            </p>
 
             <div className="flex flex-col sm:flex-row lg:flex-col xl:flex-row gap-10 lg:gap-12 pt-8 border-t border-black/5">
               <div className="contact-info-item space-y-2">
@@ -2885,11 +2886,9 @@ function ArchiContact() {
             </div>
           </div>
 
-          {/* Right: Premium Card. Top-offset only (row stays items-start) so the
-              card top drops to the intro-paragraph line, just below the CONTACT
-              heading. Offset = heading height + the space-y-6 gap (1.5rem); it
-              tracks the heading's responsive size (8xl at lg, clamp at xl). */}
-          <div className="contact-form-card lg:w-125 xl:w-145 w-full lg:mt-[7.5rem] xl:mt-[calc(clamp(3.75rem,calc(14vw-7.5rem),6rem)+1.5rem)]">
+          {/* Right: Premium Card. Top-aligned (items-start) with the info
+              column's intro paragraph; no manual offset needed. */}
+          <div className="contact-form-card lg:w-125 xl:w-145 w-full">
             <div className="bg-brand-dark p-8 md:p-12 lg:p-14 rounded-2xl border border-black/5 shadow-2xl relative overflow-hidden text-white">
               <h3 className="text-xl font-bold uppercase tracking-tight mb-8">
                 Nous contacter
