@@ -1045,17 +1045,20 @@ function ArchiHero() {
       {/* Largo-Style Container */}
       <div className="relative z-10 w-full h-full flex flex-col justify-center md:justify-start md:pt-[20vh] px-10 md:px-20 md:pl-[24vw] items-start text-left">
         <div className="max-w-6xl relative z-20 flex flex-col items-start px-2">
-          {/* Crawlable SEO eyebrow (dessinateur + geo) above the H1 */}
-          <span className="text-[9px] md:text-xs uppercase tracking-[0.25em] md:tracking-[0.3em] text-brand-dark/40 font-bold mb-5 md:mb-7 block">
+          {/* Crawlable SEO eyebrow (dessinateur + geo) above the H1.
+              Tight margins compensate the eyebrow's added height so the hero
+              composition returns to ~its original vertical rhythm (prevents the
+              CTA clipping below the fold at short laptop heights e.g. 1280x800). */}
+          <span className="text-[9px] md:text-xs uppercase tracking-[0.25em] md:tracking-[0.3em] text-brand-dark/40 font-bold mb-2 md:mb-3 block">
             Dessinateur en bâtiment · Indre-et-Loire &amp; à distance partout en
             France
           </span>
           <h1
             translate="no"
-            className="notranslate archi-title text-[12vw] md:text-[9.5vw] font-bold tracking-tighter leading-[1.1] md:leading-[0.8] text-brand-dark flex flex-col items-start relative translate-z-0 mb-12"
+            className="notranslate archi-title text-[12vw] md:text-[9.5vw] font-bold tracking-tighter leading-[1.1] md:leading-[0.8] text-brand-dark flex flex-col items-start relative translate-z-0 mb-8"
           >
             {/* Title Lines (1, 2, 3) */}
-            {["Vos plans de construction à Tours,", "du croquis au permis"].map((text, idx) => (
+            {["Vos plans de construction,", "du croquis au permis"].map((text, idx) => (
               <div key={idx} className="sentence">
                 <div className="outer relative perspective-[2000px]">
                   <span className="inner block overflow-hidden md:pb-[0.18em]">
