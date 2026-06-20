@@ -2812,16 +2812,19 @@ function ArchiContact() {
       id="contact"
       className="lg:sticky lg:bottom-0 relative z-10 bg-white text-[#1a1a1a] font-display overflow-hidden w-full min-h-screen py-24 lg:py-0 lg:h-screen flex flex-col justify-center"
     >
-      {/* xl+: the fixed left sidebar (nav top / logo bottom, 25vw) overlays this
-          section, so clear it (xl:pl-72 > sidebar ink) and decenter; the two
-          columns stack through xl and only sit side-by-side again at 2xl where
-          the cleared width is wide enough for the 8xl heading + form. */}
-      <div className="max-w-7xl mx-auto px-6 md:px-16 lg:px-24 xl:max-w-none xl:mx-0 xl:pl-72 xl:pr-16 w-full relative z-10">
-        <div className="flex flex-col lg:flex-row xl:flex-col 2xl:flex-row justify-between items-start lg:items-center xl:items-start 2xl:items-center gap-12 lg:gap-20">
+      {/* CLEARANCE ONLY (composition unchanged): at xl the fixed left sidebar
+          (nav ~215px / bottom logo ~260px) overlays this section. The centered
+          container already clears it on wide screens; this extra left padding
+          only kicks in below ~1668px (max(96px, 930px - 50vw)) so the balanced
+          side-by-side composition is never restructured, just inset. */}
+      <div className="max-w-7xl mx-auto px-6 md:px-16 lg:px-24 xl:pl-[max(96px,calc(930px-50vw))] w-full relative z-10">
+        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-12 lg:gap-20">
           {/* Left: Content */}
-          <div className="lg:w-1/2 xl:w-full 2xl:flex-1 space-y-10">
+          <div className="lg:w-1/2 space-y-10">
             <div className="space-y-6">
-              <h2 className="contact-title text-5xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter leading-none">
+              {/* xl scale (STEP 3): fit the heading to the nav-cleared left
+                  column at narrow xl widths; returns to full 8xl by ~1536. */}
+              <h2 className="contact-title text-5xl md:text-7xl lg:text-8xl xl:text-[clamp(3.75rem,calc(14vw-7.5rem),6rem)] font-black uppercase tracking-tighter leading-none">
                 CONTACT
               </h2>
               <p className="contact-desc text-black/40 text-base md:text-lg font-light leading-relaxed max-w-md">
@@ -2883,7 +2886,7 @@ function ArchiContact() {
           </div>
 
           {/* Right: Premium Card */}
-          <div className="contact-form-card lg:w-125 xl:w-full 2xl:w-145 2xl:shrink-0 w-full">
+          <div className="contact-form-card lg:w-125 xl:w-145 w-full">
             <div className="bg-brand-dark p-8 md:p-12 lg:p-14 rounded-2xl border border-black/5 shadow-2xl relative overflow-hidden text-white">
               <h3 className="text-xl font-bold uppercase tracking-tight mb-8">
                 Nous contacter
