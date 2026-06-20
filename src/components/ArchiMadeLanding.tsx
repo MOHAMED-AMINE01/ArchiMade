@@ -594,7 +594,7 @@ function ArchiPreloader({ onComplete }: { onComplete: () => void }) {
         );
     });
 
-    // Exit transition — blur dissolve only (no scale; logo is child of .preloader-content)
+    // Exit transition - blur dissolve only (no scale; logo is child of .preloader-content)
     tl.to(".preloader-content", {
       opacity: 0,
       filter: "blur(10px)",
@@ -630,7 +630,7 @@ function ArchiPreloader({ onComplete }: { onComplete: () => void }) {
         <div className="preloader-logo mb-30 md:mb-35">
           <ResponsiveImage
             src="/img/logo-intro.webp"
-            alt="ArchiMade Studio — dessinateur en bâtiment à Tours"
+            alt="ArchiMade Studio, dessinateur en bâtiment à Tours"
             width={1254}
             height={1254}
             fetchPriority="high"
@@ -702,7 +702,7 @@ const ArchiLogo = ({
   >
     <ResponsiveImage
       src="/img/logo-archimade.webp"
-      alt="ArchiMade Studio — dessinateur en bâtiment à Tours"
+      alt="ArchiMade Studio, dessinateur en bâtiment à Tours"
       width={1254}
       height={1254}
       loading="lazy"
@@ -1082,7 +1082,7 @@ function ArchiHero() {
                   <p className="text block archi-title-reveal text-[12px] md:text-lg text-brand-dark font-medium leading-tight opacity-70">
                     ArchiMade conçoit vos plans, monte vos dossiers de permis de
                     construire et de déclaration préalable, et donne vie à vos
-                    projets en 3D photoréaliste. Un interlocuteur unique — en
+                    projets en 3D photoréaliste. Un interlocuteur unique, en
                     Indre-et-Loire comme à distance partout en France.
                   </p>
                 </span>
@@ -1314,9 +1314,9 @@ function ArchiAbout() {
           </div>
 
           <div className="xl:w-1/3 flex flex-col justify-end mt-12 xl:mt-0 w-full">
-            {/* Trust scaffold — replaces the "0.0 RETARD / 100% CONFORMITÉ"
+            {/* Trust scaffold - replaces the "0.0 RETARD / 100% CONFORMITÉ"
                 gimmick. Founder name is public; all metrics/credentials below
-                are placeholders — DO NOT invent (see TODO comments). */}
+                are placeholders - DO NOT invent (see TODO comments). */}
             <div className="border-t border-black/10 pt-8 md:pt-12 space-y-6">
               <div>
                 <p className="text-2xl md:text-3xl font-bold text-brand-dark tracking-tight">
@@ -1328,12 +1328,12 @@ function ArchiAbout() {
               </div>
               <p className="text-sm md:text-base text-brand-dark/60 font-light leading-relaxed max-w-sm">
                 Un interlocuteur unique pour vos plans, vos démarches et vos
-                rendus 3D — de l'esquisse au dépôt en mairie, en Indre-et-Loire
+                rendus 3D : de l'esquisse au dépôt en mairie, en Indre-et-Loire
                 comme à distance partout en France.
               </p>
-              {/* TODO(CONFIRM client): années d'expérience / nombre de projets réalisés — afficher une fois confirmé. */}
+              {/* TODO(CONFIRM client): années d'expérience / nombre de projets réalisés - afficher une fois confirmé. */}
               {/* TODO(RCP): assurance responsabilité civile professionnelle (assureur + n° de police). */}
-              {/* TODO(affiliation): ex. Fédération Nationale des Dessinateurs Indépendants (FNDI) — si applicable. */}
+              {/* TODO(affiliation): ex. Fédération Nationale des Dessinateurs Indépendants (FNDI) - si applicable. */}
               {/* TODO(avis): note / widget Google Business Profile une fois les avis collectés (NE PAS auto-marquer aggregateRating). */}
             </div>
           </div>
@@ -1349,7 +1349,7 @@ function ArchiAbout() {
           <ResponsiveImage
             ref={imgRef}
             src={IMAGES.renders.joue}
-            alt="Rendu 3D photoréaliste d'une maison individuelle à Joué-lès-Tours (37) — dessinateur ArchiMade"
+            alt="Rendu 3D photoréaliste d'une maison individuelle à Joué-lès-Tours (37), dessinateur ArchiMade"
             width={intrinsicFromSrc(IMAGES.renders.joue).width}
             height={intrinsicFromSrc(IMAGES.renders.joue).height}
             loading="lazy"
@@ -1425,7 +1425,7 @@ const services = [
     loc: "Tours, FR",
     area: "≤ 150 m²",
     img: IMAGES.renders.veigne,
-    alt: "Permis de construire d'une maison individuelle à Veigné (37) — rendu 3D, dessinateur ArchiMade",
+    alt: "Permis de construire d'une maison individuelle à Veigné (37), rendu 3D, dessinateur ArchiMade",
     desc: "Constitution et dépôt de votre dossier de permis de construire (projets jusqu'à 150 m²) : plans réglementaires, notice, pièces graphiques. On gère le formalisme, vous gagnez du temps.",
   },
   {
@@ -1434,7 +1434,7 @@ const services = [
     loc: "Indre-et-Loire, FR",
     area: "Toutes surfaces",
     img: IMAGES.renders.mirabeau,
-    alt: "Création d'une extension — dossier de déclaration préalable, plans & rendu 3D, dessinateur ArchiMade",
+    alt: "Création d'une extension : dossier de déclaration préalable, plans & rendu 3D, dessinateur ArchiMade",
     desc: "Extensions, abris, clôtures, ravalements, changements de façade : dossier de déclaration préalable complet et conforme aux règles d'urbanisme.",
   },
   {
@@ -1443,7 +1443,7 @@ const services = [
     loc: "France",
     area: "Tous projets",
     img: IMAGES.projects.activites.main,
-    alt: "Conception de plans — cellules d'activités à La Ville-aux-Dames (37), dessinateur ArchiMade",
+    alt: "Conception de plans : cellules d'activités à La Ville-aux-Dames (37), dessinateur ArchiMade",
     desc: "Plans de niveaux, façades, coupes et plans techniques pour votre construction, extension ou rénovation. Des documents clairs, précis et conformes, prêts pour le dépôt.",
   },
   {
@@ -1452,8 +1452,8 @@ const services = [
     loc: "Studio",
     area: "Full Render",
     img: IMAGES.projects.padel.main,
-    alt: "Modélisation 3D d'un club house de padel — ArchiMade, dessinateur en bâtiment",
-    desc: "Votre projet modélisé en 3D avant les travaux : volumes, implantation, aménagement — pour décider et vous projeter en toute clarté.",
+    alt: "Modélisation 3D d'un club house de padel, ArchiMade, dessinateur en bâtiment",
+    desc: "Votre projet modélisé en 3D avant les travaux : volumes, implantation, aménagement, pour décider et vous projeter en toute clarté.",
   },
   {
     title: "Rendus photoréalistes",
@@ -1461,8 +1461,8 @@ const services = [
     loc: "Digital",
     area: "Ultra HD",
     img: IMAGES.renders.montlouis,
-    alt: "Rendu photoréaliste d'une maison individuelle à Montlouis-sur-Loire (37) — ArchiMade",
-    desc: "Des images réalistes de votre futur projet, fidèles aux matériaux et à la lumière — pour présenter, convaincre et valider.",
+    alt: "Rendu photoréaliste d'une maison individuelle à Montlouis-sur-Loire (37), ArchiMade",
+    desc: "Des images réalistes de votre futur projet, fidèles aux matériaux et à la lumière, pour présenter, convaincre et valider.",
   },
   {
     title: "Accompagnement de projet habitat",
@@ -1470,7 +1470,7 @@ const services = [
     loc: "National",
     area: "De A à Z",
     img: IMAGES.projects.cyr_extension.alt,
-    alt: "Plans d'extension d'habitat à Saint-Cyr-sur-Loire (37) — dessinateur ArchiMade",
+    alt: "Plans d'extension d'habitat à Saint-Cyr-sur-Loire (37), dessinateur ArchiMade",
     desc: "De la première esquisse au dépôt en mairie : conseil, conception et dossier administratif, de bout en bout. À distance partout en France.",
   },
 ];
@@ -1633,7 +1633,7 @@ function ArchiServices() {
                   <div className="relative">
                     <ResponsiveImage
                       src="/img/logo-archimade.webp"
-                      alt="ArchiMade Studio — dessinateur en bâtiment à Tours"
+                      alt="ArchiMade Studio, dessinateur en bâtiment à Tours"
                       width={1254}
                       height={1254}
                       loading="lazy"
@@ -2098,7 +2098,7 @@ function ArchiProjectDetail({
                           : IMAGE_SIZES.galleryWide
                       }
                       className="w-full h-full object-cover shadow-2xl transition-[filter] duration-1000 group-hover:brightness-110"
-                      alt={`${project.title} à ${project.city} — visuel ${i + 1}, rendu 3D ArchiMade`}
+                      alt={`${project.title} à ${project.city}, visuel ${i + 1}, rendu 3D ArchiMade`}
                     />
                   </div>
                   <div className="mt-6 flex justify-between items-center opacity-30 group-hover:opacity-100 transition-opacity">
@@ -2201,7 +2201,7 @@ function ArchiImageModal({
       >
         <ResponsiveImage
           src={encodeURI(src)}
-          alt="Réalisation ArchiMade — rendu 3D photoréaliste en plein écran"
+          alt="Réalisation ArchiMade, rendu 3D photoréaliste en plein écran"
           width={intrinsicFromSrc(src).width}
           height={intrinsicFromSrc(src).height}
           loading="lazy"
@@ -2313,8 +2313,10 @@ function ArchiGallery() {
         )}
       </AnimatePresence>
 
-      {/* Gallery Header */}
-      <div className="w-full mb-20 md:mb-32 gallery-header">
+      {/* Gallery Header: xl:pl clears the fixed left sidebar (nav ~215px) so the
+          long right-aligned heading never extends under it before the gallery
+          scroll hides the UI. */}
+      <div className="w-full mb-20 md:mb-32 gallery-header xl:pl-32">
         <div className="md:justify-end flex items-center gap-4 mb-6">
           <div className="w-12 h-px bg-black/20"></div>
           <span className="text-[10px] md:text-xs font-mono uppercase tracking-[0.5em] text-black/30 font-bold">
@@ -2322,9 +2324,9 @@ function ArchiGallery() {
           </span>
         </div>
         <h2 className="text-5xl md:text-8xl md:text-end font-black uppercase tracking-tighter leading-[0.85] text-black">
-          Réalisations — <br />
+          Réalisations en Indre-et-Loire :<br />
           <span className="text-black/20 italic font-medium">
-            plans &amp; rendus 3D en Indre-et-Loire
+            plans &amp; rendus 3D
           </span>
         </h2>
       </div>
@@ -2344,7 +2346,7 @@ function ArchiGallery() {
             <div className="overflow-hidden">
               <ResponsiveImage
                 src={encodeURI(item.src)}
-                alt={`${item.title} à ${item.city} — plans & rendu 3D, dessinateur ArchiMade`}
+                alt={`${item.title} à ${item.city}, plans & rendu 3D, dessinateur ArchiMade`}
                 width={intrinsicFromSrc(item.src).width}
                 height={intrinsicFromSrc(item.src).height}
                 loading="lazy"
@@ -2422,7 +2424,7 @@ function ArchiValues() {
         <ResponsiveImage
           ref={imgRef}
           src={IMAGES.renders.montlouis}
-          alt="Rendu 3D photoréaliste d'une maison individuelle à Montlouis-sur-Loire (37) — dessinateur ArchiMade"
+          alt="Rendu 3D photoréaliste d'une maison individuelle à Montlouis-sur-Loire (37), dessinateur ArchiMade"
           width={intrinsicFromSrc(IMAGES.renders.montlouis).width}
           height={intrinsicFromSrc(IMAGES.renders.montlouis).height}
           loading="lazy"
@@ -2525,7 +2527,7 @@ function ArchiFAQ() {
       a: "La déclaration préalable couvre les petits travaux et extensions (jusqu'à 20 à 40 m² selon les cas, ravalements, clôtures, changements de façade). Le permis de construire est requis pour les constructions neuves et les extensions plus importantes. ArchiMade détermine le dossier adapté à votre projet.",
     },
     {
-      // TODO(CONFIRM client): valider la fourchette de prix 700–1 200 € (estimation marché, non confirmée par le client).
+      // TODO(CONFIRM client): valider la fourchette de prix 700 à 1 200 € (estimation marché, non confirmée par le client).
       q: "Quel est le prix d'un dossier de permis de construire ?",
       a: "Selon la surface et la complexité, comptez généralement 700 à 1 200 € pour un dossier complet. Devis gratuit et sans engagement.",
     },
@@ -2810,10 +2812,14 @@ function ArchiContact() {
       id="contact"
       className="lg:sticky lg:bottom-0 relative z-10 bg-white text-[#1a1a1a] font-display overflow-hidden w-full min-h-screen py-24 lg:py-0 lg:h-screen flex flex-col justify-center"
     >
-      <div className="max-w-7xl mx-auto px-6 md:px-16 lg:px-24 w-full relative z-10">
-        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-12 lg:gap-20">
+      {/* xl+: the fixed left sidebar (nav top / logo bottom, 25vw) overlays this
+          section, so clear it (xl:pl-72 > sidebar ink) and decenter; the two
+          columns stack through xl and only sit side-by-side again at 2xl where
+          the cleared width is wide enough for the 8xl heading + form. */}
+      <div className="max-w-7xl mx-auto px-6 md:px-16 lg:px-24 xl:max-w-none xl:mx-0 xl:pl-72 xl:pr-16 w-full relative z-10">
+        <div className="flex flex-col lg:flex-row xl:flex-col 2xl:flex-row justify-between items-start lg:items-center xl:items-start 2xl:items-center gap-12 lg:gap-20">
           {/* Left: Content */}
-          <div className="lg:w-1/2 space-y-10">
+          <div className="lg:w-1/2 xl:w-full 2xl:flex-1 space-y-10">
             <div className="space-y-6">
               <h2 className="contact-title text-5xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter leading-none">
                 CONTACT
@@ -2857,7 +2863,7 @@ function ArchiContact() {
               </div>
             </div>
 
-            {/* Zones d'intervention — crawlable local-SEO geo block.
+            {/* Zones d'intervention - crawlable local-SEO geo block.
                 City-level only here; full street address stays in legal pages. */}
             <div className="contact-info-item space-y-3 pt-8 border-t border-black/5">
               <div className="flex items-center gap-3 text-black/30">
@@ -2867,7 +2873,7 @@ function ArchiContact() {
               </div>
               <p className="text-sm text-black/50 font-light leading-relaxed max-w-md">
                 Basé à{" "}
-                <strong className="text-black/70 font-bold">Tours (37)</strong> —
+                <strong className="text-black/70 font-bold">Tours (37)</strong>,
                 interventions en Indre-et-Loire : Saint-Cyr-sur-Loire,
                 Joué-lès-Tours, Chambray-lès-Tours, Saint-Avertin, Amboise,
                 Chinon, Montlouis-sur-Loire, Veigné… et à distance partout en
@@ -2877,13 +2883,13 @@ function ArchiContact() {
           </div>
 
           {/* Right: Premium Card */}
-          <div className="contact-form-card lg:w-125 xl:w-145 w-full">
+          <div className="contact-form-card lg:w-125 xl:w-full 2xl:w-145 2xl:shrink-0 w-full">
             <div className="bg-brand-dark p-8 md:p-12 lg:p-14 rounded-2xl border border-black/5 shadow-2xl relative overflow-hidden text-white">
               <h3 className="text-xl font-bold uppercase tracking-tight mb-8">
                 Nous contacter
               </h3>
               <form className="space-y-6 md:space-y-8" onSubmit={handleSubmit}>
-                {/* Honeypot — hidden from real users, filled by bots */}
+                {/* Honeypot - hidden from real users, filled by bots */}
                 <input
                   type="text"
                   name="website"
@@ -2976,7 +2982,7 @@ function ArchiContact() {
 
         {/* Footer Bottom */}
         <div className="contact-footer-bar mt-12 md:mt-16 lg:mt-24 pt-8 md:pt-10 border-t border-black/5 flex flex-col md:flex-row justify-between items-center opacity-30 text-[9px] uppercase tracking-[0.2em] font-bold">
-          <p>© {__BUILD_YEAR__} ArchiMade Studio — France</p>
+          <p>© {__BUILD_YEAR__} ArchiMade Studio, France</p>
           <div className="flex gap-8 mt-4 md:mt-0">
             <Link
               to="/mentions-legales"
@@ -3301,12 +3307,15 @@ export default function ArchiMadeLanding() {
                 }
               }
             }}
-            className="archi-sticky-contact group relative flex items-center justify-center bg-white text-black w-14 h-14 md:w-auto md:h-auto md:px-8 md:py-4 xl:px-10 xl:py-5 rounded-full xl:rounded-t-full xl:rounded-b-none overflow-hidden transition-all duration-500 hover:pr-14 xl:-rotate-90 xl:origin-center"
+            className="archi-sticky-contact group relative flex items-center justify-center bg-white text-black w-14 h-14 xl:w-auto xl:h-auto xl:px-10 xl:py-5 rounded-full xl:rounded-t-full xl:rounded-b-none overflow-hidden transition-all duration-500 hover:pr-14 xl:-rotate-90 xl:origin-center"
           >
-            <span className="hidden md:block text-[10px] font-bold uppercase tracking-[0.4em] relative z-10 whitespace-nowrap">
+            {/* Icon-only circle until xl (avoids the pill text overlapping
+                content at md/lg); becomes the rotated text pill in the right
+                gutter at xl where it clears all content. */}
+            <span className="hidden xl:block text-[10px] font-bold uppercase tracking-[0.4em] relative z-10 whitespace-nowrap">
               Nous contacter
             </span>
-            <Phone className="w-5 h-5 md:hidden relative z-10" />
+            <Phone className="w-5 h-5 xl:hidden relative z-10" />
             <ArrowUpRight className="w-4 h-4 absolute right-6 opacity-0 group-hover:opacity-100 translate-x-4 group-hover:translate-x-0 transition-all duration-500" />
           </a>
         </motion.div>

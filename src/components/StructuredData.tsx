@@ -5,7 +5,7 @@ const ORG_ID = `${SITE_URL}/#organization`;
 const BUSINESS_ID = `${SITE_URL}/#business`;
 const WEBSITE_ID = `${SITE_URL}/#website`;
 
-// Social profile — MUST match the live UI handle used in ArchiMadeLanding
+// Social profile - MUST match the live UI handle used in ArchiMadeLanding
 // (INSTAGRAM_URL) and the footer/aria links. TODO(CONFIRM: real live handle).
 const INSTAGRAM_URL = 'https://www.instagram.com/archi.made.studio';
 
@@ -58,7 +58,7 @@ const structuredData = {
       priceRange: '€€',
       description:
         'Accompagnement pour permis de construire, déclarations préalables, plans techniques et modélisation 3D photoréaliste.',
-      // Local base (Indre-et-Loire/Tours) + national remote reach — narrow to City/AdministrativeArea only for purely-local, or Country only for purely-national.
+      // Local base (Indre-et-Loire/Tours) + national remote reach - narrow to City/AdministrativeArea only for purely-local, or Country only for purely-national.
       areaServed: [
         { '@type': 'AdministrativeArea', name: 'Indre-et-Loire' },
         { '@type': 'City', name: 'Tours' },

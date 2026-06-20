@@ -1,4 +1,4 @@
-// GA4 — consent-gated (RGPD). Only loads when:
+// GA4 - consent-gated (RGPD). Only loads when:
 // 1. VITE_GA_ID is set at build time
 // 2. User has accepted cookies ("archimade-cookies-consent" === "accept")
 //

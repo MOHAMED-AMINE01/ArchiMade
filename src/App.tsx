@@ -5,7 +5,7 @@ import NotFound from './components/NotFound';
 
 // Router-agnostic route table. The client wraps this in <BrowserRouter> and the
 // prerender wraps it in <StaticRouter>, so the exact same tree is rendered on
-// the server (build time) and the client (hydration) — no markup divergence.
+// the server (build time) and the client (hydration) - no markup divergence.
 export default function AppRoutes() {
   return (
     <Routes>

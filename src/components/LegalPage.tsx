@@ -52,7 +52,7 @@ const content = {
     sections: [
       {
         h: "Éditeur du site",
-        p: "Le site internet ArchiMade, accessible à l’adresse www.archi-made.com, est édité par :\n\nARCHI-MADE LTD\nStatut juridique : Société commerciale étrangère immatriculée au RCS (société de droit britannique – UK Ltd)\nCapital social : 1 000 €\nSIREN : 101 715 993\nSIRET (établissement France) : 101 715 993 00024\nCode APE : 7112B — Ingénierie, études techniques\nActivité : conception de plans dans le domaine du bâtiment\nSiège social : 20 Wenlock Road, W1B 3HH London, Royaume-Uni\nÉtablissement France : 25 rue du Maréchal Ney, 37100 Tours, France\nNuméro de TVA intracommunautaire : non indiqué (à compléter si applicable)\nAdresse email : contact@archi-made.com\n\nDirecteur de la publication : Damien DE SOUSA\n\nAssurance responsabilité civile professionnelle (RCP) : assureur et n° de police à compléter.",
+        p: "Le site internet ArchiMade, accessible à l’adresse www.archi-made.com, est édité par :\n\nARCHI-MADE LTD\nStatut juridique : Société commerciale étrangère immatriculée au RCS (société de droit britannique, UK Ltd)\nCapital social : 1 000 €\nSIREN : 101 715 993\nSIRET (établissement France) : 101 715 993 00024\nCode APE : 7112B, Ingénierie, études techniques\nActivité : conception de plans dans le domaine du bâtiment\nSiège social : 20 Wenlock Road, W1B 3HH London, Royaume-Uni\nÉtablissement France : 25 rue du Maréchal Ney, 37100 Tours, France\nNuméro de TVA intracommunautaire : non indiqué (à compléter si applicable)\nAdresse email : contact@archi-made.com\n\nDirecteur de la publication : Damien DE SOUSA\n\nAssurance responsabilité civile professionnelle (RCP) : assureur et n° de police à compléter.",
       },
       {
         h: "Hébergement",
@@ -60,7 +60,7 @@ const content = {
       },
       {
         h: "Activité",
-        p: "ArchiMade accompagne ses clients dans la conception et la formalisation de leurs projets de construction, notamment à travers la réalisation de dossiers administratifs, déclarations préalables, permis de construire, plans techniques, plans d’exécution et modélisations 3D.\n\nArchiMade intervient en qualité de dessinateur / concepteur de plans dans le domaine du bâtiment (code APE 7112B — ingénierie, études techniques).\n\nLes informations présentées sur le site ont une vocation informative et commerciale. Elles ne constituent pas un engagement contractuel ferme tant qu’un devis, une proposition ou un contrat n’a pas été validé par les parties.",
+        p: "ArchiMade accompagne ses clients dans la conception et la formalisation de leurs projets de construction, notamment à travers la réalisation de dossiers administratifs, déclarations préalables, permis de construire, plans techniques, plans d’exécution et modélisations 3D.\n\nArchiMade intervient en qualité de dessinateur / concepteur de plans dans le domaine du bâtiment (code APE 7112B, ingénierie, études techniques).\n\nLes informations présentées sur le site ont une vocation informative et commerciale. Elles ne constituent pas un engagement contractuel ferme tant qu’un devis, une proposition ou un contrat n’a pas été validé par les parties.",
       },
       {
         h: "Propriété intellectuelle",
@@ -304,7 +304,7 @@ export default function LegalPage({ type }: { type: LegalType }) {
                 © {__BUILD_YEAR__} ArchiMade Studio
               </p>
               <p className="text-[9px] uppercase tracking-[0.5em] text-white/10">
-                Conception de plans & modélisation 3D — France
+                Conception de plans & modélisation 3D, France
               </p>
             </div>
           </motion.div>

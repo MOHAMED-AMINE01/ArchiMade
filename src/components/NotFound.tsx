@@ -4,7 +4,7 @@ import Seo from './Seo';
 
 // Soft-404 guard: rendered by the catch-all "*" route for any unknown path that
 // reaches the client router. Emits noindex so it is never indexed; the server
-// (Vercel) also returns a real 404 status for unknown paths — see vercel.json.
+// (Vercel) also returns a real 404 status for unknown paths - see vercel.json.
 export default function NotFound() {
     return (
         <div className="min-h-screen bg-[#050505] text-white font-display selection:bg-white selection:text-black overflow-x-hidden relative flex items-center justify-center px-6">

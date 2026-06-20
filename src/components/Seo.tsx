@@ -1,13 +1,13 @@
 import { Helmet } from "react-helmet-async";
 
 // Canonical host. apex (archi-made.com) -> www redirect must be enforced in
-// Vercel domain settings — see TODO(config) in vercel.json / report.
+// Vercel domain settings - see TODO(config) in vercel.json / report.
 export const SITE_URL = "https://www.archi-made.com";
 
 const DEFAULT_OG_IMAGE = `${SITE_URL}/og-card.png`;
 
 // TODO(config): set VITE_GSC_ID in .env with the Google Search Console verification code.
-// DNS TXT verification is an alternative — no meta tag needed in that case.
+// DNS TXT verification is an alternative - no meta tag needed in that case.
 const GSC_ID = import.meta.env.VITE_GSC_ID as string | undefined;
 
 export interface SeoProps {
