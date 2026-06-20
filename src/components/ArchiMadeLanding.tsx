@@ -2818,7 +2818,7 @@ function ArchiContact() {
           only kicks in below ~1668px (max(96px, 930px - 50vw)) so the balanced
           side-by-side composition is never restructured, just inset. */}
       <div className="max-w-7xl mx-auto px-6 md:px-16 lg:px-24 xl:pl-[max(96px,calc(930px-50vw))] w-full relative z-10">
-        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-12 lg:gap-20">
+        <div className="flex flex-col lg:flex-row justify-between items-start gap-12 lg:gap-20">
           {/* Left: Content */}
           <div className="lg:w-1/2 space-y-10">
             <div className="space-y-6">
