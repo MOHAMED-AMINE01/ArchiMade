@@ -2810,7 +2810,7 @@ function ArchiContact() {
     <footer
       ref={sectionRef}
       id="contact"
-      className="lg:sticky lg:bottom-0 relative z-10 bg-white text-[#1a1a1a] font-display overflow-hidden w-full min-h-screen py-24 lg:py-28 flex flex-col justify-center"
+      className="lg:sticky lg:bottom-0 relative z-10 bg-white text-[#1a1a1a] font-display overflow-hidden w-full min-h-screen py-16 lg:py-16 flex flex-col justify-center"
     >
       {/* CLEARANCE ONLY (composition unchanged): at xl the fixed left sidebar
           (nav ~215px / bottom logo ~260px) overlays this section. The centered
@@ -2823,12 +2823,15 @@ function ArchiContact() {
             the info|form row sits below it. The form no longer needs a manual
             top offset: being a sibling of the row (not of the heading), it
             naturally aligns to the intro paragraph at the row's top edge. */}
-        <h2 className="contact-title text-5xl md:text-7xl lg:text-8xl xl:text-[clamp(3.75rem,calc(14vw-7.5rem),6rem)] font-black uppercase tracking-tighter leading-none mb-12 lg:mb-16">
+        <h2 className="contact-title text-5xl md:text-7xl lg:text-8xl xl:text-[clamp(3.75rem,calc(14vw-7.5rem),6rem)] font-black uppercase tracking-tighter leading-none mb-8 lg:mb-10">
           CONTACT
         </h2>
-        <div className="flex flex-col lg:flex-row justify-between items-start gap-12 lg:gap-20">
-          {/* Left: contact info (intro + email/phone + zones) */}
-          <div className="lg:w-1/2 space-y-10">
+        {/* Two-column band, TOP-ALIGNED (items-start): 5:7 ratio via flex-grow
+            (flex-basis 0 + 5:7 grow splits the row, gap-aware). Info ~42%, form
+            ~58%. Stacks full-width below lg. */}
+        <div className="flex flex-col lg:flex-row items-start gap-12 lg:gap-20">
+          {/* Left: contact info (intro + email/phone + zones), 5/12 */}
+          <div className="w-full lg:flex-[5] space-y-8">
             <p className="contact-desc text-black/40 text-base md:text-lg font-light leading-relaxed max-w-md">
               Un projet de construction, une demande de permis ou des plans à
               réaliser ?<br />
@@ -2836,7 +2839,9 @@ function ArchiContact() {
               rapidement.
             </p>
 
-            <div className="flex flex-col sm:flex-row lg:flex-col xl:flex-row gap-10 lg:gap-12 pt-8 border-t border-black/5">
+            {/* email + phone: wrap (no nowrap min-width forcing) so the info
+                column honours its 5/12 flex basis; side-by-side when it fits. */}
+            <div className="flex flex-wrap gap-x-12 gap-y-6 pt-8 border-t border-black/10">
               <div className="contact-info-item space-y-2">
                 <div className="flex items-center gap-3 text-black/30">
                   <Mail className="w-4 h-4" />
@@ -2886,9 +2891,9 @@ function ArchiContact() {
             </div>
           </div>
 
-          {/* Right: Premium Card. Top-aligned (items-start) with the info
-              column's intro paragraph; no manual offset needed. */}
-          <div className="contact-form-card lg:w-125 xl:w-145 w-full">
+          {/* Right: Premium Card, 7/12, top-aligned with the info column's
+              intro paragraph (one shared top line). */}
+          <div className="contact-form-card w-full lg:flex-[7]">
             <div className="bg-brand-dark p-8 md:p-12 lg:p-14 rounded-2xl border border-black/5 shadow-2xl relative overflow-hidden text-white">
               <h3 className="text-xl font-bold uppercase tracking-tight mb-8">
                 Nous contacter
@@ -2985,22 +2990,30 @@ function ArchiContact() {
           </div>
         </div>
 
-        {/* Footer Bottom */}
-        <div className="contact-footer-bar mt-12 md:mt-16 lg:mt-24 pt-8 md:pt-10 border-t border-black/5 flex flex-col md:flex-row justify-between items-center opacity-30 text-[9px] uppercase tracking-[0.2em] font-bold">
-          <p>© {__BUILD_YEAR__} ArchiMade Studio, France</p>
-          <div className="flex gap-8 mt-4 md:mt-0">
+        {/* FOOTER band (same grid): hairline divider, then copyright (left) +
+            legal links (right), baseline-aligned, muted with hover. Gap band->
+            footer tuned to fit one viewport above the cookie overlay. */}
+        <div className="contact-footer-bar mt-8 lg:mt-10 pt-8 border-t border-black/10 flex flex-col gap-4 md:flex-row md:gap-0 justify-between items-center text-[9px] uppercase tracking-[0.2em] font-bold text-black/40">
+          <p>© {__BUILD_YEAR__} ArchiMade Studio · France</p>
+          <div className="flex items-center gap-3">
             <Link
               to="/mentions-legales"
               className="hover:text-black transition-colors uppercase"
             >
               Mentions légales
             </Link>
+            <span aria-hidden="true" className="text-black/20">
+              ·
+            </span>
             <Link
               to="/confidentialite"
               className="hover:text-black transition-colors uppercase"
             >
               Confidentialité
             </Link>
+            <span aria-hidden="true" className="text-black/20">
+              ·
+            </span>
             <Link
               to="/cookies"
               className="hover:text-black transition-colors uppercase"
