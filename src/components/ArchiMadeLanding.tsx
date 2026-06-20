@@ -2885,8 +2885,11 @@ function ArchiContact() {
             </div>
           </div>
 
-          {/* Right: Premium Card */}
-          <div className="contact-form-card lg:w-125 xl:w-145 w-full">
+          {/* Right: Premium Card. Top-offset only (row stays items-start) so the
+              card top drops to the intro-paragraph line, just below the CONTACT
+              heading. Offset = heading height + the space-y-6 gap (1.5rem); it
+              tracks the heading's responsive size (8xl at lg, clamp at xl). */}
+          <div className="contact-form-card lg:w-125 xl:w-145 w-full lg:mt-[7.5rem] xl:mt-[calc(clamp(3.75rem,calc(14vw-7.5rem),6rem)+1.5rem)]">
             <div className="bg-brand-dark p-8 md:p-12 lg:p-14 rounded-2xl border border-black/5 shadow-2xl relative overflow-hidden text-white">
               <h3 className="text-xl font-bold uppercase tracking-tight mb-8">
                 Nous contacter
