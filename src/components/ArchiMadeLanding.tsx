@@ -836,7 +836,10 @@ function ArchiMenuOverlay({
 
       {/* Background decoration */}
       <div className="absolute bottom-[-10vw] right-[-10vw] w-[60vw] h-[60vw] border border-white/5 rounded-full pointer-events-none"></div>
-      <div className="absolute inset-0 z-[-1] flex items-center justify-center opacity-5 select-none pointer-events-none">
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 z-[-1] flex items-center justify-center opacity-5 select-none pointer-events-none"
+      >
         <h2 className="text-[25vw] font-bold uppercase tracking-tighter leading-none italic">
           ARCHIMADE
         </h2>
@@ -2510,6 +2513,14 @@ function ArchiFAQ() {
       a: "Jusqu'à 150 m² de surface de plancher, vous pouvez confier la conception de vos plans et le dépôt de votre permis de construire à un dessinateur en bâtiment. ArchiMade conçoit votre dossier et le dépose en mairie.",
     },
     {
+      // Disclaiming capture of the "architecte" query. "architecte" is allowed
+      // here ONLY because the answer NEGATES the need for one (n'impose pas) and
+      // never self-designates ArchiMade as an architecte. seo-check enforces this
+      // scoped exception (negation-only, answer-only; banned in title/H/meta/JSON-LD).
+      q: "Ai-je besoin d'un architecte pour mon projet ?",
+      a: "Non : en-dessous de 150 m² de surface de plancher, la loi n'impose pas le recours à un architecte. ArchiMade, dessinateur en bâtiment, conçoit vos plans et dépose votre dossier de permis de construire.",
+    },
+    {
       q: "Déclaration préalable ou permis de construire : quelle différence ?",
       a: "La déclaration préalable couvre les petits travaux et extensions (jusqu'à 20 à 40 m² selon les cas, ravalements, clôtures, changements de façade). Le permis de construire est requis pour les constructions neuves et les extensions plus importantes. ArchiMade détermine le dossier adapté à votre projet.",
     },
@@ -2575,41 +2586,52 @@ function ArchiFAQ() {
           </h3>
         </div>
         <div className="space-y-1">
-          {faqs.map((faq, i) => (
-            <div key={i} className="faq-item border-b border-black/5">
-              <button
-                onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                className="w-full py-6 flex justify-between items-center text-left group"
-              >
-                <span className="text-sm md:text-base font-bold uppercase tracking-tight group-hover:pl-2 transition-all duration-300">
-                  {faq.q}
-                </span>
-                <div
-                  className={cn(
-                    "w-4 h-4 flex items-center justify-center transition-transform duration-500",
-                    openFaq === i ? "rotate-180" : "rotate-0",
-                  )}
+          {faqs.map((faq, i) => {
+            const open = openFaq === i;
+            const answerId = `faq-answer-${i}`;
+            return (
+              <div key={i} className="faq-item border-b border-black/5">
+                <button
+                  onClick={() => setOpenFaq(open ? null : i)}
+                  aria-expanded={open}
+                  aria-controls={answerId}
+                  className="w-full py-6 flex justify-between items-center text-left group"
                 >
-                  <ChevronDown className="w-3 h-3 text-black/20" />
-                </div>
-              </button>
-              <AnimatePresence>
-                {openFaq === i && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: "auto", opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                    className="overflow-hidden"
+                  <span className="text-sm md:text-base font-bold uppercase tracking-tight group-hover:pl-2 transition-all duration-300">
+                    {faq.q}
+                  </span>
+                  <div
+                    className={cn(
+                      "w-4 h-4 flex items-center justify-center transition-transform duration-500",
+                      open ? "rotate-180" : "rotate-0",
+                    )}
                   >
-                    <p className="pb-6 text-sm text-black/50 leading-relaxed font-light italic">
-                      {faq.a}
-                    </p>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-          ))}
+                    <ChevronDown className="w-3 h-3 text-black/20" />
+                  </div>
+                </button>
+                {/* Answer is ALWAYS mounted (crawlable in raw HTML); framer-motion
+                    animates height/opacity on the persistent node. Collapsed =
+                    aria-hidden + inert + not focusable; expand looks identical. */}
+                <motion.div
+                  id={answerId}
+                  initial={false}
+                  animate={open ? "open" : "closed"}
+                  variants={{
+                    open: { height: "auto", opacity: 1 },
+                    closed: { height: 0, opacity: 0 },
+                  }}
+                  transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                  className="overflow-hidden"
+                  aria-hidden={!open}
+                  inert={!open}
+                >
+                  <p className="pb-6 text-sm text-black/50 leading-relaxed font-light italic">
+                    {faq.a}
+                  </p>
+                </motion.div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>

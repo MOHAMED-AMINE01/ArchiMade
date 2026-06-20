@@ -53,6 +53,62 @@ const home = read("dist/index.html") || "";
 /aggregateRating|"review"\s*:/.test(home)
   ? no("self aggregateRating/review")
   : ok("no self aggregateRating");
+
+// ── "architecte/architecture" usurpation-de-titre guard (scoped) ──────────────
+// "architecture" = 0 anywhere (hard). "architecte" is permitted ONLY inside a
+// disclaiming FAQ answer whose sentence NEGATES the need for one — never as a
+// self-designation in title/og:title/twitter:title/meta description/H1-H2/JSON-LD.
+{
+  const allHtml = Object.values(ROUTES)
+    .map((f) => read(f) || "")
+    .join("\n");
+  // 1) "architecture" total across dist = 0
+  const archTotal = (allHtml.match(/architecture/gi) || []).length;
+  archTotal === 0
+    ? ok('no "architecture" in dist (0)')
+    : no(`"architecture" present ${archTotal}x (must be 0)`);
+
+  // 2) "architecte" must NOT appear in head/heading/JSON-LD (self-designation)
+  const grab = (re) => ((home.match(re) || [])[1] || "");
+  const selfFields = [
+    grab(/<title[^>]*>([\s\S]*?)<\/title>/i),
+    grab(/<meta[^>]+property="og:title"[^>]+content="([^"]*)"/i),
+    grab(/<meta[^>]+name="twitter:title"[^>]+content="([^"]*)"/i),
+    grab(/<meta[^>]+name="description"[^>]+content="([^"]*)"/i),
+    ...(home.match(/<h1[^>]*>[\s\S]*?<\/h1>/gi) || []),
+    ...(home.match(/<h2[^>]*>[\s\S]*?<\/h2>/gi) || []),
+    ...(home.match(/<script[^>]+application\/ld\+json[^>]*>([\s\S]*?)<\/script>/gi) || []),
+  ].join("\n");
+  /architecte/i.test(selfFields)
+    ? no('"architecte" in title/og/twitter/desc/H1-H2/JSON-LD (self-designation)')
+    : ok('no "architecte" self-designation (head/H/JSON-LD)');
+
+  // 3) Every "architecte" occurrence must sit in the disclaiming FAQ exchange:
+  //    its sentence — or the next, since the captured question is bound to its
+  //    negating answer — must contain a negation cue. Run on tag-stripped text.
+  const NEG = /(n['’]impose pas|pas besoin|sans recours|sans architecte|\bnon\b|n['’]est pas|pas obligatoire|pas nécessaire)/i;
+  const plain = (h) =>
+    h
+      .replace(/<script[\s\S]*?<\/script>/gi, " ")
+      .replace(/<style[\s\S]*?<\/style>/gi, " ")
+      .replace(/<[^>]+>/g, " ")
+      .replace(/&amp;/g, "&")
+      .replace(/&[a-z]+;/gi, " ")
+      .replace(/\s+/g, " ");
+  let badArchitecte = 0;
+  for (const f of Object.values(ROUTES)) {
+    const txt = plain(read(f) || "");
+    const sentences = txt.split(/(?<=[.!?])\s+/);
+    sentences.forEach((s, idx) => {
+      if (!/architecte/i.test(s)) return;
+      const ctx = s + " " + (sentences[idx + 1] || "");
+      if (!NEG.test(ctx)) badArchitecte++;
+    });
+  }
+  badArchitecte === 0
+    ? ok('"architecte" only in disclaiming (negation-bound) FAQ context')
+    : no(`${badArchitecte} non-disclaiming "architecte" occurrence(s)`);
+}
 console.log("\n== IMAGES & CWV (P3+) ==");
 const src = walk("src").filter((f) => /\.(t|j)sx?$/.test(f));
 let unsized = 0;
