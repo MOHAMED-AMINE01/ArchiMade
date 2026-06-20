@@ -2810,7 +2810,7 @@ function ArchiContact() {
     <footer
       ref={sectionRef}
       id="contact"
-      className="lg:sticky lg:bottom-0 relative z-10 bg-white text-[#1a1a1a] font-display overflow-hidden w-full min-h-screen py-16 lg:py-16 flex flex-col justify-center"
+      className="relative z-10 bg-white text-[#1a1a1a] font-display overflow-hidden w-full min-h-[100svh] flex flex-col justify-center pt-[clamp(2rem,5vh,5rem)] pb-44 lg:pb-[clamp(6rem,11vh,8rem)]"
     >
       {/* CLEARANCE ONLY (composition unchanged): at xl the fixed left sidebar
           (nav ~215px / bottom logo ~260px) overlays this section. The centered
@@ -2823,16 +2823,33 @@ function ArchiContact() {
             the info|form row sits below it. The form no longer needs a manual
             top offset: being a sibling of the row (not of the heading), it
             naturally aligns to the intro paragraph at the row's top edge. */}
-        <h2 className="contact-title text-5xl md:text-7xl lg:text-8xl xl:text-[clamp(3.75rem,calc(14vw-7.5rem),6rem)] font-black uppercase tracking-tighter leading-none mb-8 lg:mb-10">
+        {/* Height-aware: big on tall screens, compact on short laptops; floor
+            2.25rem keeps it legible (>=36px). */}
+        <h2 className="contact-title text-[clamp(2.25rem,min(8vw,10vh),6rem)] font-black uppercase tracking-tighter leading-none mb-[clamp(0.75rem,2.5vh,3rem)]">
           CONTACT
         </h2>
-        {/* Two-column band, TOP-ALIGNED (items-start): 5:7 ratio via flex-grow
-            (flex-basis 0 + 5:7 grow splits the row, gap-aware). Info ~42%, form
-            ~58%. Stacks full-width below lg. */}
-        <div className="flex flex-col lg:flex-row items-start gap-12 lg:gap-20">
-          {/* Left: contact info (intro + email/phone + zones), 5/12 */}
-          <div className="w-full lg:flex-[5] space-y-8">
-            <p className="contact-desc text-black/40 text-base md:text-lg font-light leading-relaxed max-w-md">
+        {/* Two-column band: 5:7 ratio via flex-grow (flex-basis 0 + 5:7 grow
+            splits the row, gap-aware). Info ~42%, form ~58%. Below lg the band
+            stacks full-width and top-aligns; at lg+ the row is items-stretch so
+            the LEFT info column takes the FULL band height (== the form card,
+            the taller column) and its three blocks distribute down that height
+            (justify-between) instead of clustering at the top with dead space
+            below. HARD CAP: the left intrinsic content stays shorter than the
+            form, so the form keeps setting the row height; stretch only fills
+            the gap and never pushes the band (and footer) taller. */}
+        <div className="flex flex-col lg:flex-row items-start lg:items-stretch gap-12 lg:gap-20">
+          {/* Left: contact info (intro + email/phone + zones), 5/12. At lg+ the
+              row is items-stretch so this column takes the FULL band height (==
+              the form card). flex-col + justify-between spreads the three blocks
+              down that height to KILL the dead space, instead of clustering at
+              the top. The min gap is small so the column's INTRINSIC height
+              stays <= the form's: the form keeps driving the band height, so
+              the band (and footer) never grow. Font floors == the prior values
+              (so short screens, where the footer sits a few px above the cookie
+              bar, are unchanged); only the vh-slope + caps lift, enlarging the
+              copy on taller screens where the form leaves headroom. */}
+          <div className="w-full lg:flex-[5] flex flex-col justify-between gap-[clamp(0.5rem,2vh,1.5rem)]">
+            <p className="contact-desc text-black/40 text-[clamp(0.8rem,1.95vh,1.375rem)] font-light leading-relaxed max-w-md">
               Un projet de construction, une demande de permis ou des plans à
               réaliser ?<br />
               Présentez votre besoin via le formulaire, ArchiMade vous répond
@@ -2841,7 +2858,7 @@ function ArchiContact() {
 
             {/* email + phone: wrap (no nowrap min-width forcing) so the info
                 column honours its 5/12 flex basis; side-by-side when it fits. */}
-            <div className="flex flex-wrap gap-x-12 gap-y-6 pt-8 border-t border-black/10">
+            <div className="flex flex-wrap gap-x-12 gap-y-6 pt-[clamp(0.75rem,2.5vh,2rem)] border-t border-black/10">
               <div className="contact-info-item space-y-2">
                 <div className="flex items-center gap-3 text-black/30">
                   <Mail className="w-4 h-4" />
@@ -2851,7 +2868,7 @@ function ArchiContact() {
                 </div>
                 <a
                   href="mailto:contact@archi-made.com"
-                  className="text-lg font-bold hover:opacity-50 transition-opacity whitespace-nowrap"
+                  className="text-[clamp(0.9rem,1.95vh,1.3rem)] font-bold hover:opacity-50 transition-opacity whitespace-nowrap"
                 >
                   contact@archi-made.com
                 </a>
@@ -2865,7 +2882,7 @@ function ArchiContact() {
                 </div>
                 <a
                   href="tel:+33624896695"
-                  className="text-lg font-bold hover:opacity-50 transition-opacity whitespace-nowrap"
+                  className="text-[clamp(0.9rem,1.95vh,1.3rem)] font-bold hover:opacity-50 transition-opacity whitespace-nowrap"
                 >
                   +33 6 24 89 66 95
                 </a>
@@ -2874,13 +2891,13 @@ function ArchiContact() {
 
             {/* Zones d'intervention - crawlable local-SEO geo block.
                 City-level only here; full street address stays in legal pages. */}
-            <div className="contact-info-item space-y-3 pt-8 border-t border-black/5">
+            <div className="contact-info-item space-y-3 pt-[clamp(0.75rem,2.5vh,2rem)] border-t border-black/5">
               <div className="flex items-center gap-3 text-black/30">
                 <span className="text-[9px] uppercase tracking-widest font-bold">
                   Zones d'intervention
                 </span>
               </div>
-              <p className="text-sm text-black/50 font-light leading-relaxed max-w-md">
+              <p className="text-[clamp(0.72rem,1.6vh,1rem)] text-black/50 font-light leading-relaxed max-w-md">
                 Basé à{" "}
                 <strong className="text-black/70 font-bold">Tours (37)</strong>,
                 interventions en Indre-et-Loire : Saint-Cyr-sur-Loire,
@@ -2894,11 +2911,14 @@ function ArchiContact() {
           {/* Right: Premium Card, 7/12, top-aligned with the info column's
               intro paragraph (one shared top line). */}
           <div className="contact-form-card w-full lg:flex-[7]">
-            <div className="bg-brand-dark p-8 md:p-12 lg:p-14 rounded-2xl border border-black/5 shadow-2xl relative overflow-hidden text-white">
-              <h3 className="text-xl font-bold uppercase tracking-tight mb-8">
+            {/* Compact + height-aware: padding/field-gaps/control-heights scale
+                with viewport height (vh) with usable floors, so the whole card
+                shrinks on short laptops and breathes on tall screens. */}
+            <div className="bg-brand-dark p-[clamp(1rem,3vh,2rem)] rounded-2xl border border-black/5 shadow-2xl relative overflow-hidden text-white">
+              <h3 className="text-xl font-bold uppercase tracking-tight mb-[clamp(0.5rem,2vh,1.5rem)]">
                 Nous contacter
               </h3>
-              <form className="space-y-6 md:space-y-8" onSubmit={handleSubmit}>
+              <form className="space-y-[clamp(0.5rem,2vh,1.25rem)]" onSubmit={handleSubmit}>
                 {/* Honeypot - hidden from real users, filled by bots */}
                 <input
                   type="text"
@@ -2926,7 +2946,7 @@ function ArchiContact() {
                     onChange={(e) =>
                       setFormData((prev) => ({ ...prev, name: e.target.value }))
                     }
-                    className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-4 text-sm focus:border-white/30 outline-none transition-all placeholder:text-white/15 text-white"
+                    className="w-full bg-white/5 border border-white/10 rounded-lg px-4 h-[clamp(38px,5vh,52px)] text-sm focus:border-white/30 outline-none transition-all placeholder:text-white/15 text-white"
                     placeholder="Votre nom"
                   />
                 </div>
@@ -2944,7 +2964,7 @@ function ArchiContact() {
                         email: e.target.value,
                       }))
                     }
-                    className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-4 text-sm focus:border-white/30 outline-none transition-all placeholder:text-white/15 text-white"
+                    className="w-full bg-white/5 border border-white/10 rounded-lg px-4 h-[clamp(38px,5vh,52px)] text-sm focus:border-white/30 outline-none transition-all placeholder:text-white/15 text-white"
                     placeholder="votreemail@exemple.com"
                   />
                 </div>
@@ -2953,7 +2973,6 @@ function ArchiContact() {
                     Message
                   </label>
                   <textarea
-                    rows={3}
                     required
                     value={formData.message}
                     onChange={(e) =>
@@ -2962,7 +2981,7 @@ function ArchiContact() {
                         message: e.target.value,
                       }))
                     }
-                    className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-4 text-sm focus:border-white/30 outline-none transition-all resize-none placeholder:text-white/15 text-white"
+                    className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 h-[clamp(56px,10vh,128px)] text-sm focus:border-white/30 outline-none transition-all resize-none placeholder:text-white/15 text-white"
                     placeholder="Parlez-nous de votre projet..."
                   />
                 </div>
@@ -2973,7 +2992,7 @@ function ArchiContact() {
                   type="submit"
                   disabled={status === "sending" || status === "success"}
                   className={cn(
-                    "w-full py-5 text-[10px] font-black uppercase tracking-[0.4em] rounded-lg transition-all duration-300 transform hover:-translate-y-1",
+                    "w-full h-[clamp(42px,6vh,56px)] text-[10px] font-black uppercase tracking-[0.4em] rounded-lg transition-all duration-300 transform hover:-translate-y-1",
                     status === "success"
                       ? "bg-emerald-500 text-white"
                       : status === "error"
@@ -2993,7 +3012,7 @@ function ArchiContact() {
         {/* FOOTER band (same grid): hairline divider, then copyright (left) +
             legal links (right), baseline-aligned, muted with hover. Gap band->
             footer tuned to fit one viewport above the cookie overlay. */}
-        <div className="contact-footer-bar mt-8 lg:mt-10 pt-8 border-t border-black/10 flex flex-col gap-4 md:flex-row md:gap-0 justify-between items-center text-[9px] uppercase tracking-[0.2em] font-bold text-black/40">
+        <div className="contact-footer-bar mt-[clamp(0.75rem,2.5vh,3rem)] pt-[clamp(0.75rem,2.5vh,2rem)] border-t border-black/10 flex flex-col gap-4 md:flex-row md:gap-0 justify-between items-center text-[9px] uppercase tracking-[0.2em] font-bold text-black/40">
           <p>© {__BUILD_YEAR__} ArchiMade Studio · France</p>
           <div className="flex items-center gap-3">
             <Link
