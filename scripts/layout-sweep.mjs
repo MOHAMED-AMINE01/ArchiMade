@@ -17,7 +17,11 @@ const ALL_ROUTES = readdirSync("dist")
   .map((f) => (f === "index.html" ? "/" : "/" + f.replace(/\.html$/, "")))
   .sort((a, b) => (a === "/" ? -1 : b === "/" ? 1 : a.localeCompare(b)));
 
-const LEGAL_ROUTES = new Set(["/mentions-legales", "/confidentialite", "/cookies"]);
+const LEGAL_ROUTES = new Set([
+  "/mentions-legales",
+  "/confidentialite",
+  "/cookies",
+]);
 
 function pickDefaultRoutes(all) {
   const keep = new Set(["/"]);
@@ -32,8 +36,8 @@ const ROUTES = FULL ? ALL_ROUTES : pickDefaultRoutes(ALL_ROUTES);
 
 const WIDTHS_DEFAULT = [1920, 1280, 1024, 768, 390, 360];
 const WIDTHS_FULL = [
-  1920, 1536, 1535, 1440, 1366, 1280, 1279, 1024, 1023, 834, 768, 767, 540,
-  430, 414, 390, 375, 360,
+  1920, 1536, 1535, 1440, 1366, 1280, 1279, 1024, 1023, 834, 768, 767, 540, 430,
+  414, 390, 375, 360,
 ];
 const WIDTHS = FULL ? WIDTHS_FULL : WIDTHS_DEFAULT;
 
@@ -46,7 +50,18 @@ const SCAN_FN = function scan() {
   const W = window.innerWidth,
     H = window.innerHeight;
   const TEXT_TAGS = new Set([
-    "H1", "H2", "H3", "H4", "H5", "H6", "P", "SPAN", "A", "BUTTON", "LI", "LABEL",
+    "H1",
+    "H2",
+    "H3",
+    "H4",
+    "H5",
+    "H6",
+    "P",
+    "SPAN",
+    "A",
+    "BUTTON",
+    "LI",
+    "LABEL",
   ]);
   const defects = [];
   const sel = (el) => {
@@ -104,8 +119,14 @@ const SCAN_FN = function scan() {
       (n) => getComputedStyle(n).backfaceVisibility === "hidden",
     );
     if (!bf) return false;
-    const cx = Math.min(W - 1, Math.max(1, (Math.max(0, r.left) + Math.min(W, r.right)) / 2));
-    const cy = Math.min(H - 1, Math.max(1, (Math.max(0, r.top) + Math.min(H, r.bottom)) / 2));
+    const cx = Math.min(
+      W - 1,
+      Math.max(1, (Math.max(0, r.left) + Math.min(W, r.right)) / 2),
+    );
+    const cy = Math.min(
+      H - 1,
+      Math.max(1, (Math.max(0, r.top) + Math.min(H, r.bottom)) / 2),
+    );
     const hit = document.elementFromPoint(cx, cy);
     return !(hit === el || el.contains(hit) || (hit && hit.contains(el)));
   };
@@ -145,7 +166,9 @@ const SCAN_FN = function scan() {
     if (eo < 0.5) continue;
     if (colorAlpha(el) < 0.5) continue;
     if (isBackfaceAway(el, r)) continue;
-    const ink = inkRects(el).filter((q) => q.bottom > 0 && q.top < H && q.right > 0 && q.left < W);
+    const ink = inkRects(el).filter(
+      (q) => q.bottom > 0 && q.top < H && q.right > 0 && q.left < W,
+    );
     if (!ink.length) continue;
     leaves.push({ el, r, eo, ink });
   }
@@ -157,15 +180,26 @@ const SCAN_FN = function scan() {
       const r = el.getBoundingClientRect();
       if (r.width < 1 || r.height < 1) continue;
       if (r.right > W + 1 || r.left < -1)
-        culprits.push({ s: sel(el), right: Math.round(r.right), left: Math.round(r.left), t: txt(el).slice(0, 40) });
+        culprits.push({
+          s: sel(el),
+          right: Math.round(r.right),
+          left: Math.round(r.left),
+          t: txt(el).slice(0, 40),
+        });
     }
     culprits.sort((a, b) => b.right - a.right);
-    defects.push({ type: "OVERFLOW_X", scrollWidth: document.documentElement.scrollWidth, innerWidth: W, culprits: culprits.slice(0, 6) });
+    defects.push({
+      type: "OVERFLOW_X",
+      scrollWidth: document.documentElement.scrollWidth,
+      innerWidth: W,
+      culprits: culprits.slice(0, 6),
+    });
   }
 
   for (let i = 0; i < leaves.length; i++) {
     for (let j = i + 1; j < leaves.length; j++) {
-      const A = leaves[i], B = leaves[j];
+      const A = leaves[i],
+        B = leaves[j];
       if (A.el.contains(B.el) || B.el.contains(A.el)) continue;
       if (inWhitelist(A.el) || inWhitelist(B.el)) continue;
       if (isRotatingStack(A.el) || isRotatingStack(B.el)) continue;
@@ -173,8 +207,14 @@ const SCAN_FN = function scan() {
       let worst = 0;
       for (const ra of A.ink) {
         for (const rb of B.ink) {
-          const ox = Math.max(0, Math.min(ra.right, rb.right) - Math.max(ra.left, rb.left));
-          const oy = Math.max(0, Math.min(ra.bottom, rb.bottom) - Math.max(ra.top, rb.top));
+          const ox = Math.max(
+            0,
+            Math.min(ra.right, rb.right) - Math.max(ra.left, rb.left),
+          );
+          const oy = Math.max(
+            0,
+            Math.min(ra.bottom, rb.bottom) - Math.max(ra.top, rb.top),
+          );
           if (ox > 3 && oy > 3) worst = Math.max(worst, ox * oy);
         }
       }
@@ -200,7 +240,13 @@ const SCAN_FN = function scan() {
     if (clippedX || clippedY) {
       if (/\b(sentence|outer|inner|archi-title-reveal)\b/.test(c)) continue;
       const intended = /\btruncate\b|text-ellipsis|line-clamp/.test(c);
-      defects.push({ type: intended ? "TRUNCATE_MINOR" : "CLIP", s: sel(el), t: txt(el).slice(0, 40), scrollW: el.scrollWidth, clientW: el.clientWidth });
+      defects.push({
+        type: intended ? "TRUNCATE_MINOR" : "CLIP",
+        s: sel(el),
+        t: txt(el).slice(0, 40),
+        scrollW: el.scrollWidth,
+        clientW: el.clientWidth,
+      });
     }
   }
 
@@ -210,7 +256,13 @@ const SCAN_FN = function scan() {
       const r = el.getBoundingClientRect();
       if (r.bottom <= 0 || r.top >= H) continue;
       if (r.width > 0 && r.height > 0 && (r.width < 40 || r.height < 40))
-        defects.push({ type: "TAP_MINOR", s: sel(el), w: Math.round(r.width), h: Math.round(r.height), t: txt(el).slice(0, 24) });
+        defects.push({
+          type: "TAP_MINOR",
+          s: sel(el),
+          w: Math.round(r.width),
+          h: Math.round(r.height),
+          t: txt(el).slice(0, 24),
+        });
     }
   }
   return defects;
@@ -221,28 +273,37 @@ async function settle(page, ms = 220) {
 }
 
 async function waitHeroSettle(page) {
-  await page.waitForSelector(".archi-preloader", { state: "detached", timeout: 9000 }).catch(() => {});
   await page
-    .waitForFunction(() => {
-      const h1 = document.querySelector("h1");
-      if (!h1) return false;
-      return parseFloat(getComputedStyle(h1).opacity) >= 0.95;
-    }, { timeout: 3000 })
+    .waitForSelector(".archi-preloader", { state: "detached", timeout: 9000 })
+    .catch(() => {});
+  await page
+    .waitForFunction(
+      () => {
+        const h1 = document.querySelector("h1");
+        if (!h1) return false;
+        return parseFloat(getComputedStyle(h1).opacity) >= 0.95;
+      },
+      { timeout: 3000 },
+    )
     .catch(() => {});
   await settle(page, FULL ? 800 : 300);
 }
 
 async function waitSectionSettle(page, sectionId) {
   await page
-    .waitForFunction((id) => {
-      const el = document.getElementById(id);
-      if (!el) return true;
-      for (const t of el.querySelectorAll("h1,h2,h3,h4,p,span,a,button,li")) {
-        const op = parseFloat(getComputedStyle(t).opacity);
-        if (op > 0.05 && op < 0.85) return false;
-      }
-      return true;
-    }, sectionId, { timeout: FULL ? 1800 : 800 })
+    .waitForFunction(
+      (id) => {
+        const el = document.getElementById(id);
+        if (!el) return true;
+        for (const t of el.querySelectorAll("h1,h2,h3,h4,p,span,a,button,li")) {
+          const op = parseFloat(getComputedStyle(t).opacity);
+          if (op > 0.05 && op < 0.85) return false;
+        }
+        return true;
+      },
+      sectionId,
+      { timeout: FULL ? 1800 : 800 },
+    )
     .catch(() => {});
   await settle(page, FULL ? 800 : 400);
 }
@@ -280,11 +341,22 @@ async function runHomeStates(page, ledger, route, w, mobile) {
   await scanState(page, ledger, route, w, "tagline-longest");
 
   const sectionIds = FULL
-    ? ["propos", "methodes", "expertise", "expertise-content", "realisations", "values", "faq", "contact"]
+    ? [
+        "propos",
+        "methodes",
+        "expertise",
+        "expertise-content",
+        "realisations",
+        "values",
+        "faq",
+        "contact",
+      ]
     : ["contact"];
 
   const ids = await page.evaluate(() =>
-    [...document.querySelectorAll("section[id], div[id]")].map((e) => e.id).filter(Boolean),
+    [...document.querySelectorAll("section[id], div[id]")]
+      .map((e) => e.id)
+      .filter(Boolean),
   );
   const targetIds = sectionIds.filter((id) => ids.includes(id));
 
@@ -324,7 +396,9 @@ async function runHomeStates(page, ledger, route, w, mobile) {
       await settle(page, FULL ? 380 : 280);
       await scanState(page, ledger, route, w, "service-expand:" + s);
       await page.evaluate(() => {
-        const b = document.querySelector('#expertise-content [aria-label*="ermer"], #expertise-content [aria-label*="lose"]');
+        const b = document.querySelector(
+          '#expertise-content [aria-label*="ermer"], #expertise-content [aria-label*="lose"]',
+        );
         if (b) b.click();
       });
       await settle(page, FULL ? 380 : 200);
@@ -344,13 +418,17 @@ async function runHomeStates(page, ledger, route, w, mobile) {
   await settle(page);
   for (let f = 0; f < faqCount; f++) {
     await page.evaluate((idx) => {
-      const b = document.getElementById("faq").querySelectorAll(".faq-item button");
+      const b = document
+        .getElementById("faq")
+        .querySelectorAll(".faq-item button");
       if (b[idx]) b[idx].click();
     }, f);
     await settle(page, FULL ? 280 : 220);
     await scanState(page, ledger, route, w, "faq-expand:" + f);
     await page.evaluate((idx) => {
-      const b = document.getElementById("faq").querySelectorAll(".faq-item button");
+      const b = document
+        .getElementById("faq")
+        .querySelectorAll(".faq-item button");
       if (b[idx]) b[idx].click();
     }, f);
     await settle(page, 200);
@@ -360,7 +438,9 @@ async function runHomeStates(page, ledger, route, w, mobile) {
     const real = document.getElementById("realisations");
     if (!real) return false;
     window.scrollTo(0, real.getBoundingClientRect().top + window.scrollY);
-    const card = real.querySelector("button, [role=button], a, .cursor-pointer, [class*='cursor']");
+    const card = real.querySelector(
+      "button, [role=button], a, .cursor-pointer, [class*='cursor']",
+    );
     if (card) {
       card.click();
       return true;
@@ -375,7 +455,9 @@ async function runHomeStates(page, ledger, route, w, mobile) {
   }
 
   await page.evaluate(() => {
-    const b = [...document.querySelectorAll("button")].find((x) => /accepter/i.test(x.textContent || ""));
+    const b = [...document.querySelectorAll("button")].find((x) =>
+      /accepter/i.test(x.textContent || ""),
+    );
     if (b) b.click();
   });
   await settle(page, 300);
@@ -383,7 +465,9 @@ async function runHomeStates(page, ledger, route, w, mobile) {
 
   if (mobile) {
     const navOpened = await page.evaluate(() => {
-      const b = document.querySelector('header button, [aria-label*="enu"], [aria-label*="Menu"]');
+      const b = document.querySelector(
+        'header button, [aria-label*="enu"], [aria-label*="Menu"]',
+      );
       if (b) {
         b.click();
         return true;
@@ -400,7 +484,9 @@ async function runHomeStates(page, ledger, route, w, mobile) {
 }
 
 const totalCells = ROUTES.length * WIDTHS.length;
-console.log(`layout-sweep mode=${FULL ? "full" : "default"} routes=${ROUTES.length} widths=${WIDTHS.length} cells=${totalCells}`);
+console.log(
+  `layout-sweep mode=${FULL ? "full" : "default"} routes=${ROUTES.length} widths=${WIDTHS.length} cells=${totalCells}`,
+);
 
 const browser = await chromium.launch();
 const ledger = [];
@@ -461,7 +547,8 @@ const byType = {};
 for (const x of ledger) byType[x.d.type] = (byType[x.d.type] || 0) + 1;
 console.log("by type:", JSON.stringify(byType));
 console.log("\n--- REAL DEFECTS ---");
-for (const x of real) console.log(JSON.stringify({ r: x.route, w: x.w, s: x.state, ...x.d }));
+for (const x of real)
+  console.log(JSON.stringify({ r: x.route, w: x.w, s: x.state, ...x.d }));
 console.log("\n--- MINOR unique selectors ---");
 const seen = new Set();
 for (const x of minor) {

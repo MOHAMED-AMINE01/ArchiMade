@@ -11,3 +11,4 @@ coverage/
 *-audit-report.md
 deploy-runbook.md
 .vercel
+docs/reports/
