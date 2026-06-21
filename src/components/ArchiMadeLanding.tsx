@@ -496,11 +496,14 @@ function ArchiPreloader({ onComplete }: { onComplete: () => void }) {
 
     const tl = gsap.timeline({
       onComplete: () => {
+        // Reveal the hero quickly so it paints well under the 2.5s mobile LCP
+        // budget. The intro choreography above runs at full character; only this
+        // final dissolve was long (was 1.5s) and now clears the overlay fast.
         gsap.to(containerRef.current, {
           opacity: 0,
-          filter: "blur(40px)",
-          duration: 1.5,
-          ease: "power4.inOut",
+          filter: "blur(30px)",
+          duration: 0.4,
+          ease: "power3.inOut",
           onComplete: () => {
             if (typeof performance !== "undefined") {
               performance.mark("preloader_done");
@@ -527,7 +530,7 @@ function ArchiPreloader({ onComplete }: { onComplete: () => void }) {
       opacity: 1,
       scale: 1,
       filter: "blur(0px)",
-      duration: 1.5,
+      duration: 0.6,
       ease: "expo.out",
     });
 
@@ -536,7 +539,7 @@ function ArchiPreloader({ onComplete }: { onComplete: () => void }) {
       { val: 0 },
       {
         val: 100,
-        duration: 3.5,
+        duration: 1.3,
         ease: "power2.inOut",
         onUpdate: function () {
           setProgress(Math.floor(this.targets()[0].val));
@@ -549,7 +552,7 @@ function ArchiPreloader({ onComplete }: { onComplete: () => void }) {
     chars.forEach((char, i) => {
       const charTl = gsap.timeline();
 
-      tl.add(charTl, 0.8 + i * 0.06); // Start after logo
+      tl.add(charTl, 0.25 + i * 0.018); // Start after logo (compressed for LCP)
 
       charTl
         .to(char, {
@@ -557,28 +560,28 @@ function ArchiPreloader({ onComplete }: { onComplete: () => void }) {
           rotateY: 0,
           scale: 1,
           y: 0,
-          duration: 0.8,
+          duration: 0.45,
           ease: "expo.out",
         })
         // The "Circulating Lines" effect
         .to(
           char.querySelector(".line-top"),
-          { scaleX: 1, duration: 0.3, ease: "none" },
-          "-=0.5",
+          { scaleX: 1, duration: 0.14, ease: "none" },
+          "-=0.3",
         )
         .to(char.querySelector(".line-right"), {
           scaleY: 1,
-          duration: 0.3,
+          duration: 0.14,
           ease: "none",
         })
         .to(char.querySelector(".line-bottom"), {
           scaleX: 1,
-          duration: 0.3,
+          duration: 0.14,
           ease: "none",
         })
         .to(char.querySelector(".line-left"), {
           scaleY: 1,
-          duration: 0.3,
+          duration: 0.14,
           ease: "none",
         })
         // Reveal the letter itself
@@ -587,21 +590,16 @@ function ArchiPreloader({ onComplete }: { onComplete: () => void }) {
           {
             opacity: 1,
             y: 0,
-            duration: 0.6,
+            duration: 0.35,
             ease: "back.out(2)",
           },
-          "-=0.4",
+          "-=0.25",
         );
     });
 
-    // Exit transition - blur dissolve only (no scale; logo is child of .preloader-content)
-    tl.to(".preloader-content", {
-      opacity: 0,
-      filter: "blur(10px)",
-      duration: 0.8,
-      ease: "power2.inOut",
-      delay: 0.5,
-    });
+    // The single container dissolve (in the timeline onComplete) reveals the
+    // hero - no separate content-exit tween, so the overlay clears fast enough
+    // for LCP without a sequential wait.
   }, [onComplete]);
 
   const fullText = "ARCHI MADE STUDIO".replace(/\s/g, " "); // Keep spaces for layout
@@ -840,9 +838,9 @@ function ArchiMenuOverlay({
         aria-hidden="true"
         className="absolute inset-0 z-[-1] flex items-center justify-center opacity-5 select-none pointer-events-none"
       >
-        <h2 className="text-[25vw] font-bold uppercase tracking-tighter leading-none italic">
+        <span className="block text-[25vw] font-bold uppercase tracking-tighter leading-none italic">
           ARCHIMADE
-        </h2>
+        </span>
       </div>
     </motion.div>
   );
@@ -1590,8 +1588,9 @@ function ArchiServices() {
             Jusqu'à 150 m² de surface de plancher
           </strong>
           , la loi vous permet de confier la conception de vos plans et le dépôt
-          de votre permis de construire à un dessinateur en bâtiment. ArchiMade
-          conçoit vos plans, monte votre dossier et le dépose en mairie.
+          de votre permis de construire à un dessinateur en bâtiment. Pour votre
+          maison individuelle, ArchiMade conçoit vos plans techniques, monte
+          votre dossier et le dépose en mairie.
         </p>
       </div>
 
@@ -2519,7 +2518,7 @@ function ArchiFAQ() {
     },
     {
       q: "Quels documents dois-je fournir ?",
-      a: "Un plan de masse ou des photos suffisent pour une première étude de faisabilité.",
+      a: "Un plan de masse ou des photos suffisent pour une première étude de faisabilité. À partir de ces éléments, ArchiMade établit vos plans techniques et votre dossier de permis de construire ou de déclaration préalable.",
     },
     {
       // Captures the "ai-je besoin d'un architecte" intent WITHOUT the banned
@@ -2533,7 +2532,7 @@ function ArchiFAQ() {
       // never self-designates ArchiMade as an architecte. seo-check enforces this
       // scoped exception (negation-only, answer-only; banned in title/H/meta/JSON-LD).
       q: "Ai-je besoin d'un architecte pour mon projet ?",
-      a: "Non : en-dessous de 150 m² de surface de plancher, la loi n'impose pas le recours à un architecte. ArchiMade, dessinateur en bâtiment, conçoit vos plans et dépose votre dossier de permis de construire.",
+      a: "Non : pour une maison individuelle de moins de 150 m² de surface de plancher, la loi n'impose pas le recours à un architecte. Vous pouvez réaliser votre projet sans architecte : ArchiMade, dessinateur en bâtiment, conçoit vos plans et dépose votre dossier de permis de construire.",
     },
     {
       q: "Déclaration préalable ou permis de construire : quelle différence ?",
@@ -2542,7 +2541,7 @@ function ArchiFAQ() {
     {
       // TODO(CONFIRM client): valider la fourchette de prix 700 à 1 200 € (estimation marché, non confirmée par le client).
       q: "Quel est le prix d'un dossier de permis de construire ?",
-      a: "Selon la surface et la complexité, comptez généralement 700 à 1 200 € pour un dossier complet. Devis gratuit et sans engagement.",
+      a: "Selon la surface et la complexité, le tarif d'un dossier complet se situe généralement entre 700 et 1 200 €. Devis gratuit et sans engagement.",
     },
     {
       q: "Travaillez-vous à distance partout en France ?",
@@ -3228,6 +3227,18 @@ function ArchiInstagramFloat({
 export default function ArchiMadeLanding() {
   // Dev: skip cinematic preloader (production SSG keeps full intro).
   const [isLoading, setIsLoading] = useState(() => !import.meta.env.DEV);
+  // Repeat visits in the SAME session skip the full intro for an instant hero
+  // paint. The initial state stays deterministic (matches the prerendered HTML)
+  // so there is no hydration mismatch; the overlay is only dropped AFTER
+  // hydration when the intro was already seen this session.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      if (sessionStorage.getItem("archimade_intro_seen")) setIsLoading(false);
+    } catch {
+      /* sessionStorage unavailable (private mode) - keep the intro */
+    }
+  }, []);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolling, setIsScrolling] = useState(false);
   // The fixed left nav/logo (+ contact tab + Instagram float) fade out over the
@@ -3340,7 +3351,18 @@ export default function ArchiMadeLanding() {
       {/* Preloader is a full-screen opaque overlay rendered ON TOP of the
                 real content (which is always mounted, so it ships in the
                 prerendered HTML and is crawlable). */}
-      {isLoading && <ArchiPreloader onComplete={() => setIsLoading(false)} />}
+      {isLoading && (
+        <ArchiPreloader
+          onComplete={() => {
+            try {
+              sessionStorage.setItem("archimade_intro_seen", "1");
+            } catch {
+              /* ignore */
+            }
+            setIsLoading(false);
+          }}
+        />
+      )}
 
       <div
         ref={mainRef}

@@ -1,24 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- TODO(SEO): keep in sync with routes in src/App.tsx. Add per-service /
-     per-location URLs here once those pages exist. -->
+     per-location URLs here once those pages exist.
+     <lastmod> is refreshed to the real build date by scripts/prerender.mjs. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://www.archi-made.com/</loc>
+    <lastmod>2026-06-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.archi-made.com/mentions-legales</loc>
+    <lastmod>2026-06-21</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
     <loc>https://www.archi-made.com/confidentialite</loc>
+    <lastmod>2026-06-21</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
     <loc>https://www.archi-made.com/cookies</loc>
+    <lastmod>2026-06-21</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>

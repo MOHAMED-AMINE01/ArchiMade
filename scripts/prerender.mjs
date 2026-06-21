@@ -69,6 +69,22 @@ for (const route of ROUTES) {
   count++;
 }
 
+// Refresh sitemap <lastmod> to the real build date (YYYY-MM-DD) so it never
+// goes stale across rebuilds. Updates existing tags in place; leaves the URL
+// set untouched.
+const sitemapPath = resolve(distDir, "sitemap.xml");
+try {
+  const buildDate = new Date().toISOString().slice(0, 10);
+  const sitemap = readFileSync(sitemapPath, "utf8").replace(
+    /<lastmod>[^<]*<\/lastmod>/g,
+    `<lastmod>${buildDate}</lastmod>`,
+  );
+  writeFileSync(sitemapPath, sitemap, "utf8");
+  console.log(`[prerender] sitemap lastmod -> ${buildDate}`);
+} catch {
+  console.log("[prerender] sitemap.xml not found; skipped lastmod stamp");
+}
+
 // The SSR bundle is a build artifact only; don't ship it.
 rmSync(resolve(root, "dist-ssr"), { recursive: true, force: true });
 console.log(`[prerender] done: ${count} route(s) written.`);

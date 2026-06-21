@@ -4,6 +4,7 @@ import { SITE_URL } from './Seo';
 const ORG_ID = `${SITE_URL}/#organization`;
 const BUSINESS_ID = `${SITE_URL}/#business`;
 const WEBSITE_ID = `${SITE_URL}/#website`;
+const FOUNDER_ID = `${SITE_URL}/#founder`;
 
 // Social profile - MUST match the live UI handle used in ArchiMadeLanding
 // (INSTAGRAM_URL) and the footer/aria links. TODO(CONFIRM: real live handle).
@@ -32,12 +33,27 @@ const structuredData = {
       publisher: { '@id': ORG_ID },
     },
     {
+      // Founder (public RNE/INPI dirigeant - no invention). Linked from the
+      // Organization + ProfessionalService for E-E-A-T / entity signals.
+      '@type': 'Person',
+      '@id': FOUNDER_ID,
+      name: 'Damien De Sousa',
+      jobTitle: 'Dessinateur en bâtiment',
+    },
+    {
       '@type': 'Organization',
       '@id': ORG_ID,
-      name: 'ArchiMade',
+      name: 'ArchiMade Studio',
       legalName: 'ARCHI-MADE LTD',
       url: SITE_URL,
-      logo: `${SITE_URL}/img/logo-archimade.webp`,
+      // Brand logo as a typed ImageObject (intrinsic 1254x1254 from the variant manifest).
+      logo: {
+        '@type': 'ImageObject',
+        url: `${SITE_URL}/img/logo-archimade.webp`,
+        width: 1254,
+        height: 1254,
+      },
+      founder: { '@id': FOUNDER_ID },
       sameAs: [INSTAGRAM_URL],
       contactPoint: {
         '@type': 'ContactPoint',
@@ -50,12 +66,17 @@ const structuredData = {
     {
       '@type': 'ProfessionalService',
       '@id': BUSINESS_ID,
-      name: 'ArchiMade',
+      name: 'ArchiMade Studio',
       legalName: 'ARCHI-MADE LTD',
       url: SITE_URL,
       image: `${SITE_URL}/og-card.png`,
       telephone: '+33624896695',
       priceRange: '€€',
+      founder: { '@id': FOUNDER_ID },
+      employee: { '@id': FOUNDER_ID },
+      // TODO(geo): add { "@type":"GeoCoordinates", latitude, longitude } for the
+      // Tours établissement (25 rue du Maréchal Ney, 37100) once confirmed - NOT
+      // invented offline.
       description:
         'Accompagnement pour permis de construire, déclarations préalables, plans techniques et modélisation 3D photoréaliste.',
       // Local base (Indre-et-Loire/Tours) + national remote reach - narrow to City/AdministrativeArea only for purely-local, or Country only for purely-national.
