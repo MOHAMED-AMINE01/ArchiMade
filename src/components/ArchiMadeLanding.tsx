@@ -849,7 +849,13 @@ function ArchiMenuOverlay({
 }
 
 // --- FIXED HEADER (MOBILE) ---
-function ArchiHeader({ onMenuClick }: { onMenuClick: () => void }) {
+function ArchiHeader({
+  onMenuClick,
+  galleryInView = false,
+}: {
+  onMenuClick: () => void;
+  galleryInView?: boolean;
+}) {
   const [isHidden, setIsHidden] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
 
@@ -868,12 +874,19 @@ function ArchiHeader({ onMenuClick }: { onMenuClick: () => void }) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY]);
 
+  // The mobile header normally re-appears on scroll-up; force it hidden while
+  // the full-bleed gallery is in view (it would otherwise slide its logo +
+  // Menu over the images when scrolling back up through Réalisations).
+  const hidden = isHidden || galleryInView;
+
   return (
     <header
       className={cn(
         "xl:hidden fixed top-0 left-0 right-0 z-150 p-8 flex justify-between items-center mix-blend-difference pointer-events-none transition-transform duration-500",
-        isHidden ? "-translate-y-full" : "translate-y-0",
+        hidden ? "-translate-y-full" : "translate-y-0",
       )}
+      aria-hidden={galleryInView}
+      inert={galleryInView}
     >
       <div className="pointer-events-auto">
         <ArchiLogo className="text-white" light />
@@ -3181,6 +3194,8 @@ function ArchiInstagramFloat({
             ? "opacity-0 -translate-x-10 pointer-events-none"
             : "opacity-100 pointer-events-auto",
         )}
+        aria-hidden={isUIHidden}
+        inert={isUIHidden}
       >
         <InstagramBadge />
       </a>
@@ -3200,6 +3215,8 @@ function ArchiInstagramFloat({
             ? "opacity-0 pointer-events-none"
             : "opacity-100 pointer-events-auto",
         )}
+        aria-hidden={isUIHidden}
+        inert={isUIHidden}
       >
         <InstagramBadge />
       </a>
@@ -3213,7 +3230,14 @@ export default function ArchiMadeLanding() {
   const [isLoading, setIsLoading] = useState(() => !import.meta.env.DEV);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolling, setIsScrolling] = useState(false);
-  const [isUIHidden, setIsUIHidden] = useState(false);
+  // The fixed left nav/logo (+ contact tab + Instagram float) fade out over the
+  // sections that sit under them. Each such section owns its OWN flag and
+  // isUIHidden is their OR, so two ScrollTriggers never fight over one boolean
+  // (one section's onLeave can't reveal the UI while another still wants it
+  // hidden) — no double-toggle, no stuck-hidden.
+  const [isExpertiseInView, setIsExpertiseInView] = useState(false);
+  const [isGalleryInView, setIsGalleryInView] = useState(false);
+  const isUIHidden = isExpertiseInView || isGalleryInView;
   const [hasScrolled, setHasScrolled] = useState(false);
   const mainRef = useRef<HTMLDivElement>(null);
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -3264,27 +3288,40 @@ export default function ArchiMadeLanding() {
           clearProps: "all",
         });
 
-        // UI HIDING LOGIC (Triggered only when content starts)
-        // Hiding happens exactly when the section hits the top of the viewport
+        // UI HIDING LOGIC — fade the fixed left nav + logo (and the contact tab
+        // / Instagram float, all bound to isUIHidden) while a section's content
+        // sits under them. Each section drives its OWN flag; isUIHidden is the
+        // OR (see state), so onLeave of one never reveals the UI while another
+        // still wants it hidden.
+        // Expertise: unchanged — hide once the section hits the top of the
+        // viewport, restore past its content bottom.
         ScrollTrigger.create({
           trigger: "#expertise",
           start: "top top",
           endTrigger: "#expertise-content",
           end: "bottom 20%",
-          onEnter: () => setIsUIHidden(true),
-          onLeave: () => setIsUIHidden(false),
-          onEnterBack: () => setIsUIHidden(true),
-          onLeaveBack: () => setIsUIHidden(false),
+          onEnter: () => setIsExpertiseInView(true),
+          onLeave: () => setIsExpertiseInView(false),
+          onEnterBack: () => setIsExpertiseInView(true),
+          onLeaveBack: () => setIsExpertiseInView(false),
         });
 
+        // Réalisations: the full-bleed masonry overlaps the left nav AND the
+        // bottom-left logo. Trigger on the IMAGE GRID (#realisations-content),
+        // not the section (its tall heading clears the nav already), and hide
+        // for as long as ANY gallery image is on screen — start "top bottom"
+        // (first image enters from the bottom, where the logo sits) → end
+        // "bottom top" (last image leaves past the top). The opposite-extreme
+        // start/end give wide hysteresis, so there is no flicker at either
+        // boundary and it restores cleanly in BOTH scroll directions.
         ScrollTrigger.create({
-          trigger: "#realisations",
-          start: "top top",
-          end: "bottom 20%",
-          onEnter: () => setIsUIHidden(true),
-          onLeave: () => setIsUIHidden(false),
-          onEnterBack: () => setIsUIHidden(true),
-          onLeaveBack: () => setIsUIHidden(false),
+          trigger: "#realisations-content",
+          start: "top bottom",
+          end: "bottom top",
+          onEnter: () => setIsGalleryInView(true),
+          onLeave: () => setIsGalleryInView(false),
+          onEnterBack: () => setIsGalleryInView(true),
+          onLeaveBack: () => setIsGalleryInView(false),
         });
       }, mainRef);
       return () => ctx.revert();
@@ -3309,7 +3346,10 @@ export default function ArchiMadeLanding() {
         ref={mainRef}
         className="min-h-screen text-brand-dark selection:bg-brand-dark selection:text-white font-sans antialiased overflow-x-hidden block"
       >
-        <ArchiHeader onMenuClick={() => setIsMenuOpen(true)} />
+        <ArchiHeader
+          onMenuClick={() => setIsMenuOpen(true)}
+          galleryInView={isGalleryInView}
+        />
         <ArchiMenuOverlay
           isOpen={isMenuOpen}
           onClose={() => setIsMenuOpen(false)}
@@ -3327,6 +3367,8 @@ export default function ArchiMadeLanding() {
             "fixed bottom-8 left-8 md:bottom-12 md:left-12 xl:-right-15 xl:top-1/2 xl:-translate-y-1/2 xl:bottom-auto xl:left-auto z-150 mix-blend-difference transition-all duration-500",
             isUIHidden ? "pointer-events-none" : "pointer-events-auto",
           )}
+          aria-hidden={isUIHidden}
+          inert={isUIHidden}
         >
           <a
             href="#contact"
@@ -3365,6 +3407,8 @@ export default function ArchiMadeLanding() {
               ? "opacity-0 -translate-x-10"
               : "opacity-100 translate-x-0",
           )}
+          aria-hidden={isUIHidden}
+          inert={isUIHidden}
         >
           <ArchiNav isScrolling={isScrolling} />
           <ArchiLogo isScrolling={isScrolling} />
