@@ -1438,6 +1438,7 @@ const services = [
     img: IMAGES.renders.veigne,
     alt: "Permis de construire d'une maison individuelle à Veigné (37), rendu 3D, dessinateur ArchiMade",
     desc: "Constitution et dépôt de votre dossier de permis de construire (projets jusqu'à 150 m²) : plans réglementaires, notice, pièces graphiques. On gère le formalisme, vous gagnez du temps.",
+    slug: "/permis-de-construire",
   },
   {
     title: "Déclaration préalable de travaux",
@@ -1447,6 +1448,7 @@ const services = [
     img: IMAGES.renders.mirabeau,
     alt: "Création d'une extension : dossier de déclaration préalable, plans & rendu 3D, dessinateur ArchiMade",
     desc: "Extensions, abris, clôtures, ravalements, changements de façade : dossier de déclaration préalable complet et conforme aux règles d'urbanisme.",
+    slug: "/declaration-prealable",
   },
   {
     title: "Conception de plans",
@@ -1456,6 +1458,7 @@ const services = [
     img: IMAGES.projects.activites.main,
     alt: "Conception de plans : cellules d'activités à La Ville-aux-Dames (37), dessinateur ArchiMade",
     desc: "Plans de niveaux, façades, coupes et plans techniques pour votre construction, extension ou rénovation. Des documents clairs, précis et conformes, prêts pour le dépôt.",
+    slug: "/plans-techniques",
   },
   {
     title: "Modélisation 3D",
@@ -1465,6 +1468,7 @@ const services = [
     img: IMAGES.projects.padel.main,
     alt: "Modélisation 3D d'un club house de padel, ArchiMade, dessinateur en bâtiment",
     desc: "Votre projet modélisé en 3D avant les travaux : volumes, implantation, aménagement, pour décider et vous projeter en toute clarté.",
+    slug: "/modelisation-3d",
   },
   {
     title: "Rendus photoréalistes",
@@ -1474,6 +1478,7 @@ const services = [
     img: IMAGES.renders.montlouis,
     alt: "Rendu photoréaliste d'une maison individuelle à Montlouis-sur-Loire (37), ArchiMade",
     desc: "Des images réalistes de votre futur projet, fidèles aux matériaux et à la lumière, pour présenter, convaincre et valider.",
+    slug: "/rendus-photorealistes",
   },
   {
     title: "Accompagnement de projet habitat",
@@ -1483,6 +1488,7 @@ const services = [
     img: IMAGES.projects.cyr_extension.alt,
     alt: "Plans d'extension d'habitat à Saint-Cyr-sur-Loire (37), dessinateur ArchiMade",
     desc: "De la première esquisse au dépôt en mairie : conseil, conception et dossier administratif, de bout en bout. À distance partout en France.",
+    slug: "/accompagnement-projet-habitat",
   },
 ];
 
@@ -1795,6 +1801,26 @@ function ArchiServices() {
                         </span>
                         <ArrowUpRight className="w-4 h-4 lg:w-5 lg:h-5" />
                       </div>
+                    )}
+
+                    {/* Internal link to the dedicated service page (keyword
+                        anchor). ALWAYS in the prerendered HTML so the home links
+                        out (no orphan, crawlable href); shown only when the panel
+                        is expanded. Collapsed = display:none (kept in the DOM,
+                        no overflow-clip side effect). */}
+                    {service.slug && (
+                      <Link
+                        to={service.slug}
+                        className={cn(
+                          "items-center gap-2 text-[10px] lg:text-xs font-bold uppercase tracking-widest text-white/70 hover:text-white transition-colors w-fit max-w-full",
+                          isExpanded
+                            ? "mt-4 inline-flex pointer-events-auto animate-fade-in"
+                            : "hidden",
+                        )}
+                      >
+                        En savoir plus : {service.title}
+                        <ArrowUpRight className="w-3.5 h-3.5 shrink-0" />
+                      </Link>
                     )}
                   </div>
                 </div>{" "}
@@ -2911,11 +2937,62 @@ function ArchiContact() {
               </div>
               <p className="text-[clamp(0.72rem,1.6vh,1rem)] text-black/50 font-light leading-relaxed max-w-md">
                 Basé à{" "}
-                <strong className="text-black/70 font-bold">Tours (37)</strong>,
-                interventions en Indre-et-Loire : Saint-Cyr-sur-Loire,
-                Joué-lès-Tours, Chambray-lès-Tours, Saint-Avertin, Amboise,
-                Chinon, Montlouis-sur-Loire, Veigné… et à distance partout en
-                France.
+                <Link
+                  to="/dessinateur-batiment-tours"
+                  className="text-black/70 font-bold underline decoration-black/20 underline-offset-2 hover:decoration-black/60 transition-colors"
+                >
+                  Tours (37)
+                </Link>
+                , dessinateur en bâtiment en{" "}
+                <Link
+                  to="/dessinateur-batiment-indre-et-loire"
+                  className="underline decoration-black/15 underline-offset-2 hover:text-black/80 transition-colors"
+                >
+                  Indre-et-Loire
+                </Link>{" "}
+                :{" "}
+                <Link
+                  to="/dessinateur-batiment-saint-cyr-sur-loire"
+                  className="underline decoration-black/15 underline-offset-2 hover:text-black/80 transition-colors"
+                >
+                  Saint-Cyr-sur-Loire
+                </Link>
+                ,{" "}
+                <Link
+                  to="/dessinateur-batiment-joue-les-tours"
+                  className="underline decoration-black/15 underline-offset-2 hover:text-black/80 transition-colors"
+                >
+                  Joué-lès-Tours
+                </Link>
+                ,{" "}
+                <Link
+                  to="/dessinateur-batiment-chambray-les-tours"
+                  className="underline decoration-black/15 underline-offset-2 hover:text-black/80 transition-colors"
+                >
+                  Chambray-lès-Tours
+                </Link>
+                ,{" "}
+                <Link
+                  to="/dessinateur-batiment-montlouis-sur-loire"
+                  className="underline decoration-black/15 underline-offset-2 hover:text-black/80 transition-colors"
+                >
+                  Montlouis-sur-Loire
+                </Link>
+                ,{" "}
+                <Link
+                  to="/dessinateur-batiment-veigne"
+                  className="underline decoration-black/15 underline-offset-2 hover:text-black/80 transition-colors"
+                >
+                  Veigné
+                </Link>
+                ,{" "}
+                <Link
+                  to="/dessinateur-batiment-esvres"
+                  className="underline decoration-black/15 underline-offset-2 hover:text-black/80 transition-colors"
+                >
+                  Esvres
+                </Link>{" "}
+                et à distance partout en France.
               </p>
             </div>
           </div>
@@ -3245,7 +3322,7 @@ export default function ArchiMadeLanding() {
   // sections that sit under them. Each such section owns its OWN flag and
   // isUIHidden is their OR, so two ScrollTriggers never fight over one boolean
   // (one section's onLeave can't reveal the UI while another still wants it
-  // hidden) — no double-toggle, no stuck-hidden.
+  // hidden) : no double-toggle, no stuck-hidden.
   const [isExpertiseInView, setIsExpertiseInView] = useState(false);
   const [isGalleryInView, setIsGalleryInView] = useState(false);
   const isUIHidden = isExpertiseInView || isGalleryInView;
@@ -3264,6 +3341,13 @@ export default function ArchiMadeLanding() {
 
     // Expose lenis globally for component access
     (window as any).lenis = lenis;
+
+    // Arriving from a sub-page CTA (e.g. /#contact): smooth-scroll to the target
+    // once Lenis is live and the (always-rendered) sections are in the DOM.
+    const incomingHash = window.location.hash;
+    if (incomingHash && document.querySelector(incomingHash)) {
+      requestAnimationFrame(() => lenis.scrollTo(incomingHash, { offset: 0 }));
+    }
 
     lenis.on("scroll", () => {
       ScrollTrigger.update();
@@ -3299,12 +3383,12 @@ export default function ArchiMadeLanding() {
           clearProps: "all",
         });
 
-        // UI HIDING LOGIC — fade the fixed left nav + logo (and the contact tab
+        // UI HIDING LOGIC : fade the fixed left nav + logo (and the contact tab
         // / Instagram float, all bound to isUIHidden) while a section's content
         // sits under them. Each section drives its OWN flag; isUIHidden is the
         // OR (see state), so onLeave of one never reveals the UI while another
         // still wants it hidden.
-        // Expertise: unchanged — hide once the section hits the top of the
+        // Expertise: unchanged, hide once the section hits the top of the
         // viewport, restore past its content bottom.
         ScrollTrigger.create({
           trigger: "#expertise",
@@ -3320,8 +3404,8 @@ export default function ArchiMadeLanding() {
         // Réalisations: the full-bleed masonry overlaps the left nav AND the
         // bottom-left logo. Trigger on the IMAGE GRID (#realisations-content),
         // not the section (its tall heading clears the nav already), and hide
-        // for as long as ANY gallery image is on screen — start "top bottom"
-        // (first image enters from the bottom, where the logo sits) → end
+        // for as long as ANY gallery image is on screen, start "top bottom"
+        // (first image enters from the bottom, where the logo sits) to end
         // "bottom top" (last image leaves past the top). The opposite-extreme
         // start/end give wide hysteresis, so there is no flicker at either
         // boundary and it restores cleanly in BOTH scroll directions.

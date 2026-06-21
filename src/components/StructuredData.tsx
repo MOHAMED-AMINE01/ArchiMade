@@ -1,8 +1,10 @@
 import { Helmet } from 'react-helmet-async';
 import { SITE_URL } from './Seo';
 
-const ORG_ID = `${SITE_URL}/#organization`;
-const BUSINESS_ID = `${SITE_URL}/#business`;
+// Shared entity @ids - reused by the dedicated service/location pages so their
+// Service / area-served schema links back to this single Organization entity.
+export const ORG_ID = `${SITE_URL}/#organization`;
+export const BUSINESS_ID = `${SITE_URL}/#business`;
 const WEBSITE_ID = `${SITE_URL}/#website`;
 const FOUNDER_ID = `${SITE_URL}/#founder`;
 

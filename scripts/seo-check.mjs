@@ -19,13 +19,35 @@ const walk = (d, o = []) => {
     }
   return o;
 };
-const ROUTES = {
-  "/": "dist/index.html",
-  "/mentions-legales": "dist/mentions-legales.html",
-  "/confidentialite": "dist/confidentialite.html",
-  "/cookies": "dist/cookies.html",
+// Route table is derived from the prerendered top-level dist/*.html files so it
+// auto-covers every service/location page (no hand-maintained list to drift).
+const fileToRoute = (f) => {
+  const base = f.replace(/^dist[\\/]/, "");
+  return base === "index.html" ? "/" : "/" + base.replace(/\.html$/, "");
 };
+const LEGAL = new Set(["/mentions-legales", "/confidentialite", "/cookies"]);
+const htmlFiles = (existsSync("dist") ? readdirSync("dist") : [])
+  .filter((e) => e.endsWith(".html"))
+  .map((e) => join("dist", e))
+  .filter((f) => statSync(f).isFile());
+const ROUTES = Object.fromEntries(htmlFiles.map((f) => [fileToRoute(f), f]));
+// Dedicated silo pages (service + location): everything except home + legal.
+const DEDICATED = Object.entries(ROUTES).filter(
+  ([r]) => r !== "/" && !LEGAL.has(r),
+);
+
+const grabIn = (h, re) => ((h.match(re) || [])[1] || "").trim();
+const stripTags = (s) =>
+  s
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/&#x27;|&#39;/g, "'")
+    .replace(/&[a-z]+;/gi, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+
 console.log("\n== PRERENDER & HEAD ==");
+console.log(`  (${Object.keys(ROUTES).length} prerendered route(s))`);
 for (const [r, f] of Object.entries(ROUTES)) {
   const h = read(f);
   if (!h) {
@@ -35,10 +57,81 @@ for (const [r, f] of Object.entries(ROUTES)) {
   (h.match(/<title[ >]/g) || []).length === 1
     ? ok(`${r} one <title>`)
     : no(`${r} title count != 1`);
+  (h.match(/<h1[ >]/g) || []).length === 1
+    ? ok(`${r} exactly one <h1>`)
+    : no(`${r} h1 count != 1`);
   h.length > 5000 && !/<div id="root">\s*<\/div>/.test(h)
     ? ok(`${r} real content`)
     : no(`${r} empty/shell`);
   /rel="canonical"/.test(h) ? ok(`${r} canonical`) : no(`${r} no canonical`);
+}
+
+console.log("\n== UNIQUENESS (title / meta / H1 / canonical) ==");
+{
+  const seen = { title: new Map(), desc: new Map(), h1: new Map(), can: new Map() };
+  const add = (m, key, route) => {
+    if (!key) return;
+    m.set(key, [...(m.get(key) || []), route]);
+  };
+  for (const [r, f] of Object.entries(ROUTES)) {
+    const h = read(f) || "";
+    add(seen.title, grabIn(h, /<title[^>]*>([\s\S]*?)<\/title>/i), r);
+    add(seen.desc, grabIn(h, /<meta[^>]+name="description"[^>]+content="([^"]*)"/i), r);
+    add(seen.h1, stripTags(grabIn(h, /<h1[^>]*>([\s\S]*?)<\/h1>/i)), r);
+    add(seen.can, grabIn(h, /rel="canonical"\s+href="([^"]*)"/i), r);
+  }
+  for (const [label, m] of Object.entries({
+    title: seen.title,
+    "meta description": seen.desc,
+    H1: seen.h1,
+    canonical: seen.can,
+  })) {
+    const dupes = [...m.entries()].filter(([, rs]) => rs.length > 1);
+    dupes.length === 0
+      ? ok(`all ${label}s unique`)
+      : no(`duplicate ${label}: ${dupes.map(([k, rs]) => `${rs.join("+")}`).join("; ")}`);
+  }
+}
+
+console.log("\n== DEDICATED PAGES (service + location silo) ==");
+for (const [r, f] of DEDICATED) {
+  const h = read(f) || "";
+  // BreadcrumbList JSON-LD present
+  /"@type"\s*:\s*"BreadcrumbList"/.test(h)
+    ? ok(`${r} BreadcrumbList`)
+    : no(`${r} no BreadcrumbList`);
+  // Service node present + every JSON-LD block parses
+  const blocks = [
+    ...h.matchAll(
+      /<script[^>]+application\/ld\+json[^>]*>([\s\S]*?)<\/script>/gi,
+    ),
+  ].map((m) => m[1]);
+  let parses = blocks.length > 0;
+  let hasService = false;
+  for (const b of blocks) {
+    try {
+      const j = JSON.parse(b);
+      if (JSON.stringify(j).includes('"Service"')) hasService = true;
+    } catch {
+      parses = false;
+    }
+  }
+  parses
+    ? ok(`${r} JSON-LD parses (${blocks.length})`)
+    : no(`${r} JSON-LD invalid`);
+  hasService ? ok(`${r} Service schema`) : no(`${r} no Service schema`);
+  // Substantive unique copy (target 400-600): lead intro + article body.
+  const lead = stripTags(
+    grabIn(h, /<p[^>]*class="[^"]*page-lead[^"]*"[^>]*>([\s\S]*?)<\/p>/i),
+  );
+  const body = stripTags(
+    grabIn(h, /<article[^>]*class="[^"]*page-body[^"]*"[^>]*>([\s\S]*?)<\/article>/i),
+  );
+  const copy = `${lead} ${body}`.trim();
+  const words = copy ? copy.split(/\s+/).length : 0;
+  words >= 400 && words <= 700
+    ? ok(`${r} copy word count ${words}`)
+    : no(`${r} copy word count ${words} (want 400-700)`);
 }
 read("dist/robots.txt") ? ok("robots.txt") : no("robots.txt missing");
 read("dist/sitemap.xml") ? ok("sitemap.xml") : no("sitemap.xml missing");
@@ -56,7 +149,7 @@ const home = read("dist/index.html") || "";
 
 // ── "architecte/architecture" usurpation-de-titre guard (scoped) ──────────────
 // "architecture" = 0 anywhere (hard). "architecte" is permitted ONLY inside a
-// disclaiming FAQ answer whose sentence NEGATES the need for one — never as a
+// disclaiming FAQ answer whose sentence NEGATES the need for one, never as a
 // self-designation in title/og:title/twitter:title/meta description/H1-H2/JSON-LD.
 {
   const allHtml = Object.values(ROUTES)
@@ -84,8 +177,8 @@ const home = read("dist/index.html") || "";
     : ok('no "architecte" self-designation (head/H/JSON-LD)');
 
   // 3) Every "architecte" occurrence must sit in the disclaiming FAQ exchange:
-  //    its sentence — or the next, since the captured question is bound to its
-  //    negating answer — must contain a negation cue. Run on tag-stripped text.
+  //    its sentence, or the next (the captured question is bound to its negating
+  //    answer), must contain a negation cue. Run on tag-stripped text.
   const NEG = /(n['’]impose pas|pas besoin|sans recours|sans architecte|\bnon\b|n['’]est pas|pas obligatoire|pas nécessaire)/i;
   const plain = (h) =>
     h
@@ -109,6 +202,46 @@ const home = read("dist/index.html") || "";
     ? ok('"architecte" only in disclaiming (negation-bound) FAQ context')
     : no(`${badArchitecte} non-disclaiming "architecte" occurrence(s)`);
 }
+
+console.log("\n== INTERNAL LINKS & DASHES ==");
+{
+  const allHtml = Object.values(ROUTES)
+    .map((f) => read(f) || "")
+    .join("\n");
+  const dashes = (allHtml.match(/[–—]/g) || []).length;
+  dashes === 0
+    ? ok("no em/en dashes in dist (0)")
+    : no(`${dashes} em/en dash(es) in dist`);
+
+  const hrefsOf = (route) =>
+    new Set(
+      [...(read(ROUTES[route]) || "").matchAll(/href="([^"]+)"/g)].map(
+        (m) => m[1],
+      ),
+    );
+  // Home must link out to every silo page (no orphans).
+  const homeHrefs = hrefsOf("/");
+  const orphans = DEDICATED.map(([r]) => r).filter((r) => !homeHrefs.has(r));
+  orphans.length === 0
+    ? ok(`home links to all ${DEDICATED.length} silo pages`)
+    : no(`orphan(s) not linked from home: ${orphans.join(", ")}`);
+
+  // Each silo page must link home + contact + >=2 related silo pages.
+  for (const [r] of DEDICATED) {
+    const hs = hrefsOf(r);
+    const linksHome = hs.has("/");
+    const linksContact = [...hs].some((h) => h.includes("#contact"));
+    const related = [...hs].filter((h) =>
+      DEDICATED.some(([d]) => d === h),
+    ).length;
+    linksHome && linksContact && related >= 2
+      ? ok(`${r} -> home + contact + ${related} related`)
+      : no(
+          `${r} links home:${linksHome} contact:${linksContact} related:${related}`,
+        );
+  }
+}
+
 console.log("\n== IMAGES & CWV (P3+) ==");
 const src = walk("src").filter((f) => /\.(t|j)sx?$/.test(f));
 let unsized = 0;
