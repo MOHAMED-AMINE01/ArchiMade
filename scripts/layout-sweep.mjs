@@ -104,12 +104,20 @@ const SCAN_FN = function scan() {
   const inWhitelist = (el) =>
     hasAncestor(el, (n) => {
       const c = cls(n);
-      return (
+      if (
         n.tagName === "SVG" ||
         n.getAttribute("aria-hidden") === "true" ||
         n.hasAttribute("data-sweep-ignore") ||
         /archi-preloader|backdrop|lightbox|modal-backdrop/.test(c)
-      );
+      )
+        return true;
+      // Intended fixed overlay: a position:fixed element with
+      // mix-blend-mode:difference is by design floating chrome (the mobile
+      // header) that overlays the page content beneath it; its blend-mode keeps
+      // it legible against whatever scrolls behind, so that overlap is
+      // deliberate, not a layout bug.
+      const cs = getComputedStyle(n);
+      return cs.position === "fixed" && /difference/.test(cs.mixBlendMode);
     });
   const isRotatingStack = (el) =>
     hasAncestor(el, (n) => /\bw-50\b|\bw-87\.5\b/.test(cls(n)));
