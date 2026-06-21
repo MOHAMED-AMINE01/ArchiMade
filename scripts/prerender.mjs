@@ -54,7 +54,16 @@ for (const route of ROUTES) {
     "",
   );
 
-  const html = template
+  // Keep exactly ONE fetchpriority="high" image per route. If the rendered page
+  // already has a high-priority hero (service/location pages), demote the static
+  // boot-shell logo so the hero is the sole LCP signal. On pages without a hero
+  // (home preloader + legal text pages) the boot-shell stays the single high.
+  const heroHasPriority = /fetchpriority="high"/i.test(cleanedAppHtml);
+  const routeTemplate = heroHasPriority
+    ? template.replace('fetchpriority="high"', 'fetchpriority="auto"')
+    : template;
+
+  const html = routeTemplate
     // Drop the static fallback <title> so Helmet's per-route title is the only one.
     .replace(/\s*<title>[\s\S]*?<\/title>/, "")
     .replace("</head>", `    ${headTags}\n  </head>`)

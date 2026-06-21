@@ -33,7 +33,17 @@ export default function Seo({
       <html lang="fr" />
       <title>{title}</title>
       <meta name="description" content={description} />
-      {noindex && <meta name="robots" content="noindex" />}
+      {/* Indexable by default with max rich-result eligibility; noindex only when
+          explicitly requested (e.g. 404). */}
+      <meta
+        name="robots"
+        content={
+          noindex
+            ? "noindex"
+            : "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+        }
+      />
+      <meta name="theme-color" content="#0a0a0a" />
       {GSC_ID && <meta name="google-site-verification" content={GSC_ID} />}
       <link rel="canonical" href={url} />
 

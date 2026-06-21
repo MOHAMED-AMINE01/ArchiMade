@@ -626,12 +626,14 @@ function ArchiPreloader({ onComplete }: { onComplete: () => void }) {
       <div className="preloader-content relative z-10 w-full flex flex-col items-center">
         {/* Logo in Preloader */}
         <div className="preloader-logo mb-30 md:mb-35">
+          {/* No fetchpriority here: the static boot-shell logo (index.html) is
+              the prioritized LCP paint on home and already covers this. Keeping
+              exactly one fetchpriority="high" image per route. */}
           <ResponsiveImage
             src="/img/logo-intro.webp"
             alt="ArchiMade Studio, dessinateur en bâtiment à Tours"
             width={1254}
             height={1254}
-            fetchPriority="high"
             sizes={IMAGE_SIZES.logo}
             className="h-24 md:h-38 w-auto object-contain opacity-80"
           />
@@ -1439,6 +1441,7 @@ const services = [
     alt: "Permis de construire d'une maison individuelle à Veigné (37), rendu 3D, dessinateur ArchiMade",
     desc: "Constitution et dépôt de votre dossier de permis de construire (projets jusqu'à 150 m²) : plans réglementaires, notice, pièces graphiques. On gère le formalisme, vous gagnez du temps.",
     slug: "/permis-de-construire",
+    anchor: "Permis de construire à Tours",
   },
   {
     title: "Déclaration préalable de travaux",
@@ -1449,6 +1452,7 @@ const services = [
     alt: "Création d'une extension : dossier de déclaration préalable, plans & rendu 3D, dessinateur ArchiMade",
     desc: "Extensions, abris, clôtures, ravalements, changements de façade : dossier de déclaration préalable complet et conforme aux règles d'urbanisme.",
     slug: "/declaration-prealable",
+    anchor: "Déclaration préalable de travaux",
   },
   {
     title: "Conception de plans",
@@ -1459,6 +1463,7 @@ const services = [
     alt: "Conception de plans : cellules d'activités à La Ville-aux-Dames (37), dessinateur ArchiMade",
     desc: "Plans de niveaux, façades, coupes et plans techniques pour votre construction, extension ou rénovation. Des documents clairs, précis et conformes, prêts pour le dépôt.",
     slug: "/plans-techniques",
+    anchor: "Plans techniques à Tours",
   },
   {
     title: "Modélisation 3D",
@@ -1469,6 +1474,7 @@ const services = [
     alt: "Modélisation 3D d'un club house de padel, ArchiMade, dessinateur en bâtiment",
     desc: "Votre projet modélisé en 3D avant les travaux : volumes, implantation, aménagement, pour décider et vous projeter en toute clarté.",
     slug: "/modelisation-3d",
+    anchor: "Modélisation 3D de bâtiment",
   },
   {
     title: "Rendus photoréalistes",
@@ -1479,6 +1485,7 @@ const services = [
     alt: "Rendu photoréaliste d'une maison individuelle à Montlouis-sur-Loire (37), ArchiMade",
     desc: "Des images réalistes de votre futur projet, fidèles aux matériaux et à la lumière, pour présenter, convaincre et valider.",
     slug: "/rendus-photorealistes",
+    anchor: "Rendus 3D photoréalistes",
   },
   {
     title: "Accompagnement de projet habitat",
@@ -1489,6 +1496,7 @@ const services = [
     alt: "Plans d'extension d'habitat à Saint-Cyr-sur-Loire (37), dessinateur ArchiMade",
     desc: "De la première esquisse au dépôt en mairie : conseil, conception et dossier administratif, de bout en bout. À distance partout en France.",
     slug: "/accompagnement-projet-habitat",
+    anchor: "Accompagnement de projet habitat",
   },
 ];
 
@@ -1818,7 +1826,7 @@ function ArchiServices() {
                             : "hidden",
                         )}
                       >
-                        En savoir plus : {service.title}
+                        {service.anchor}
                         <ArrowUpRight className="w-3.5 h-3.5 shrink-0" />
                       </Link>
                     )}
@@ -2935,64 +2943,66 @@ function ArchiContact() {
                   Zones d'intervention
                 </span>
               </div>
+              {/* Descriptive, keyword-aligned anchors (each link carries the
+                  service term so the city pages own their hyperlocal query).
+                  Middot-separated directory keeps it compact in the info column. */}
               <p className="text-[clamp(0.72rem,1.6vh,1rem)] text-black/50 font-light leading-relaxed max-w-md">
-                Basé à{" "}
                 <Link
                   to="/dessinateur-batiment-tours"
                   className="text-black/70 font-bold underline decoration-black/20 underline-offset-2 hover:decoration-black/60 transition-colors"
                 >
-                  Tours (37)
+                  Dessinateur en bâtiment à Tours
                 </Link>
-                , dessinateur en bâtiment en{" "}
+                {" · "}
                 <Link
                   to="/dessinateur-batiment-indre-et-loire"
                   className="underline decoration-black/15 underline-offset-2 hover:text-black/80 transition-colors"
                 >
-                  Indre-et-Loire
-                </Link>{" "}
-                :{" "}
+                  Dessinateur en Indre-et-Loire
+                </Link>
+                {" · "}
                 <Link
                   to="/dessinateur-batiment-saint-cyr-sur-loire"
                   className="underline decoration-black/15 underline-offset-2 hover:text-black/80 transition-colors"
                 >
-                  Saint-Cyr-sur-Loire
+                  Dessinateur à Saint-Cyr-sur-Loire
                 </Link>
-                ,{" "}
+                {" · "}
                 <Link
                   to="/dessinateur-batiment-joue-les-tours"
                   className="underline decoration-black/15 underline-offset-2 hover:text-black/80 transition-colors"
                 >
-                  Joué-lès-Tours
+                  Dessinateur à Joué-lès-Tours
                 </Link>
-                ,{" "}
+                {" · "}
                 <Link
                   to="/dessinateur-batiment-chambray-les-tours"
                   className="underline decoration-black/15 underline-offset-2 hover:text-black/80 transition-colors"
                 >
-                  Chambray-lès-Tours
+                  Dessinateur à Chambray-lès-Tours
                 </Link>
-                ,{" "}
+                {" · "}
                 <Link
                   to="/dessinateur-batiment-montlouis-sur-loire"
                   className="underline decoration-black/15 underline-offset-2 hover:text-black/80 transition-colors"
                 >
-                  Montlouis-sur-Loire
+                  Dessinateur à Montlouis-sur-Loire
                 </Link>
-                ,{" "}
+                {" · "}
                 <Link
                   to="/dessinateur-batiment-veigne"
                   className="underline decoration-black/15 underline-offset-2 hover:text-black/80 transition-colors"
                 >
-                  Veigné
+                  Dessinateur à Veigné
                 </Link>
-                ,{" "}
+                {" · "}
                 <Link
                   to="/dessinateur-batiment-esvres"
                   className="underline decoration-black/15 underline-offset-2 hover:text-black/80 transition-colors"
                 >
-                  Esvres
-                </Link>{" "}
-                et à distance partout en France.
+                  Dessinateur à Esvres
+                </Link>
+                . À distance partout en France.
               </p>
             </div>
           </div>

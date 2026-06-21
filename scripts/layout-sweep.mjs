@@ -5,13 +5,17 @@
 // NEVER EXCUSES IT. Dismiss only genuinely-invisible ink, whitelisted decorative
 // layers, or a 3D backface actually rotated away. Plus OVERFLOW_X / CLIP / ESCAPE.
 import { createRequire } from "module";
+import { readdirSync } from "node:fs";
 const require = createRequire(
   "C:/Users/yasse/AppData/Local/npm-cache/_npx/5e2e484947874241/node_modules/playwright/",
 );
 const { chromium } = require("playwright");
 
 const BASE = "http://localhost:4173";
-const ROUTES = ["/", "/mentions-legales", "/confidentialite", "/cookies"];
+const ROUTES = readdirSync("dist")
+  .filter((f) => f.endsWith(".html"))
+  .map((f) => (f === "index.html" ? "/" : "/" + f.replace(/\.html$/, "")))
+  .sort((a, b) => (a === "/" ? -1 : b === "/" ? 1 : a.localeCompare(b)));
 const WIDTHS = [
   1920, 1536, 1535, 1440, 1366, 1280, 1279, 1024, 1023, 834, 768, 767, 540,
   430, 414, 390, 375, 360,

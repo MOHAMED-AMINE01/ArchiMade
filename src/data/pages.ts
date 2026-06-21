@@ -59,7 +59,7 @@ export const SERVICE_PAGES: DedicatedPage[] = [
     h1: "Permis de construire à Tours et en Indre-et-Loire",
     title: "Permis de construire à Tours (37) jusqu'à 150 m² | ArchiMade Studio",
     description:
-      "Dossier de permis de construire pour maison individuelle, extension ou surélévation jusqu'à 150 m² à Tours et en Indre-et-Loire. Plans réglementaires, dépôt en mairie, devis gratuit.",
+      "Permis de construire pour maison, extension ou surélévation jusqu'à 150 m² à Tours et en Indre-et-Loire. Plans conformes, dépôt en mairie. Devis gratuit.",
     intro:
       "ArchiMade, dessinateur en bâtiment basé à Tours, monte votre dossier de permis de construire de bout en bout pour les projets jusqu'à 150 m² de surface de plancher : maison individuelle neuve, extension, surélévation ou changement de destination. Vous repartez avec un dossier complet, conforme au règlement d'urbanisme de votre commune et prêt à déposer en mairie.",
     hero: {
@@ -118,7 +118,7 @@ export const SERVICE_PAGES: DedicatedPage[] = [
     h1: "Déclaration préalable de travaux à Tours et en Indre-et-Loire",
     title: "Déclaration préalable de travaux à Tours (37) | ArchiMade Studio",
     description:
-      "Dossier de déclaration préalable pour extension, abri, clôture, ravalement ou changement de façade à Tours et en Indre-et-Loire. Conforme au PLU, devis gratuit.",
+      "Déclaration préalable pour extension, abri, clôture, ravalement ou changement de façade à Tours et en Indre-et-Loire. Conforme au PLU. Devis gratuit.",
     intro:
       "La déclaration préalable est l'autorisation d'urbanisme des travaux de petite ampleur. ArchiMade prépare votre dossier complet pour une extension, un abri de jardin, une clôture, un ravalement, la pose de panneaux solaires ou un changement de façade, en conformité avec le règlement de votre commune en Indre-et-Loire.",
     hero: {
@@ -176,7 +176,7 @@ export const SERVICE_PAGES: DedicatedPage[] = [
     h1: "Plans techniques pour construction, extension et rénovation",
     title: "Plans techniques de bâtiment à Tours (37) | ArchiMade Studio",
     description:
-      "Plans techniques précis et conformes : plans de niveaux, façades, coupes et plans d'exécution pour votre construction, extension ou rénovation. Tours, Indre-et-Loire et à distance.",
+      "Plans techniques précis et conformes : niveaux, façades, coupes et plans d'exécution pour construction, extension ou rénovation à Tours. Devis gratuit.",
     intro:
       "Les plans techniques sont la colonne vertébrale de tout projet de construction. ArchiMade dessine vos plans de niveaux, façades, coupes et plans d'exécution avec la précision attendue par les services d'urbanisme et par les entreprises qui réaliseront les travaux, pour une construction neuve, une extension ou une rénovation.",
     hero: {
@@ -237,7 +237,7 @@ export const SERVICE_PAGES: DedicatedPage[] = [
     h1: "Modélisation 3D de votre projet de construction",
     title: "Modélisation 3D de bâtiment à Tours (37) | ArchiMade Studio",
     description:
-      "Modélisation 3D de votre maison, extension ou bâtiment avant les travaux : volumes, implantation et aménagement pour décider en toute clarté. Tours, Indre-et-Loire et à distance.",
+      "Modélisation 3D de votre maison, extension ou bâtiment avant les travaux : volumes, implantation et aménagement pour décider clairement. Devis gratuit.",
     intro:
       "La modélisation 3D transforme un plan en projet que l'on comprend d'un seul regard. ArchiMade modélise votre maison, votre extension ou votre bâtiment avant les travaux pour vous permettre d'apprécier les volumes, l'implantation sur le terrain et l'aménagement intérieur, et de décider en toute confiance.",
     hero: {
@@ -298,7 +298,7 @@ export const SERVICE_PAGES: DedicatedPage[] = [
     h1: "Rendus 3D photoréalistes de votre futur projet",
     title: "Rendus 3D photoréalistes à Tours (37) | ArchiMade Studio",
     description:
-      "Rendus 3D photoréalistes fidèles aux matériaux et à la lumière pour présenter, convaincre et valider votre projet de construction. Tours, Indre-et-Loire et à distance.",
+      "Rendus 3D photoréalistes fidèles aux matériaux et à la lumière pour présenter, convaincre et valider votre projet. Tours et à distance. Devis gratuit.",
     intro:
       "Le rendu photoréaliste donne à votre projet l'apparence d'une photographie avant même la construction. ArchiMade produit des images fidèles aux matériaux, aux couleurs et à la lumière naturelle, pour présenter votre maison ou votre bâtiment, convaincre vos interlocuteurs et valider vos choix esthétiques en toute sérénité. C'est notre principal facteur de différenciation.",
     hero: {
@@ -359,7 +359,7 @@ export const SERVICE_PAGES: DedicatedPage[] = [
     h1: "Accompagnement de votre projet habitat, de l'esquisse au dépôt",
     title: "Accompagnement de projet habitat à Tours (37) | ArchiMade Studio",
     description:
-      "Accompagnement complet de votre projet habitat : conseil, conception, plans, modélisation 3D et dossier administratif, de la première esquisse au dépôt en mairie. Partout en France.",
+      "Accompagnement complet de votre projet habitat : conseil, conception, plans, 3D et dossier administratif, de l'esquisse au dépôt en mairie. Devis gratuit.",
     intro:
       "Construire, étendre ou rénover demande de coordonner de nombreuses étapes. ArchiMade vous accompagne de bout en bout : conseil de faisabilité, conception, plans techniques, modélisation 3D et dossier administratif, de la première esquisse jusqu'au dépôt en mairie. Un interlocuteur unique pour un projet maîtrisé, à Tours, en Indre-et-Loire et à distance partout en France.",
     hero: {
@@ -420,7 +420,7 @@ export const LOCATION_PAGES: DedicatedPage[] = [
     h1: "Dessinateur en bâtiment en Indre-et-Loire (37)",
     title: "Dessinateur en bâtiment en Indre-et-Loire (37) | ArchiMade Studio",
     description:
-      "Dessinateur en bâtiment en Indre-et-Loire : permis de construire, déclaration préalable, plans techniques et rendus 3D à Tours et dans tout le département. Devis gratuit.",
+      "Dessinateur en bâtiment en Indre-et-Loire : permis de construire, déclaration préalable, plans techniques et rendus 3D à Tours et alentour. Devis gratuit.",
     intro:
       "ArchiMade est votre dessinateur en bâtiment en Indre-et-Loire. Depuis Tours, nous concevons vos plans, vos dossiers de permis de construire et de déclaration préalable, et vos rendus 3D pour des projets répartis dans tout le département : maisons individuelles, extensions, surélévations et bâtiments d'activité.",
     hero: {
@@ -477,7 +477,7 @@ export const LOCATION_PAGES: DedicatedPage[] = [
     h1: "Dessinateur en bâtiment à Tours (37)",
     title: "Dessinateur en bâtiment à Tours (37) | ArchiMade Studio",
     description:
-      "Dessinateur en bâtiment à Tours : permis de construire, déclaration préalable, plans techniques et rendus 3D photoréalistes. Établissement à Tours, devis gratuit.",
+      "Dessinateur en bâtiment à Tours : permis de construire, déclaration préalable, plans techniques et rendus 3D. Établissement à Tours. Devis gratuit.",
     intro:
       "ArchiMade est votre dessinateur en bâtiment à Tours. Notre établissement tourangeau conçoit vos plans, monte vos dossiers de permis de construire et de déclaration préalable, et produit vos modélisations et rendus 3D pour vos projets de maison, d'extension ou de rénovation dans la ville et son agglomération.",
     hero: {
@@ -533,7 +533,7 @@ export const LOCATION_PAGES: DedicatedPage[] = [
     trail: DEPT_TRAIL,
     eyebrow: "Zone d'intervention · 37300",
     h1: "Dessinateur en bâtiment à Joué-lès-Tours (37300)",
-    title: "Dessinateur en bâtiment à Joué-lès-Tours (37300) | ArchiMade",
+    title: "Dessinateur en bâtiment à Joué-lès-Tours (37300) | ArchiMade Studio",
     description:
       "Dessinateur en bâtiment à Joué-lès-Tours : plans, permis de construire et rendus 3D. Réalisation d'une villa contemporaine à Joué-lès-Tours. Devis gratuit.",
     intro:
@@ -591,9 +591,9 @@ export const LOCATION_PAGES: DedicatedPage[] = [
     trail: DEPT_TRAIL,
     eyebrow: "Zone d'intervention · 37540",
     h1: "Dessinateur en bâtiment à Saint-Cyr-sur-Loire (37540)",
-    title: "Dessinateur en bâtiment à Saint-Cyr-sur-Loire (37540) | ArchiMade",
+    title: "Dessinateur en bâtiment à Saint-Cyr-sur-Loire (37540) | ArchiMade Studio",
     description:
-      "Dessinateur en bâtiment à Saint-Cyr-sur-Loire : plans, permis, déclaration préalable et rendus 3D. Réalisations d'une villa et d'une extension à Saint-Cyr. Devis gratuit.",
+      "Dessinateur en bâtiment à Saint-Cyr-sur-Loire : plans, permis, déclaration préalable et rendus 3D. Villa et extension réalisées. Devis gratuit.",
     intro:
       "ArchiMade est votre dessinateur en bâtiment à Saint-Cyr-sur-Loire, commune résidentielle limitrophe de Tours sur la rive nord de la Loire. Nous y avons mené plusieurs projets et concevons plans, dossiers d'urbanisme et rendus 3D pour la construction neuve comme pour l'extension.",
     hero: {
@@ -649,7 +649,7 @@ export const LOCATION_PAGES: DedicatedPage[] = [
     trail: DEPT_TRAIL,
     eyebrow: "Zone d'intervention · 37170",
     h1: "Dessinateur en bâtiment à Chambray-lès-Tours (37170)",
-    title: "Dessinateur en bâtiment à Chambray-lès-Tours (37170) | ArchiMade",
+    title: "Dessinateur en bâtiment à Chambray-lès-Tours (37170) | ArchiMade Studio",
     description:
       "Dessinateur en bâtiment à Chambray-lès-Tours : plans, déclaration préalable, permis et rendus 3D. Réalisation d'une surélévation de garage. Devis gratuit.",
     intro:
@@ -707,9 +707,9 @@ export const LOCATION_PAGES: DedicatedPage[] = [
     trail: DEPT_TRAIL,
     eyebrow: "Zone d'intervention · 37270",
     h1: "Dessinateur en bâtiment à Montlouis-sur-Loire (37270)",
-    title: "Dessinateur en bâtiment à Montlouis-sur-Loire (37270) | ArchiMade",
+    title: "Dessinateur en bâtiment à Montlouis-sur-Loire (37270) | ArchiMade Studio",
     description:
-      "Dessinateur en bâtiment à Montlouis-sur-Loire : plans, permis de construire et rendus 3D photoréalistes. Réalisation d'une résidence de prestige. Devis gratuit.",
+      "Dessinateur en bâtiment à Montlouis-sur-Loire : plans, permis de construire et rendus 3D. Réalisation d'une résidence de prestige. Devis gratuit.",
     intro:
       "ArchiMade est votre dessinateur en bâtiment à Montlouis-sur-Loire, commune du val de Loire réputée pour son cadre et son vignoble. Nous y concevons plans, dossiers de permis de construire et rendus 3D photoréalistes pour des projets de maison individuelle soignés.",
     hero: {
