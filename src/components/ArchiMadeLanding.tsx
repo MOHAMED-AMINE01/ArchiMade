@@ -1332,7 +1332,7 @@ function ArchiAbout() {
           </h2>
         </div>
 
-        <div className="flex flex-col xl:flex-row gap-12 xl:gap-20 mt-16 md:mt-24">
+        <div className="flex flex-col xl:flex-row gap-12 xl:gap-20 mt-[clamp(2.5rem,6vh,6rem)]">
           <div className="flex-1 about-subtext">
             <p className="text-lg sm:text-xl md:text-2xl xl:text-3xl font-light leading-normal md:leading-[1.4] text-brand-dark tracking-tight border-l-2 md:border-l-4 border-black pl-6 md:pl-8">
               ArchiMade accompagne particuliers et professionnels dans la
@@ -1359,7 +1359,7 @@ function ArchiAbout() {
             </motion.button>
           </div>
 
-          <div className="xl:w-1/3 flex flex-col justify-end mt-12 xl:mt-0 w-full">
+          <div className="xl:w-1/3 flex flex-col justify-start mt-12 xl:mt-0 w-full">
             {/* Trust scaffold - replaces the "0.0 RETARD / 100% CONFORMITÉ"
                 gimmick. Founder name is public; all metrics/credentials below
                 are placeholders - DO NOT invent (see TODO comments). */}
