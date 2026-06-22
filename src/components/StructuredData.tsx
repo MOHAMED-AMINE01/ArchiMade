@@ -129,21 +129,28 @@ const structuredData = {
       priceRange: '€€',
       founder: { '@id': FOUNDER_ID },
       employee: { '@id': FOUNDER_ID },
-      // TODO(geo): add { "@type":"GeoCoordinates", latitude, longitude } for the
-      // Tours établissement (25 rue du Maréchal Ney, 37100) once confirmed - NOT
-      // invented offline.
+      // Opening hours (client-confirmed): Monday-Friday 09:00-18:00. No weekend.
+      openingHoursSpecification: {
+        '@type': 'OpeningHoursSpecification',
+        dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+        opens: '09:00',
+        closes: '18:00',
+      },
+      // GeoCoordinates intentionally OMITTED (permanent): this is a service-area
+      // business with NO public physical premises to pin - geocoding would imply
+      // a walk-in location that does not exist.
       description:
         'Accompagnement pour permis de construire, déclarations préalables, plans techniques et modélisation 3D photoréaliste.',
       // Local base (Indre-et-Loire/Tours) + national remote reach - narrow to City/AdministrativeArea only for purely-local, or Country only for purely-national.
       areaServed: AREA_SERVED,
-      // NAP: real public address of the French establishment (Tours). GBP stays a
-      // service-area profile (no public pin) unless a real client-facing office is confirmed;
-      // including the address in JSON-LD for NAP consistency is fine even if GBP hides it.
+      // Service-area model: NO street-level place of business is presented here
+      // (the client has no public premises). Only the geographic signal
+      // (locality + region + country) is kept; the full établissement address
+      // lives ONLY in /mentions-legales (French legal requirement).
       address: {
         '@type': 'PostalAddress',
-        streetAddress: '25 rue du Maréchal Ney',
         addressLocality: 'Tours',
-        postalCode: '37100',
+        addressRegion: 'Indre-et-Loire',
         addressCountry: 'FR',
       },
       parentOrganization: { '@id': ORG_ID },

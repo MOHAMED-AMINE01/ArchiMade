@@ -203,6 +203,78 @@ const home = read("dist/index.html") || "";
     : no(`${badArchitecte} non-disclaiming "architecte" occurrence(s)`);
 }
 
+// ── NAP / ADDRESS (service-area business model) ───────────────────────────────
+// The client has NO public physical premises. Phone + email are the byte-
+// identical NAP anchors wherever they appear; the full street address lives ONLY
+// on /mentions-legales (French legal requirement); GeoCoordinates never appear.
+console.log("\n== NAP / ADDRESS (service-area model) ==");
+{
+  const routesArr = Object.entries(ROUTES);
+  const allHtml = routesArr.map(([, f]) => read(f) || "").join("\n");
+  const EMAIL = "contact@archi-made.com";
+  const TEL = "+33624896695"; // machine (tel:/JSON-LD) form
+  const PHONE_DISPLAY = "+33 6 24 89 66 95"; // human form
+
+  // 1) Street address is LEGAL-PAGE-ONLY (never leaks into a marketing route or
+  //    the home JSON-LD).
+  const streetLeak = routesArr
+    .filter(([r]) => r !== "/mentions-legales")
+    .filter(([, f]) => /Mar[ée]chal Ney/i.test(read(f) || ""))
+    .map(([r]) => r);
+  streetLeak.length === 0
+    ? ok("street address absent from all non-legal routes")
+    : no(`street address leaked onto: ${streetLeak.join(", ")}`);
+  /Mar[ée]chal Ney/i.test(read(ROUTES["/mentions-legales"]) || "")
+    ? ok("street address kept on /mentions-legales (legal requirement)")
+    : no("street address missing from /mentions-legales");
+
+  // 2) No GeoCoordinates anywhere (permanent - service-area business).
+  /GeoCoordinates/i.test(allHtml)
+    ? no("GeoCoordinates present (must be 0)")
+    : ok("no GeoCoordinates anywhere (0)");
+
+  // 3) Email NAP anchor byte-identical wherever it appears.
+  {
+    const mailtos = [...new Set(
+      [...allHtml.matchAll(/mailto:([^"'\s>]+)/g)].map((m) => m[1]),
+    )].filter((e) => e !== EMAIL);
+    const otherEmail = [...new Set(
+      allHtml.match(/[\w.+-]+@archi-made\.com/g) || [],
+    )].filter((e) => e !== EMAIL);
+    mailtos.length === 0 && otherEmail.length === 0
+      ? ok(`email NAP consistent (${EMAIL})`)
+      : no(`divergent email: ${[...mailtos, ...otherEmail].join(", ")}`);
+  }
+
+  // 4) Phone NAP anchor byte-identical (tel: links + JSON-LD telephone).
+  {
+    const tels = [...new Set(
+      [...allHtml.matchAll(/tel:([+\d]+)/g)].map((m) => m[1]),
+    )].filter((t) => t !== TEL);
+    const jsonTels = [...new Set(
+      [...allHtml.matchAll(/"telephone"\s*:\s*"([^"]+)"/g)].map((m) => m[1]),
+    )].filter((t) => t !== TEL);
+    tels.length === 0 && jsonTels.length === 0
+      ? ok(`phone NAP consistent (${TEL})`)
+      : no(`divergent phone: ${[...tels, ...jsonTels].join(", ")}`);
+  }
+
+  // 5) Home shows the canonical NAP anchors (sanity).
+  home.includes(EMAIL) &&
+  home.includes(PHONE_DISPLAY) &&
+  home.includes(`tel:${TEL}`)
+    ? ok("home shows canonical email + phone NAP")
+    : no("home missing canonical email/phone NAP");
+
+  // 6) PART A: opening hours Mo-Fr 09:00-18:00 (no weekend) in home business JSON-LD.
+  /OpeningHoursSpecification/.test(home) &&
+  /"opens"\s*:\s*"09:00"/.test(home) &&
+  /"closes"\s*:\s*"18:00"/.test(home) &&
+  !/"(Saturday|Sunday)"/.test(home)
+    ? ok("openingHours Mo-Fr 09:00-18:00 (no weekend)")
+    : no("openingHours missing/incorrect");
+}
+
 console.log("\n== INTERNAL LINKS & DASHES ==");
 {
   const allHtml = Object.values(ROUTES)

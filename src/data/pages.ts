@@ -488,7 +488,7 @@ export const LOCATION_PAGES: DedicatedPage[] = [
       {
         h2: "Un dessinateur basé à Tours",
         paras: [
-          "Notre établissement français se situe 25 rue du Maréchal Ney, à Tours. Cette implantation nous place au cœur de l'agglomération tourangelle et de son urbanisme : zones pavillonnaires, secteurs anciens et abords protégés y cohabitent, avec des règles d'aspect parfois exigeantes.",
+          "ArchiMade est implanté à Tours, au cœur de l'Indre-et-Loire. Cet ancrage nous place au plus près de l'agglomération tourangelle et de son urbanisme : zones pavillonnaires, secteurs anciens et abords protégés y cohabitent, avec des règles d'aspect parfois exigeantes.",
           "Travailler avec un dessinateur qui connaît la ville facilite la lecture du plan local d'urbanisme et le dialogue avec le service urbanisme de la mairie, notamment dans les secteurs sauvegardés du centre.",
         ],
       },
@@ -509,8 +509,8 @@ export const LOCATION_PAGES: DedicatedPage[] = [
     ],
     faq: [
       {
-        q: "Où se trouve votre établissement à Tours ?",
-        a: "Notre établissement français est situé 25 rue du Maréchal Ney, 37100 Tours. Les rendez-vous se font sur place ou à distance, selon votre préférence.",
+        q: "Êtes-vous bien implantés à Tours ?",
+        a: "Oui, ArchiMade est implanté à Tours, en Indre-et-Loire. Les échanges se font à distance, par téléphone ou en visioconférence, ce qui nous permet de suivre votre projet où qu'il se trouve dans l'agglomération comme partout en France.",
       },
       {
         q: "Intervenez-vous dans toute l'agglomération de Tours ?",

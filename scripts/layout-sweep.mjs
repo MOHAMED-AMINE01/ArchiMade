@@ -350,12 +350,13 @@ async function runHomeStates(page, ledger, route, w, mobile) {
 
   const sectionIds = FULL
     ? [
-        "propos",
-        "methodes",
+        "accueil",
+        "a-propos",
+        "methode",
         "expertise",
         "expertise-content",
         "realisations",
-        "values",
+        "pourquoi-archimade",
         "faq",
         "contact",
       ]

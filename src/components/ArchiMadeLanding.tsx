@@ -51,6 +51,36 @@ const useIsomorphicLayoutEffect =
 // wait until the preloader has finished, preserving the original choreography.
 const LoadingContext = React.createContext<boolean>(true);
 
+// --- SECTION ANCHORS (PERMANENT - ad-campaign final URLs depend on these) ----
+// Every home section is reachable by a stable, lowercase-hyphenated hash that
+// matches the nav. These ids are CONTRACTUAL (Google Ads final URLs / shared
+// links rely on them) - do not rename:
+//   /#accueil  /#a-propos  /#methode  /#realisations  /#expertise  /#faq  /#contact
+//
+// The mobile floating header (xl:hidden) overlays content, so a hash jump must
+// stop BELOW it. The header offset is provided ENTIRELY by `scroll-margin-top`
+// in index.css (96px under xl, 0 from xl up where the nav is a left sidebar).
+// Both Lenis (when passed an element) and native scrollIntoView honour
+// scroll-margin-top, so we pass the element and add NO manual offset - passing
+// both would double the gap.
+function scrollToSection(slug: string) {
+  if (typeof window === "undefined") return;
+  const target = document.getElementById(slug);
+  if (!target) return;
+  const lenis = (window as any).lenis;
+  if (lenis) {
+    lenis.scrollTo(target); // scroll-margin-top supplies the header offset
+  } else {
+    target.scrollIntoView({ behavior: "smooth" });
+  }
+  // Make the URL shareable/linkable without a native jump (Lenis owns motion).
+  try {
+    window.history.pushState(null, "", `#${slug}`);
+  } catch {
+    /* history unavailable - scroll still works */
+  }
+}
+
 // --- CONFIG ---
 const IMAGES = {
   logos: {
@@ -718,8 +748,8 @@ const ArchiLogo = ({
 // --- NAVIGATION (DESKTOP) ---
 function ArchiNav({ isScrolling }: { isScrolling?: boolean }) {
   const menuItems = [
-    { name: "À propos", slug: "propos" },
-    { name: "Méthode", slug: "methodes" },
+    { name: "À propos", slug: "a-propos" },
+    { name: "Méthode", slug: "methode" },
     { name: "Réalisations", slug: "realisations" },
     { name: "Expertise", slug: "expertise" },
     { name: "FAQ", slug: "faq" },
@@ -737,10 +767,7 @@ function ArchiNav({ isScrolling }: { isScrolling?: boolean }) {
                 href={`#${item.slug}`}
                 onClick={(e) => {
                   e.preventDefault();
-                  const target = document.getElementById(item.slug);
-                  if (target) {
-                    target.scrollIntoView({ behavior: "smooth" });
-                  }
+                  scrollToSection(item.slug);
                 }}
                 className={cn(
                   "pointer-events-auto cursor-pointer font-semibold text-inherit block hover:italic transition-all duration-500 relative transform-gpu bg-[rgba(255,255,255,0.01)] rounded-md px-2 -ml-2",
@@ -771,9 +798,9 @@ function ArchiMenuOverlay({
   onClose: () => void;
 }) {
   const menuItems = [
-    { name: "À propos", slug: "propos" },
+    { name: "À propos", slug: "a-propos" },
     { name: "Services", slug: "expertise" },
-    { name: "Méthode", slug: "methodes" },
+    { name: "Méthode", slug: "methode" },
     { name: "Réalisations", slug: "realisations" },
     { name: "FAQ", slug: "faq" },
     { name: "Contact", slug: "contact" },
@@ -812,7 +839,13 @@ function ArchiMenuOverlay({
           <motion.a
             key={item.slug}
             href={`#${item.slug}`}
-            onClick={onClose}
+            onClick={(e) => {
+              e.preventDefault();
+              onClose();
+              // Let the overlay begin closing + body overflow reset before the
+              // Lenis scroll fires (so it isn't blocked by overflow:hidden).
+              setTimeout(() => scrollToSection(item.slug), 80);
+            }}
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: isOpen ? 1 : 0, x: isOpen ? 0 : -20 }}
             transition={{ delay: 0.4 + i * 0.1, duration: 0.5 }}
@@ -1040,12 +1073,12 @@ function ArchiHero() {
 
     // Using Lenis for a custom slow and smooth scroll
     if ((window as any).lenis) {
-      (window as any).lenis.scrollTo("#propos", {
+      (window as any).lenis.scrollTo("#a-propos", {
         duration: 3,
         easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       });
     } else {
-      const visionSection = document.getElementById("propos");
+      const visionSection = document.getElementById("a-propos");
       if (visionSection) {
         visionSection.scrollIntoView({ behavior: "smooth" });
       }
@@ -1277,7 +1310,7 @@ function ArchiAbout() {
 
   return (
     <section
-      id="propos"
+      id="a-propos"
       ref={sectionRef}
       className="relative bg-transparent overflow-hidden font-display"
     >
@@ -1355,7 +1388,7 @@ function ArchiAbout() {
 
       {/* INTEGRATED PROCESS SECTION */}
       <div
-        id="methodes"
+        id="methode"
         className="relative w-full overflow-hidden mt-12 md:mt-24 group/method"
       >
         <div className="about-img-container relative w-full overflow-hidden">
@@ -3352,11 +3385,22 @@ export default function ArchiMadeLanding() {
     // Expose lenis globally for component access
     (window as any).lenis = lenis;
 
-    // Arriving from a sub-page CTA (e.g. /#contact): smooth-scroll to the target
-    // once Lenis is live and the (always-rendered) sections are in the DOM.
+    // Deep-link on load (e.g. landing on /#contact from an ad, or arriving from
+    // a sub-page CTA): smooth-scroll to the target once Lenis is live and the
+    // (always-rendered) sections are in the DOM. This effect only runs after
+    // isLoading is false, i.e. AFTER the intro animation completes (or is skipped
+    // when archimade_intro_seen is set) - so a first visit waits for intro-done
+    // before jumping. Two rAFs let the entrance layout settle => no double jump.
     const incomingHash = window.location.hash;
-    if (incomingHash && document.querySelector(incomingHash)) {
-      requestAnimationFrame(() => lenis.scrollTo(incomingHash, { offset: 0 }));
+    const incomingEl = /^#[a-z][\w-]*$/i.test(incomingHash)
+      ? document.getElementById(incomingHash.slice(1))
+      : null;
+    if (incomingEl) {
+      // Pass the element (not the string) so scroll-margin-top applies the same
+      // header offset as a nav click. Two rAFs let the entrance layout settle.
+      requestAnimationFrame(() =>
+        requestAnimationFrame(() => lenis.scrollTo(incomingEl)),
+      );
     }
 
     lenis.on("scroll", () => {
@@ -3533,7 +3577,7 @@ export default function ArchiMadeLanding() {
         {/* Main Content Layout */}
         <main className="archi-entrance relative z-10 pointer-events-none *:pointer-events-auto">
           {/* All components take 100% width, offsets handled internally per section */}
-          <div id="hero">
+          <div id="accueil">
             <ArchiHero />
           </div>
 
