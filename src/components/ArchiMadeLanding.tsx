@@ -1365,7 +1365,7 @@ function ArchiAbout() {
                 are placeholders - DO NOT invent (see TODO comments). */}
             <div className="border-t border-black/10 pt-8 md:pt-12 space-y-6">
               <div>
-                <p className="text-2xl md:text-3xl font-bold text-brand-dark tracking-tight">
+                <p className="text-4xl md:text-5xl xl:text-6xl font-black text-brand-dark tracking-tighter leading-[1.05]">
                   Damien De Sousa
                 </p>
                 <p className="text-[10px] md:text-xs uppercase tracking-[0.3em] font-bold text-brand-dark/40 mt-2">
