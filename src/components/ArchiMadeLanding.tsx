@@ -1319,7 +1319,7 @@ function ArchiAbout() {
           <span className="text-[9px] md:text-[10px] uppercase tracking-[0.4em] md:tracking-[0.6em] text-brand-dark/30 font-bold block animate-fade-in">
             Expertise & Accompagnement
           </span>
-          <h2 className="about-heading text-3xl sm:text-4xl md:text-5xl xl:text-7xl font-bold leading-[1.1] md:leading-[1.1] text-brand-dark uppercase tracking-tighter max-w-5xl">
+          <h2 className="about-heading text-3xl sm:text-4xl md:text-5xl xl:text-6xl font-bold leading-[1.1] md:leading-[1.1] text-brand-dark uppercase tracking-tighter max-w-5xl">
             {"Spécialiste dans la conception de projets de construction."
               .split(" ")
               .map((word, i) => (
@@ -1334,7 +1334,7 @@ function ArchiAbout() {
 
         <div className="flex flex-col xl:flex-row gap-12 xl:gap-20 mt-[clamp(2.5rem,6vh,6rem)]">
           <div className="flex-1 about-subtext">
-            <p className="text-lg sm:text-xl md:text-2xl xl:text-3xl font-light leading-normal md:leading-[1.4] text-brand-dark tracking-tight border-l-2 md:border-l-4 border-black pl-6 md:pl-8">
+            <p className="text-lg sm:text-xl md:text-2xl font-light leading-normal md:leading-[1.4] text-brand-dark tracking-tight border-l-2 md:border-l-4 border-black pl-6 md:pl-8">
               ArchiMade accompagne particuliers et professionnels dans la
               préparation de leurs projets de construction.
               <br />
