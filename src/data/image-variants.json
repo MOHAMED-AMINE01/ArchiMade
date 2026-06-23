@@ -1,0 +1,435 @@
+{
+  "/img/construction-d-une-maison-individuelle-37250-veigne.webp": {
+    "width": 1536,
+    "height": 1024,
+    "widths": [
+      640,
+      960,
+      1280,
+      1536
+    ],
+    "tier": "render3d",
+    "deliveryFormat": "webp",
+    "sourceMaxWidth": 1536,
+    "logo": false,
+    "sourceFallback": true
+  },
+  "/img/construction-d-une-maison-individuelle-joue-les-tours-37300.webp": {
+    "width": 1536,
+    "height": 1024,
+    "widths": [
+      640,
+      960,
+      1280,
+      1536
+    ],
+    "tier": "render3d",
+    "deliveryFormat": "webp",
+    "sourceMaxWidth": 1536,
+    "logo": false,
+    "sourceFallback": true
+  },
+  "/img/construction-d-une-maison-individuelle-montlouis-sur-loire-37270.webp": {
+    "width": 1536,
+    "height": 1024,
+    "widths": [
+      640,
+      960,
+      1280,
+      1536
+    ],
+    "tier": "render3d",
+    "deliveryFormat": "webp",
+    "sourceMaxWidth": 1536,
+    "logo": false,
+    "sourceFallback": true
+  },
+  "/img/creation-d-une-extension-13170-les-pennes-mirabeau.webp": {
+    "width": 1536,
+    "height": 1024,
+    "widths": [
+      640,
+      960,
+      1280,
+      1536
+    ],
+    "tier": "render3d",
+    "deliveryFormat": "webp",
+    "sourceMaxWidth": 1536,
+    "logo": false,
+    "sourceFallback": true
+  },
+  "/img/modifications-de-facades-d-un-entrepot-17100-saintes.webp": {
+    "width": 1419,
+    "height": 1108,
+    "widths": [
+      640,
+      960,
+      1280
+    ],
+    "tier": "render3d",
+    "deliveryFormat": "webp",
+    "sourceMaxWidth": 1419,
+    "logo": false,
+    "sourceFallback": true
+  },
+  "/img/pexels-perqued-13203180.webp": {
+    "width": 3000,
+    "height": 3750,
+    "widths": [
+      640,
+      960,
+      1280,
+      1536,
+      1920,
+      2560
+    ],
+    "tier": "display",
+    "deliveryFormat": "auto",
+    "sourceMaxWidth": 3000,
+    "logo": false,
+    "sourceFallback": true
+  },
+  "/img/creation-d-une-extenstion-37540-saint-cyr-sur-loire-01.webp": {
+    "width": 2048,
+    "height": 1536,
+    "widths": [
+      640,
+      960,
+      1280,
+      1536,
+      1920
+    ],
+    "tier": "display",
+    "deliveryFormat": "auto",
+    "sourceMaxWidth": 2048,
+    "logo": false,
+    "sourceFallback": true
+  },
+  "/img/creation-d-une-extenstion-37540-saint-cyr-sur-loire-02.webp": {
+    "width": 2048,
+    "height": 1536,
+    "widths": [
+      640,
+      960,
+      1280,
+      1536,
+      1920
+    ],
+    "tier": "display",
+    "deliveryFormat": "auto",
+    "sourceMaxWidth": 2048,
+    "logo": false,
+    "sourceFallback": true
+  },
+  "/img/4-cellules-d-activites-rue-jacqueline-auriol-la-ville-aux-dames-37700.webp": {
+    "width": 1333,
+    "height": 847,
+    "widths": [
+      640,
+      960,
+      1280
+    ],
+    "tier": "display",
+    "deliveryFormat": "auto",
+    "sourceMaxWidth": 1333,
+    "logo": false,
+    "sourceFallback": true
+  },
+  "/img/capture-d-ecran-2026-04-11-093951.webp": {
+    "width": 1687,
+    "height": 613,
+    "widths": [
+      640,
+      960,
+      1280,
+      1536
+    ],
+    "tier": "standard",
+    "deliveryFormat": "auto",
+    "sourceMaxWidth": 1687,
+    "logo": false,
+    "sourceFallback": true
+  },
+  "/img/1abff9e6-a427-41ba-84e4-6202cf7be7ee.webp": {
+    "width": 1200,
+    "height": 1600,
+    "widths": [
+      640,
+      960
+    ],
+    "tier": "standard",
+    "deliveryFormat": "auto",
+    "sourceMaxWidth": 1200,
+    "logo": false,
+    "sourceFallback": true
+  },
+  "/img/46f52069-d1b9-41b3-b202-29c8108447e7.webp": {
+    "width": 1200,
+    "height": 1600,
+    "widths": [
+      640,
+      960
+    ],
+    "tier": "standard",
+    "deliveryFormat": "auto",
+    "sourceMaxWidth": 1200,
+    "logo": false,
+    "sourceFallback": true
+  },
+  "/img/avant-projet.webp": {
+    "width": 1536,
+    "height": 2048,
+    "widths": [
+      640,
+      960,
+      1280,
+      1536
+    ],
+    "tier": "standard",
+    "deliveryFormat": "auto",
+    "sourceMaxWidth": 1536,
+    "logo": false,
+    "sourceFallback": true
+  },
+  "/img/capture-d-ecran-2026-04-10-174146.webp": {
+    "width": 1301,
+    "height": 791,
+    "widths": [
+      640,
+      960,
+      1280
+    ],
+    "tier": "standard",
+    "deliveryFormat": "auto",
+    "sourceMaxWidth": 1301,
+    "logo": false,
+    "sourceFallback": true
+  },
+  "/img/capture-d-ecran-2026-04-10-174722.webp": {
+    "width": 1239,
+    "height": 804,
+    "widths": [
+      640,
+      960
+    ],
+    "tier": "standard",
+    "deliveryFormat": "auto",
+    "sourceMaxWidth": 1239,
+    "logo": false,
+    "sourceFallback": true
+  },
+  "/img/capture-d-ecran-2026-04-10-174735.webp": {
+    "width": 1164,
+    "height": 803,
+    "widths": [
+      640,
+      960
+    ],
+    "tier": "standard",
+    "deliveryFormat": "auto",
+    "sourceMaxWidth": 1164,
+    "logo": false,
+    "sourceFallback": true
+  },
+  "/img/capture-d-ecran-2026-04-10-174750.webp": {
+    "width": 1166,
+    "height": 807,
+    "widths": [
+      640,
+      960
+    ],
+    "tier": "standard",
+    "deliveryFormat": "auto",
+    "sourceMaxWidth": 1166,
+    "logo": false,
+    "sourceFallback": true
+  },
+  "/img/capture-d-ecran-2026-04-11-101030.webp": {
+    "width": 1382,
+    "height": 853,
+    "widths": [
+      640,
+      960,
+      1280
+    ],
+    "tier": "standard",
+    "deliveryFormat": "auto",
+    "sourceMaxWidth": 1382,
+    "logo": false,
+    "sourceFallback": true
+  },
+  "/img/capture-d-ecran-2026-04-11-101430.webp": {
+    "width": 1301,
+    "height": 659,
+    "widths": [
+      640,
+      960,
+      1280
+    ],
+    "tier": "standard",
+    "deliveryFormat": "auto",
+    "sourceMaxWidth": 1301,
+    "logo": false,
+    "sourceFallback": true
+  },
+  "/img/capture-d-ecran-2026-04-11-102226.webp": {
+    "width": 1233,
+    "height": 834,
+    "widths": [
+      640,
+      960
+    ],
+    "tier": "standard",
+    "deliveryFormat": "auto",
+    "sourceMaxWidth": 1233,
+    "logo": false,
+    "sourceFallback": true
+  },
+  "/img/capture-d-ecran-2026-04-11-102547.webp": {
+    "width": 1249,
+    "height": 795,
+    "widths": [
+      640,
+      960
+    ],
+    "tier": "standard",
+    "deliveryFormat": "auto",
+    "sourceMaxWidth": 1249,
+    "logo": false,
+    "sourceFallback": true
+  },
+  "/img/capture-d-ecran-2026-04-11-102902.webp": {
+    "width": 1412,
+    "height": 681,
+    "widths": [
+      640,
+      960,
+      1280
+    ],
+    "tier": "standard",
+    "deliveryFormat": "auto",
+    "sourceMaxWidth": 1412,
+    "logo": false,
+    "sourceFallback": true
+  },
+  "/img/insertion-2.webp": {
+    "width": 1200,
+    "height": 1600,
+    "widths": [
+      640,
+      960
+    ],
+    "tier": "standard",
+    "deliveryFormat": "auto",
+    "sourceMaxWidth": 1200,
+    "logo": false,
+    "sourceFallback": true
+  },
+  "/img/whatsapp-image-2022-10-05-at-09.00.22-1.webp": {
+    "width": 1200,
+    "height": 1600,
+    "widths": [
+      640,
+      960
+    ],
+    "tier": "standard",
+    "deliveryFormat": "auto",
+    "sourceMaxWidth": 1200,
+    "logo": false,
+    "sourceFallback": true
+  },
+  "/img/whatsapp-image-2026-04-23-at-17.48.13.webp": {
+    "width": 1600,
+    "height": 900,
+    "widths": [
+      640,
+      960,
+      1280,
+      1536
+    ],
+    "tier": "standard",
+    "deliveryFormat": "auto",
+    "sourceMaxWidth": 1600,
+    "logo": false,
+    "sourceFallback": true
+  },
+  "/img/whatsapp-image-2026-04-23-at-17.48.14-1.webp": {
+    "width": 1600,
+    "height": 900,
+    "widths": [
+      640,
+      960,
+      1280,
+      1536
+    ],
+    "tier": "standard",
+    "deliveryFormat": "auto",
+    "sourceMaxWidth": 1600,
+    "logo": false,
+    "sourceFallback": true
+  },
+  "/img/whatsapp-image-2026-04-23-at-17.48.14.webp": {
+    "width": 1600,
+    "height": 900,
+    "widths": [
+      640,
+      960,
+      1280,
+      1536
+    ],
+    "tier": "standard",
+    "deliveryFormat": "auto",
+    "sourceMaxWidth": 1600,
+    "logo": false,
+    "sourceFallback": true
+  },
+  "/img/logo-archimade.webp": {
+    "width": 1254,
+    "height": 1254,
+    "widths": [
+      128,
+      256,
+      512,
+      1024,
+      1254
+    ],
+    "tier": "logo",
+    "deliveryFormat": "auto",
+    "sourceMaxWidth": 1254,
+    "logo": true,
+    "sourceFallback": true
+  },
+  "/img/logo-intro.webp": {
+    "width": 1254,
+    "height": 1254,
+    "widths": [
+      128,
+      256,
+      512,
+      1024,
+      1254
+    ],
+    "tier": "logo",
+    "deliveryFormat": "auto",
+    "sourceMaxWidth": 1254,
+    "logo": true,
+    "sourceFallback": true
+  },
+  "/img/logo-archimade-v2.webp": {
+    "width": 1254,
+    "height": 1254,
+    "widths": [
+      128,
+      256,
+      512,
+      1024,
+      1254
+    ],
+    "tier": "logo",
+    "deliveryFormat": "auto",
+    "sourceMaxWidth": 1254,
+    "logo": true,
+    "sourceFallback": true
+  }
+}

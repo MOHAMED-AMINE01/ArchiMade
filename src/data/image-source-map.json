@@ -1,0 +1,182 @@
+{
+  "/img/construction-d-une-maison-individuelle-37250-veigne.webp": {
+    "source": "public/IMAGES/3D/Construction d_une maison individuelle 37250 Veigné.png",
+    "remasterTier": "render3d",
+    "deliveryFormat": "webp",
+    "layoutRoles": ["full", "modal-hero", "service"]
+  },
+  "/img/construction-d-une-maison-individuelle-joue-les-tours-37300.webp": {
+    "source": "public/IMAGES/3D/Construction d_une maison individuelle joue les tours 37300.png",
+    "remasterTier": "render3d",
+    "deliveryFormat": "webp",
+    "layoutRoles": ["full", "modal-hero", "service"]
+  },
+  "/img/construction-d-une-maison-individuelle-montlouis-sur-loire-37270.webp": {
+    "source": "public/IMAGES/3D/Construction d_une maison individuelle Montlouis sur Loire 37270.png",
+    "remasterTier": "render3d",
+    "deliveryFormat": "webp",
+    "layoutRoles": ["full", "modal-hero", "service"]
+  },
+  "/img/creation-d-une-extension-13170-les-pennes-mirabeau.webp": {
+    "source": "public/IMAGES/3D/Création d_une extension 13170 Les pennes Mirabeau.png",
+    "remasterTier": "render3d",
+    "deliveryFormat": "webp",
+    "layoutRoles": ["full", "modal-hero", "service"]
+  },
+  "/img/modifications-de-facades-d-un-entrepot-17100-saintes.webp": {
+    "source": "public/IMAGES/3D/Modifications de façades d_un entrepôt 17100 saintes.png",
+    "remasterTier": "render3d",
+    "deliveryFormat": "webp",
+    "layoutRoles": ["full", "modal-hero"]
+  },
+  "/img/pexels-perqued-13203180.webp": {
+    "source": "public/IMAGES/3D/pexels-perqued-13203180.jpg",
+    "remasterTier": "display",
+    "deliveryFormat": "auto",
+    "layoutRoles": ["full", "gallery"]
+  },
+  "/img/creation-d-une-extenstion-37540-saint-cyr-sur-loire-01.webp": {
+    "source": "public/IMAGES/Projets finis/Extension sur maison existante 37540/Creation d_une extenstion 37540 saint cyr sur loire - 01.jpeg",
+    "remasterTier": "display",
+    "deliveryFormat": "auto",
+    "layoutRoles": ["full", "modal-hero", "service"]
+  },
+  "/img/creation-d-une-extenstion-37540-saint-cyr-sur-loire-02.webp": {
+    "source": "public/IMAGES/Projets finis/Extension sur maison existante 37540/Creation d_une extenstion 37540 saint cyr sur loire - 02.jpeg",
+    "remasterTier": "display",
+    "deliveryFormat": "auto",
+    "layoutRoles": ["full", "modal-hero", "service"]
+  },
+  "/img/4-cellules-d-activites-rue-jacqueline-auriol-la-ville-aux-dames-37700.webp": {
+    "source": "public/IMAGES/Projets finis/Bâtiment d_activités/4 cellules d_activités rue Jacqueline Auriol la ville aux dames 37700.png",
+    "remasterTier": "display",
+    "deliveryFormat": "auto",
+    "layoutRoles": ["full", "gallery", "service"]
+  },
+  "/img/capture-d-ecran-2026-04-11-093951.webp": {
+    "source": "public/IMAGES/Projets finis/Bâtiment d_activités/Capture d_écran 2026-04-11 093951.png",
+    "remasterTier": "standard",
+    "deliveryFormat": "auto",
+    "layoutRoles": ["gallery", "service"]
+  },
+  "/img/1abff9e6-a427-41ba-84e4-6202cf7be7ee.webp": {
+    "source": "public/IMAGES/Projets finis/creation d_une surelevation au dessus d_un garage 37170 chambray les tours/1abff9e6-a427-41ba-84e4-6202cf7be7ee.jpg",
+    "remasterTier": "standard",
+    "deliveryFormat": "auto",
+    "layoutRoles": ["gallery"]
+  },
+  "/img/46f52069-d1b9-41b3-b202-29c8108447e7.webp": {
+    "source": "public/IMAGES/Projets finis/creation d_une surelevation au dessus d_un garage 37170 chambray les tours/46f52069-d1b9-41b3-b202-29c8108447e7.jpg",
+    "remasterTier": "standard",
+    "deliveryFormat": "auto",
+    "layoutRoles": ["gallery"]
+  },
+  "/img/avant-projet.webp": {
+    "source": "public/IMAGES/Projets finis/Extension sur maison existante 37540/avant projet.jpeg",
+    "remasterTier": "standard",
+    "deliveryFormat": "auto",
+    "layoutRoles": ["gallery"]
+  },
+  "/img/capture-d-ecran-2026-04-10-174146.webp": {
+    "source": "public/IMAGES/Projets finis/Loc office rehabiliation d_une zone de stockage en bureau 37390 chanceaux sur choisille/Capture d_écran 2026-04-10 174146.png",
+    "remasterTier": "standard",
+    "deliveryFormat": "auto",
+    "layoutRoles": ["gallery"]
+  },
+  "/img/capture-d-ecran-2026-04-10-174722.webp": {
+    "source": "public/IMAGES/Projets finis/Loc office rehabiliation d_une zone de stockage en bureau 37390 chanceaux sur choisille/Capture d_écran 2026-04-10 174722.png",
+    "remasterTier": "standard",
+    "deliveryFormat": "auto",
+    "layoutRoles": ["gallery"]
+  },
+  "/img/capture-d-ecran-2026-04-10-174735.webp": {
+    "source": "public/IMAGES/Projets finis/Loc office rehabiliation d_une zone de stockage en bureau 37390 chanceaux sur choisille/Capture d_écran 2026-04-10 174735.png",
+    "remasterTier": "standard",
+    "deliveryFormat": "auto",
+    "layoutRoles": ["gallery"]
+  },
+  "/img/capture-d-ecran-2026-04-10-174750.webp": {
+    "source": "public/IMAGES/Projets finis/Loc office rehabiliation d_une zone de stockage en bureau 37390 chanceaux sur choisille/Capture d_écran 2026-04-10 174750.png",
+    "remasterTier": "standard",
+    "deliveryFormat": "auto",
+    "layoutRoles": ["gallery"]
+  },
+  "/img/capture-d-ecran-2026-04-11-101030.webp": {
+    "source": "public/IMAGES/Projets finis/Construction d_une maison individuelle neuve 37230 fondettes/Capture d_écran 2026-04-11 101030.png",
+    "remasterTier": "standard",
+    "deliveryFormat": "auto",
+    "layoutRoles": ["gallery"]
+  },
+  "/img/capture-d-ecran-2026-04-11-101430.webp": {
+    "source": "public/IMAGES/Projets finis/Construction d_une maison individuelle neuve 72210 la suze sur sarthe/Capture d_écran 2026-04-11 101430.png",
+    "remasterTier": "standard",
+    "deliveryFormat": "auto",
+    "layoutRoles": ["gallery"]
+  },
+  "/img/capture-d-ecran-2026-04-11-102226.webp": {
+    "source": "public/IMAGES/Projets finis/Construction d_une maison individuelle neuve 37540 saint cyr sur loire/Capture d_écran 2026-04-11 102226.png",
+    "remasterTier": "standard",
+    "deliveryFormat": "auto",
+    "layoutRoles": ["gallery"]
+  },
+  "/img/capture-d-ecran-2026-04-11-102547.webp": {
+    "source": "public/IMAGES/Projets finis/Construction d_une maison individuelle neuve 37320 saint branchs/Capture d_écran 2026-04-11 102547.png",
+    "remasterTier": "standard",
+    "deliveryFormat": "auto",
+    "layoutRoles": ["gallery"]
+  },
+  "/img/capture-d-ecran-2026-04-11-102902.webp": {
+    "source": "public/IMAGES/Projets finis/construction d_une maison indivuelle neuve 37240 ligueil/Capture d_écran 2026-04-11 102902.png",
+    "remasterTier": "standard",
+    "deliveryFormat": "auto",
+    "layoutRoles": ["gallery"]
+  },
+  "/img/insertion-2.webp": {
+    "source": "public/IMAGES/Projets finis/Construction d_une extension sur maison existant 37320 Esvres/Insertion 2.png",
+    "remasterTier": "standard",
+    "deliveryFormat": "auto",
+    "layoutRoles": ["gallery", "service"]
+  },
+  "/img/whatsapp-image-2022-10-05-at-09.00.22-1.webp": {
+    "source": "public/IMAGES/Projets finis/Construction d_une extension sur maison existant 37320 Esvres/WhatsApp Image 2022-10-05 at 09.00.22 (1).jpeg",
+    "remasterTier": "standard",
+    "deliveryFormat": "auto",
+    "layoutRoles": ["gallery"]
+  },
+  "/img/whatsapp-image-2026-04-23-at-17.48.13.webp": {
+    "source": "public/Nouvelles images/WhatsApp Image 2026-04-23 at 17.48.13.jpeg",
+    "remasterTier": "standard",
+    "deliveryFormat": "auto",
+    "layoutRoles": ["gallery"]
+  },
+  "/img/whatsapp-image-2026-04-23-at-17.48.14-1.webp": {
+    "source": "public/Nouvelles images/WhatsApp Image 2026-04-23 at 17.48.14 (1).jpeg",
+    "remasterTier": "standard",
+    "deliveryFormat": "auto",
+    "layoutRoles": ["gallery"]
+  },
+  "/img/whatsapp-image-2026-04-23-at-17.48.14.webp": {
+    "source": "public/Nouvelles images/WhatsApp Image 2026-04-23 at 17.48.14.jpeg",
+    "remasterTier": "standard",
+    "deliveryFormat": "auto",
+    "layoutRoles": ["gallery", "service"]
+  },
+  "/img/logo-archimade.webp": {
+    "source": "public/IMAGES/logo-archimade.webp",
+    "remasterTier": "logo",
+    "deliveryFormat": "auto",
+    "layoutRoles": ["logo"]
+  },
+  "/img/logo-intro.webp": {
+    "source": "public/IMAGES/logo-intro.webp",
+    "remasterTier": "logo",
+    "deliveryFormat": "auto",
+    "layoutRoles": ["logo"]
+  },
+  "/img/logo-archimade-v2.webp": {
+    "source": "public/IMAGES/logo-archimade-v2.webp",
+    "remasterTier": "logo",
+    "deliveryFormat": "auto",
+    "layoutRoles": []
+  }
+}

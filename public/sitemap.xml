@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Placeholder only. The shipped sitemap is generated at build time by
+     scripts/prerender.mjs from PRERENDER_ROUTES (src/App.tsx), which overwrites
+     this file in dist/ with every route + a real <lastmod>. Do not maintain the
+     URL set here by hand. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://www.archi-made.com/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+</urlset>

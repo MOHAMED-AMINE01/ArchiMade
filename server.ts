@@ -1,58 +1,73 @@
-// server.ts
-import express from 'express';
-import cors from 'cors';
-import { json } from 'express';
-import dotenv from 'dotenv';
-import type { Request, Response } from 'express';
-import { Resend } from 'resend';
+import express from "express";
+import cors from "cors";
+import { json } from "express";
+import dotenv from "dotenv";
+import type { Request, Response } from "express";
+import {
+  getResendClient,
+  isRateLimited,
+  processSendEmailRequest,
+  sendContactEmail,
+} from "./api/send-email-core";
 
-dotenv.config({ path: '.env.local' });
-console.log('✅ Resend API key loaded, length:', process.env.RESEND_API_KEY?.length ?? 0);
-const BASE_URL = process.env.BASE_URL?.replace(/\/+$/, '') ?? '';
+dotenv.config({ path: ".env.local" });
+
+const hasResendKey = Boolean(process.env.RESEND_API_KEY);
+console.log(
+  hasResendKey
+    ? `Resend API key loaded (length ${process.env.RESEND_API_KEY!.length})`
+    : "RESEND_API_KEY missing — /api/send-email returns 503 until set in .env.local",
+);
 
 const app = express();
 app.use(cors());
 app.use(json());
 
-if (!process.env.RESEND_API_KEY) {
-  console.error('❗️ RESEND_API_KEY is missing. Check .env.local');
-  // We cannot construct Resend without a key; respond with error for all requests
-}
-const resend = new Resend(process.env.RESEND_API_KEY);
-
-app.post('/api/send-email', async (req: Request, res: Response) => {
-  const { name, email, message } = req.body;
-  console.log('🔍 Received request body:', req.body);
-  if (!name || !email || !message) {
-    return res.status(400).json({ error: 'Tous les champs sont requis.' });
+app.post("/api/send-email", async (req: Request, res: Response) => {
+  const ip =
+    (req.headers["x-forwarded-for"] as string)?.split(",")[0]?.trim() ||
+    req.socket?.remoteAddress ||
+    "unknown";
+  if (isRateLimited(ip)) {
+    return res
+      .status(429)
+      .json({ error: "Trop de requêtes. Réessayez plus tard." });
   }
-  try {
-    const { data, error } = await resend.emails.send({
-      from: 'ArchiMade <onboarding@resend.dev>',
-      to: ['m.a.khatouf@gmail.com'],
-      replyTo: email,
-      subject: `Nouveau message de ${name} — ArchiMade`,
-      html: `
-          <div style="font-family:Helvetica,Arial,sans-serif;max-width:600px;margin:auto;background:#fafafa;border-radius:12px;padding:20px;box-shadow:0 4px 12px rgba(0,0,0,0.1);">
-            <h1 style="font-size:28px;color:#0a0a0a;text-align:center;margin:0 auto 20px;">Archi Made</h1>
-            <h2 style="font-size:24px;color:#0a0a0a;margin-bottom:16px;text-align:center;">Nouveau Message</h2>
-            <p style="margin:8px 0;font-weight:600;"><strong>Nom :</strong> ${name}</p>
-            <p style="margin:8px 0;font-weight:600;"><strong>Email :</strong> ${email}</p>
-            <p style="margin:8px 0;font-weight:600;"><strong>Message :</strong></p>
-            <p style="margin:8px 0;padding:12px;background:#fff;border:1px solid #eee;border-radius:6px;white-space:pre-wrap;">${message}</p>
-          </div>`,
-    });
 
-    if (error) {
-      console.error('Resend error →', error);
-      return res.status(500).json({ error: 'Erreur d\'envoi.' });
+  const result = processSendEmailRequest(req.body);
+  if (!result.ok) {
+    return res.status(result.status).json({ error: result.error });
+  }
+  if ("silent" in result) {
+    return res.status(200).json({ success: true });
+  }
+
+  if (!getResendClient()) {
+    return res.status(503).json({
+      error:
+        "Service email non configuré. Ajoutez RESEND_API_KEY dans .env.local.",
+    });
+  }
+
+  try {
+    const sendResult = await sendContactEmail(
+      result.safeName,
+      result.safeEmail,
+      result.safeMessage,
+      result.replyTo,
+    );
+    if ("error" in sendResult) {
+      const status = sendResult.error.includes("not configured") ? 503 : 500;
+      return res.status(status).json({ error: sendResult.error });
     }
-    return res.json({ success: true, id: data?.id });
+    return res.json({ success: true, id: sendResult.id });
   } catch (e) {
-    console.error('Server error →', e);
-    return res.status(500).json({ error: 'Erreur serveur.' });
+    console.error("Server error:", e);
+    return res.status(500).json({ error: "Erreur serveur." });
   }
 });
 
 const PORT = Number(process.env.PORT) || 5000;
-app.listen(PORT, () => console.log(`🚀 Express listening on http://localhost:${PORT}`));
+app.listen(PORT, () =>
+  console.log(`Express listening on http://localhost:${PORT}`),
+);

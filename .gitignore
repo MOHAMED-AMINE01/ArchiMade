@@ -1,10 +1,14 @@
 node_modules/
 build/
 dist/
+dist-ssr/
 coverage/
 .DS_Store
 *.log
 .env*
 !.env.example
-
+.claude/settings.local.json
+*-audit-report.md
+deploy-runbook.md
 .vercel
+docs/reports/
