@@ -526,14 +526,13 @@ function ArchiPreloader({ onComplete }: { onComplete: () => void }) {
 
     const tl = gsap.timeline({
       onComplete: () => {
-        // Reveal the hero quickly so it paints well under the 2.5s mobile LCP
-        // budget. The intro choreography above runs at full character; only this
-        // final dissolve was long (was 1.5s) and now clears the overlay fast.
+        // Cinematic dissolve: content blurs out first (timeline below), then the
+        // full-screen overlay fades so the hero reveal can play underneath.
         gsap.to(containerRef.current, {
           opacity: 0,
-          filter: "blur(30px)",
-          duration: 0.4,
-          ease: "power3.inOut",
+          filter: "blur(40px)",
+          duration: 1.5,
+          ease: "power4.inOut",
           onComplete: () => {
             if (typeof performance !== "undefined") {
               performance.mark("preloader_done");
@@ -560,7 +559,7 @@ function ArchiPreloader({ onComplete }: { onComplete: () => void }) {
       opacity: 1,
       scale: 1,
       filter: "blur(0px)",
-      duration: 0.6,
+      duration: 1.5,
       ease: "expo.out",
     });
 
@@ -569,7 +568,7 @@ function ArchiPreloader({ onComplete }: { onComplete: () => void }) {
       { val: 0 },
       {
         val: 100,
-        duration: 1.3,
+        duration: 3.5,
         ease: "power2.inOut",
         onUpdate: function () {
           setProgress(Math.floor(this.targets()[0].val));
@@ -582,7 +581,7 @@ function ArchiPreloader({ onComplete }: { onComplete: () => void }) {
     chars.forEach((char, i) => {
       const charTl = gsap.timeline();
 
-      tl.add(charTl, 0.25 + i * 0.018); // Start after logo (compressed for LCP)
+      tl.add(charTl, 0.8 + i * 0.06); // Start after logo
 
       charTl
         .to(char, {
@@ -590,28 +589,28 @@ function ArchiPreloader({ onComplete }: { onComplete: () => void }) {
           rotateY: 0,
           scale: 1,
           y: 0,
-          duration: 0.45,
+          duration: 0.8,
           ease: "expo.out",
         })
         // The "Circulating Lines" effect
         .to(
           char.querySelector(".line-top"),
-          { scaleX: 1, duration: 0.14, ease: "none" },
-          "-=0.3",
+          { scaleX: 1, duration: 0.3, ease: "none" },
+          "-=0.5",
         )
         .to(char.querySelector(".line-right"), {
           scaleY: 1,
-          duration: 0.14,
+          duration: 0.3,
           ease: "none",
         })
         .to(char.querySelector(".line-bottom"), {
           scaleX: 1,
-          duration: 0.14,
+          duration: 0.3,
           ease: "none",
         })
         .to(char.querySelector(".line-left"), {
           scaleY: 1,
-          duration: 0.14,
+          duration: 0.3,
           ease: "none",
         })
         // Reveal the letter itself
@@ -620,16 +619,21 @@ function ArchiPreloader({ onComplete }: { onComplete: () => void }) {
           {
             opacity: 1,
             y: 0,
-            duration: 0.35,
+            duration: 0.6,
             ease: "back.out(2)",
           },
-          "-=0.25",
+          "-=0.4",
         );
     });
 
-    // The single container dissolve (in the timeline onComplete) reveals the
-    // hero - no separate content-exit tween, so the overlay clears fast enough
-    // for LCP without a sequential wait.
+    // Exit transition - blur dissolve only (no scale; logo is child of .preloader-content)
+    tl.to(".preloader-content", {
+      opacity: 0,
+      filter: "blur(10px)",
+      duration: 0.8,
+      ease: "power2.inOut",
+      delay: 0.5,
+    });
   }, [onComplete]);
 
   const fullText = "ARCHI MADE STUDIO".replace(/\s/g, " "); // Keep spaces for layout
@@ -1024,38 +1028,33 @@ function ArchiHero() {
   }, []);
 
   useIsomorphicLayoutEffect(() => {
-    // Wait until the preloader finishes so the hero reveal plays for the
-    // user (same choreography as before), instead of running hidden under
-    // the overlay. The element text is already in the (prerendered) DOM.
-    if (isLoading) return;
     const ctx = gsap.context(() => {
-      // High-end alternating reveal for ALL elements
-      const allReveals = gsap.utils.toArray(".archi-title-reveal");
-
-      allReveals.forEach((line: any, i: number) => {
+      const allReveals = gsap.utils.toArray<HTMLElement>(".archi-title-reveal");
+      // Always put the lines in their hidden start state immediately, even while
+      // the preloader overlay is still up, so the hero is NEVER revealed in its
+      // final state before animating (kills the flash/jump).
+      allReveals.forEach((line, i) => {
         const isEven = i % 2 === 0;
-        gsap.fromTo(
-          line,
-          {
-            x: isEven ? -120 : 120,
-            y: 0,
-            rotateY: isEven ? 25 : -25,
-            scale: 0.95,
-            filter: "blur(10px)",
-            opacity: 0,
-          },
-          {
-            x: 0,
-            y: 0,
-            rotateY: 0,
-            scale: 1,
-            filter: "blur(0px)",
-            opacity: 1,
-            duration: 3,
-            ease: "power4.out",
-            delay: 0.5 + i * 0.12,
-          },
-        );
+        gsap.set(line, {
+          x: isEven ? -120 : 120,
+          rotateY: isEven ? 25 : -25,
+          scale: 0.95,
+          filter: "blur(10px)",
+          opacity: 0,
+        });
+      });
+      if (isLoading) return; // hidden now; PLAY only once the intro is done
+      allReveals.forEach((line, i) => {
+        gsap.to(line, {
+          x: 0,
+          rotateY: 0,
+          scale: 1,
+          filter: "blur(0px)",
+          opacity: 1,
+          duration: 3,
+          ease: "power4.out",
+          delay: 0.5 + i * 0.12,
+        });
       });
     }, sectionRef);
     return () => ctx.revert();
@@ -3424,20 +3423,20 @@ export default function ArchiMadeLanding() {
   }, [isLoading]);
 
   useIsomorphicLayoutEffect(() => {
-    if (!isLoading) {
-      const ctx = gsap.context(() => {
-        // Entrance animation for the main layout
-        gsap.from(".archi-entrance", {
-          opacity: 0,
-          y: 100,
-          duration: 1.5,
-          stagger: 0.2,
-          ease: "power4.out",
-          delay: 0.2,
-          clearProps: "all",
-        });
+    const ctx = gsap.context(() => {
+      // Hidden under the preloader; fade in once intro completes (opacity-only so
+      // the hero .archi-title-reveal lines own all positional motion).
+      gsap.set(".archi-entrance", { opacity: 0 });
+      if (isLoading) return;
+      gsap.to(".archi-entrance", {
+        opacity: 1,
+        duration: 1.5,
+        ease: "power4.out",
+        delay: 0.2,
+        clearProps: "all",
+      });
 
-        // UI HIDING LOGIC : fade the fixed left nav + logo (and the contact tab
+      // UI HIDING LOGIC : fade the fixed left nav + logo (and the contact tab
         // / Instagram float, all bound to isUIHidden) while a section's content
         // sits under them. Each section drives its OWN flag; isUIHidden is the
         // OR (see state), so onLeave of one never reveals the UI while another
@@ -3472,9 +3471,8 @@ export default function ArchiMadeLanding() {
           onEnterBack: () => setIsGalleryInView(true),
           onLeaveBack: () => setIsGalleryInView(false),
         });
-      }, mainRef);
-      return () => ctx.revert();
-    }
+    }, mainRef);
+    return () => ctx.revert();
   }, [isLoading]);
 
   return (
