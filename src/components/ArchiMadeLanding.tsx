@@ -1104,7 +1104,7 @@ function ArchiHero() {
           </span>
           <h1
             translate="no"
-            className="notranslate archi-title text-[12vw] md:text-[9.5vw] font-bold tracking-tighter leading-[1.1] md:leading-[0.8] text-brand-dark flex flex-col items-start relative translate-z-0 mb-8"
+            className="notranslate archi-title text-[12vw] md:text-[5.5vw] font-bold tracking-tighter leading-[1.1] md:leading-[0.8] text-brand-dark flex flex-col items-start relative translate-z-0 mb-8"
           >
             {/* Title Lines (1, 2, 3) */}
             {["Vos plans de construction,", "du croquis au permis"].map((text, idx) => (
