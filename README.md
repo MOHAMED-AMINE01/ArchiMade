@@ -10,6 +10,8 @@ React 19 · Vite 6 · SSG prerender · Vercel.
 npm install
 ```
 
+
+
 Copy env template and add your Resend key for the contact form:
 
 ```powershell
