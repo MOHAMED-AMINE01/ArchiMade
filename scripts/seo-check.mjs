@@ -273,6 +273,12 @@ console.log("\n== NAP / ADDRESS (service-area model) ==");
   !/"(Saturday|Sunday)"/.test(home)
     ? ok("openingHours Mo-Fr 09:00-18:00 (no weekend)")
     : no("openingHours missing/incorrect");
+
+  // 7) Entity sameAs: Instagram + LinkedIn wired (GBP optional via VITE_GBP_URL).
+  /instagram\.com\/archi\.made\.studio/.test(home) &&
+  /linkedin\.com\/in\/damien-de-sousa/.test(home)
+    ? ok("sameAs includes Instagram + LinkedIn")
+    : no("sameAs missing Instagram and/or LinkedIn");
 }
 
 console.log("\n== INTERNAL LINKS & DASHES ==");

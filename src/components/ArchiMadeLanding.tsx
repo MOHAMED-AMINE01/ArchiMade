@@ -14,6 +14,7 @@ import {
   intrinsicFromSrc,
 } from "./ResponsiveImage";
 import { initGA4 } from "../lib/gtag";
+import { INSTAGRAM_URL } from "../lib/social";
 import { motion, AnimatePresence } from "framer-motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -3263,7 +3264,6 @@ function ArchiCookieBanner() {
 }
 
 // --- FLOATING INSTAGRAM BUTTON ---
-const INSTAGRAM_URL = "https://www.instagram.com/archi.made.studio";
 
 function InstagramBadge() {
   return (

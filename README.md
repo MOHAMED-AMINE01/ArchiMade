@@ -52,5 +52,8 @@ node scripts/seo-check.mjs
 - `RESEND_API_KEY` — contact form
 - `VITE_GA_ID` — GA4 (consent-gated)
 - `VITE_GSC_ID` — Google Search Console meta (or DNS TXT alternative)
+- `VITE_GBP_URL` — Google Business Profile URL (adds to JSON-LD `sameAs` once verified)
 
-See `PROGRESS.md` deploy-day checklist for apex→www, GSC, PSI, etc.
+**Off-site ranking checklist (GSC, GBP, citations):** see [`docs/off-site-seo-checklist.md`](docs/off-site-seo-checklist.md).
+
+See `PROGRESS.md` deploy-day checklist for apex→www, PSI, etc.

@@ -1,4 +1,5 @@
 import { Helmet } from 'react-helmet-async';
+import { entitySameAs, LINKEDIN_URL } from '../lib/social';
 import { SITE_URL } from './Seo';
 
 // Shared entity @ids - reused by the dedicated service/location pages so their
@@ -8,9 +9,7 @@ export const BUSINESS_ID = `${SITE_URL}/#business`;
 const WEBSITE_ID = `${SITE_URL}/#website`;
 const FOUNDER_ID = `${SITE_URL}/#founder`;
 
-// Social profile - MUST match the live UI handle used in ArchiMadeLanding
-// (INSTAGRAM_URL) and the footer/aria links. TODO(CONFIRM: real live handle).
-const INSTAGRAM_URL = 'https://www.instagram.com/archi.made.studio';
+const SAME_AS = entitySameAs();
 
 // Service area reused by the ProfessionalService node AND each Service node
 // (local base in Indre-et-Loire/Tours + national remote reach).
@@ -93,11 +92,13 @@ const structuredData = {
       '@id': FOUNDER_ID,
       name: 'Damien De Sousa',
       jobTitle: 'Dessinateur en bâtiment',
+      sameAs: [LINKEDIN_URL],
     },
     {
       '@type': 'Organization',
       '@id': ORG_ID,
       name: 'ArchiMade Studio',
+      alternateName: ['ArchiMade', 'Archi-Made'],
       legalName: 'ARCHI-MADE LTD',
       url: SITE_URL,
       // Brand logo as a typed ImageObject (intrinsic 1254x1254 from the variant manifest).
@@ -108,7 +109,7 @@ const structuredData = {
         height: 1254,
       },
       founder: { '@id': FOUNDER_ID },
-      sameAs: [INSTAGRAM_URL],
+      sameAs: SAME_AS,
       contactPoint: {
         '@type': 'ContactPoint',
         contactType: 'customer service',
