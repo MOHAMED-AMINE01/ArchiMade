@@ -1106,17 +1106,19 @@ function ArchiHero() {
             className="notranslate archi-title text-[12vw] md:text-[5.5vw] font-bold tracking-tighter leading-[1.1] md:leading-[0.8] text-brand-dark flex flex-col items-start relative translate-z-0 mb-8"
           >
             {/* Title Lines (1, 2, 3) */}
-            {["Vos plans de construction,", "du croquis au permis"].map((text, idx) => (
-              <div key={idx} className="sentence">
-                <div className="outer relative perspective-[2000px]">
-                  <span className="inner block overflow-hidden md:pb-[0.18em]">
-                    <span className="text block archi-title-reveal">
-                      {text}
+            {["Vos plans de construction,", "du croquis au permis"].map(
+              (text, idx) => (
+                <div key={idx} className="sentence">
+                  <div className="outer relative perspective-[2000px]">
+                    <span className="inner block overflow-hidden pr-[0.08em] md:pb-[0.18em] md:pr-[0.12em]">
+                      <span className="text block archi-title-reveal">
+                        {text}
+                      </span>
                     </span>
-                  </span>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ),
+            )}
           </h1>
 
           <div className="space-y-6 flex flex-col items-start">
@@ -1141,7 +1143,9 @@ function ArchiHero() {
                     className="text block archi-title-reveal cursor-pointer"
                     onClick={(e) => {
                       e.stopPropagation();
-                      (window as any).lenis?.scrollTo("#contact", { duration: 2.5 });
+                      (window as any).lenis?.scrollTo("#contact", {
+                        duration: 2.5,
+                      });
                     }}
                   >
                     <span className="inline-flex items-center gap-3 bg-brand-dark text-white px-7 py-4 rounded-full group hover:opacity-90 transition-opacity">
@@ -3049,7 +3053,10 @@ function ArchiContact() {
               <h3 className="text-xl font-bold uppercase tracking-tight mb-[clamp(0.5rem,2vh,1.5rem)]">
                 Nous contacter
               </h3>
-              <form className="space-y-[clamp(0.5rem,2vh,1.25rem)]" onSubmit={handleSubmit}>
+              <form
+                className="space-y-[clamp(0.5rem,2vh,1.25rem)]"
+                onSubmit={handleSubmit}
+              >
                 {/* Honeypot - hidden from real users, filled by bots */}
                 <input
                   type="text"
@@ -3437,40 +3444,40 @@ export default function ArchiMadeLanding() {
       });
 
       // UI HIDING LOGIC : fade the fixed left nav + logo (and the contact tab
-        // / Instagram float, all bound to isUIHidden) while a section's content
-        // sits under them. Each section drives its OWN flag; isUIHidden is the
-        // OR (see state), so onLeave of one never reveals the UI while another
-        // still wants it hidden.
-        // Expertise: unchanged, hide once the section hits the top of the
-        // viewport, restore past its content bottom.
-        ScrollTrigger.create({
-          trigger: "#expertise",
-          start: "top top",
-          endTrigger: "#expertise-content",
-          end: "bottom 20%",
-          onEnter: () => setIsExpertiseInView(true),
-          onLeave: () => setIsExpertiseInView(false),
-          onEnterBack: () => setIsExpertiseInView(true),
-          onLeaveBack: () => setIsExpertiseInView(false),
-        });
+      // / Instagram float, all bound to isUIHidden) while a section's content
+      // sits under them. Each section drives its OWN flag; isUIHidden is the
+      // OR (see state), so onLeave of one never reveals the UI while another
+      // still wants it hidden.
+      // Expertise: unchanged, hide once the section hits the top of the
+      // viewport, restore past its content bottom.
+      ScrollTrigger.create({
+        trigger: "#expertise",
+        start: "top top",
+        endTrigger: "#expertise-content",
+        end: "bottom 20%",
+        onEnter: () => setIsExpertiseInView(true),
+        onLeave: () => setIsExpertiseInView(false),
+        onEnterBack: () => setIsExpertiseInView(true),
+        onLeaveBack: () => setIsExpertiseInView(false),
+      });
 
-        // Réalisations: the full-bleed masonry overlaps the left nav AND the
-        // bottom-left logo. Trigger on the IMAGE GRID (#realisations-content),
-        // not the section (its tall heading clears the nav already), and hide
-        // for as long as ANY gallery image is on screen, start "top bottom"
-        // (first image enters from the bottom, where the logo sits) to end
-        // "bottom top" (last image leaves past the top). The opposite-extreme
-        // start/end give wide hysteresis, so there is no flicker at either
-        // boundary and it restores cleanly in BOTH scroll directions.
-        ScrollTrigger.create({
-          trigger: "#realisations-content",
-          start: "top bottom",
-          end: "bottom top",
-          onEnter: () => setIsGalleryInView(true),
-          onLeave: () => setIsGalleryInView(false),
-          onEnterBack: () => setIsGalleryInView(true),
-          onLeaveBack: () => setIsGalleryInView(false),
-        });
+      // Réalisations: the full-bleed masonry overlaps the left nav AND the
+      // bottom-left logo. Trigger on the IMAGE GRID (#realisations-content),
+      // not the section (its tall heading clears the nav already), and hide
+      // for as long as ANY gallery image is on screen, start "top bottom"
+      // (first image enters from the bottom, where the logo sits) to end
+      // "bottom top" (last image leaves past the top). The opposite-extreme
+      // start/end give wide hysteresis, so there is no flicker at either
+      // boundary and it restores cleanly in BOTH scroll directions.
+      ScrollTrigger.create({
+        trigger: "#realisations-content",
+        start: "top bottom",
+        end: "bottom top",
+        onEnter: () => setIsGalleryInView(true),
+        onLeave: () => setIsGalleryInView(false),
+        onEnterBack: () => setIsGalleryInView(true),
+        onLeaveBack: () => setIsGalleryInView(false),
+      });
     }, mainRef);
     return () => ctx.revert();
   }, [isLoading]);
