@@ -1103,7 +1103,12 @@ function ArchiHero() {
             {["Concevoir votre", "futur projet"].map((text, idx) => (
               <div key={idx} className="sentence">
                 <div className="outer relative perspective-[2000px]">
-                  <span className="inner block overflow-hidden md:pb-[0.18em]">
+                  {/* Grow the overflow:hidden box so ascender tops (f, e, C) and
+                      descenders (j, p) are no longer clipped. pt is cancelled by an
+                      equal -mt so line 1's position is unchanged; pb (uncompensated,
+                      replacing the old md:pb-[0.18em]) preserves the inter-line gap.
+                      overflow-hidden stays for the horizontal reveal mask. */}
+                  <span className="inner block overflow-hidden pt-[0.28em] -mt-[0.28em] pb-[0.22em]">
                     <span className="text block archi-title-reveal">
                       {text}
                     </span>
