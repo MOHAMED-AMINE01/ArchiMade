@@ -530,6 +530,7 @@ function ArchiPreloader({ onComplete }: { onComplete: () => void }) {
         // Cinematic dissolve: content blurs out first (timeline below), then the
         // full-screen overlay fades so the hero reveal can play underneath.
         gsap.to(containerRef.current, {
+          scale: 1.1,
           opacity: 0,
           filter: "blur(40px)",
           duration: 1.5,
@@ -551,14 +552,14 @@ function ArchiPreloader({ onComplete }: { onComplete: () => void }) {
     gsap.set(".char-inner", { opacity: 0, y: 30 });
     gsap.set(".preloader-logo", {
       opacity: 0,
-      scale: 0.95,
+      scale: 0.8,
       filter: "blur(20px)",
     });
 
     // Entrance for Logo
     tl.to(".preloader-logo", {
       opacity: 1,
-      scale: 1,
+      scale: 1.7,
       filter: "blur(0px)",
       duration: 1.5,
       ease: "expo.out",
@@ -627,10 +628,10 @@ function ArchiPreloader({ onComplete }: { onComplete: () => void }) {
         );
     });
 
-    // Exit transition - blur dissolve only (no scale; logo is child of .preloader-content)
+    // Exit transition
     tl.to(".preloader-content", {
       opacity: 0,
-      filter: "blur(10px)",
+      scale: 1.1,
       duration: 0.8,
       ease: "power2.inOut",
       delay: 0.5,
@@ -1094,24 +1095,16 @@ function ArchiHero() {
       {/* Largo-Style Container */}
       <div className="relative z-10 w-full h-full flex flex-col justify-center md:justify-start md:pt-[20vh] px-10 md:px-20 md:pl-[24vw] items-start text-left">
         <div className="max-w-6xl relative z-20 flex flex-col items-start px-2">
-          {/* Crawlable SEO eyebrow (dessinateur + geo) above the H1.
-              Tight margins compensate the eyebrow's added height so the hero
-              composition returns to ~its original vertical rhythm (prevents the
-              CTA clipping below the fold at short laptop heights e.g. 1280x800). */}
-          <span className="text-[9px] md:text-xs uppercase tracking-[0.25em] md:tracking-[0.3em] text-brand-dark/40 font-bold mb-2 md:mb-3 block">
-            Dessinateur en bâtiment · Indre-et-Loire &amp; à distance partout en
-            France
-          </span>
           <h1
             translate="no"
-            className="notranslate archi-title text-[12vw] md:text-[9.5vw] font-bold tracking-tighter leading-[1.1] md:leading-[0.8] text-brand-dark flex flex-col items-start relative translate-z-0 mb-8"
+            className="notranslate archi-title text-[12vw] md:text-[9.5vw] font-bold tracking-tighter leading-[1.1] md:leading-[0.8] text-brand-dark flex flex-col items-start relative translate-z-0 mb-12"
           >
             {/* Title Lines (1, 2, 3) */}
             {["Concevoir votre", "futur projet"].map(
               (text, idx) => (
                 <div key={idx} className="sentence">
                   <div className="outer relative perspective-[2000px]">
-                    <span className="inner block overflow-hidden pr-[0.08em] md:pb-[0.18em] md:pr-[0.12em]">
+                    <span className="inner block overflow-hidden md:pb-[0.18em]">
                       <span className="text block archi-title-reveal">
                         {text}
                       </span>
@@ -1134,29 +1127,6 @@ function ArchiHero() {
                     Une approche claire et rigoureuse pour donner forme à vos
                     projets.
                   </p>
-                </span>
-              </div>
-            </div>
-            {/* CTA */}
-            <div className="sentence overflow-hidden">
-              <div className="outer relative">
-                <span className="inner block overflow-hidden">
-                  <span
-                    className="text block archi-title-reveal cursor-pointer"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      (window as any).lenis?.scrollTo("#contact", {
-                        duration: 2.5,
-                      });
-                    }}
-                  >
-                    <span className="inline-flex items-center gap-3 bg-brand-dark text-white px-7 py-4 rounded-full group hover:opacity-90 transition-opacity">
-                      <span className="text-[10px] md:text-xs font-bold uppercase tracking-[0.4em] pl-[0.4em]">
-                        Demander un devis gratuit
-                      </span>
-                      <ArrowUpRight className="w-4 h-4 md:w-5 md:h-5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                    </span>
-                  </span>
                 </span>
               </div>
             </div>
@@ -3344,18 +3314,6 @@ function ArchiInstagramFloat({
 export default function ArchiMadeLanding() {
   // Dev: skip cinematic preloader (production SSG keeps full intro).
   const [isLoading, setIsLoading] = useState(() => !import.meta.env.DEV);
-  // Repeat visits in the SAME session skip the full intro for an instant hero
-  // paint. The initial state stays deterministic (matches the prerendered HTML)
-  // so there is no hydration mismatch; the overlay is only dropped AFTER
-  // hydration when the intro was already seen this session.
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    try {
-      if (sessionStorage.getItem("archimade_intro_seen")) setIsLoading(false);
-    } catch {
-      /* sessionStorage unavailable (private mode) - keep the intro */
-    }
-  }, []);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolling, setIsScrolling] = useState(false);
   // The fixed left nav/logo (+ contact tab + Instagram float) fade out over the
@@ -3385,9 +3343,9 @@ export default function ArchiMadeLanding() {
     // Deep-link on load (e.g. landing on /#contact from an ad, or arriving from
     // a sub-page CTA): smooth-scroll to the target once Lenis is live and the
     // (always-rendered) sections are in the DOM. This effect only runs after
-    // isLoading is false, i.e. AFTER the intro animation completes (or is skipped
-    // when archimade_intro_seen is set) - so a first visit waits for intro-done
-    // before jumping. Two rAFs let the entrance layout settle => no double jump.
+    // isLoading is false, i.e. AFTER the intro animation completes - so a first
+    // visit waits for intro-done before jumping. Two rAFs let the entrance layout
+    // settle => no double jump.
     const incomingHash = window.location.hash;
     const incomingEl = /^#[a-z][\w-]*$/i.test(incomingHash)
       ? document.getElementById(incomingHash.slice(1))
@@ -3422,13 +3380,14 @@ export default function ArchiMadeLanding() {
 
   useIsomorphicLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      // Hidden under the preloader; fade in once intro completes (opacity-only so
-      // the hero .archi-title-reveal lines own all positional motion).
-      gsap.set(".archi-entrance", { opacity: 0 });
+      // Hidden under the preloader; slide up once intro completes.
+      gsap.set(".archi-entrance", { opacity: 0, y: 100 });
       if (isLoading) return;
       gsap.to(".archi-entrance", {
         opacity: 1,
+        y: 0,
         duration: 1.5,
+        stagger: 0.2,
         ease: "power4.out",
         delay: 0.2,
         clearProps: "all",
@@ -3486,16 +3445,7 @@ export default function ArchiMadeLanding() {
                 real content (which is always mounted, so it ships in the
                 prerendered HTML and is crawlable). */}
       {isLoading && (
-        <ArchiPreloader
-          onComplete={() => {
-            try {
-              sessionStorage.setItem("archimade_intro_seen", "1");
-            } catch {
-              /* ignore */
-            }
-            setIsLoading(false);
-          }}
-        />
+        <ArchiPreloader onComplete={() => setIsLoading(false)} />
       )}
 
       <div
