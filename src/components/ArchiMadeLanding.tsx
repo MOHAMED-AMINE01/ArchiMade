@@ -530,7 +530,6 @@ function ArchiPreloader({ onComplete }: { onComplete: () => void }) {
         // Cinematic dissolve: content blurs out first (timeline below), then the
         // full-screen overlay fades so the hero reveal can play underneath.
         gsap.to(containerRef.current, {
-          scale: 1.1,
           opacity: 0,
           filter: "blur(40px)",
           duration: 1.5,
@@ -552,14 +551,14 @@ function ArchiPreloader({ onComplete }: { onComplete: () => void }) {
     gsap.set(".char-inner", { opacity: 0, y: 30 });
     gsap.set(".preloader-logo", {
       opacity: 0,
-      scale: 0.8,
+      scale: 0.95,
       filter: "blur(20px)",
     });
 
     // Entrance for Logo
     tl.to(".preloader-logo", {
       opacity: 1,
-      scale: 1.7,
+      scale: 1,
       filter: "blur(0px)",
       duration: 1.5,
       ease: "expo.out",
@@ -628,10 +627,10 @@ function ArchiPreloader({ onComplete }: { onComplete: () => void }) {
         );
     });
 
-    // Exit transition
+    // Exit transition - blur dissolve only (no scale; logo is child of .preloader-content)
     tl.to(".preloader-content", {
       opacity: 0,
-      scale: 1.1,
+      filter: "blur(10px)",
       duration: 0.8,
       ease: "power2.inOut",
       delay: 0.5,
@@ -1095,22 +1094,32 @@ function ArchiHero() {
       {/* Largo-Style Container */}
       <div className="relative z-10 w-full h-full flex flex-col justify-center md:justify-start md:pt-[20vh] px-10 md:px-20 md:pl-[24vw] items-start text-left">
         <div className="max-w-6xl relative z-20 flex flex-col items-start px-2">
+          {/* Crawlable SEO eyebrow (dessinateur + geo) above the H1.
+              Tight margins compensate the eyebrow's added height so the hero
+              composition returns to ~its original vertical rhythm (prevents the
+              CTA clipping below the fold at short laptop heights e.g. 1280x800). */}
+          <span className="text-[9px] md:text-xs uppercase tracking-[0.25em] md:tracking-[0.3em] text-brand-dark/40 font-bold mb-2 md:mb-3 block">
+            Dessinateur en bâtiment · Indre-et-Loire &amp; à distance partout en
+            France
+          </span>
           <h1
             translate="no"
-            className="notranslate archi-title text-[12vw] md:text-[9.5vw] font-bold tracking-tighter leading-[1.1] md:leading-[0.8] text-brand-dark flex flex-col items-start relative translate-z-0 mb-12"
+            className="notranslate archi-title text-[12vw] md:text-[9.5vw] font-bold tracking-tighter leading-[1.1] md:leading-[0.8] text-brand-dark flex flex-col items-start relative translate-z-0 mb-8"
           >
             {/* Title Lines (1, 2, 3) */}
-            {["Concevoir votre", "futur projet"].map((text, idx) => (
-              <div key={idx} className="sentence">
-                <div className="outer relative perspective-[2000px]">
-                  <span className="inner block overflow-hidden md:pb-[0.18em]">
-                    <span className="text block archi-title-reveal">
-                      {text}
+            {["Concevoir votre", "futur projet"].map(
+              (text, idx) => (
+                <div key={idx} className="sentence">
+                  <div className="outer relative perspective-[2000px]">
+                    <span className="inner block overflow-hidden pr-[0.08em] md:pb-[0.18em] md:pr-[0.12em]">
+                      <span className="text block archi-title-reveal">
+                        {text}
+                      </span>
                     </span>
-                  </span>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ),
+            )}
           </h1>
 
           <div className="space-y-6 flex flex-col items-start">
@@ -1125,6 +1134,29 @@ function ArchiHero() {
                     Une approche claire et rigoureuse pour donner forme à vos
                     projets.
                   </p>
+                </span>
+              </div>
+            </div>
+            {/* CTA */}
+            <div className="sentence overflow-hidden">
+              <div className="outer relative">
+                <span className="inner block overflow-hidden">
+                  <span
+                    className="text block archi-title-reveal cursor-pointer"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      (window as any).lenis?.scrollTo("#contact", {
+                        duration: 2.5,
+                      });
+                    }}
+                  >
+                    <span className="inline-flex items-center gap-3 bg-brand-dark text-white px-7 py-4 rounded-full group hover:opacity-90 transition-opacity">
+                      <span className="text-[10px] md:text-xs font-bold uppercase tracking-[0.4em] pl-[0.4em]">
+                        Demander un devis gratuit
+                      </span>
+                      <ArrowUpRight className="w-4 h-4 md:w-5 md:h-5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                    </span>
+                  </span>
                 </span>
               </div>
             </div>
@@ -1292,7 +1324,7 @@ function ArchiAbout() {
           <span className="text-[9px] md:text-[10px] uppercase tracking-[0.4em] md:tracking-[0.6em] text-brand-dark/30 font-bold block animate-fade-in">
             Expertise & Accompagnement
           </span>
-          <h2 className="about-heading text-3xl sm:text-4xl md:text-5xl xl:text-7xl font-bold leading-[1.1] md:leading-[1.1] text-brand-dark uppercase tracking-tighter max-w-5xl">
+          <h2 className="about-heading text-3xl sm:text-4xl md:text-5xl xl:text-6xl font-bold leading-[1.1] md:leading-[1.1] text-brand-dark uppercase tracking-tighter max-w-5xl">
             {"Spécialiste dans la conception de projets de construction."
               .split(" ")
               .map((word, i) => (
@@ -1305,9 +1337,9 @@ function ArchiAbout() {
           </h2>
         </div>
 
-        <div className="flex flex-col xl:flex-row gap-12 xl:gap-20 mt-16 md:mt-24">
+        <div className="flex flex-col xl:flex-row gap-12 xl:gap-20 mt-[clamp(2.5rem,6vh,6rem)]">
           <div className="flex-1 about-subtext">
-            <p className="text-lg sm:text-xl md:text-2xl xl:text-3xl font-light leading-normal md:leading-[1.4] text-brand-dark tracking-tight border-l-2 md:border-l-4 border-black pl-6 md:pl-8">
+            <p className="text-lg sm:text-xl md:text-2xl font-light leading-normal md:leading-[1.4] text-brand-dark tracking-tight border-l-2 md:border-l-4 border-black pl-6 md:pl-8">
               ArchiMade accompagne particuliers et professionnels dans la
               préparation de leurs projets de construction.
               <br />
@@ -1513,33 +1545,6 @@ const services = [
   },
 ];
 
-// Invisible crawl links for location silo pages (raw HTML only; not shown in layout).
-const LOCATION_SILO_LINKS = [
-  { to: "/dessinateur-batiment-tours", label: "Dessinateur en bâtiment à Tours" },
-  {
-    to: "/dessinateur-batiment-indre-et-loire",
-    label: "Dessinateur en Indre-et-Loire",
-  },
-  {
-    to: "/dessinateur-batiment-saint-cyr-sur-loire",
-    label: "Dessinateur à Saint-Cyr-sur-Loire",
-  },
-  {
-    to: "/dessinateur-batiment-joue-les-tours",
-    label: "Dessinateur à Joué-lès-Tours",
-  },
-  {
-    to: "/dessinateur-batiment-chambray-les-tours",
-    label: "Dessinateur à Chambray-lès-Tours",
-  },
-  {
-    to: "/dessinateur-batiment-montlouis-sur-loire",
-    label: "Dessinateur à Montlouis-sur-Loire",
-  },
-  { to: "/dessinateur-batiment-veigne", label: "Dessinateur à Veigné" },
-  { to: "/dessinateur-batiment-esvres", label: "Dessinateur à Esvres" },
-];
-
 function ArchiServices() {
   const containerRef = useRef(null);
   const accordionRef = useRef(null);
@@ -1620,17 +1625,17 @@ function ArchiServices() {
           </div>
         </div>
 
-        <div className="md:max-w-[320px] lg:max-w-md border-l border-brand-dark/20 pl-8 mb-4">
-          <ArchiReveal type="fade" delay={0.5}>
-            <p className="text-brand-dark/60 text-[9px] md:text-[10px] lg:text-[11px] font-bold tracking-[0.15em] leading-loose">
-              Une approche complète pour préparer, dessiner et visualiser vos
-              projets de construction.
-              <br />
-              Permis, plans techniques, modélisation 3D : chaque service répond
-              à une étape clé du projet.
-            </p>
-          </ArchiReveal>
-        </div>
+      </div>
+
+      {/* Expertise intro: service overview (moved from the former right-side caption). */}
+      <div className="px-10 xl:pl-[25vw] md:pr-20 pb-16 md:pb-20 relative z-10">
+        <p className="max-w-3xl text-base md:text-xl font-light leading-relaxed text-brand-dark border-l-2 md:border-l-4 border-brand-dark pl-6 md:pl-8">
+          Une approche complète pour préparer, dessiner et visualiser vos
+          projets de construction.
+          <br />
+          Permis, plans techniques, modélisation 3D : chaque service répond à
+          une étape clé du projet.
+        </p>
       </div>
 
       {/* ACCORDION CONTAINER - Trigger for UI hiding */}
@@ -2575,7 +2580,42 @@ function ArchiFAQ() {
     },
     {
       q: "Quels documents dois-je fournir ?",
-      a: "Un plan de masse ou des photos suffisent pour une première étude de faisabilité.",
+      a: "Un plan de masse ou des photos suffisent pour une première étude de faisabilité. À partir de ces éléments, ArchiMade établit vos plans techniques et votre dossier de permis de construire ou de déclaration préalable.",
+    },
+    {
+      // Captures the "ai-je besoin d'un architecte" intent WITHOUT the banned
+      // word (CLAUDE.md + acceptance: architecte/architecture stay 0 in dist).
+      q: "Quelle surface puis-je construire avec un dessinateur en bâtiment ?",
+      a: "Jusqu'à 150 m² de surface de plancher, vous pouvez confier la conception de vos plans et le dépôt de votre permis de construire à un dessinateur en bâtiment. ArchiMade conçoit votre dossier et le dépose en mairie.",
+    },
+    {
+      // Disclaiming capture of the "architecte" query. "architecte" is allowed
+      // here ONLY because the answer NEGATES the need for one (n'impose pas) and
+      // never self-designates ArchiMade as an architecte. seo-check enforces this
+      // scoped exception (negation-only, answer-only; banned in title/H/meta/JSON-LD).
+      q: "Ai-je besoin d'un architecte pour mon projet ?",
+      a: "Non : pour une maison individuelle de moins de 150 m² de surface de plancher, la loi n'impose pas le recours à un architecte. Vous pouvez réaliser votre projet sans architecte : ArchiMade, dessinateur en bâtiment, conçoit vos plans et dépose votre dossier de permis de construire.",
+    },
+    {
+      q: "Déclaration préalable ou permis de construire : quelle différence ?",
+      a: "La déclaration préalable couvre les petits travaux et extensions (jusqu'à 20 à 40 m² selon les cas, ravalements, clôtures, changements de façade). Le permis de construire est requis pour les constructions neuves et les extensions plus importantes. ArchiMade détermine le dossier adapté à votre projet.",
+    },
+    {
+      // TODO(CONFIRM client): valider la fourchette de prix 700 à 1 200 € (estimation marché, non confirmée par le client).
+      q: "Quel est le prix d'un dossier de permis de construire ?",
+      a: "Selon la surface et la complexité, le tarif d'un dossier complet se situe généralement entre 700 et 1 200 €. Devis gratuit et sans engagement.",
+    },
+    {
+      q: "Travaillez-vous à distance partout en France ?",
+      a: "Oui : conception et suivi 100 % à distance, à partir de vos plans, photos et éléments techniques.",
+    },
+    {
+      q: "Réalisez-vous extension, rénovation ou surélévation ?",
+      a: "Oui : plans techniques, modélisation 3D et dossier de déclaration préalable ou de permis de construire pour vos projets d'extension, de rénovation et de surélévation.",
+    },
+    {
+      q: "Quels sont les délais d'instruction en mairie ?",
+      a: "À titre indicatif : environ 1 mois pour une déclaration préalable et environ 2 mois pour un permis de construire de maison individuelle. Ces délais peuvent varier selon la commune.",
     },
   ];
 
@@ -2844,25 +2884,55 @@ function ArchiContact() {
     <footer
       ref={sectionRef}
       id="contact"
-      className="lg:sticky lg:bottom-0 relative z-10 bg-white text-[#1a1a1a] font-display overflow-hidden w-full min-h-screen py-24 lg:py-0 lg:h-screen flex flex-col justify-center"
+      className="relative z-10 bg-white text-[#1a1a1a] font-display overflow-hidden w-full min-h-[100svh] flex flex-col justify-center pt-[clamp(2rem,5vh,5rem)] pb-44 lg:pb-[clamp(6rem,11vh,8rem)]"
     >
-      <div className="max-w-7xl mx-auto px-6 md:px-16 lg:px-24 w-full relative z-10">
-        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-12 lg:gap-20">
-          {/* Left: Content */}
-          <div className="lg:w-1/2 space-y-10">
-            <div className="space-y-6">
-              <h2 className="contact-title text-5xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter leading-none">
-                CONTACT
-              </h2>
-              <p className="contact-desc text-black/40 text-base md:text-lg font-light leading-relaxed max-w-md">
-                Un projet de construction, une demande de permis ou des plans à
-                réaliser ?<br />
-                Présentez votre besoin via le formulaire, ArchiMade vous répond
-                rapidement.
-              </p>
-            </div>
+      {/* CLEARANCE ONLY (composition unchanged): at xl the fixed left sidebar
+          (nav ~215px / bottom logo ~260px) overlays this section. The centered
+          container already clears it on wide screens; this extra left padding
+          only kicks in below ~1668px (max(96px, 930px - 50vw)) so the balanced
+          side-by-side composition is never restructured, just inset. */}
+      <div className="max-w-7xl mx-auto px-6 md:px-16 lg:px-24 xl:pl-[max(96px,calc(930px-50vw))] w-full relative z-10">
+        {/* Self-balancing structure: the heading is a FULL-WIDTH block on top
+            (cleared from the fixed nav by the container's xl:pl + its clamp), and
+            the info|form row sits below it. The form no longer needs a manual
+            top offset: being a sibling of the row (not of the heading), it
+            naturally aligns to the intro paragraph at the row's top edge. */}
+        {/* Height-aware: big on tall screens, compact on short laptops; floor
+            2.25rem keeps it legible (>=36px). */}
+        <h2 className="contact-title text-[clamp(2.25rem,min(8vw,10vh),6rem)] font-black uppercase tracking-tighter leading-none mb-[clamp(0.75rem,2.5vh,3rem)]">
+          CONTACT
+        </h2>
+        {/* Two-column band: 5:7 ratio via flex-grow (flex-basis 0 + 5:7 grow
+            splits the row, gap-aware). Info ~42%, form ~58%. Below lg the band
+            stacks full-width and top-aligns; at lg+ the row is items-stretch so
+            the LEFT info column takes the FULL band height (== the form card,
+            the taller column) and its three blocks distribute down that height
+            (justify-between) instead of clustering at the top with dead space
+            below. HARD CAP: the left intrinsic content stays shorter than the
+            form, so the form keeps setting the row height; stretch only fills
+            the gap and never pushes the band (and footer) taller. */}
+        <div className="flex flex-col lg:flex-row items-start lg:items-stretch gap-12 lg:gap-20">
+          {/* Left: contact info (intro + email/phone + zones), 5/12. At lg+ the
+              row is items-stretch so this column takes the FULL band height (==
+              the form card). flex-col + justify-between spreads the three blocks
+              down that height to KILL the dead space, instead of clustering at
+              the top. The min gap is small so the column's INTRINSIC height
+              stays <= the form's: the form keeps driving the band height, so
+              the band (and footer) never grow. Font floors == the prior values
+              (so short screens, where the footer sits a few px above the cookie
+              bar, are unchanged); only the vh-slope + caps lift, enlarging the
+              copy on taller screens where the form leaves headroom. */}
+          <div className="w-full lg:flex-[5] flex flex-col justify-between gap-[clamp(0.5rem,2vh,1.5rem)]">
+            <p className="contact-desc text-black/40 text-[clamp(0.8rem,1.95vh,1.375rem)] font-light leading-relaxed max-w-md">
+              Un projet de construction, une demande de permis ou des plans à
+              réaliser ?<br />
+              Présentez votre besoin via le formulaire, ArchiMade vous répond
+              rapidement.
+            </p>
 
-            <div className="flex flex-col sm:flex-row lg:flex-col xl:flex-row gap-10 lg:gap-12 pt-8 border-t border-black/5">
+            {/* email + phone: wrap (no nowrap min-width forcing) so the info
+                column honours its 5/12 flex basis; side-by-side when it fits. */}
+            <div className="flex flex-wrap gap-x-12 gap-y-6 pt-[clamp(0.75rem,2.5vh,2rem)] border-t border-black/10">
               <div className="contact-info-item space-y-2">
                 <div className="flex items-center gap-3 text-black/30">
                   <Mail className="w-4 h-4" />
@@ -2872,7 +2942,7 @@ function ArchiContact() {
                 </div>
                 <a
                   href="mailto:contact@archi-made.com"
-                  className="text-lg font-bold hover:opacity-50 transition-opacity whitespace-nowrap"
+                  className="text-[clamp(0.9rem,1.95vh,1.3rem)] font-bold hover:opacity-50 transition-opacity whitespace-nowrap"
                 >
                   contact@archi-made.com
                 </a>
@@ -2886,21 +2956,99 @@ function ArchiContact() {
                 </div>
                 <a
                   href="tel:+33624896695"
-                  className="text-lg font-bold hover:opacity-50 transition-opacity whitespace-nowrap"
+                  className="text-[clamp(0.9rem,1.95vh,1.3rem)] font-bold hover:opacity-50 transition-opacity whitespace-nowrap"
                 >
                   +33 6 24 89 66 95
                 </a>
               </div>
             </div>
+
+            {/* Zones d'intervention - crawlable local-SEO geo block.
+                City-level only here; full street address stays in legal pages. */}
+            <div className="contact-info-item space-y-3 pt-[clamp(0.75rem,2.5vh,2rem)] border-t border-black/5">
+              <div className="flex items-center gap-3 text-black/30">
+                <span className="text-[9px] uppercase tracking-widest font-bold">
+                  Zones d'intervention
+                </span>
+              </div>
+              {/* Descriptive, keyword-aligned anchors (each link carries the
+                  service term so the city pages own their hyperlocal query).
+                  Middot-separated directory keeps it compact in the info column. */}
+              <p className="text-[clamp(0.72rem,1.6vh,1rem)] text-black/50 font-light leading-relaxed max-w-md">
+                <Link
+                  to="/dessinateur-batiment-tours"
+                  className="text-black/70 font-bold underline decoration-black/20 underline-offset-2 hover:decoration-black/60 transition-colors"
+                >
+                  Dessinateur en bâtiment à Tours
+                </Link>
+                {" · "}
+                <Link
+                  to="/dessinateur-batiment-indre-et-loire"
+                  className="underline decoration-black/15 underline-offset-2 hover:text-black/80 transition-colors"
+                >
+                  Dessinateur en Indre-et-Loire
+                </Link>
+                {" · "}
+                <Link
+                  to="/dessinateur-batiment-saint-cyr-sur-loire"
+                  className="underline decoration-black/15 underline-offset-2 hover:text-black/80 transition-colors"
+                >
+                  Dessinateur à Saint-Cyr-sur-Loire
+                </Link>
+                {" · "}
+                <Link
+                  to="/dessinateur-batiment-joue-les-tours"
+                  className="underline decoration-black/15 underline-offset-2 hover:text-black/80 transition-colors"
+                >
+                  Dessinateur à Joué-lès-Tours
+                </Link>
+                {" · "}
+                <Link
+                  to="/dessinateur-batiment-chambray-les-tours"
+                  className="underline decoration-black/15 underline-offset-2 hover:text-black/80 transition-colors"
+                >
+                  Dessinateur à Chambray-lès-Tours
+                </Link>
+                {" · "}
+                <Link
+                  to="/dessinateur-batiment-montlouis-sur-loire"
+                  className="underline decoration-black/15 underline-offset-2 hover:text-black/80 transition-colors"
+                >
+                  Dessinateur à Montlouis-sur-Loire
+                </Link>
+                {" · "}
+                <Link
+                  to="/dessinateur-batiment-veigne"
+                  className="underline decoration-black/15 underline-offset-2 hover:text-black/80 transition-colors"
+                >
+                  Dessinateur à Veigné
+                </Link>
+                {" · "}
+                <Link
+                  to="/dessinateur-batiment-esvres"
+                  className="underline decoration-black/15 underline-offset-2 hover:text-black/80 transition-colors"
+                >
+                  Dessinateur à Esvres
+                </Link>
+                . À distance partout en France.
+              </p>
+            </div>
           </div>
 
-          {/* Right: Premium Card */}
-          <div className="contact-form-card lg:w-125 xl:w-145 w-full">
-            <div className="bg-brand-dark p-8 md:p-12 lg:p-14 rounded-2xl border border-black/5 shadow-2xl relative overflow-hidden text-white">
-              <h3 className="text-xl font-bold uppercase tracking-tight mb-8">
+          {/* Right: Premium Card, 7/12, top-aligned with the info column's
+              intro paragraph (one shared top line). */}
+          <div className="contact-form-card w-full lg:flex-[7]">
+            {/* Compact + height-aware: padding/field-gaps/control-heights scale
+                with viewport height (vh) with usable floors, so the whole card
+                shrinks on short laptops and breathes on tall screens. */}
+            <div className="bg-brand-dark p-[clamp(1rem,3vh,2rem)] rounded-2xl border border-black/5 shadow-2xl relative overflow-hidden text-white">
+              <h3 className="text-xl font-bold uppercase tracking-tight mb-[clamp(0.5rem,2vh,1.5rem)]">
                 Nous contacter
               </h3>
-              <form className="space-y-6 md:space-y-8" onSubmit={handleSubmit}>
+              <form
+                className="space-y-[clamp(0.5rem,2vh,1.25rem)]"
+                onSubmit={handleSubmit}
+              >
                 {/* Honeypot - hidden from real users, filled by bots */}
                 <input
                   type="text"
@@ -2928,7 +3076,7 @@ function ArchiContact() {
                     onChange={(e) =>
                       setFormData((prev) => ({ ...prev, name: e.target.value }))
                     }
-                    className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-4 text-sm focus:border-white/30 outline-none transition-all placeholder:text-white/15 text-white"
+                    className="w-full bg-white/5 border border-white/10 rounded-lg px-4 h-[clamp(38px,5vh,52px)] text-sm focus:border-white/30 outline-none transition-all placeholder:text-white/15 text-white"
                     placeholder="Votre nom"
                   />
                 </div>
@@ -2946,7 +3094,7 @@ function ArchiContact() {
                         email: e.target.value,
                       }))
                     }
-                    className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-4 text-sm focus:border-white/30 outline-none transition-all placeholder:text-white/15 text-white"
+                    className="w-full bg-white/5 border border-white/10 rounded-lg px-4 h-[clamp(38px,5vh,52px)] text-sm focus:border-white/30 outline-none transition-all placeholder:text-white/15 text-white"
                     placeholder="votreemail@exemple.com"
                   />
                 </div>
@@ -2963,7 +3111,7 @@ function ArchiContact() {
                         message: e.target.value,
                       }))
                     }
-                    className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-4 text-sm focus:border-white/30 outline-none transition-all resize-none placeholder:text-white/15 text-white min-h-[120px]"
+                    className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 h-[clamp(56px,10vh,128px)] text-sm focus:border-white/30 outline-none transition-all resize-none placeholder:text-white/15 text-white"
                     placeholder="Parlez-nous de votre projet..."
                   />
                 </div>
@@ -2974,7 +3122,7 @@ function ArchiContact() {
                   type="submit"
                   disabled={status === "sending" || status === "success"}
                   className={cn(
-                    "w-full py-4 text-[10px] font-black uppercase tracking-[0.4em] rounded-lg transition-all duration-300 transform hover:-translate-y-1",
+                    "w-full h-[clamp(42px,6vh,56px)] text-[10px] font-black uppercase tracking-[0.4em] rounded-lg transition-all duration-300 transform hover:-translate-y-1",
                     status === "success"
                       ? "bg-emerald-500 text-white"
                       : status === "error"
@@ -2991,7 +3139,10 @@ function ArchiContact() {
           </div>
         </div>
 
-        <div className="contact-footer-bar mt-16 pt-8 border-t border-black/10 flex flex-col md:flex-row justify-between items-center text-[9px] uppercase tracking-[0.2em] font-bold text-black/40">
+        {/* FOOTER band (same grid): hairline divider, then copyright (left) +
+            legal links (right), baseline-aligned, muted with hover. Gap band->
+            footer tuned to fit one viewport above the cookie overlay. */}
+        <div className="contact-footer-bar mt-[clamp(0.75rem,2.5vh,3rem)] pt-[clamp(0.75rem,2.5vh,2rem)] border-t border-black/10 flex flex-col gap-4 md:flex-row md:gap-0 justify-between items-center text-[9px] uppercase tracking-[0.2em] font-bold text-black/40">
           <p>© {__BUILD_YEAR__} ArchiMade Studio · France</p>
           <div className="flex items-center gap-3">
             <Link
@@ -3193,6 +3344,18 @@ function ArchiInstagramFloat({
 export default function ArchiMadeLanding() {
   // Dev: skip cinematic preloader (production SSG keeps full intro).
   const [isLoading, setIsLoading] = useState(() => !import.meta.env.DEV);
+  // Repeat visits in the SAME session skip the full intro for an instant hero
+  // paint. The initial state stays deterministic (matches the prerendered HTML)
+  // so there is no hydration mismatch; the overlay is only dropped AFTER
+  // hydration when the intro was already seen this session.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      if (sessionStorage.getItem("archimade_intro_seen")) setIsLoading(false);
+    } catch {
+      /* sessionStorage unavailable (private mode) - keep the intro */
+    }
+  }, []);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolling, setIsScrolling] = useState(false);
   // The fixed left nav/logo (+ contact tab + Instagram float) fade out over the
@@ -3222,7 +3385,9 @@ export default function ArchiMadeLanding() {
     // Deep-link on load (e.g. landing on /#contact from an ad, or arriving from
     // a sub-page CTA): smooth-scroll to the target once Lenis is live and the
     // (always-rendered) sections are in the DOM. This effect only runs after
-    // isLoading is false, i.e. AFTER the intro animation completes.
+    // isLoading is false, i.e. AFTER the intro animation completes (or is skipped
+    // when archimade_intro_seen is set) - so a first visit waits for intro-done
+    // before jumping. Two rAFs let the entrance layout settle => no double jump.
     const incomingHash = window.location.hash;
     const incomingEl = /^#[a-z][\w-]*$/i.test(incomingHash)
       ? document.getElementById(incomingHash.slice(1))
@@ -3257,13 +3422,13 @@ export default function ArchiMadeLanding() {
 
   useIsomorphicLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.set(".archi-entrance", { opacity: 0, y: 100 });
+      // Hidden under the preloader; fade in once intro completes (opacity-only so
+      // the hero .archi-title-reveal lines own all positional motion).
+      gsap.set(".archi-entrance", { opacity: 0 });
       if (isLoading) return;
       gsap.to(".archi-entrance", {
         opacity: 1,
-        y: 0,
         duration: 1.5,
-        stagger: 0.2,
         ease: "power4.out",
         delay: 0.2,
         clearProps: "all",
@@ -3321,7 +3486,16 @@ export default function ArchiMadeLanding() {
                 real content (which is always mounted, so it ships in the
                 prerendered HTML and is crawlable). */}
       {isLoading && (
-        <ArchiPreloader onComplete={() => setIsLoading(false)} />
+        <ArchiPreloader
+          onComplete={() => {
+            try {
+              sessionStorage.setItem("archimade_intro_seen", "1");
+            } catch {
+              /* ignore */
+            }
+            setIsLoading(false);
+          }}
+        />
       )}
 
       <div
@@ -3419,15 +3593,6 @@ export default function ArchiMadeLanding() {
           isUIHidden={isUIHidden}
           hasScrolled={hasScrolled}
         />
-
-        {/* Location silo hrefs for crawlers only (sr-only; amine layout has no visible geo block). */}
-        <nav className="sr-only" aria-label="Pages locale dessinateur en bâtiment">
-          {LOCATION_SILO_LINKS.map((item) => (
-            <Link key={item.to} to={item.to}>
-              {item.label}
-            </Link>
-          ))}
-        </nav>
 
         <ArchiCookieBanner />
 
