@@ -1013,7 +1013,7 @@ const HERO_MESSAGES = [
   "Accompagnement premium pour particuliers et professionnels. Conception de dossiers techniques complets.",
   "Expertise 3D photoréaliste pour une immersion totale dans vos projets futurs.",
   "Dossiers administratifs et permis de construire gérés avec une précision chirurgicale.",
-  "Solutions techniques innovantes pour une architecture durable et esthétique.",
+  "Solutions techniques sur mesure pour des projets durables et esthétiques.",
 ];
 
 function ArchiHero() {
