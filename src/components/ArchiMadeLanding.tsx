@@ -1013,7 +1013,7 @@ const HERO_MESSAGES = [
   "Accompagnement premium pour particuliers et professionnels. Conception de dossiers techniques complets.",
   "Expertise 3D photoréaliste pour une immersion totale dans vos projets futurs.",
   "Dossiers administratifs et permis de construire gérés avec une précision chirurgicale.",
-  "Solutions techniques sur mesure pour des projets durables et esthétiques.",
+  "Solutions techniques innovantes pour une architecture durable et esthétique.",
 ];
 
 function ArchiHero() {
@@ -1100,19 +1100,17 @@ function ArchiHero() {
             className="notranslate archi-title text-[12vw] md:text-[9.5vw] font-bold tracking-tighter leading-[1.1] md:leading-[0.8] text-brand-dark flex flex-col items-start relative translate-z-0 mb-12"
           >
             {/* Title Lines (1, 2, 3) */}
-            {["Concevoir votre", "futur projet"].map(
-              (text, idx) => (
-                <div key={idx} className="sentence">
-                  <div className="outer relative perspective-[2000px]">
-                    <span className="inner block overflow-hidden md:pb-[0.18em]">
-                      <span className="text block archi-title-reveal">
-                        {text}
-                      </span>
+            {["Concevoir votre", "futur projet"].map((text, idx) => (
+              <div key={idx} className="sentence">
+                <div className="outer relative perspective-[2000px]">
+                  <span className="inner block overflow-hidden md:pb-[0.18em]">
+                    <span className="text block archi-title-reveal">
+                      {text}
                     </span>
-                  </div>
+                  </span>
                 </div>
-              ),
-            )}
+              </div>
+            ))}
           </h1>
 
           <div className="space-y-6 flex flex-col items-start">
@@ -1594,7 +1592,6 @@ function ArchiServices() {
             </h2>
           </div>
         </div>
-
       </div>
 
       {/* Expertise intro: service overview (moved from the former right-side caption). */}
@@ -3444,9 +3441,7 @@ export default function ArchiMadeLanding() {
       {/* Preloader is a full-screen opaque overlay rendered ON TOP of the
                 real content (which is always mounted, so it ships in the
                 prerendered HTML and is crawlable). */}
-      {isLoading && (
-        <ArchiPreloader onComplete={() => setIsLoading(false)} />
-      )}
+      {isLoading && <ArchiPreloader onComplete={() => setIsLoading(false)} />}
 
       <div
         ref={mainRef}
