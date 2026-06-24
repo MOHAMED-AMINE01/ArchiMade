@@ -530,7 +530,6 @@ function ArchiPreloader({ onComplete }: { onComplete: () => void }) {
         // Cinematic dissolve: content blurs out first (timeline below), then the
         // full-screen overlay fades so the hero reveal can play underneath.
         gsap.to(containerRef.current, {
-          scale: 1.1,
           opacity: 0,
           filter: "blur(40px)",
           duration: 1.5,
@@ -552,14 +551,14 @@ function ArchiPreloader({ onComplete }: { onComplete: () => void }) {
     gsap.set(".char-inner", { opacity: 0, y: 30 });
     gsap.set(".preloader-logo", {
       opacity: 0,
-      scale: 0.8,
+      scale: 0.95,
       filter: "blur(20px)",
     });
 
     // Entrance for Logo
     tl.to(".preloader-logo", {
       opacity: 1,
-      scale: 1.7,
+      scale: 1,
       filter: "blur(0px)",
       duration: 1.5,
       ease: "expo.out",
@@ -628,10 +627,10 @@ function ArchiPreloader({ onComplete }: { onComplete: () => void }) {
         );
     });
 
-    // Exit transition
+    // Exit transition - blur dissolve only (no scale; logo is child of .preloader-content)
     tl.to(".preloader-content", {
       opacity: 0,
-      scale: 1.1,
+      filter: "blur(10px)",
       duration: 0.8,
       ease: "power2.inOut",
       delay: 0.5,
@@ -1108,17 +1107,19 @@ function ArchiHero() {
             className="notranslate archi-title text-[12vw] md:text-[9.5vw] font-bold tracking-tighter leading-[1.1] md:leading-[0.8] text-brand-dark flex flex-col items-start relative translate-z-0 mb-8"
           >
             {/* Title Lines (1, 2, 3) */}
-            {["Concevoir votre", "futur projet"].map((text, idx) => (
-              <div key={idx} className="sentence">
-                <div className="outer relative perspective-[2000px]">
-                  <span className="inner block overflow-hidden pr-[0.08em] md:pb-[0.18em] md:pr-[0.12em]">
-                    <span className="text block archi-title-reveal">
-                      {text}
+            {["Concevoir votre", "futur projet"].map(
+              (text, idx) => (
+                <div key={idx} className="sentence">
+                  <div className="outer relative perspective-[2000px]">
+                    <span className="inner block overflow-hidden pr-[0.08em] md:pb-[0.18em] md:pr-[0.12em]">
+                      <span className="text block archi-title-reveal">
+                        {text}
+                      </span>
                     </span>
-                  </span>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ),
+            )}
           </h1>
 
           <div className="space-y-6 flex flex-col items-start">
@@ -1323,7 +1324,7 @@ function ArchiAbout() {
           <span className="text-[9px] md:text-[10px] uppercase tracking-[0.4em] md:tracking-[0.6em] text-brand-dark/30 font-bold block animate-fade-in">
             Expertise & Accompagnement
           </span>
-          <h2 className="about-heading text-3xl sm:text-4xl md:text-5xl xl:text-7xl font-bold leading-[1.1] md:leading-[1.1] text-brand-dark uppercase tracking-tighter max-w-5xl">
+          <h2 className="about-heading text-3xl sm:text-4xl md:text-5xl xl:text-6xl font-bold leading-[1.1] md:leading-[1.1] text-brand-dark uppercase tracking-tighter max-w-5xl">
             {"Spécialiste dans la conception de projets de construction."
               .split(" ")
               .map((word, i) => (
@@ -1336,9 +1337,9 @@ function ArchiAbout() {
           </h2>
         </div>
 
-        <div className="flex flex-col xl:flex-row gap-12 xl:gap-20 mt-16 md:mt-24">
+        <div className="flex flex-col xl:flex-row gap-12 xl:gap-20 mt-[clamp(2.5rem,6vh,6rem)]">
           <div className="flex-1 about-subtext">
-            <p className="text-lg sm:text-xl md:text-2xl xl:text-3xl font-light leading-normal md:leading-[1.4] text-brand-dark tracking-tight border-l-2 md:border-l-4 border-black pl-6 md:pl-8">
+            <p className="text-lg sm:text-xl md:text-2xl font-light leading-normal md:leading-[1.4] text-brand-dark tracking-tight border-l-2 md:border-l-4 border-black pl-6 md:pl-8">
               ArchiMade accompagne particuliers et professionnels dans la
               préparation de leurs projets de construction.
               <br />
@@ -1624,16 +1625,17 @@ function ArchiServices() {
           </div>
         </div>
 
-        <div className="md:max-w-[320px] lg:max-w-md border-l border-brand-dark/20 pl-8 mb-4">
-          <ArchiReveal type="fade" delay={0.5}>
-            <p className="text-brand-dark/60 text-[9px] md:text-[10px] lg:text-[11px] font-bold tracking-[0.15em] leading-loose">
-              Une approche complète pour préparer, dessiner et visualiser vos
-              projets de construction.<br></br>
-              Permis, plans techniques, modélisation 3D : chaque service répond
-              à une étape clé du projet.
-            </p>
-          </ArchiReveal>
-        </div>
+      </div>
+
+      {/* Expertise intro: service overview (moved from the former right-side caption). */}
+      <div className="px-10 xl:pl-[25vw] md:pr-20 pb-16 md:pb-20 relative z-10">
+        <p className="max-w-3xl text-base md:text-xl font-light leading-relaxed text-brand-dark border-l-2 md:border-l-4 border-brand-dark pl-6 md:pl-8">
+          Une approche complète pour préparer, dessiner et visualiser vos
+          projets de construction.
+          <br />
+          Permis, plans techniques, modélisation 3D : chaque service répond à
+          une étape clé du projet.
+        </p>
       </div>
 
       {/* ACCORDION CONTAINER - Trigger for UI hiding */}
@@ -2578,7 +2580,42 @@ function ArchiFAQ() {
     },
     {
       q: "Quels documents dois-je fournir ?",
-      a: "Un plan de masse ou des photos suffisent pour une première étude de faisabilité.",
+      a: "Un plan de masse ou des photos suffisent pour une première étude de faisabilité. À partir de ces éléments, ArchiMade établit vos plans techniques et votre dossier de permis de construire ou de déclaration préalable.",
+    },
+    {
+      // Captures the "ai-je besoin d'un architecte" intent WITHOUT the banned
+      // word (CLAUDE.md + acceptance: architecte/architecture stay 0 in dist).
+      q: "Quelle surface puis-je construire avec un dessinateur en bâtiment ?",
+      a: "Jusqu'à 150 m² de surface de plancher, vous pouvez confier la conception de vos plans et le dépôt de votre permis de construire à un dessinateur en bâtiment. ArchiMade conçoit votre dossier et le dépose en mairie.",
+    },
+    {
+      // Disclaiming capture of the "architecte" query. "architecte" is allowed
+      // here ONLY because the answer NEGATES the need for one (n'impose pas) and
+      // never self-designates ArchiMade as an architecte. seo-check enforces this
+      // scoped exception (negation-only, answer-only; banned in title/H/meta/JSON-LD).
+      q: "Ai-je besoin d'un architecte pour mon projet ?",
+      a: "Non : pour une maison individuelle de moins de 150 m² de surface de plancher, la loi n'impose pas le recours à un architecte. Vous pouvez réaliser votre projet sans architecte : ArchiMade, dessinateur en bâtiment, conçoit vos plans et dépose votre dossier de permis de construire.",
+    },
+    {
+      q: "Déclaration préalable ou permis de construire : quelle différence ?",
+      a: "La déclaration préalable couvre les petits travaux et extensions (jusqu'à 20 à 40 m² selon les cas, ravalements, clôtures, changements de façade). Le permis de construire est requis pour les constructions neuves et les extensions plus importantes. ArchiMade détermine le dossier adapté à votre projet.",
+    },
+    {
+      // TODO(CONFIRM client): valider la fourchette de prix 700 à 1 200 € (estimation marché, non confirmée par le client).
+      q: "Quel est le prix d'un dossier de permis de construire ?",
+      a: "Selon la surface et la complexité, le tarif d'un dossier complet se situe généralement entre 700 et 1 200 €. Devis gratuit et sans engagement.",
+    },
+    {
+      q: "Travaillez-vous à distance partout en France ?",
+      a: "Oui : conception et suivi 100 % à distance, à partir de vos plans, photos et éléments techniques.",
+    },
+    {
+      q: "Réalisez-vous extension, rénovation ou surélévation ?",
+      a: "Oui : plans techniques, modélisation 3D et dossier de déclaration préalable ou de permis de construire pour vos projets d'extension, de rénovation et de surélévation.",
+    },
+    {
+      q: "Quels sont les délais d'instruction en mairie ?",
+      a: "À titre indicatif : environ 1 mois pour une déclaration préalable et environ 2 mois pour un permis de construire de maison individuelle. Ces délais peuvent varier selon la commune.",
     },
   ];
 
@@ -3307,6 +3344,18 @@ function ArchiInstagramFloat({
 export default function ArchiMadeLanding() {
   // Dev: skip cinematic preloader (production SSG keeps full intro).
   const [isLoading, setIsLoading] = useState(() => !import.meta.env.DEV);
+  // Repeat visits in the SAME session skip the full intro for an instant hero
+  // paint. The initial state stays deterministic (matches the prerendered HTML)
+  // so there is no hydration mismatch; the overlay is only dropped AFTER
+  // hydration when the intro was already seen this session.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      if (sessionStorage.getItem("archimade_intro_seen")) setIsLoading(false);
+    } catch {
+      /* sessionStorage unavailable (private mode) - keep the intro */
+    }
+  }, []);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolling, setIsScrolling] = useState(false);
   // The fixed left nav/logo (+ contact tab + Instagram float) fade out over the
@@ -3336,7 +3385,9 @@ export default function ArchiMadeLanding() {
     // Deep-link on load (e.g. landing on /#contact from an ad, or arriving from
     // a sub-page CTA): smooth-scroll to the target once Lenis is live and the
     // (always-rendered) sections are in the DOM. This effect only runs after
-    // isLoading is false, i.e. AFTER the intro animation completes.
+    // isLoading is false, i.e. AFTER the intro animation completes (or is skipped
+    // when archimade_intro_seen is set) - so a first visit waits for intro-done
+    // before jumping. Two rAFs let the entrance layout settle => no double jump.
     const incomingHash = window.location.hash;
     const incomingEl = /^#[a-z][\w-]*$/i.test(incomingHash)
       ? document.getElementById(incomingHash.slice(1))
@@ -3371,13 +3422,13 @@ export default function ArchiMadeLanding() {
 
   useIsomorphicLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.set(".archi-entrance", { opacity: 0, y: 100 });
+      // Hidden under the preloader; fade in once intro completes (opacity-only so
+      // the hero .archi-title-reveal lines own all positional motion).
+      gsap.set(".archi-entrance", { opacity: 0 });
       if (isLoading) return;
       gsap.to(".archi-entrance", {
         opacity: 1,
-        y: 0,
         duration: 1.5,
-        stagger: 0.2,
         ease: "power4.out",
         delay: 0.2,
         clearProps: "all",
@@ -3435,7 +3486,16 @@ export default function ArchiMadeLanding() {
                 real content (which is always mounted, so it ships in the
                 prerendered HTML and is crawlable). */}
       {isLoading && (
-        <ArchiPreloader onComplete={() => setIsLoading(false)} />
+        <ArchiPreloader
+          onComplete={() => {
+            try {
+              sessionStorage.setItem("archimade_intro_seen", "1");
+            } catch {
+              /* ignore */
+            }
+            setIsLoading(false);
+          }}
+        />
       )}
 
       <div
