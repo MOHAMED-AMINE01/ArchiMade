@@ -1625,31 +1625,16 @@ function ArchiServices() {
           </div>
         </div>
 
-        <div className="md:max-w-[320px] lg:max-w-md border-l border-brand-dark/20 pl-8 mb-4">
-          <ArchiReveal type="fade" delay={0.5}>
-            <p className="text-brand-dark/60 text-[9px] md:text-[10px] lg:text-[11px] font-bold tracking-[0.15em] leading-loose">
-              Une approche complète pour préparer, dessiner et visualiser vos
-              projets de construction.<br></br>
-              Permis, plans techniques, modélisation 3D : chaque service répond
-              à une étape clé du projet.
-            </p>
-          </ArchiReveal>
-        </div>
       </div>
 
-      {/* ≤150 m² legally-safe differentiator hook.
-          NOTE: phrased WITHOUT the word "architecte" per CLAUDE.md hard rule +
-          acceptance gate (architecte/architecture must stay 0 in dist). Same
-          intent (the ≤150 m² lane where a dessinateur suffices) conveyed positively. */}
+      {/* Expertise intro: service overview (moved from the former right-side caption). */}
       <div className="px-10 xl:pl-[25vw] md:pr-20 pb-16 md:pb-20 relative z-10">
         <p className="max-w-3xl text-base md:text-xl font-light leading-relaxed text-brand-dark border-l-2 md:border-l-4 border-brand-dark pl-6 md:pl-8">
-          <strong className="font-bold">
-            Jusqu'à 150 m² de surface de plancher
-          </strong>
-          , la loi vous permet de confier la conception de vos plans et le dépôt
-          de votre permis de construire à un dessinateur en bâtiment. Pour votre
-          maison individuelle, ArchiMade conçoit vos plans techniques, monte
-          votre dossier et le dépose en mairie.
+          Une approche complète pour préparer, dessiner et visualiser vos
+          projets de construction.
+          <br />
+          Permis, plans techniques, modélisation 3D : chaque service répond à
+          une étape clé du projet.
         </p>
       </div>
 
