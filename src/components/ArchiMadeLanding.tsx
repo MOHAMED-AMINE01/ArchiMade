@@ -1107,8 +1107,12 @@ function ArchiHero() {
                       descenders (j, p) are no longer clipped. pt is cancelled by an
                       equal -mt so line 1's position is unchanged; pb (uncompensated,
                       replacing the old md:pb-[0.18em]) preserves the inter-line gap.
-                      overflow-hidden stays for the horizontal reveal mask. */}
-                  <span className="inner block overflow-hidden pt-[0.28em] -mt-[0.28em] pb-[0.22em]">
+                      overflow-hidden stays for the horizontal reveal mask.
+                      Horizontal: pl is cancelled by an equal -ml so the left edge /
+                      alignment is unchanged; pr (uncompensated) gives the trailing
+                      glyph its right bearing (the 'e' of "votre", the 'r' of
+                      "Concevoir") so it is no longer clipped by the mask edge. */}
+                  <span className="inner block overflow-hidden pt-[0.28em] -mt-[0.28em] pb-[0.22em] pl-[0.06em] -ml-[0.06em] pr-[0.06em]">
                     <span className="text block archi-title-reveal">
                       {text}
                     </span>
