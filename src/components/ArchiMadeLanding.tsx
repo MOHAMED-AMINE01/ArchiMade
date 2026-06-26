@@ -2559,20 +2559,6 @@ function ArchiFAQ() {
       a: "Un plan de masse ou des photos suffisent pour une première étude de faisabilité. À partir de ces éléments, ArchiMade établit vos plans techniques et votre dossier de permis de construire ou de déclaration préalable.",
     },
     {
-      // Captures the "ai-je besoin d'un architecte" intent WITHOUT the banned
-      // word (CLAUDE.md + acceptance: architecte/architecture stay 0 in dist).
-      q: "Quelle surface puis-je construire avec un dessinateur en bâtiment ?",
-      a: "Jusqu'à 150 m² de surface de plancher, vous pouvez confier la conception de vos plans et le dépôt de votre permis de construire à un dessinateur en bâtiment. ArchiMade conçoit votre dossier et le dépose en mairie.",
-    },
-    {
-      // Disclaiming capture of the "architecte" query. "architecte" is allowed
-      // here ONLY because the answer NEGATES the need for one (n'impose pas) and
-      // never self-designates ArchiMade as an architecte. seo-check enforces this
-      // scoped exception (negation-only, answer-only; banned in title/H/meta/JSON-LD).
-      q: "Ai-je besoin d'un architecte pour mon projet ?",
-      a: "Non : pour une maison individuelle de moins de 150 m² de surface de plancher, la loi n'impose pas le recours à un architecte. Vous pouvez réaliser votre projet sans architecte : ArchiMade, dessinateur en bâtiment, conçoit vos plans et dépose votre dossier de permis de construire.",
-    },
-    {
       q: "Déclaration préalable ou permis de construire : quelle différence ?",
       a: "La déclaration préalable couvre les petits travaux et extensions (jusqu'à 20 à 40 m² selon les cas, ravalements, clôtures, changements de façade). Le permis de construire est requis pour les constructions neuves et les extensions plus importantes. ArchiMade détermine le dossier adapté à votre projet.",
     },
