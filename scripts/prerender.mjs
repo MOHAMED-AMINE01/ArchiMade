@@ -5,7 +5,7 @@
 //   1. vite build                     -> dist/ (client assets + shell template)
 //   2. vite build --ssr entry-server  -> dist-ssr/entry-server.js (render fn)
 //   3. node scripts/prerender.mjs      -> dist/<route>.html (this file)
-import { readFileSync, writeFileSync, rmSync } from "node:fs";
+import { readFileSync, writeFileSync, rmSync, mkdirSync } from "node:fs";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { dirname, resolve } from "node:path";
 
@@ -14,7 +14,9 @@ const root = resolve(__dirname, "..");
 const distDir = resolve(root, "dist");
 const ssrEntry = resolve(root, "dist-ssr/entry-server.js");
 
-const { render, PRERENDER_ROUTES } = await import(pathToFileURL(ssrEntry).href);
+const { render, PRERENDER_ROUTES, ROUTE_ALTERNATES } = await import(
+  pathToFileURL(ssrEntry).href
+);
 
 const ROUTES = PRERENDER_ROUTES ?? [
   "/",
@@ -22,12 +24,24 @@ const ROUTES = PRERENDER_ROUTES ?? [
   "/confidentialite",
   "/cookies",
 ];
+const ALTERNATES = ROUTE_ALTERNATES ?? {};
 
 const template = readFileSync(resolve(distDir, "index.html"), "utf8");
 
+// "/" -> index.html, "/cookies" -> cookies.html, "/en" -> en.html,
+// "/en/cookie-policy" -> en/cookie-policy.html.
+//
+// A locale root is written as a SIBLING file (dist/en.html), never as a
+// directory index (dist/en/index.html): the file dist/en.html and the
+// directory dist/en/ holding its sub-pages coexist without colliding, and
+// "/en" then resolves through the exact same cleanUrls rule as every other
+// route. The directory-index form broke "/en" on any server that does not
+// resolve a directory index (it served the French dist/index.html instead),
+// and would fight "trailingSlash": false, which redirects /en/ -> /en.
 function routeToFile(route) {
   const clean = route.replace(/^\/+/, "").replace(/\/+$/, "");
-  return clean === "" ? "index.html" : `${clean}.html`;
+  if (clean === "") return "index.html";
+  return `${clean}.html`;
 }
 
 let count = 0;
@@ -44,6 +58,10 @@ for (const route of ROUTES) {
         .filter(Boolean)
         .join("\n    ")
     : "";
+
+  // <html lang> comes from <Seo> (Helmet htmlAttributes). Without this the
+  // static template's lang="fr" would be served for the /en and /pt pages.
+  const htmlAttrs = helmet ? helmet.htmlAttributes.toString() : "";
 
   // React 19 SSR hoists <link rel="preload" as="image"> for every img src into
   // the body stream. Strip all of them to avoid dozens of below-fold preloads
@@ -66,14 +84,17 @@ for (const route of ROUTES) {
   const html = routeTemplate
     // Drop the static fallback <title> so Helmet's per-route title is the only one.
     .replace(/\s*<title>[\s\S]*?<\/title>/, "")
+    .replace(/<html[^>]*>/, htmlAttrs ? `<html ${htmlAttrs}>` : "<html>")
     .replace("</head>", `    ${headTags}\n  </head>`)
     .replace('<div id="root"></div>', `<div id="root">${cleanedAppHtml}</div>`);
 
   const file = routeToFile(route);
-  writeFileSync(resolve(distDir, file), html, "utf8");
+  const outPath = resolve(distDir, file);
+  mkdirSync(dirname(outPath), { recursive: true });
+  writeFileSync(outPath, html, "utf8");
   const title = helmet?.title.toString().replace(/<[^>]+>/g, "") ?? "(none)";
   console.log(
-    `[prerender] ${route.padEnd(20)} -> dist/${file.padEnd(24)} | ${title}`,
+    `[prerender] ${route.padEnd(44)} -> dist/${file.padEnd(46)} | ${title}`,
   );
   count++;
 }
@@ -81,21 +102,39 @@ for (const route of ROUTES) {
 // Generate dist/sitemap.xml from the prerendered route list so it never drifts
 // from the actual pages, with <lastmod> stamped to the real build date.
 const SITE_URL = "https://www.archi-made.com";
-const LEGAL = new Set(["/mentions-legales", "/confidentialite", "/cookies"]);
+const HOMES = new Set(["/", "/en", "/pt"]);
+const LEGAL = new Set([
+  "/mentions-legales",
+  "/confidentialite",
+  "/cookies",
+  "/en/legal-notice",
+  "/en/privacy-policy",
+  "/en/cookie-policy",
+  "/pt/aviso-legal",
+  "/pt/politica-de-privacidade",
+  "/pt/politica-de-cookies",
+]);
 const sitemapMeta = (route) => {
-  if (route === "/") return { changefreq: "monthly", priority: "1.0" };
+  if (HOMES.has(route)) return { changefreq: "monthly", priority: "1.0" };
   if (LEGAL.has(route)) return { changefreq: "yearly", priority: "0.3" };
   // service + location silo pages
   return { changefreq: "monthly", priority: "0.8" };
 };
+const absolute = (path) => (path === "/" ? `${SITE_URL}/` : `${SITE_URL}${path}`);
 {
   const buildDate = new Date().toISOString().slice(0, 10);
   const urls = ROUTES.map((route) => {
-    const loc = route === "/" ? `${SITE_URL}/` : `${SITE_URL}${route}`;
     const { changefreq, priority } = sitemapMeta(route);
+    // Every URL declares the full alternate set (including itself and
+    // x-default), exactly like the <head> of the corresponding page.
+    const alt = (ALTERNATES[route] ?? []).map(
+      (a) =>
+        `    <xhtml:link rel="alternate" hreflang="${a.hreflang}" href="${absolute(a.path)}"/>`,
+    );
     return [
       "  <url>",
-      `    <loc>${loc}</loc>`,
+      `    <loc>${absolute(route)}</loc>`,
+      ...alt,
       `    <lastmod>${buildDate}</lastmod>`,
       `    <changefreq>${changefreq}</changefreq>`,
       `    <priority>${priority}</priority>`,
@@ -105,7 +144,8 @@ const sitemapMeta = (route) => {
   const sitemap =
     `<?xml version="1.0" encoding="UTF-8"?>\n` +
     `<!-- Generated by scripts/prerender.mjs from PRERENDER_ROUTES (src/App.tsx). Do not edit by hand. -->\n` +
-    `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
+    `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n` +
+    `        xmlns:xhtml="http://www.w3.org/1999/xhtml">\n` +
     `${urls}\n` +
     `</urlset>\n`;
   writeFileSync(resolve(distDir, "sitemap.xml"), sitemap, "utf8");

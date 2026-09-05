@@ -2,9 +2,9 @@ import { StrictMode } from 'react';
 import { renderToString } from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom';
 import { HelmetProvider, type HelmetServerState } from 'react-helmet-async';
-import AppRoutes, { PRERENDER_ROUTES } from './App';
+import AppRoutes, { PRERENDER_ROUTES, ROUTE_ALTERNATES } from './App';
 
-export { PRERENDER_ROUTES };
+export { PRERENDER_ROUTES, ROUTE_ALTERNATES };
 
 export interface RenderResult {
   appHtml: string;

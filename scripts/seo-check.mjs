@@ -19,21 +19,42 @@ const walk = (d, o = []) => {
     }
   return o;
 };
-// Route table is derived from the prerendered top-level dist/*.html files so it
-// auto-covers every service/location page (no hand-maintained list to drift).
+// Route table is derived from the prerendered dist/**/*.html files (top level =
+// French, dist/en/** and dist/pt/** = the other locales) so it auto-covers every
+// service/location page in every language (no hand-maintained list to drift).
+const LOCALES = ["fr", "en", "pt"];
 const fileToRoute = (f) => {
-  const base = f.replace(/^dist[\\/]/, "");
-  return base === "index.html" ? "/" : "/" + base.replace(/\.html$/, "");
+  const base = f.replace(/^dist[\\/]/, "").split(/[\\/]/).join("/");
+  if (base === "index.html") return "/";
+  if (base.endsWith("/index.html"))
+    return "/" + base.slice(0, -"/index.html".length);
+  return "/" + base.replace(/\.html$/, "");
 };
-const LEGAL = new Set(["/mentions-legales", "/confidentialite", "/cookies"]);
-const htmlFiles = (existsSync("dist") ? readdirSync("dist") : [])
-  .filter((e) => e.endsWith(".html"))
-  .map((e) => join("dist", e))
+const HOME = { fr: "/", en: "/en", pt: "/pt" };
+const localeOf = (route) => {
+  const seg = route.split("/")[1];
+  return LOCALES.includes(seg) ? seg : "fr";
+};
+const isHome = (route) => Object.values(HOME).includes(route);
+const LEGAL = new Set([
+  "/mentions-legales",
+  "/confidentialite",
+  "/cookies",
+  "/en/legal-notice",
+  "/en/privacy-policy",
+  "/en/cookie-policy",
+  "/pt/aviso-legal",
+  "/pt/politica-de-privacidade",
+  "/pt/politica-de-cookies",
+]);
+const MENTIONS = new Set(["/mentions-legales", "/en/legal-notice", "/pt/aviso-legal"]);
+const htmlFiles = walk("dist")
+  .filter((f) => f.endsWith(".html"))
   .filter((f) => statSync(f).isFile());
 const ROUTES = Object.fromEntries(htmlFiles.map((f) => [fileToRoute(f), f]));
-// Dedicated silo pages (service + location): everything except home + legal.
+// Dedicated silo pages (service + location): everything except homes + legal.
 const DEDICATED = Object.entries(ROUTES).filter(
-  ([r]) => r !== "/" && !LEGAL.has(r),
+  ([r]) => !isHome(r) && !LEGAL.has(r),
 );
 
 const grabIn = (h, re) => ((h.match(re) || [])[1] || "").trim();
@@ -218,15 +239,17 @@ console.log("\n== NAP / ADDRESS (service-area model) ==");
   // 1) Street address is LEGAL-PAGE-ONLY (never leaks into a marketing route or
   //    the home JSON-LD).
   const streetLeak = routesArr
-    .filter(([r]) => r !== "/mentions-legales")
+    .filter(([r]) => !MENTIONS.has(r))
     .filter(([, f]) => /Mar[ée]chal Ney/i.test(read(f) || ""))
     .map(([r]) => r);
   streetLeak.length === 0
     ? ok("street address absent from all non-legal routes")
     : no(`street address leaked onto: ${streetLeak.join(", ")}`);
-  /Mar[ée]chal Ney/i.test(read(ROUTES["/mentions-legales"]) || "")
-    ? ok("street address kept on /mentions-legales (legal requirement)")
-    : no("street address missing from /mentions-legales");
+  for (const m of MENTIONS) {
+    /Mar[ée]chal Ney/i.test(read(ROUTES[m]) || "")
+      ? ok(`street address kept on ${m} (legal requirement)`)
+      : no(`street address missing from ${m}`);
+  }
 
   // 2) No GeoCoordinates anywhere (permanent - service-area business).
   /GeoCoordinates/i.test(allHtml)
@@ -260,19 +283,23 @@ console.log("\n== NAP / ADDRESS (service-area model) ==");
   }
 
   // 5) Home shows the canonical NAP anchors (sanity).
-  home.includes(EMAIL) &&
-  home.includes(PHONE_DISPLAY) &&
-  home.includes(`tel:${TEL}`)
-    ? ok("home shows canonical email + phone NAP")
-    : no("home missing canonical email/phone NAP");
+  for (const [loc, hp] of Object.entries(HOME)) {
+    const h = read(ROUTES[hp]) || "";
+    h.includes(EMAIL) && h.includes(PHONE_DISPLAY) && h.includes(`tel:${TEL}`)
+      ? ok(`${loc} home shows canonical email + phone NAP`)
+      : no(`${loc} home missing canonical email/phone NAP`);
+  }
 
   // 6) PART A: opening hours Mo-Fr 09:00-18:00 (no weekend) in home business JSON-LD.
-  /OpeningHoursSpecification/.test(home) &&
-  /"opens"\s*:\s*"09:00"/.test(home) &&
-  /"closes"\s*:\s*"18:00"/.test(home) &&
-  !/"(Saturday|Sunday)"/.test(home)
-    ? ok("openingHours Mo-Fr 09:00-18:00 (no weekend)")
-    : no("openingHours missing/incorrect");
+  for (const [loc, hp] of Object.entries(HOME)) {
+    const h = read(ROUTES[hp]) || "";
+    /OpeningHoursSpecification/.test(h) &&
+    /"opens"\s*:\s*"09:00"/.test(h) &&
+    /"closes"\s*:\s*"18:00"/.test(h) &&
+    !/"(Saturday|Sunday)"/.test(h)
+      ? ok(`${loc} home openingHours Mo-Fr 09:00-18:00 (no weekend)`)
+      : no(`${loc} home openingHours missing/incorrect`);
+  }
 
   // 7) Entity sameAs: Instagram + LinkedIn wired (GBP optional via VITE_GBP_URL).
   /instagram\.com\/archi\.made\.studio/.test(home) &&
@@ -297,26 +324,171 @@ console.log("\n== INTERNAL LINKS & DASHES ==");
         (m) => m[1],
       ),
     );
-  // Home must link out to every silo page (no orphans).
-  const homeHrefs = hrefsOf("/");
-  const orphans = DEDICATED.map(([r]) => r).filter((r) => !homeHrefs.has(r));
-  orphans.length === 0
-    ? ok(`home links to all ${DEDICATED.length} silo pages`)
-    : no(`orphan(s) not linked from home: ${orphans.join(", ")}`);
+  // Each locale home must link out to every silo page OF THAT LOCALE (no orphans).
+  for (const [loc, hp] of Object.entries(HOME)) {
+    const homeHrefs = hrefsOf(hp);
+    const own = DEDICATED.map(([r]) => r).filter((r) => localeOf(r) === loc);
+    const orphans = own.filter((r) => !homeHrefs.has(r));
+    orphans.length === 0
+      ? ok(`${loc} home links to all ${own.length} silo pages`)
+      : no(`orphan(s) not linked from ${loc} home: ${orphans.join(", ")}`);
+  }
 
-  // Each silo page must link home + contact + >=2 related silo pages.
+  // Each silo page must link its locale home + contact + >=2 related silo pages.
   for (const [r] of DEDICATED) {
+    const loc = localeOf(r);
     const hs = hrefsOf(r);
-    const linksHome = hs.has("/");
+    const linksHome = hs.has(HOME[loc]);
     const linksContact = [...hs].some((h) => h.includes("#contact"));
     const related = [...hs].filter((h) =>
-      DEDICATED.some(([d]) => d === h),
+      DEDICATED.some(([d]) => d === h && localeOf(d) === loc),
     ).length;
     linksHome && linksContact && related >= 2
       ? ok(`${r} -> home + contact + ${related} related`)
       : no(
           `${r} links home:${linksHome} contact:${linksContact} related:${related}`,
         );
+  }
+}
+
+console.log("\n== I18N (hreflang / lang / locale isolation) ==");
+{
+  const SITE = "https://www.archi-made.com";
+  const absolute = (r) => (r === "/" ? `${SITE}/` : `${SITE}${r}`);
+  const routeOf = (url) => {
+    const p = url.replace(SITE, "");
+    return p === "" || p === "/" ? "/" : p.replace(/\/$/, "");
+  };
+  // route -> { hreflang: route }
+  const altOf = (r) => {
+    const h = read(ROUTES[r]) || "";
+    const out = {};
+    for (const m of h.matchAll(
+      /<link[^>]+rel="alternate"[^>]+hreflang="([^"]+)"[^>]+href="([^"]+)"/gi,
+    ))
+      out[m[1]] = routeOf(m[2]);
+    return out;
+  };
+
+  // 1) <html lang> matches the route's locale.
+  {
+    const bad = [];
+    for (const [r, f] of Object.entries(ROUTES)) {
+      const lang = ((read(f) || "").match(/<html[^>]+lang="([^"]+)"/i) || [])[1];
+      if (lang !== localeOf(r)) bad.push(`${r}:${lang}`);
+    }
+    bad.length === 0
+      ? ok(`every route has the right <html lang> (${Object.keys(ROUTES).length})`)
+      : no(`wrong <html lang> on: ${bad.join(", ")}`);
+  }
+
+  // 2) Complete hreflang set (3 locales + x-default) with a self-reference
+  //    equal to the canonical.
+  {
+    const bad = [];
+    for (const [r, f] of Object.entries(ROUTES)) {
+      const alts = altOf(r);
+      const canonical = routeOf(
+        grabIn(read(f) || "", /rel="canonical"\s+href="([^"]*)"/i),
+      );
+      const complete = LOCALES.every((l) => alts[l]) && alts["x-default"];
+      if (!complete || alts[localeOf(r)] !== r || canonical !== r)
+        bad.push(r);
+    }
+    bad.length === 0
+      ? ok("every route declares fr+en+pt+x-default, self-referencing")
+      : no(`incomplete/incorrect hreflang on: ${bad.join(", ")}`);
+  }
+
+  // 3) Reciprocity: if A points at B for locale L, B must point back at A.
+  {
+    const bad = [];
+    for (const r of Object.keys(ROUTES)) {
+      const alts = altOf(r);
+      for (const l of LOCALES) {
+        const target = alts[l];
+        if (!target || !ROUTES[target]) {
+          bad.push(`${r} -> ${l}:${target ?? "missing"}`);
+          continue;
+        }
+        const back = altOf(target)[localeOf(r)];
+        if (back !== r) bad.push(`${r} <-> ${target} (${l})`);
+      }
+    }
+    bad.length === 0
+      ? ok("hreflang alternates are reciprocal on every route")
+      : no(`non reciprocal hreflang: ${bad.slice(0, 6).join("; ")}`);
+  }
+
+  // 4) x-default always points at the French version.
+  {
+    const bad = Object.keys(ROUTES).filter(
+      (r) => localeOf(altOf(r)["x-default"] ?? "") !== "fr",
+    );
+    bad.length === 0
+      ? ok("x-default points at the French version everywhere")
+      : no(`x-default not French on: ${bad.join(", ")}`);
+  }
+
+  // 5) Sitemap lists every prerendered route, each with its alternate set.
+  {
+    const sm = read("dist/sitemap.xml") || "";
+    const locs = new Set(
+      [...sm.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => routeOf(m[1])),
+    );
+    const missing = Object.keys(ROUTES).filter((r) => !locs.has(r));
+    missing.length === 0 && locs.size === Object.keys(ROUTES).length
+      ? ok(`sitemap lists all ${locs.size} routes`)
+      : no(`sitemap route mismatch (missing: ${missing.join(", ") || "none"})`);
+    const xhtml = (sm.match(/<xhtml:link /g) || []).length;
+    xhtml === Object.keys(ROUTES).length * 4
+      ? ok(`sitemap carries ${xhtml} hreflang annotations (4 per URL)`)
+      : no(`sitemap hreflang annotations ${xhtml} (want ${Object.keys(ROUTES).length * 4})`);
+  }
+
+  // 6) Locale isolation: no untranslated French UI string leaks into /en or /pt.
+  //    (French domain terms like "permis de construire" ARE expected in the
+  //    translated copy; these markers are UI chrome only.)
+  {
+    const FR_UI = [
+      "Nous contacter",
+      "En savoir plus",
+      "Questions Fréquentes",
+      "Envoyer le message",
+      "Zones d'intervention",
+      "Mentions légales",
+      "Projet Suivant",
+      "Retour à l'accueil",
+      "Votre nom",
+      "Parlez-nous de votre projet",
+    ];
+    const bad = [];
+    for (const [r, f] of Object.entries(ROUTES)) {
+      if (localeOf(r) === "fr") continue;
+      const h = read(f) || "";
+      const hits = FR_UI.filter((m) => h.includes(m));
+      if (hits.length) bad.push(`${r} [${hits.join(", ")}]`);
+    }
+    bad.length === 0
+      ? ok("no untranslated French UI string on /en or /pt")
+      : no(`French UI leaked: ${bad.slice(0, 5).join("; ")}`);
+  }
+
+  // 7) Language switcher: every page links to its two alternates in the BODY
+  //    (not just in <head>), so the alternates are crawlable by link discovery.
+  {
+    const bad = [];
+    for (const [r, f] of Object.entries(ROUTES)) {
+      const hrefs = new Set(
+        [...(read(f) || "").matchAll(/href="([^"]+)"/g)].map((m) => m[1]),
+      );
+      const alts = altOf(r);
+      const others = LOCALES.filter((l) => l !== localeOf(r)).map((l) => alts[l]);
+      if (!others.every((o) => hrefs.has(o))) bad.push(r);
+    }
+    bad.length === 0
+      ? ok("language switcher links to both alternates on every page")
+      : no(`missing in-body alternate links on: ${bad.slice(0, 6).join(", ")}`);
   }
 }
 

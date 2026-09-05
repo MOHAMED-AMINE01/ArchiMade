@@ -3,7 +3,8 @@
 // Default: 6 representative widths + home + 2 silo + 1 legal (~3–5 min).
 // --full: all 18 widths × all dist routes + exhaustive home state machine.
 import { createRequire } from "module";
-import { readdirSync } from "node:fs";
+import { readdirSync, statSync } from "node:fs";
+import { join } from "node:path";
 const require = createRequire(
   "C:/Users/yasse/AppData/Local/npm-cache/_npx/5e2e484947874241/node_modules/playwright/",
 );
@@ -12,20 +13,42 @@ const { chromium } = require("playwright");
 const FULL = process.argv.includes("--full");
 const BASE = "http://localhost:4173";
 
-const ALL_ROUTES = readdirSync("dist")
-  .filter((f) => f.endsWith(".html"))
-  .map((f) => (f === "index.html" ? "/" : "/" + f.replace(/\.html$/, "")))
+// Recursive so the /en and /pt locale trees are swept too, not just French.
+const walkHtml = (dir, out = []) => {
+  for (const e of readdirSync(dir)) {
+    const p = join(dir, e);
+    if (statSync(p).isDirectory()) walkHtml(p, out);
+    else if (e.endsWith(".html")) out.push(p);
+  }
+  return out;
+};
+const ALL_ROUTES = walkHtml("dist")
+  .map((f) => f.replace(/^dist[\\/]/, "").split(/[\\/]/).join("/"))
+  .map((b) =>
+    b === "index.html"
+      ? "/"
+      : b.endsWith("/index.html")
+        ? "/" + b.slice(0, -"/index.html".length)
+        : "/" + b.replace(/\.html$/, ""),
+  )
   .sort((a, b) => (a === "/" ? -1 : b === "/" ? 1 : a.localeCompare(b)));
 
 const LEGAL_ROUTES = new Set([
   "/mentions-legales",
   "/confidentialite",
   "/cookies",
+  "/en/legal-notice",
+  "/en/privacy-policy",
+  "/en/cookie-policy",
+  "/pt/aviso-legal",
+  "/pt/politica-de-privacidade",
+  "/pt/politica-de-cookies",
 ]);
 
 function pickDefaultRoutes(all) {
-  const keep = new Set(["/"]);
-  const silo = all.filter((r) => r !== "/" && !LEGAL_ROUTES.has(r));
+  const keep = new Set(["/", "/en", "/pt"]);
+  const HOMES = new Set(["/", "/en", "/pt"]);
+  const silo = all.filter((r) => !HOMES.has(r) && !LEGAL_ROUTES.has(r));
   const legal = all.filter((r) => LEGAL_ROUTES.has(r));
   for (const r of silo.slice(0, 2)) keep.add(r);
   if (legal.length) keep.add(legal[0]);

@@ -1,5 +1,56 @@
 import { Resend } from "resend";
 
+// --- i18n -------------------------------------------------------------------
+// The contact form posts the visitor's locale so every error it can surface is
+// answered in the language the visitor is reading. Keep the keys in sync with
+// src/i18n/config.ts (LOCALES).
+export type ApiLocale = "fr" | "en" | "pt";
+
+const MESSAGES: Record<ApiLocale, Record<string, string>> = {
+  fr: {
+    required: "Tous les champs sont requis.",
+    rateLimited: "Trop de requêtes. Réessayez plus tard.",
+    invalidJson: "Corps de requête invalide.",
+    methodNotAllowed: "Méthode non autorisée.",
+    serverError: "Erreur serveur.",
+    sendFailed: "Erreur lors de l'envoi du message.",
+    notConfigured: "Service email non configuré.",
+  },
+  en: {
+    required: "All fields are required.",
+    rateLimited: "Too many requests. Please try again later.",
+    invalidJson: "Invalid request body.",
+    methodNotAllowed: "Method not allowed.",
+    serverError: "Server error.",
+    sendFailed: "The message could not be sent.",
+    notConfigured: "Email service not configured.",
+  },
+  pt: {
+    required: "Todos os campos são obrigatórios.",
+    rateLimited: "Demasiados pedidos. Tente novamente mais tarde.",
+    invalidJson: "Corpo do pedido inválido.",
+    methodNotAllowed: "Método não permitido.",
+    serverError: "Erro do servidor.",
+    sendFailed: "Erro ao enviar a mensagem.",
+    notConfigured: "Serviço de email não configurado.",
+  },
+};
+
+const LANGUAGE_LABEL: Record<ApiLocale, string> = {
+  fr: "Français",
+  en: "Anglais",
+  pt: "Portugais",
+};
+
+export function normalizeLocale(value: unknown): ApiLocale {
+  return value === "en" || value === "pt" ? value : "fr";
+}
+
+/** Visitor-facing message table for a locale (falls back to French). */
+export function msg(locale: unknown): Record<string, string> {
+  return MESSAGES[normalizeLocale(locale)];
+}
+
 // Best-effort in-memory rate limiter (resets on cold start — deploy-day TODO: durable store).
 const rateMap = new Map<string, { count: number; resetAt: number }>();
 const RATE_WINDOW_MS = 60_000;
@@ -40,6 +91,8 @@ export type SendEmailPayload = {
   message?: string;
   website?: string;
   _t?: number;
+  /** Visitor locale ("fr" | "en" | "pt"), used for error messages only. */
+  locale?: string;
 };
 
 export type SendEmailResult =
@@ -52,12 +105,14 @@ export type SendEmailResult =
       safeEmail: string;
       safeMessage: string;
       replyTo: string;
+      locale: ApiLocale;
     };
 
 export function processSendEmailRequest(
   body: SendEmailPayload,
 ): SendEmailResult {
   const { name, email, message, website, _t } = body;
+  const locale = normalizeLocale(body.locale);
 
   if (website) {
     return { ok: true, silent: true };
@@ -68,7 +123,7 @@ export function processSendEmailRequest(
   }
 
   if (!name || !email || !message) {
-    return { ok: false, status: 400, error: "Tous les champs sont requis." };
+    return { ok: false, status: 400, error: MESSAGES[locale].required };
   }
 
   const safeName = escapeHtml(String(name).slice(0, 200));
@@ -82,6 +137,7 @@ export function processSendEmailRequest(
     safeEmail,
     safeMessage,
     replyTo: String(email).slice(0, 200),
+    locale,
   };
 }
 
@@ -89,6 +145,7 @@ export function buildContactEmailHtml(
   safeName: string,
   safeEmail: string,
   safeMessage: string,
+  locale: ApiLocale = "fr",
 ): string {
   return `
         <div style="font-family: 'Inter', Helvetica, Arial, sans-serif; background-color: #e5e5e5; padding: 40px 20px; color: #0a0a0a;">
@@ -117,6 +174,14 @@ export function buildContactEmailHtml(
                     <a href="mailto:${safeEmail}" style="font-size: 15px; font-weight: 600; color: #0a0a0a; text-decoration: none;">${safeEmail}</a>
                   </td>
                 </tr>
+                <tr>
+                  <td style="padding: 16px 0; border-bottom: 1px solid #f0f0f0;">
+                    <span style="font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: #999;">Langue</span>
+                  </td>
+                  <td style="padding: 16px 0; border-bottom: 1px solid #f0f0f0;">
+                    <span style="font-size: 15px; font-weight: 600; color: #0a0a0a;">${LANGUAGE_LABEL[locale]}</span>
+                  </td>
+                </tr>
               </table>
               <div style="margin-top: 10px;">
                 <p style="font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: #999; margin-bottom: 12px;">Message du client</p>
@@ -137,6 +202,7 @@ export async function sendContactEmail(
   safeEmail: string,
   safeMessage: string,
   replyTo: string,
+  locale: ApiLocale = "fr",
 ): Promise<{ id?: string } | { error: string }> {
   const resend = getResendClient();
   if (!resend) {
@@ -147,13 +213,13 @@ export async function sendContactEmail(
     from: "ArchiMade <onboarding@resend.dev>",
     to: ["contact@archi-made.com"],
     replyTo,
-    subject: `Nouveau message de ${safeName} — ArchiMade`,
-    html: buildContactEmailHtml(safeName, safeEmail, safeMessage),
+    subject: `Nouveau message de ${safeName} (${LANGUAGE_LABEL[locale]}) - ArchiMade`,
+    html: buildContactEmailHtml(safeName, safeEmail, safeMessage, locale),
   });
 
   if (error) {
     console.error("Resend error:", error);
-    return { error: "Erreur lors de l'envoi du message." };
+    return { error: MESSAGES[locale].sendFailed };
   }
 
   return { id: data?.id };

@@ -8,33 +8,35 @@ import {
   IMAGE_SIZES,
   intrinsicFromSrc,
 } from "./ResponsiveImage";
-import Seo, { SITE_URL } from "./Seo";
+import Seo, { absoluteUrl } from "./Seo";
 import { ORG_ID } from "./StructuredData";
+import LanguageSwitcher from "./LanguageSwitcher";
+import { useLocaleContext } from "../i18n/LocaleContext";
+import { withLocale } from "../i18n/config";
+import { homePath } from "../i18n/routes";
 import {
   type DedicatedPage as PageData,
   type Crumb,
-  getPageBySlug,
+  getPageById,
 } from "../data/pages";
+import type { Dict } from "../i18n/dict";
 
-const AREA_SERVED = [
-  { "@type": "AdministrativeArea", name: "Indre-et-Loire" },
-  { "@type": "City", name: "Tours" },
-  { "@type": "Country", name: "France" },
-];
-
-function abs(path: string): string {
-  if (path === "/") return `${SITE_URL}/`;
-  return `${SITE_URL}${path}`;
-}
+const abs = absoluteUrl;
 
 // BreadcrumbList + a Service node (service pages) or area-served Service node
 // (location pages). provider links back to the shared Organization @id so every
 // sub-page schema is unified with the home entity graph.
-function PageSchema({ page }: { page: PageData }) {
+function PageSchema({ page, t }: { page: PageData; t: Dict }) {
+  const AREA_SERVED = [
+    { "@type": "AdministrativeArea", name: "Indre-et-Loire" },
+    { "@type": "City", name: "Tours" },
+    { "@type": "Country", name: t.schema.areaCountry },
+  ];
+
   const crumbs: Crumb[] = [
-    { name: "Accueil", path: "/" },
+    { name: t.page.homeCrumb, path: homePath(page.locale) },
     ...page.trail,
-    { name: page.crumb, path: page.slug },
+    { name: page.crumb, path: page.path },
   ];
 
   const breadcrumb = {
@@ -51,21 +53,21 @@ function PageSchema({ page }: { page: PageData }) {
     page.kind === "service"
       ? {
           "@type": "Service",
-          "@id": `${abs(page.slug)}#service`,
+          "@id": `${abs(page.path)}#service`,
           name: page.serviceName,
           serviceType: page.serviceType,
           description: page.description,
-          url: abs(page.slug),
+          url: abs(page.path),
           provider: { "@id": ORG_ID },
           areaServed: AREA_SERVED,
         }
       : {
           "@type": "Service",
-          "@id": `${abs(page.slug)}#service`,
-          name: `Dessinateur en bâtiment à ${page.place}`,
-          serviceType: "Conception de plans et dossiers d'urbanisme",
+          "@id": `${abs(page.path)}#service`,
+          name: t.schema.locationServiceName(page.place ?? ""),
+          serviceType: t.schema.locationServiceType,
           description: page.description,
-          url: abs(page.slug),
+          url: abs(page.path),
           provider: { "@id": ORG_ID },
           areaServed: [
             {
@@ -141,24 +143,26 @@ function FaqList({ faq }: { faq: PageData["faq"] }) {
 }
 
 export default function DedicatedPage({ page }: { page: PageData }) {
+  const { locale, t } = useLocaleContext();
+
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [page.slug]);
+  }, [page.path]);
 
   const crumbs: Crumb[] = [
-    { name: "Accueil", path: "/" },
+    { name: t.page.homeCrumb, path: homePath(locale) },
     ...page.trail,
-    { name: page.crumb, path: page.slug },
+    { name: page.crumb, path: page.path },
   ];
   const heroIntrinsic = intrinsicFromSrc(page.hero.src);
   const related = page.related
-    .map((slug) => getPageBySlug(slug))
+    .map((id) => getPageById(locale, id))
     .filter((p): p is PageData => Boolean(p));
 
   return (
     <div className="min-h-screen bg-[#050505] text-white font-display selection:bg-white selection:text-black overflow-x-hidden relative">
-      <Seo path={page.slug} title={page.title} description={page.description} />
-      <PageSchema page={page} />
+      <Seo title={page.title} description={page.description} />
+      <PageSchema page={page} t={t} />
 
       {/* Grain Overlay */}
       <div
@@ -172,20 +176,22 @@ export default function DedicatedPage({ page }: { page: PageData }) {
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-60 px-6 md:px-12 py-10 flex justify-between items-center">
         <Link
-          to="/"
+          to={homePath(locale)}
           className="group flex items-center gap-4 bg-white/5 backdrop-blur-xl border border-white/10 rounded-full pl-2 pr-8 py-2 hover:bg-white hover:text-black transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)]"
         >
           <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-black/5 transition-colors">
             <ArrowLeft className="w-6 h-6" />
           </div>
           <span className="text-[11px] font-black uppercase tracking-[0.4em]">
-            Accueil
+            {t.page.homeCrumb}
           </span>
         </Link>
+        <div className="flex items-center gap-6">
+          <LanguageSwitcher tone="light" />
         <div className="hidden md:block">
           <ResponsiveImage
             src="/img/logo-archimade.webp"
-            alt="ArchiMade Studio, dessinateur en bâtiment à Tours"
+            alt={t.alt.logo}
             width={intrinsicFromSrc("/img/logo-archimade.webp").width}
             height={intrinsicFromSrc("/img/logo-archimade.webp").height}
             loading="lazy"
@@ -193,12 +199,13 @@ export default function DedicatedPage({ page }: { page: PageData }) {
             className="h-7 w-auto invert opacity-30 hover:opacity-100 transition-opacity duration-700"
           />
         </div>
+        </div>
       </nav>
 
       <div className="max-w-[1200px] mx-auto px-6 md:px-12 lg:px-24 pt-40 pb-32">
         {/* Breadcrumb */}
         <nav
-          aria-label="Fil d'Ariane"
+          aria-label={t.a11y.breadcrumb}
           className="mb-12 flex flex-wrap items-center gap-2 text-[11px] uppercase tracking-[0.25em] text-white/30 font-bold"
         >
           {crumbs.map((c, i) => {
@@ -303,7 +310,7 @@ export default function DedicatedPage({ page }: { page: PageData }) {
             <div className="flex items-center gap-4 mb-10">
               <div className="w-8 h-px bg-white/20" />
               <h2 className="text-2xl md:text-4xl font-black uppercase tracking-tight text-white">
-                Questions fréquentes
+                {t.page.faqHeading}
               </h2>
             </div>
             <FaqList faq={page.faq} />
@@ -314,13 +321,13 @@ export default function DedicatedPage({ page }: { page: PageData }) {
         {related.length > 0 && (
           <section className="mt-28 pt-16 border-t border-white/10">
             <p className="text-[10px] font-black uppercase tracking-[0.5em] text-white/30 mb-8">
-              À découvrir aussi
+              {t.page.related}
             </p>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {related.map((r) => (
                 <Link
-                  key={r.slug}
-                  to={r.slug}
+                  key={r.id}
+                  to={r.path}
                   className="group flex items-center justify-between gap-4 rounded-2xl border border-white/10 bg-white/[0.02] px-6 py-6 hover:bg-white hover:text-black transition-all duration-500"
                 >
                   <span className="text-sm font-bold uppercase tracking-tight leading-snug">
@@ -337,18 +344,17 @@ export default function DedicatedPage({ page }: { page: PageData }) {
         <section className="mt-20 pt-16 border-t border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-12">
           <div className="space-y-4">
             <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter">
-              Demander un devis gratuit
+              {t.page.ctaTitle}
             </h2>
             <p className="text-white/40 font-light max-w-md leading-relaxed">
-              Présentez-nous votre projet : nous étudions sa faisabilité et vous
-              répondons sans engagement.
+              {t.page.ctaText}
             </p>
             <div className="flex flex-wrap items-center gap-6 pt-2">
               <Link
-                to="/#contact"
+                to={withLocale(locale, "/#contact")}
                 className="inline-flex items-center gap-3 bg-white text-black px-8 py-4 rounded-full text-xs font-black uppercase tracking-[0.2em] hover:bg-white/90 transition-colors"
               >
-                Demander un devis gratuit
+                {t.page.ctaButton}
                 <ArrowUpRight className="w-4 h-4" />
               </Link>
               <a
@@ -365,7 +371,7 @@ export default function DedicatedPage({ page }: { page: PageData }) {
               © {__BUILD_YEAR__} ArchiMade Studio
             </p>
             <p className="text-[9px] uppercase tracking-[0.4em] text-white/10">
-              Conception de plans & modélisation 3D, Indre-et-Loire & France
+              {t.footer.taglineLocal}
             </p>
           </div>
         </section>

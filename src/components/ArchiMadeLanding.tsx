@@ -39,6 +39,10 @@ import {
   Cookie,
 } from "lucide-react";
 import { cn } from "../lib/utils";
+import { useT, useLocaleContext } from "../i18n/LocaleContext";
+import { staticPath } from "../i18n/routes";
+import { getPageById } from "../data/pages";
+import LanguageSwitcher from "./LanguageSwitcher";
 
 // useLayoutEffect warns when run during server-side prerender; fall back to
 // useEffect on the server (effects don't run there anyway). Client behaviour is
@@ -159,113 +163,101 @@ const IMAGES = {
   },
 };
 
-const PROJECTS = [
+// Project media + metadata that is NOT language dependent (city, year, image
+// paths). Title / type / specs come from the active locale dictionary
+// (t.project.items) and are merged BY INDEX, so the two lists must stay in the
+// same order across dict.fr / dict.en / dict.pt.
+const PROJECT_BASE = [
   {
-    title: "Villa Contemporaine",
-    city: "Joué-lès-Tours",
+    city: "Jou\u00e9-l\u00e8s-Tours",
     year: "2023",
-    type: "Neuf",
     path: IMAGES.renders.joue,
     gallery: [IMAGES.renders.joue],
-    specs: ["Haut de gamme", "Design épuré"],
     featured: true,
   },
   {
-    title: "Résidence de Prestige",
     city: "Montlouis-sur-Loire",
     year: "2024",
-    type: "Neuf",
     path: IMAGES.renders.montlouis,
     gallery: [IMAGES.renders.montlouis],
-    specs: ["Volume", "Clarté"],
     featured: true,
   },
   {
-    title: "Extension Moderne",
     city: "Les Pennes-Mirabeau",
     year: "2023",
-    type: "Extension",
     path: IMAGES.renders.mirabeau,
     gallery: [IMAGES.renders.mirabeau],
-    specs: ["Harmonie", "Transition"],
+    featured: false,
   },
   {
-    title: "Pavillon Veigné",
-    city: "Veigné",
+    city: "Veign\u00e9",
     year: "2023",
-    type: "Neuf",
     path: IMAGES.renders.veigne,
     gallery: [IMAGES.renders.veigne],
-    specs: ["Conception 3D", "Modélisation"],
+    featured: false,
   },
   {
-    title: "Modifications de Façades",
     city: "Saintes",
     year: "2024",
-    type: "Industriel",
     path: IMAGES.renders.saintes,
     gallery: [IMAGES.renders.saintes],
-    specs: ["Modernisation", "Structure"],
+    featured: false,
   },
   {
-    title: "Villa Saint-Cyr",
     city: "Saint-Cyr-sur-Loire",
     year: "2023",
-    type: "Neuf",
     path: IMAGES.projects.cyr_villa.main,
     gallery: [IMAGES.projects.cyr_villa.main],
-    specs: ["Haut de gamme", "Design épuré"],
     featured: false,
   },
   {
-    title: "Projet La Suze",
     city: "La Suze-sur-Sarthe",
     year: "2023",
-    type: "Neuf",
     path: IMAGES.projects.suze.main,
     gallery: [IMAGES.projects.suze.main],
-    specs: ["Volume", "Clarté"],
     featured: false,
   },
   {
-    title: "Club House Padel Arena",
-    city: "Vendôme/Saint Ouen",
+    city: "Vend\u00f4me/Saint Ouen",
     year: "2024",
-    type: "Club House",
     path: IMAGES.projects.padel.main,
     gallery: IMAGES.projects.padel.gallery,
-    specs: ["Loisirs", "Premium", "Design"],
     featured: true,
   },
   {
-    title: "Extension Saint-Cyr",
     city: "Saint-Cyr-sur-Loire",
     year: "2024",
-    type: "Extension",
     path: IMAGES.projects.cyr_extension.main,
     gallery: [IMAGES.projects.cyr_extension.main],
-    specs: ["Volume", "Luminosité", "Modernité"],
     featured: true,
   },
   {
-    title: "Extension Esvres",
     city: "Esvres",
     year: "2023",
-    type: "Extension",
     path: IMAGES.projects.esvres.main,
     gallery: [IMAGES.projects.esvres.main],
-    specs: ["Intégration", "Sur-mesure"],
+    featured: false,
   },
   {
-    title: "Surélévation Garage",
-    city: "Chambray-lès-Tours",
+    city: "Chambray-l\u00e8s-Tours",
     year: "2024",
-    type: "Extension",
     path: IMAGES.projects.chambray.main,
     gallery: [IMAGES.projects.chambray.main],
-    specs: ["Optimisation", "Structure"],
+    featured: false,
   },
 ];
+
+export type Project = (typeof PROJECT_BASE)[number] & {
+  title: string;
+  type: string;
+  specs: string[];
+};
+
+/** Language-aware project list (base media + translated title/type/specs). */
+function useProjects(): Project[] {
+  const t = useT();
+  return PROJECT_BASE.map((p, i) => ({ ...p, ...t.project.items[i] }));
+}
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -517,6 +509,7 @@ const SplitTextReveal = ({
 
 // --- PRELOADER ---
 function ArchiPreloader({ onComplete }: { onComplete: () => void }) {
+  const t = useT();
   const containerRef = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState(0);
 
@@ -667,7 +660,7 @@ function ArchiPreloader({ onComplete }: { onComplete: () => void }) {
               exactly one fetchpriority="high" image per route. */}
           <ResponsiveImage
             src="/img/logo-intro.webp"
-            alt="ArchiMade Studio, dessinateur en bâtiment à Tours"
+            alt={t.alt.logo}
             width={1254}
             height={1254}
             sizes={IMAGE_SIZES.logo}
@@ -728,7 +721,9 @@ const ArchiLogo = ({
   className?: string;
   light?: boolean;
   isScrolling?: boolean;
-}) => (
+}) => {
+  const t = useT();
+  return (
   <div
     className={cn(
       "pointer-events-auto transition-all duration-700 transform-gpu bg-[rgba(255,255,255,0.01)] rounded-xl",
@@ -738,7 +733,7 @@ const ArchiLogo = ({
   >
     <ResponsiveImage
       src="/img/logo-archimade.webp"
-      alt="ArchiMade Studio, dessinateur en bâtiment à Tours"
+      alt={t.alt.logo}
       width={1254}
       height={1254}
       loading="lazy"
@@ -749,17 +744,19 @@ const ArchiLogo = ({
       )}
     />
   </div>
-);
+  );
+};
 
 // --- NAVIGATION (DESKTOP) ---
 function ArchiNav({ isScrolling }: { isScrolling?: boolean }) {
+  const t = useT();
   const menuItems = [
-    { name: "À propos", slug: "a-propos" },
-    { name: "Méthode", slug: "methode" },
-    { name: "Réalisations", slug: "realisations" },
-    { name: "Expertise", slug: "expertise" },
-    { name: "FAQ", slug: "faq" },
-    { name: "Contact", slug: "contact" },
+    { name: t.nav.about, slug: "a-propos" },
+    { name: t.nav.method, slug: "methode" },
+    { name: t.nav.projects, slug: "realisations" },
+    { name: t.nav.expertise, slug: "expertise" },
+    { name: t.nav.faq, slug: "faq" },
+    { name: t.nav.contact, slug: "contact" },
   ];
 
   return (
@@ -791,6 +788,12 @@ function ArchiNav({ isScrolling }: { isScrolling?: boolean }) {
           </ArchiReveal>
         ))}
       </ul>
+
+      {/* FR / EN / PT - real <a href> links to the same page in the other
+          languages (same set as the hreflang tags). */}
+      <ArchiReveal delay={1}>
+        <LanguageSwitcher tone="light" className="pointer-events-auto -mt-6" />
+      </ArchiReveal>
     </nav>
   );
 }
@@ -803,13 +806,14 @@ function ArchiMenuOverlay({
   isOpen: boolean;
   onClose: () => void;
 }) {
+  const t = useT();
   const menuItems = [
-    { name: "À propos", slug: "a-propos" },
-    { name: "Services", slug: "expertise" },
-    { name: "Méthode", slug: "methode" },
-    { name: "Réalisations", slug: "realisations" },
-    { name: "FAQ", slug: "faq" },
-    { name: "Contact", slug: "contact" },
+    { name: t.nav.about, slug: "a-propos" },
+    { name: t.nav.services, slug: "expertise" },
+    { name: t.nav.method, slug: "methode" },
+    { name: t.nav.projects, slug: "realisations" },
+    { name: t.nav.faq, slug: "faq" },
+    { name: t.nav.contact, slug: "contact" },
   ];
 
   useEffect(() => {
@@ -836,7 +840,7 @@ function ArchiMenuOverlay({
           onClick={onClose}
           className="text-xl md:text-2xl font-bold tracking-tighter uppercase focus:outline-none hover:opacity-50 transition-opacity"
         >
-          Close
+          {t.nav.close}
         </button>
       </div>
 
@@ -865,11 +869,19 @@ function ArchiMenuOverlay({
       <div className="mt-auto flex flex-col md:flex-row gap-10 md:gap-20">
         <div className="space-y-2">
           <p className="text-[10px] uppercase tracking-widest text-white/30 font-bold">
-            Inquiries
+            {t.nav.inquiries}
           </p>
           <p className="text-xl font-bold tracking-tight hover:opacity-50 transition-opacity">
             contact@archi-made.com
           </p>
+        </div>
+        {/* Language switcher: the ONLY place the alternates are reachable on
+            mobile besides the footer (the desktop sidebar is xl-only). */}
+        <div className="space-y-2">
+          <p className="text-[10px] uppercase tracking-widest text-white/30 font-bold">
+            {t.a11y.languageSwitcher}
+          </p>
+          <LanguageSwitcher tone="light" onNavigate={onClose} />
         </div>
       </div>
 
@@ -895,6 +907,7 @@ function ArchiHeader({
   onMenuClick: () => void;
   galleryInView?: boolean;
 }) {
+  const t = useT();
   const [isHidden, setIsHidden] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
 
@@ -934,7 +947,7 @@ function ArchiHeader({
         onClick={onMenuClick}
         className="pointer-events-auto text-xl font-bold tracking-tighter uppercase text-white focus:outline-none hover:opacity-50 transition-opacity font-display"
       >
-        Menu
+        {t.nav.menu}
       </button>
     </header>
   );
@@ -1009,14 +1022,9 @@ function ArchiBackground() {
 }
 
 // 1. HERO SECTION
-const HERO_MESSAGES = [
-  "Accompagnement premium pour particuliers et professionnels. Conception de dossiers techniques complets.",
-  "Expertise 3D photoréaliste pour une immersion totale dans vos projets futurs.",
-  "Dossiers administratifs et permis de construire gérés avec une précision chirurgicale.",
-  "Solutions techniques sur mesure pour des projets durables et esthétiques.",
-];
-
 function ArchiHero() {
+  const t = useT();
+  const HERO_MESSAGES = t.hero.messages;
   const sectionRef = useRef(null);
   const isLoading = useContext(LoadingContext);
 
@@ -1027,7 +1035,7 @@ function ArchiHero() {
       setTextIndex((prev) => (prev + 1) % HERO_MESSAGES.length);
     }, 4000); // 4s pour une lecture plus posée
     return () => clearInterval(interval);
-  }, []);
+  }, [HERO_MESSAGES.length]);
 
   useIsomorphicLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -1100,7 +1108,7 @@ function ArchiHero() {
             className="notranslate archi-title text-[12vw] md:text-[9.5vw] font-bold tracking-tighter leading-[1.1] md:leading-[0.8] text-brand-dark flex flex-col items-start relative translate-z-0 mb-12"
           >
             {/* Title Lines (1, 2, 3) */}
-            {["Concevoir votre", "futur projet"].map((text, idx) => (
+            {[t.hero.line1, t.hero.line2].map((text, idx) => (
               <div key={idx} className="sentence">
                 <div className="outer relative perspective-[2000px]">
                   {/* Grow the overflow:hidden box so ascender tops (f, e, C) and
@@ -1128,11 +1136,9 @@ function ArchiHero() {
               <div className="outer relative">
                 <span className="inner block overflow-hidden">
                   <p className="text block archi-title-reveal text-[12px] md:text-lg text-brand-dark font-medium leading-tight opacity-70">
-                    Permis de construire, déclarations préalables et plans
-                    techniques.
+                    {t.hero.subA}
                     <br />
-                    Une approche claire et rigoureuse pour donner forme à vos
-                    projets.
+                    {t.hero.subB}
                   </p>
                 </span>
               </div>
@@ -1187,41 +1193,15 @@ function ArchiHero() {
 
 // 2. ABOUT SECTION
 function ArchiAbout() {
+  const t = useT();
   const sectionRef = useRef(null);
   const imgRef = useRef(null);
 
-  const allSteps = [
-    {
-      phase: "01",
-      title: "Analyse du besoin",
-      desc: "Nous échangeons sur votre projet, vos attentes, vos contraintes et les éléments déjà disponibles.",
-    },
-    {
-      phase: "02",
-      title: "Étude du projet",
-      desc: "Nous analysons la faisabilité, les volumes et les premières orientations pour poser une base de travail claire.",
-    },
-    {
-      phase: "03",
-      title: "Conception",
-      desc: "Les plans prennent forme, les volumes se précisent et les visuels 3D rendent votre projet plus clair.",
-    },
-    {
-      phase: "04",
-      title: "Démarches administratives",
-      desc: "Permis de construire ou déclaration préalable : votre dossier est préparé avec précision.",
-    },
-    {
-      phase: "05",
-      title: "Accompagnement",
-      desc: "Suivi rigoureux et conseil stratégique tout au long du cycle.",
-    },
-    {
-      phase: "06",
-      title: "Remise du projet",
-      desc: "Vous recevez les plans, visuels et documents finalisés pour présenter ou faire avancer votre projet.",
-    },
-  ];
+  const allSteps = t.method.steps.map((step, i) => ({
+    phase: `0${i + 1}`,
+    title: step.title,
+    desc: step.desc,
+  }));
 
   useIsomorphicLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -1299,10 +1279,10 @@ function ArchiAbout() {
       <div className="py-20 md:py-32 xl:pl-[25vw] px-6 md:px-10 xl:pr-20 relative z-10">
         <div className="space-y-4 md:space-y-6">
           <span className="text-[9px] md:text-[10px] uppercase tracking-[0.4em] md:tracking-[0.6em] text-brand-dark/30 font-bold block animate-fade-in">
-            Expertise & Accompagnement
+            {t.about.eyebrow}
           </span>
           <h2 className="about-heading text-3xl sm:text-4xl md:text-5xl xl:text-6xl font-bold leading-[1.1] md:leading-[1.1] text-brand-dark uppercase tracking-tighter max-w-5xl">
-            {"Spécialiste dans la conception de projets de construction."
+            {t.about.heading
               .split(" ")
               .map((word, i) => (
                 <React.Fragment key={i}>
@@ -1317,11 +1297,9 @@ function ArchiAbout() {
         <div className="flex flex-col xl:flex-row gap-12 xl:gap-20 mt-[clamp(2.5rem,6vh,6rem)]">
           <div className="flex-1 about-subtext">
             <p className="text-lg sm:text-xl md:text-2xl font-light leading-normal md:leading-[1.4] text-brand-dark tracking-tight border-l-2 md:border-l-4 border-black pl-6 md:pl-8">
-              ArchiMade accompagne particuliers et professionnels dans la
-              préparation de leurs projets de construction.
+              {t.about.leadA}
               <br />
-              Plans, démarches, projections 3D : chaque élément est pensé pour
-              rendre le projet plus clair, plus lisible et prêt à avancer.
+              {t.about.leadB}
             </p>
             <motion.button
               whileHover={{ scale: 1.02 }}
@@ -1332,7 +1310,7 @@ function ArchiAbout() {
               className="mt-12 group relative flex items-center justify-center gap-4 bg-brand-dark text-white px-8 py-5 rounded-full overflow-hidden transition-all duration-500 shadow-xl"
             >
               <span className="text-[10px] md:text-xs font-bold uppercase tracking-[0.5em] pl-[0.5em] relative z-10">
-                En savoir plus
+                {t.about.cta}
               </span>
               <div className="relative z-10 flex items-center justify-center">
                 <ArrowUpRight className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-500" />
@@ -1354,7 +1332,7 @@ function ArchiAbout() {
                   <span className="text-xl md:text-2xl font-bold ml-1">%</span>
                 </div>
                 <p className="text-[8px] md:text-[9px] uppercase tracking-[0.2em] md:tracking-[0.3em] xl:tracking-[0.5em] font-bold text-brand-dark/40">
-                  CONFORMITÉ_PC_DP
+                  {t.about.stat1}
                 </p>
               </div>
               <div className="space-y-2 md:space-y-6">
@@ -1367,7 +1345,7 @@ function ArchiAbout() {
                   </span>
                 </div>
                 <p className="text-[8px] md:text-[9px] uppercase tracking-[0.2em] md:tracking-[0.3em] xl:tracking-[0.5em] font-bold text-brand-dark/40">
-                  RETARD
+                  {t.about.stat2}
                 </p>
               </div>
             </div>
@@ -1384,7 +1362,7 @@ function ArchiAbout() {
           <ResponsiveImage
             ref={imgRef}
             src={IMAGES.renders.joue}
-            alt="Rendu 3D photoréaliste d'une maison individuelle à Joué-lès-Tours (37), dessinateur ArchiMade"
+            alt={t.alt.aboutMethod}
             width={intrinsicFromSrc(IMAGES.renders.joue).width}
             height={intrinsicFromSrc(IMAGES.renders.joue).height}
             loading="lazy"
@@ -1399,13 +1377,13 @@ function ArchiAbout() {
                 <div className="flex items-center gap-4 mb-4">
                   <div className="w-12 h-px bg-white/30"></div>
                   <span className="text-[10px] md:text-xs uppercase tracking-[0.5em] text-white/40 font-bold">
-                    Processus
+                    {t.method.eyebrow}
                   </span>
                 </div>
                 <h2 className="text-4xl md:text-6xl lg:text-7xl font-black text-white uppercase tracking-tighter leading-none">
-                  Notre{" "}
+                  {t.method.titleA}{" "}
                   <span className="text-white/30 italic font-medium">
-                    Méthode
+                    {t.method.titleB}
                   </span>
                 </h2>
               </ArchiReveal>
@@ -1453,76 +1431,31 @@ function ArchiAbout() {
 }
 
 // 3. SERVICES SECTION (EXPERTISE)
-const services = [
-  {
-    title: "Permis de Construire",
-    cat: "Architectural",
-    loc: "Tours, FR",
-    area: "450.00 m² / 4843 ft²",
-    img: IMAGES.renders.veigne,
-    alt: "Permis de construire d'une maison individuelle à Veigné (37), rendu 3D, dessinateur ArchiMade",
-    desc: "Un dossier complet pour présenter votre projet, structurer les pièces attendues et faciliter vos démarches administratives.",
-    slug: "/permis-de-construire",
-    anchor: "Permis de construire à Tours",
-  },
-  {
-    title: "Déclarations Préalables",
-    cat: "Extension",
-    loc: "Bordeaux, FR",
-    area: "85.22 m² / 917 ft²",
-    img: IMAGES.renders.mirabeau,
-    alt: "Création d'une extension : dossier de déclaration préalable, plans & rendu 3D, dessinateur ArchiMade",
-    desc: "ArchiMade vous accompagne dans la préparation de votre déclaration préalable pour vos extensions, modifications de façade ou aménagements extérieurs.",
-    slug: "/declaration-prealable",
-    anchor: "Déclaration préalable de travaux",
-  },
-  {
-    title: "Plans d'Exécution",
-    cat: "Technique",
-    loc: "Paris, FR",
-    area: "1200.00 m² / 12916 ft²",
-    img: IMAGES.projects.activites.main,
-    alt: "Conception de plans : cellules d'activités à La Ville-aux-Dames (37), dessinateur ArchiMade",
-    desc: "Des plans précis et documents techniques détaillés pour définir les volumes, les assemblages et les informations nécessaires à la réalisation du projet.",
-    slug: "/plans-techniques",
-    anchor: "Plans techniques à Tours",
-  },
-  {
-    title: "Modélisation 3D",
-    cat: "Visualisation",
-    loc: "Studio",
-    area: "Full Render 8K",
-    img: IMAGES.projects.padel.main,
-    alt: "Modélisation 3D d'un club house de padel, ArchiMade, dessinateur en bâtiment",
-    desc: "Une visualisation 3D pour comprendre les volumes, tester les choix esthétiques et mieux vous projeter avant réalisation.",
-    slug: "/modelisation-3d",
-    anchor: "Modélisation 3D de bâtiment",
-  },
-  {
-    title: "Rendus Photoréalistes",
-    cat: "Marketing",
-    loc: "Digital",
-    area: "Ultra High Def",
-    img: IMAGES.renders.montlouis,
-    alt: "Rendu photoréaliste d'une maison individuelle à Montlouis-sur-Loire (37), ArchiMade",
-    desc: "Des rendus 3D haute définition pour visualiser le projet dans une version proche du résultat attendu.",
-    slug: "/rendus-photorealistes",
-    anchor: "Rendus 3D photoréalistes",
-  },
-  {
-    title: "Dossiers Complets",
-    cat: "Consulting",
-    loc: "National",
-    area: "BIM Integrated",
-    img: IMAGES.projects.cyr_extension.alt,
-    alt: "Plans d'extension d'habitat à Saint-Cyr-sur-Loire (37), dessinateur ArchiMade",
-    desc: "Plans, pièces graphiques et documents administratifs sont réunis dans un dossier structuré pour vos démarches.",
-    slug: "/accompagnement-projet-habitat",
-    anchor: "Accompagnement de projet habitat",
-  },
+// Image + dedicated-page id per service (language independent). Title, alt,
+// description and the keyword anchor come from the active locale dictionary
+// (t.expertise.services) and are merged BY INDEX.
+const SERVICE_BASE = [
+  { img: IMAGES.renders.veigne, pageId: "permis-de-construire" },
+  { img: IMAGES.renders.mirabeau, pageId: "declaration-prealable" },
+  { img: IMAGES.projects.activites.main, pageId: "plans-techniques" },
+  { img: IMAGES.projects.padel.main, pageId: "modelisation-3d" },
+  { img: IMAGES.renders.montlouis, pageId: "rendus-photorealistes" },
+  { img: IMAGES.projects.cyr_extension.alt, pageId: "accompagnement-projet-habitat" },
 ];
 
+/** Language-aware services list, with the localized dedicated-page path. */
+function useServices() {
+  const { locale, t } = useLocaleContext();
+  return SERVICE_BASE.map((base, i) => ({
+    ...base,
+    ...t.expertise.services[i],
+    slug: getPageById(locale, base.pageId)?.path,
+  }));
+}
+
 function ArchiServices() {
+  const t = useT();
+  const services = useServices();
   const containerRef = useRef(null);
   const accordionRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -1588,14 +1521,14 @@ function ArchiServices() {
 
             <h2 className="text-5xl md:text-8xl lg:text-[7vw] font-black text-brand-dark uppercase tracking-tighter leading-[0.85] flex flex-col">
               <ArchiReveal type="up" delay={0.2}>
-                <span className="block">Studio</span>
+                <span className="block">{t.expertise.titleA}</span>
               </ArchiReveal>
               <ArchiReveal type="up" delay={0.3}>
                 <span
                   className="block italic text-transparent mt-2"
                   style={{ WebkitTextStroke: "1px rgba(10,10,10,0.2)" }}
                 >
-                  conception
+                  {t.expertise.titleB}
                 </span>
               </ArchiReveal>
             </h2>
@@ -1606,11 +1539,9 @@ function ArchiServices() {
       {/* Expertise intro: service overview (moved from the former right-side caption). */}
       <div className="px-10 xl:pl-[25vw] md:pr-20 pb-16 md:pb-20 relative z-10">
         <p className="max-w-3xl text-base md:text-xl font-light leading-relaxed text-brand-dark border-l-2 md:border-l-4 border-brand-dark pl-6 md:pl-8">
-          Une approche complète pour préparer, dessiner et visualiser vos
-          projets de construction.
+          {t.expertise.introA}
           <br />
-          Permis, plans techniques, modélisation 3D : chaque service répond à
-          une étape clé du projet.
+          {t.expertise.introB}
         </p>
       </div>
 
@@ -1665,7 +1596,7 @@ function ArchiServices() {
                   <div className="relative">
                     <ResponsiveImage
                       src="/img/logo-archimade.webp"
-                      alt="ArchiMade Studio, dessinateur en bâtiment à Tours"
+                      alt={t.alt.logo}
                       width={1254}
                       height={1254}
                       loading="lazy"
@@ -1676,7 +1607,7 @@ function ArchiServices() {
                   <div className="mt-12 flex flex-col items-center gap-2">
                     <div className="w-8 h-px bg-black/20"></div>
                     <p className="text-black/40 tracking-[0.6em] font-bold uppercase text-[9px] animate-fade-in delay-500">
-                      Processing Data
+                      {t.expertise.processing}
                     </p>
                   </div>
                 </div>
@@ -1758,7 +1689,7 @@ function ArchiServices() {
                     >
                       <div>
                         <span className="text-white/60 font-mono text-xs lg:text-sm mb-2 lg:mb-4 block">
-                          0{index + 1} // EXPERTISE
+                          0{index + 1} // {t.expertise.tag}
                         </span>
                         <h2
                           className={cn(
@@ -1790,7 +1721,7 @@ function ArchiServices() {
                           <ArrowUpRight className="w-4 h-4 lg:w-5 lg:h-5 text-white group-hover/btn:text-black transition-colors" />
                         </div>
                         <span className="text-[10px] lg:text-xs font-bold text-white uppercase tracking-widest group-hover/btn:tracking-[0.3em] transition-all">
-                          Découvrir
+                          {t.expertise.discover}
                         </span>
                       </div>
                     )}
@@ -1811,7 +1742,7 @@ function ArchiServices() {
                         }}
                       >
                         <span className="text-xs lg:text-sm font-bold uppercase tracking-widest">
-                          Démarrer ce projet
+                          {t.expertise.start}
                         </span>
                         <ArrowUpRight className="w-4 h-4 lg:w-5 lg:h-5" />
                       </div>
@@ -1983,6 +1914,8 @@ function ArchiProjectDetail({
   onNext?: (p: any) => void;
   key?: any;
 }) {
+  const t = useT();
+  const PROJECTS = useProjects();
   const containerRef = useRef<HTMLDivElement>(null);
   const heroImgRef = useRef<HTMLImageElement>(null);
   const nextProjectIndex =
@@ -2049,7 +1982,7 @@ function ArchiProjectDetail({
         className="fixed top-6 right-6 md:top-10 md:right-10 z-250 group flex items-center gap-4"
       >
         <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/60 opacity-0 group-hover:opacity-100 transition-all hidden md:block">
-          Fermer
+          {t.project.close}
         </span>
         <div className="w-10 h-10 md:w-14 md:h-14 rounded-full bg-white text-black flex items-center justify-center hover:scale-110 transition-transform shadow-xl">
           <X className="w-5 h-5 md:w-6 md:h-6" />
@@ -2090,7 +2023,7 @@ function ArchiProjectDetail({
             <div className="flex gap-20">
               <div>
                 <p className="text-[8px] font-mono text-white/30 uppercase mb-1 font-bold tracking-widest">
-                  Programme
+                  {t.project.programme}
                 </p>
                 <p className="text-xs font-bold uppercase tracking-widest">
                   {project.type}
@@ -2098,7 +2031,7 @@ function ArchiProjectDetail({
               </div>
               <div>
                 <p className="text-[8px] font-mono text-white/30 uppercase mb-1 font-bold tracking-widest">
-                  Année
+                  {t.project.year}
                 </p>
                 <p className="text-xs font-bold uppercase tracking-widest">
                   {project.year}
@@ -2150,7 +2083,7 @@ function ArchiProjectDetail({
                           : IMAGE_SIZES.galleryWide
                       }
                       className="w-full h-full object-cover shadow-2xl transition-[filter] duration-1000 group-hover:brightness-110"
-                      alt={`${project.title} à ${project.city}, visuel ${i + 1}, rendu 3D ArchiMade`}
+                      alt={t.alt.projectShot(project.title, project.city, i + 1)}
                     />
                   </div>
                   <div className="mt-6 flex justify-between items-center opacity-30 group-hover:opacity-100 transition-opacity">
@@ -2170,12 +2103,10 @@ function ArchiProjectDetail({
         {/* Philosophy Section */}
         <div className="max-w-4xl mx-auto px-10 md:px-20 py-40 text-center space-y-12">
           <h3 className="text-4xl md:text-6xl font-black uppercase tracking-tighter italic text-white/90">
-            Philosophie
+            {t.project.philosophy}
           </h3>
           <p className="text-xl md:text-3xl font-light text-white/60 leading-relaxed max-w-2xl mx-auto">
-            Chaque projet est une réponse unique à un contexte spécifique. Pour{" "}
-            {project.title}, nous avons cherché l'équilibre parfait entre
-            fonction et émotion.
+            {t.project.philosophyText(project.title)}
           </p>
         </div>
 
@@ -2197,7 +2128,7 @@ function ArchiProjectDetail({
 
           <div className="absolute inset-0 flex flex-col items-center justify-center space-y-8 p-10">
             <span className="text-xs uppercase tracking-[0.8em] text-white/40 font-bold group-hover:text-white group-hover:tracking-[1em] transition-all duration-700">
-              Projet Suivant
+              {t.project.next}
             </span>
             <h4 className="text-5xl md:text-9xl font-black uppercase tracking-tighter leading-none text-center group-hover:scale-110 transition-transform duration-1000">
               {nextProject.title}
@@ -2219,6 +2150,7 @@ function ArchiImageModal({
   src: string;
   onClose: () => void;
 }) {
+  const t = useT();
   useEffect(() => {
     if ((window as any).lenis) (window as any).lenis.stop();
     document.body.style.overflow = "hidden";
@@ -2253,7 +2185,7 @@ function ArchiImageModal({
       >
         <ResponsiveImage
           src={encodeURI(src)}
-          alt="Réalisation ArchiMade, rendu 3D photoréaliste en plein écran"
+          alt={t.alt.lightbox}
           width={intrinsicFromSrc(src).width}
           height={intrinsicFromSrc(src).height}
           loading="lazy"
@@ -2266,6 +2198,8 @@ function ArchiImageModal({
 }
 
 function ArchiGallery() {
+  const t = useT();
+  const PROJECTS = useProjects();
   const sectionRef = useRef<HTMLElement>(null);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
@@ -2289,7 +2223,6 @@ function ArchiGallery() {
         src: project.path,
         title: project.title,
         city: project.city,
-        label: "RÉALISATION",
         project,
         featured: project.featured,
       });
@@ -2304,7 +2237,6 @@ function ArchiGallery() {
             src: img,
             title: project.title,
             city: project.city,
-            label: "DÉTAIL",
             project,
             featured: project.featured && idx === 0,
           });
@@ -2372,12 +2304,14 @@ function ArchiGallery() {
         <div className="md:justify-end flex items-center gap-4 mb-6">
           <div className="w-12 h-px bg-black/20"></div>
           <span className="text-[10px] md:text-xs font-mono uppercase tracking-[0.5em] text-black/30 font-bold">
-            Réalisations
+            {t.gallery.eyebrow}
           </span>
         </div>
         <h2 className="text-5xl md:text-8xl md:text-end font-black uppercase tracking-tighter leading-[0.85] text-black">
-          L'Art de <br />
-          <span className="text-black/20 italic font-medium">Bâtir</span>
+          {t.gallery.titleA} <br />
+          <span className="text-black/20 italic font-medium">
+            {t.gallery.titleB}
+          </span>
         </h2>
       </div>
 
@@ -2396,7 +2330,7 @@ function ArchiGallery() {
             <div className="overflow-hidden">
               <ResponsiveImage
                 src={encodeURI(item.src)}
-                alt={`${item.title} à ${item.city}, plans & rendu 3D, dessinateur ArchiMade`}
+                alt={t.alt.galleryItem(item.title, item.city)}
                 width={intrinsicFromSrc(item.src).width}
                 height={intrinsicFromSrc(item.src).height}
                 loading="lazy"
@@ -2422,31 +2356,15 @@ function ArchiGallery() {
 }
 
 function ArchiValues() {
+  const t = useT();
   const sectionRef = useRef<HTMLElement>(null);
   const imgRef = useRef<HTMLImageElement>(null);
 
-  const values = [
-    {
-      num: "01",
-      title: "RÉACTIVITÉ",
-      desc: "Un suivi réactif pour faire avancer vos plans, vos démarches et votre dossier.",
-    },
-    {
-      num: "02",
-      title: "DÉLAIS MAÎTRISÉS",
-      desc: "Chaque projet est organisé avec un calendrier clair pour livrer vos plans et dossiers dans les temps définis.",
-    },
-    {
-      num: "03",
-      title: "RAYONNEMENT",
-      desc: "ArchiMade accompagne vos projets partout en France, principalement à distance, à partir de vos plans, photos et éléments techniques.",
-    },
-    {
-      num: "04",
-      title: "FLEXIBILITÉ",
-      desc: "Plans, croquis, relevés ou photos : ArchiMade s'adapte aux éléments disponibles pour démarrer l'étude de votre projet.",
-    },
-  ];
+  const values = t.values.items.map((v, i) => ({
+    num: `0${i + 1}`,
+    title: v.title,
+    desc: v.desc,
+  }));
 
   useIsomorphicLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -2474,7 +2392,7 @@ function ArchiValues() {
         <ResponsiveImage
           ref={imgRef}
           src={IMAGES.renders.montlouis}
-          alt="Rendu 3D photoréaliste d'une maison individuelle à Montlouis-sur-Loire (37), dessinateur ArchiMade"
+          alt={t.alt.values}
           width={intrinsicFromSrc(IMAGES.renders.montlouis).width}
           height={intrinsicFromSrc(IMAGES.renders.montlouis).height}
           loading="lazy"
@@ -2489,13 +2407,13 @@ function ArchiValues() {
               <div className="flex items-center gap-4 mb-4">
                 <div className="w-12 h-px bg-white/30"></div>
                 <span className="text-[10px] md:text-xs uppercase tracking-[0.5em] text-white/40 font-bold">
-                  Pourquoi ArchiMade ?
+                  {t.values.eyebrow}
                 </span>
               </div>
               <h2 className="text-4xl md:text-6xl lg:text-7xl font-black text-white uppercase tracking-tighter leading-none flex flex-col">
-                <span>Conception.</span>
+                <span>{t.values.titleA}</span>
                 <span className="text-white/20 italic font-medium">
-                  Projections.
+                  {t.values.titleB}
                 </span>
               </h2>
             </ArchiReveal>
@@ -2542,44 +2460,11 @@ function ArchiValues() {
 }
 
 function ArchiFAQ() {
+  const t = useT();
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const sectionRef = useRef<HTMLElement>(null);
 
-  const faqs = [
-    {
-      q: "Quels sont vos délais ?",
-      a: "Nous intervenons généralement sous 1 à 2 semaines selon la complexité du projet.",
-    },
-    {
-      q: "Intervenez-vous dans toute la France ?",
-      a: "Oui, nous accompagnons nos clients sur l'ensemble du territoire grâce à notre workflow digital.",
-    },
-    {
-      q: "Quels documents dois-je fournir ?",
-      a: "Un plan de masse ou des photos suffisent pour une première étude de faisabilité. À partir de ces éléments, ArchiMade établit vos plans techniques et votre dossier de permis de construire ou de déclaration préalable.",
-    },
-    {
-      q: "Déclaration préalable ou permis de construire : quelle différence ?",
-      a: "La déclaration préalable couvre les petits travaux et extensions (jusqu'à 20 à 40 m² selon les cas, ravalements, clôtures, changements de façade). Le permis de construire est requis pour les constructions neuves et les extensions plus importantes. ArchiMade détermine le dossier adapté à votre projet.",
-    },
-    {
-      // TODO(CONFIRM client): valider la fourchette de prix 700 à 1 200 € (estimation marché, non confirmée par le client).
-      q: "Quel est le prix d'un dossier de permis de construire ?",
-      a: "Selon la surface et la complexité, le tarif d'un dossier complet se situe généralement entre 700 et 1 200 €. Devis gratuit et sans engagement.",
-    },
-    {
-      q: "Travaillez-vous à distance partout en France ?",
-      a: "Oui : conception et suivi 100 % à distance, à partir de vos plans, photos et éléments techniques.",
-    },
-    {
-      q: "Réalisez-vous extension, rénovation ou surélévation ?",
-      a: "Oui : plans techniques, modélisation 3D et dossier de déclaration préalable ou de permis de construire pour vos projets d'extension, de rénovation et de surélévation.",
-    },
-    {
-      q: "Quels sont les délais d'instruction en mairie ?",
-      a: "À titre indicatif : environ 1 mois pour une déclaration préalable et environ 2 mois pour un permis de construire de maison individuelle. Ces délais peuvent varier selon la commune.",
-    },
-  ];
+  const faqs = t.faq.items;
 
   useIsomorphicLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -2620,7 +2505,7 @@ function ArchiFAQ() {
         <div className="faq-header flex items-center gap-4 mb-12">
           <div className="w-8 h-px bg-black/10"></div>
           <h3 className="text-[10px] uppercase tracking-[0.4em] text-black/30 font-bold font-display">
-            Questions Fréquentes
+            {t.faq.heading}
           </h3>
         </div>
         <div className="space-y-1">
@@ -2677,6 +2562,7 @@ function ArchiFAQ() {
 }
 
 function ArchiContact() {
+  const { locale, t } = useLocaleContext();
   const sectionRef = useRef<HTMLElement>(null);
   const formLoadedAt = useRef(Date.now());
   const [formData, setFormData] = useState({
@@ -2705,12 +2591,14 @@ function ArchiContact() {
           ...formData,
           website: honeypot,
           _t: formLoadedAt.current,
+          // Lets the API answer with an error message in the visitor's language.
+          locale,
         }),
       });
 
       if (!res.ok) {
         const data = await res.json();
-        throw new Error(data.error || "Erreur lors de l'envoi.");
+        throw new Error(data.error || t.contact.errorSend);
       }
 
       setStatus("success");
@@ -2718,7 +2606,7 @@ function ArchiContact() {
       setTimeout(() => setStatus("idle"), 5000);
     } catch (err: any) {
       setStatus("error");
-      setErrorMsg(err.message || "Une erreur est survenue.");
+      setErrorMsg(err.message || t.contact.errorGeneric);
       setTimeout(() => setStatus("idle"), 5000);
     }
   };
@@ -2818,7 +2706,7 @@ function ArchiContact() {
               strokeLinecap="round"
             />
           </svg>
-          Envoi en cours...
+          {t.contact.sending}
         </span>
       );
     if (status === "success")
@@ -2835,11 +2723,11 @@ function ArchiContact() {
           >
             <polyline points="20 6 9 17 4 12" />
           </svg>
-          Message envoyé !
+          {t.contact.sent}
         </span>
       );
-    if (status === "error") return "Réessayer";
-    return "Envoyer le message";
+    if (status === "error") return t.contact.retry;
+    return t.contact.send;
   };
 
   return (
@@ -2862,7 +2750,7 @@ function ArchiContact() {
         {/* Height-aware: big on tall screens, compact on short laptops; floor
             2.25rem keeps it legible (>=36px). */}
         <h2 className="contact-title text-[clamp(2.25rem,min(8vw,10vh),6rem)] font-black uppercase tracking-tighter leading-none mb-[clamp(0.75rem,2.5vh,3rem)]">
-          CONTACT
+          {t.contact.title}
         </h2>
         {/* Two-column band: 5:7 ratio via flex-grow (flex-basis 0 + 5:7 grow
             splits the row, gap-aware). Info ~42%, form ~58%. Below lg the band
@@ -2886,10 +2774,9 @@ function ArchiContact() {
               copy on taller screens where the form leaves headroom. */}
           <div className="w-full lg:flex-[5] flex flex-col justify-between gap-[clamp(0.5rem,2vh,1.5rem)]">
             <p className="contact-desc text-black/40 text-[clamp(0.8rem,1.95vh,1.375rem)] font-light leading-relaxed max-w-md">
-              Un projet de construction, une demande de permis ou des plans à
-              réaliser ?<br />
-              Présentez votre besoin via le formulaire, ArchiMade vous répond
-              rapidement.
+              {t.contact.descA}
+              <br />
+              {t.contact.descB}
             </p>
 
             {/* email + phone: wrap (no nowrap min-width forcing) so the info
@@ -2899,7 +2786,7 @@ function ArchiContact() {
                 <div className="flex items-center gap-3 text-black/30">
                   <Mail className="w-4 h-4" />
                   <span className="text-[9px] uppercase tracking-widest font-bold">
-                    Email
+                    {t.contact.email}
                   </span>
                 </div>
                 <a
@@ -2913,7 +2800,7 @@ function ArchiContact() {
                 <div className="flex items-center gap-3 text-black/30">
                   <Phone className="w-4 h-4" />
                   <span className="text-[9px] uppercase tracking-widest font-bold">
-                    Téléphone
+                    {t.contact.phone}
                   </span>
                 </div>
                 <a
@@ -2930,69 +2817,33 @@ function ArchiContact() {
             <div className="contact-info-item space-y-3 pt-[clamp(0.75rem,2.5vh,2rem)] border-t border-black/5">
               <div className="flex items-center gap-3 text-black/30">
                 <span className="text-[9px] uppercase tracking-widest font-bold">
-                  Zones d'intervention
+                  {t.contact.zonesLabel}
                 </span>
               </div>
               {/* Descriptive, keyword-aligned anchors (each link carries the
                   service term so the city pages own their hyperlocal query).
                   Middot-separated directory keeps it compact in the info column. */}
               <p className="text-[clamp(0.72rem,1.6vh,1rem)] text-black/50 font-light leading-relaxed max-w-md">
-                <Link
-                  to="/dessinateur-batiment-tours"
-                  className="text-black/70 font-bold underline decoration-black/20 underline-offset-2 hover:decoration-black/60 transition-colors"
-                >
-                  Dessinateur en bâtiment à Tours
-                </Link>
-                {" · "}
-                <Link
-                  to="/dessinateur-batiment-indre-et-loire"
-                  className="underline decoration-black/15 underline-offset-2 hover:text-black/80 transition-colors"
-                >
-                  Dessinateur en Indre-et-Loire
-                </Link>
-                {" · "}
-                <Link
-                  to="/dessinateur-batiment-saint-cyr-sur-loire"
-                  className="underline decoration-black/15 underline-offset-2 hover:text-black/80 transition-colors"
-                >
-                  Dessinateur à Saint-Cyr-sur-Loire
-                </Link>
-                {" · "}
-                <Link
-                  to="/dessinateur-batiment-joue-les-tours"
-                  className="underline decoration-black/15 underline-offset-2 hover:text-black/80 transition-colors"
-                >
-                  Dessinateur à Joué-lès-Tours
-                </Link>
-                {" · "}
-                <Link
-                  to="/dessinateur-batiment-chambray-les-tours"
-                  className="underline decoration-black/15 underline-offset-2 hover:text-black/80 transition-colors"
-                >
-                  Dessinateur à Chambray-lès-Tours
-                </Link>
-                {" · "}
-                <Link
-                  to="/dessinateur-batiment-montlouis-sur-loire"
-                  className="underline decoration-black/15 underline-offset-2 hover:text-black/80 transition-colors"
-                >
-                  Dessinateur à Montlouis-sur-Loire
-                </Link>
-                {" · "}
-                <Link
-                  to="/dessinateur-batiment-veigne"
-                  className="underline decoration-black/15 underline-offset-2 hover:text-black/80 transition-colors"
-                >
-                  Dessinateur à Veigné
-                </Link>
-                {" · "}
-                <Link
-                  to="/dessinateur-batiment-esvres"
-                  className="underline decoration-black/15 underline-offset-2 hover:text-black/80 transition-colors"
-                >
-                  Dessinateur à Esvres
-                </Link>
-                . À distance partout en France.
+                {t.contact.zones.map((zone, i) => {
+                  const target = getPageById(locale, zone.id);
+                  if (!target) return null;
+                  return (
+                    <span key={zone.id}>
+                      {i > 0 && " \u00b7 "}
+                      <Link
+                        to={target.path}
+                        className={
+                          i === 0
+                            ? "text-black/70 font-bold underline decoration-black/20 underline-offset-2 hover:decoration-black/60 transition-colors"
+                            : "underline decoration-black/15 underline-offset-2 hover:text-black/80 transition-colors"
+                        }
+                      >
+                        {zone.label}
+                      </Link>
+                    </span>
+                  );
+                })}
+                {t.contact.zonesSuffix}
               </p>
             </div>
           </div>
@@ -3005,7 +2856,7 @@ function ArchiContact() {
                 shrinks on short laptops and breathes on tall screens. */}
             <div className="bg-brand-dark p-[clamp(1rem,3vh,2rem)] rounded-2xl border border-black/5 shadow-2xl relative overflow-hidden text-white">
               <h3 className="text-xl font-bold uppercase tracking-tight mb-[clamp(0.5rem,2vh,1.5rem)]">
-                Nous contacter
+                {t.contact.formTitle}
               </h3>
               <form
                 className="space-y-[clamp(0.5rem,2vh,1.25rem)]"
@@ -3029,7 +2880,7 @@ function ArchiContact() {
                 />
                 <div className="space-y-2">
                   <label className="text-[8px] uppercase tracking-widest text-white/30 font-bold">
-                    Nom
+                    {t.contact.name}
                   </label>
                   <input
                     type="text"
@@ -3039,12 +2890,12 @@ function ArchiContact() {
                       setFormData((prev) => ({ ...prev, name: e.target.value }))
                     }
                     className="w-full bg-white/5 border border-white/10 rounded-lg px-4 h-[clamp(38px,5vh,52px)] text-sm focus:border-white/30 outline-none transition-all placeholder:text-white/15 text-white"
-                    placeholder="Votre nom"
+                    placeholder={t.contact.namePlaceholder}
                   />
                 </div>
                 <div className="space-y-2">
                   <label className="text-[8px] uppercase tracking-widest text-white/30 font-bold">
-                    Email
+                    {t.contact.email}
                   </label>
                   <input
                     type="email"
@@ -3057,12 +2908,12 @@ function ArchiContact() {
                       }))
                     }
                     className="w-full bg-white/5 border border-white/10 rounded-lg px-4 h-[clamp(38px,5vh,52px)] text-sm focus:border-white/30 outline-none transition-all placeholder:text-white/15 text-white"
-                    placeholder="votreemail@exemple.com"
+                    placeholder={t.contact.emailPlaceholder}
                   />
                 </div>
                 <div className="space-y-2">
                   <label className="text-[8px] uppercase tracking-widest text-white/30 font-bold">
-                    Message
+                    {t.contact.message}
                   </label>
                   <textarea
                     required
@@ -3074,7 +2925,7 @@ function ArchiContact() {
                       }))
                     }
                     className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 h-[clamp(56px,10vh,128px)] text-sm focus:border-white/30 outline-none transition-all resize-none placeholder:text-white/15 text-white"
-                    placeholder="Parlez-nous de votre projet..."
+                    placeholder={t.contact.messagePlaceholder}
                   />
                 </div>
                 {status === "error" && (
@@ -3105,32 +2956,37 @@ function ArchiContact() {
             legal links (right), baseline-aligned, muted with hover. Gap band->
             footer tuned to fit one viewport above the cookie overlay. */}
         <div className="contact-footer-bar mt-[clamp(0.75rem,2.5vh,3rem)] pt-[clamp(0.75rem,2.5vh,2rem)] border-t border-black/10 flex flex-col gap-4 md:flex-row md:gap-0 justify-between items-center text-[9px] uppercase tracking-[0.2em] font-bold text-black/40">
-          <p>© {__BUILD_YEAR__} ArchiMade Studio · France</p>
+          <p>{t.footer.copyright(__BUILD_YEAR__)}</p>
           <div className="flex items-center gap-3">
             <Link
-              to="/mentions-legales"
+              to={staticPath(locale, "mentions")}
               className="hover:text-black transition-colors uppercase"
             >
-              Mentions légales
+              {t.footer.mentions}
             </Link>
             <span aria-hidden="true" className="text-black/20">
               ·
             </span>
             <Link
-              to="/confidentialite"
+              to={staticPath(locale, "privacy")}
               className="hover:text-black transition-colors uppercase"
             >
-              Confidentialité
+              {t.footer.privacy}
             </Link>
             <span aria-hidden="true" className="text-black/20">
               ·
             </span>
             <Link
-              to="/cookies"
+              to={staticPath(locale, "cookies")}
               className="hover:text-black transition-colors uppercase"
             >
-              Cookies
+              {t.footer.cookies}
             </Link>
+            <span aria-hidden="true" className="text-black/20">
+              ·
+            </span>
+            {/* Alternates reachable from the footer too (mobile has no sidebar). */}
+            <LanguageSwitcher tone="dark" />
           </div>
         </div>
       </div>
@@ -3140,6 +2996,7 @@ function ArchiContact() {
 
 // --- COOKIE BANNER COMPONENT ---
 function ArchiCookieBanner() {
+  const { locale, t } = useLocaleContext();
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -3175,10 +3032,10 @@ function ArchiCookieBanner() {
               </div>
               <div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-3">
                 <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-white whitespace-nowrap">
-                  Studio Experience
+                  {t.cookies.title}
                 </h4>
                 <p className="text-[9px] text-white/40 font-light leading-none hidden md:block border-l border-white/10 pl-3">
-                  Nous personnalisons votre parcours digital.
+                  {t.cookies.text}
                 </p>
               </div>
             </div>
@@ -3186,23 +3043,23 @@ function ArchiCookieBanner() {
             {/* Right Side: Actions */}
             <div className="flex items-center justify-between md:justify-end gap-2 w-full md:w-auto md:ml-auto">
               <Link
-                to="/cookies"
+                to={staticPath(locale, "cookies")}
                 className="px-3 py-3 text-white/30 text-[9px] font-bold uppercase tracking-widest hover:text-white transition-colors"
               >
-                Détails
+                {t.cookies.details}
               </Link>
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => handleAction("decline")}
                   className="px-4 py-2.5 bg-white/5 border border-white/10 text-white/60 text-[9px] font-black uppercase tracking-[0.2em] rounded-full hover:bg-white/10 hover:text-white transition-all duration-300"
                 >
-                  Refuser
+                  {t.cookies.decline}
                 </button>
                 <button
                   onClick={() => handleAction("accept")}
                   className="px-7 py-2.5 bg-white text-black text-[9px] font-black uppercase tracking-[0.3em] rounded-full hover:scale-105 transition-all duration-300 shadow-xl"
                 >
-                  Accepter
+                  {t.cookies.accept}
                 </button>
               </div>
             </div>
@@ -3258,6 +3115,7 @@ function ArchiInstagramFloat({
   isUIHidden: boolean;
   hasScrolled: boolean;
 }) {
+  const t = useT();
   return (
     <>
       {/* Desktop: fixed on the left, vertically centered between the menu and the logo */}
@@ -3265,7 +3123,7 @@ function ArchiInstagramFloat({
         href={INSTAGRAM_URL}
         target="_blank"
         rel="noopener noreferrer"
-        aria-label="Suivez ArchiMade Studio sur Instagram"
+        aria-label={t.a11y.instagram}
         className={cn(
           "group hidden xl:block fixed left-12 lg:left-16 top-1/2 -translate-y-1/2 z-150 transition-all duration-700",
           isUIHidden
@@ -3283,7 +3141,7 @@ function ArchiInstagramFloat({
         href={INSTAGRAM_URL}
         target="_blank"
         rel="noopener noreferrer"
-        aria-label="Suivez ArchiMade Studio sur Instagram"
+        aria-label={t.a11y.instagram}
         className={cn(
           "group xl:hidden fixed top-0 right-6 z-150 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]",
           hasScrolled
@@ -3304,6 +3162,7 @@ function ArchiInstagramFloat({
 
 // --- MAIN PAGE EXPORT ---
 export default function ArchiMadeLanding() {
+  const t = useT();
   // Dev: skip cinematic preloader (production SSG keeps full intro).
   const [isLoading, setIsLoading] = useState(() => !import.meta.env.DEV);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -3426,11 +3285,7 @@ export default function ArchiMadeLanding() {
 
   return (
     <LoadingContext.Provider value={isLoading}>
-      <Seo
-        path="/"
-        title="Dessinateur bâtiment & permis à Tours | ArchiMade Studio"
-        description="Dessinateur en bâtiment à Tours et partout en France : conception de plans, permis de construire, déclaration préalable et modélisation 3D. Devis gratuit."
-      />
+      <Seo title={t.seo.home.title} description={t.seo.home.description} />
       <StructuredData />
 
       {/* Preloader is a full-screen opaque overlay rendered ON TOP of the
@@ -3488,7 +3343,7 @@ export default function ArchiMadeLanding() {
                 content at md/lg); becomes the rotated text pill in the right
                 gutter at xl where it clears all content. */}
             <span className="hidden xl:block text-[10px] font-bold uppercase tracking-[0.4em] relative z-10 whitespace-nowrap">
-              Nous contacter
+              {t.contact.stickyCta}
             </span>
             <Phone className="w-5 h-5 xl:hidden relative z-10" />
             <ArrowUpRight className="w-4 h-4 absolute right-6 opacity-0 group-hover:opacity-100 translate-x-4 group-hover:translate-x-0 transition-all duration-500" />

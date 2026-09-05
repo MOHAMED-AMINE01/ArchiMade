@@ -6,6 +6,7 @@ import type { Request, Response } from "express";
 import {
   getResendClient,
   isRateLimited,
+  msg,
   processSendEmailRequest,
   sendContactEmail,
 } from "./api/send-email-core";
@@ -31,7 +32,7 @@ app.post("/api/send-email", async (req: Request, res: Response) => {
   if (isRateLimited(ip)) {
     return res
       .status(429)
-      .json({ error: "Trop de requêtes. Réessayez plus tard." });
+      .json({ error: msg(req.body?.locale).rateLimited });
   }
 
   const result = processSendEmailRequest(req.body);
@@ -44,8 +45,7 @@ app.post("/api/send-email", async (req: Request, res: Response) => {
 
   if (!getResendClient()) {
     return res.status(503).json({
-      error:
-        "Service email non configuré. Ajoutez RESEND_API_KEY dans .env.local.",
+      error: `${msg(req.body?.locale).notConfigured} (RESEND_API_KEY missing in .env.local)`,
     });
   }
 
@@ -55,6 +55,7 @@ app.post("/api/send-email", async (req: Request, res: Response) => {
       result.safeEmail,
       result.safeMessage,
       result.replyTo,
+      result.locale,
     );
     if ("error" in sendResult) {
       const status = sendResult.error.includes("not configured") ? 503 : 500;
@@ -63,7 +64,7 @@ app.post("/api/send-email", async (req: Request, res: Response) => {
     return res.json({ success: true, id: sendResult.id });
   } catch (e) {
     console.error("Server error:", e);
-    return res.status(500).json({ error: "Erreur serveur." });
+    return res.status(500).json({ error: msg(req.body?.locale).serverError });
   }
 });
 

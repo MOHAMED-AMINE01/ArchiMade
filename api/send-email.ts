@@ -1,13 +1,14 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import {
   isRateLimited,
+  msg,
   processSendEmailRequest,
   sendContactEmail,
 } from "./send-email-core";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method not allowed" });
+    return res.status(405).json({ error: msg(undefined).methodNotAllowed });
   }
 
   const ip =
@@ -17,7 +18,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (isRateLimited(ip)) {
     return res
       .status(429)
-      .json({ error: "Trop de requêtes. Réessayez plus tard." });
+      .json({ error: msg(req.body?.locale).rateLimited });
   }
 
   let body = req.body;
@@ -31,7 +32,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       });
       body = JSON.parse(raw || "{}");
     } catch {
-      return res.status(400).json({ error: "Invalid JSON body" });
+      return res.status(400).json({ error: msg(undefined).invalidJson });
     }
   }
 
@@ -49,6 +50,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       result.safeEmail,
       result.safeMessage,
       result.replyTo,
+      result.locale,
     );
     if ("error" in sendResult) {
       const status = sendResult.error.includes("not configured") ? 503 : 500;
@@ -57,6 +59,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(200).json({ success: true, id: sendResult.id });
   } catch (err) {
     console.error("Server error:", err);
-    return res.status(500).json({ error: "Erreur serveur." });
+    return res.status(500).json({ error: msg(req.body?.locale).serverError });
   }
 }

@@ -47,6 +47,24 @@ export default defineConfig(({ mode, isSsrBuild }) => {
                   "react-router-dom",
                   "react-helmet-async",
                 ],
+                // One chunk per language: the translated page copy + UI strings
+                // are pure text and would otherwise bloat the entry chunk past
+                // the 500KB budget. Split, they stay cacheable per language.
+                "content-fr": [
+                  "./src/data/pages.fr.ts",
+                  "./src/i18n/dict.fr.ts",
+                  "./src/i18n/legal.fr.ts",
+                ],
+                "content-en": [
+                  "./src/data/pages.en.ts",
+                  "./src/i18n/dict.en.ts",
+                  "./src/i18n/legal.en.ts",
+                ],
+                "content-pt": [
+                  "./src/data/pages.pt.ts",
+                  "./src/i18n/dict.pt.ts",
+                  "./src/i18n/legal.pt.ts",
+                ],
               },
         },
       },
