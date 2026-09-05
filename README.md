@@ -6,6 +6,7 @@ React 19 · Vite 6 · SSG prerender · Vercel.
 
 **Prerequisites:** Node.js 20+
 
+
 ```powershell
 npm install
 ```
