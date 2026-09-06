@@ -941,14 +941,19 @@ function ArchiHeader({
       inert={galleryInView}
     >
       <div className="pointer-events-auto">
-        <ArchiLogo className="text-white" light />
+        <ArchiLogo className="text-white pr-5" light />
       </div>
-      <button
-        onClick={onMenuClick}
-        className="pointer-events-auto text-xl font-bold tracking-tighter uppercase text-white focus:outline-none hover:opacity-50 transition-opacity font-display"
-      >
-        {t.nav.menu}
-      </button>
+      <div className="flex shrink-0 items-center gap-5">
+        {/* FR / EN / PT reachable from the top of every mobile page (the
+            desktop sidebar switcher is xl-only). */}
+        <LanguageSwitcher tone="light" className="pointer-events-auto [&_a]:py-2 [&_a]:px-0.5" />
+        <button
+          onClick={onMenuClick}
+          className="pointer-events-auto text-xl font-bold tracking-tighter uppercase text-white focus:outline-none hover:opacity-50 transition-opacity font-display"
+        >
+          {t.nav.menu}
+        </button>
+      </div>
     </header>
   );
 }
